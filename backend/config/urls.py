@@ -5,9 +5,8 @@ from apps.core.views import health_check
 
 api_v1_urlpatterns = [
     path('health/', health_check, name='health_check'),
-    # Apps will be added here
-    # path('auth/', include('apps.authentication.urls')),
-    # path('users/', include('apps.users.urls')),
+    path('auth/', include('apps.authentication.urls')),
+    path('users/', include('apps.users.urls')),
 ]
 
 urlpatterns = [

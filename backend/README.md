@@ -51,3 +51,8 @@ python manage.py runserver
 ## API Documentation
 Once the server is running, you can access the Swagger UI documentation at:
 - `http://localhost:8000/api/schema/swagger-ui/`
+
+## Phase 2: Authentication
+- **Custom User Model**: UUIDs, email authentication.
+- **JWT**: SimpleJWT with rotation and blacklisting.
+- **Throttles**: Brute force protection enabled.

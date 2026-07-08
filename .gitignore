@@ -31,3 +31,16 @@ dist-ssr
 
 # Coverage
 coverage
+
+# Python/Django
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+.env
+backend/logs/*
+!backend/logs/.gitkeep
+backend/media/*
+!backend/media/.gitkeep

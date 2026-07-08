@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Flag, Hash, Palette } from 'lucide-react';
+import { X, Calendar, Flag, Hash, Palette, Loader2 } from 'lucide-react';
 import type { Goal } from '../types';
 import { format } from 'date-fns';
+import { useCreateGoal, useUpdateGoal } from '../features/goals/hooks';
+import type { CreateGoalPayload } from '../features/goals/api/goals.types';
 
 interface GoalModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (goal: Partial<Goal>) => void;
   initialData?: Goal;
 }
 
-const CATEGORIES = ['Work', 'Personal', 'Health', 'Learning', 'Finance', 'Project'];
+const CATEGORIES = ['Work', 'Personal', 'Health', 'Learning', 'Finance', 'Project', 'Career'];
 const PRIORITIES = ['Low', 'Medium', 'High'];
 const STATUSES = ['Not Started', 'In Progress', 'Completed', 'Archived'];
 const COLORS = [
@@ -23,7 +24,11 @@ const COLORS = [
   { label: 'Yellow', value: 'from-yellow-400 to-orange-500' },
 ];
 
-export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
+export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialData }) => {
+  const createGoal = useCreateGoal();
+  const updateGoal = useUpdateGoal();
+  const isPending = createGoal.isPending || updateGoal.isPending;
+
   const [formData, setFormData] = useState<Partial<Goal>>({
     title: '',
     description: '',
@@ -58,11 +63,35 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, i
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title?.trim()) return;
-    onSave(formData);
-    onClose();
+    if (!formData.title?.trim() || isPending) return;
+
+    try {
+      const payload: CreateGoalPayload = {
+        title: formData.title,
+        description: formData.description || '',
+        category: formData.category || 'Personal',
+        priority: formData.priority as any || 'Medium',
+        target_date: formData.targetDate || format(new Date(), 'yyyy-MM-dd'),
+        color: formData.color,
+      };
+
+      if (initialData) {
+        await updateGoal.mutateAsync({
+          id: initialData.id,
+          payload: {
+            ...payload,
+            status: formData.status as any,
+          }
+        });
+      } else {
+        await createGoal.mutateAsync(payload);
+      }
+      onClose();
+    } catch (error) {
+      console.error('Failed to save goal', error);
+    }
   };
 
   return (
@@ -150,7 +179,7 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, i
                   <input
                     type="date"
                     required
-                    value={formData.targetDate}
+                    value={formData.targetDate ? formData.targetDate.split('T')[0] : ''}
                     onChange={e => setFormData({ ...formData, targetDate: e.target.value })}
                     className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all text-primary dark:[color-scheme:dark] [color-scheme:light]"
                   />
@@ -196,15 +225,18 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, i
             <button 
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 text-sm font-medium rounded-xl hover:bg-surfaceHighlight transition-colors"
+              disabled={isPending}
+              className="px-5 py-2.5 text-sm font-medium rounded-xl hover:bg-surfaceHighlight transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button 
               type="submit"
               form="goal-form"
-              className="px-5 py-2.5 bg-accent hover:bg-accent/90 text-white text-sm font-medium rounded-xl shadow-lg shadow-accent/20 transition-all"
+              disabled={isPending}
+              className="flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-accent/90 text-white text-sm font-medium rounded-xl shadow-lg shadow-accent/20 transition-all disabled:opacity-50"
             >
+              {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
               {initialData ? 'Save Changes' : 'Create Goal'}
             </button>
           </div>
@@ -213,3 +245,4 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, i
     </AnimatePresence>
   );
 };
+

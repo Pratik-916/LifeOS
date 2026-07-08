@@ -294,7 +294,7 @@ export default function Dashboard() {
                 {stats.calculatedGoalsProgress.length === 0 ? (
                   <div className="text-center text-secondary font-medium">No active goals.</div>
                 ) : (
-                  stats.calculatedGoalsProgress.map(goal => (
+                  stats.calculatedGoalsProgress.map((goal: any) => (
                     <div key={goal.id} className="space-y-2 group">
                       <div className="flex justify-between items-center">
                         <span className="font-medium group-hover:text-purple-400 transition-colors line-clamp-1 pr-2">{goal.title}</span>
@@ -308,7 +308,7 @@ export default function Dashboard() {
                           className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
                         />
                       </div>
-                      <p className="text-xs text-secondary text-right">{goal.milestones?.filter(m => m.completed).length || 0} / {goal.milestones?.length || 0} Milestones</p>
+                      <p className="text-xs text-secondary text-right">{goal.milestones?.filter((m: any) => m.completed).length || 0} / {goal.milestones?.length || 0} Milestones</p>
                     </div>
                   ))
                 )}

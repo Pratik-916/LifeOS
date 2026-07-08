@@ -48,7 +48,7 @@ export function useJourneyData() {
       }
 
       // Add completed milestones
-      goal.milestones.forEach(m => {
+      goal.milestones.forEach((m: any) => {
         if (m.completed) {
           events.push({
             id: `milestone-${m.id}`,

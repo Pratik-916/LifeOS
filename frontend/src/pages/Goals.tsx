@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react';
-import {  motion, AnimatePresence  } from 'framer-motion';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { useAppStore } from '../store/useAppStore';
+import { useSearchParams } from 'react-router-dom';
 import { GoalCard } from '../components/GoalCard';
 import { GoalModal } from '../components/GoalModal';
 import { GoalStatistics } from '../components/GoalStatistics';
@@ -11,27 +12,82 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SearchInput } from '../components/ui/SearchInput';
 import { FilterBar } from '../components/ui/FilterBar';
-import { useFilterSort } from '../hooks/useFilterSort';
+import { Pagination } from '../components/ui/Pagination';
 import { Target } from 'lucide-react';
+import { FeatureErrorBoundary } from '../components/ui/FeatureErrorBoundary';
+
+import { useGoals, useDeleteGoal, useRestoreGoal } from '../features/goals/hooks';
+import type { GetGoalsFilters } from '../features/goals/api/goals.types';
+import { goalsKeys } from '../features/goals/api/goals.keys';
+import { goalsApi } from '../features/goals/api/goals';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
-export default function Goals() {
-  const { goals, addGoal, updateGoal, deleteGoal } = useAppStore();
+function GoalsContent() {
+  const queryClient = useQueryClient();
+  const deleteGoalMutation = useDeleteGoal();
   
   // UI State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingGoal, setEditingGoal] = useState<Goal | undefined>(undefined);
   
-  // Filter & Sort State
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [priorityFilter, setPriorityFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('targetDateAsc');
+  // URL State for Filters
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  const searchQuery = searchParams.get('search') || '';
+  const statusFilter = searchParams.get('status') || 'all';
+  const priorityFilter = searchParams.get('priority') || 'all';
+  const categoryFilter = searchParams.get('category') || 'all';
+  const sortBy = searchParams.get('sort') || 'targetDateAsc';
+  const page = parseInt(searchParams.get('page') || '1', 10);
+
+  const updateSearchParam = (key: string, value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value === 'all' || value === '') {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, value);
+    }
+    if (key !== 'page') newParams.set('page', '1');
+    setSearchParams(newParams);
+  };
+
+  const setSearchQuery = (val: string) => updateSearchParam('search', val);
+  const setStatusFilter = (val: string) => updateSearchParam('status', val);
+  const setPriorityFilter = (val: string) => updateSearchParam('priority', val);
+  const setCategoryFilter = (val: string) => updateSearchParam('category', val);
+  const setSortBy = (val: string) => updateSearchParam('sort', val);
+
+  // Backend Integration
+  const filters: GetGoalsFilters = { page };
+  if (statusFilter !== 'all') filters.status = statusFilter;
+  if (priorityFilter !== 'all') filters.priority = priorityFilter;
+  if (categoryFilter !== 'all') filters.category = categoryFilter;
+  if (searchQuery) filters.search = searchQuery;
+
+  if (sortBy === 'targetDateAsc') { filters.sort_by = 'target_date'; filters.sort_order = 'asc'; }
+  else if (sortBy === 'targetDateDesc') { filters.sort_by = 'target_date'; filters.sort_order = 'desc'; }
+  else if (sortBy === 'progressDesc') { filters.sort_by = 'progress'; filters.sort_order = 'desc'; }
+  else if (sortBy === 'progressAsc') { filters.sort_by = 'progress'; filters.sort_order = 'asc'; }
+
+  const { data, isLoading } = useGoals(filters);
+  const goals = useMemo(() => data?.results || [], [data?.results]);
+  const totalCount = data?.count || 0;
+
+  // Prefetch next page
+  useEffect(() => {
+    if (data?.next) {
+      const nextFilters = { ...filters, page: page + 1 };
+      queryClient.prefetchQuery({
+        queryKey: goalsKeys.list(nextFilters),
+        queryFn: () => goalsApi.getGoals(nextFilters),
+        staleTime: 30 * 1000,
+      });
+    }
+  }, [data, filters, page, queryClient]);
 
   const handleNewGoal = useCallback(() => {
     setEditingGoal(undefined);
@@ -43,31 +99,10 @@ export default function Goals() {
     setIsModalOpen(true);
   }, []);
 
-  const handleSaveGoal = (goalData: Partial<Goal>) => {
-    if (editingGoal) {
-      updateGoal(editingGoal.id, goalData);
-    } else {
-      addGoal(goalData as Omit<Goal, 'id' | 'createdAt' | 'updatedAt' | 'progress'>);
-    }
-  };
-
-  const filteredGoals = useFilterSort({
-    data: goals,
-    searchQuery,
-    searchFields: ['title', 'description'],
-    filters: [
-      { field: 'status', value: statusFilter },
-      { field: 'category', value: categoryFilter },
-      { field: 'priority', value: priorityFilter },
-    ],
-    sortBy,
-    sortConfig: {
-      targetDateAsc: (a, b) => new Date(a.targetDate).getTime() - new Date(b.targetDate).getTime(),
-      targetDateDesc: (a, b) => new Date(b.targetDate).getTime() - new Date(a.targetDate).getTime(),
-      progressDesc: (a, b) => (b.progress || 0) - (a.progress || 0),
-      progressAsc: (a, b) => (a.progress || 0) - (b.progress || 0),
-    }
-  });
+  // Deletion with Undo Toast will be handled inside GoalCard/Toast system.
+  const handleDeleteGoal = useCallback((id: string) => {
+    deleteGoalMutation.mutate(id);
+  }, [deleteGoalMutation]);
 
   return (
     <motion.div 
@@ -83,7 +118,7 @@ export default function Goals() {
         onAction={handleNewGoal}
       />
 
-      <GoalStatistics goals={goals} />
+      <GoalStatistics />
 
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-surfaceHighlight p-4 rounded-2xl border border-border/20">
         <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder="Search goals..." />
@@ -130,48 +165,72 @@ export default function Goals() {
       </div>
 
       <div className="space-y-4 min-h-[400px]">
-        <AnimatePresence mode="popLayout">
-          {filteredGoals.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <EmptyState 
-                icon={Target}
-                title="No goals found"
-                message="You haven't set any goals that match your current filters."
-              />
-            </motion.div>
-          ) : (
-            filteredGoals.map(goal => (
+        {isLoading && goals.length === 0 ? (
+          <div className="flex justify-center py-12">
+            <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+          </div>
+        ) : (
+          <AnimatePresence mode="popLayout">
+            {goals.length === 0 ? (
               <motion.div
-                key={goal.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
               >
-                <GoalCard 
-                  goal={goal} 
-                  onEdit={handleEditGoal}
-                  onDelete={deleteGoal}
+                <EmptyState 
+                  icon={Target}
+                  title="No goals found"
+                  message="You haven't set any goals that match your current filters."
                 />
               </motion.div>
-            ))
-          )}
-        </AnimatePresence>
+            ) : (
+              goals.map(goal => (
+                <motion.div
+                  key={goal.id}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <GoalCard 
+                    goal={goal} 
+                    onEdit={handleEditGoal}
+                    onDelete={handleDeleteGoal}
+                  />
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        )}
       </div>
+
+      {!isLoading && totalCount > 10 && (
+        <Pagination
+          currentPage={page}
+          totalCount={totalCount}
+          hasNextPage={!!data?.next}
+          hasPreviousPage={!!data?.previous}
+          onPageChange={(p) => updateSearchParam('page', p.toString())}
+        />
+      )}
 
       <VisionBoard />
 
       <GoalModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveGoal}
         initialData={editingGoal}
       />
     </motion.div>
   );
 }
+
+export default function Goals() {
+  return (
+    <FeatureErrorBoundary featureName="Goals">
+      <GoalsContent />
+    </FeatureErrorBoundary>
+  );
+}
+

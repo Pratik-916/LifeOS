@@ -1,22 +1,25 @@
 import React from 'react';
 import { Target, Flag, Zap, Trophy } from 'lucide-react';
 import { Card } from './Card';
-import type { Goal } from '../types';
+import { useGoalStatistics } from '../features/goals/hooks';
 
-interface GoalStatisticsProps {
-  goals: Goal[];
-}
+export const GoalStatistics: React.FC = () => {
+  const { data: stats, isLoading } = useGoalStatistics();
 
-export const GoalStatistics: React.FC<GoalStatisticsProps> = ({ goals }) => {
-  const total = goals.length;
-  const completed = goals.filter(g => g.status === 'Completed' || g.progress === 100).length;
-  const inProgress = goals.filter(g => g.status === 'In Progress' && g.progress < 100).length;
-  
-  let overallProgress = 0;
-  if (total > 0) {
-    const sum = goals.reduce((acc, g) => acc + (g.progress || 0), 0);
-    overallProgress = Math.round(sum / total) || 0;
+  if (isLoading || !stats) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="animate-pulse bg-surfaceHighlight h-[90px] rounded-2xl border border-border/20" />
+        ))}
+      </div>
+    );
   }
+
+  const total = stats?.total_goals || 0;
+  const completed = stats?.completed || 0;
+  const inProgress = stats?.active || 0;
+  const overallProgress = stats?.average_progress ? Math.round(stats.average_progress) : 0;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -55,3 +58,4 @@ export const GoalStatistics: React.FC<GoalStatisticsProps> = ({ goals }) => {
     </div>
   );
 };
+

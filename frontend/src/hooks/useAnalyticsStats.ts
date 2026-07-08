@@ -42,7 +42,7 @@ export function useAnalyticsStats(timeRange: TimeRange) {
     const periodTasks = tasks.filter(t => isWithinRange(t.dueDate || (t as any).date));
     const completedTasks = periodTasks.filter(t => t.status === 'done' || (t as any).completed).length;
     
-    const periodGoals = goals.filter(g => isWithinRange(g.createdAt));
+    const periodGoals = goals.filter((g: any) => isWithinRange(g.createdAt));
     const activeGoals = periodGoals.filter(g => g.status === 'In Progress').length;
     const completedGoals = periodGoals.filter(g => g.status === 'Completed').length;
     
@@ -149,26 +149,26 @@ export function useAnalyticsStats(timeRange: TimeRange) {
 
   // 3. GOAL ANALYTICS
   const goalAnalytics = useMemo(() => {
-    const periodGoals = goals.filter(g => isWithinRange(g.createdAt) || isWithinRange(g.targetDate));
+    const periodGoals = goals.filter((g: any) => isWithinRange(g.createdAt) || isWithinRange(g.targetDate));
     
-    const active = periodGoals.filter(g => g.status === 'In Progress').length;
-    const completed = periodGoals.filter(g => g.status === 'Completed').length;
+    const active = periodGoals.filter((g: any) => g.status === 'In Progress').length;
+    const completed = periodGoals.filter((g: any) => g.status === 'Completed').length;
     
     const statusDist = [
       { name: 'Active', value: active },
       { name: 'Completed', value: completed },
-      { name: 'Not Started', value: periodGoals.filter(g => g.status === 'Not Started').length },
+      { name: 'Not Started', value: periodGoals.filter((g: any) => g.status === 'Not Started').length },
     ].filter(d => d.value > 0);
 
     const categories: Record<string, number> = {};
-    periodGoals.forEach(g => {
+    periodGoals.forEach((g: any) => {
       categories[g.category || 'Other'] = (categories[g.category || 'Other'] || 0) + 1;
     });
     const categoryDist = Object.entries(categories).map(([k, v]) => ({ name: k, value: v }));
 
     // Milestone Completion
-    const totalMilestones = periodGoals.reduce((acc, g) => acc + (g.milestones?.length || 0), 0);
-    const completedMilestones = periodGoals.reduce((acc, g) => acc + (g.milestones?.filter(m => m.completed).length || 0), 0);
+    const totalMilestones = periodGoals.reduce((acc: any, g: any) => acc + (g.milestones?.length || 0), 0);
+    const completedMilestones = periodGoals.reduce((acc: any, g: any) => acc + (g.milestones?.filter((m: any) => m.completed).length || 0), 0);
     
     return {
       statusDist,
@@ -224,8 +224,13 @@ export function useAnalyticsStats(timeRange: TimeRange) {
       const dStr = format(d, 'yyyy-MM-dd');
       
       const dayActivities = activities.filter(a => a.timestamp.startsWith(dStr)).length;
-      const dayTasks = tasks.filter(t => (t.dueDate || (t as any).date) === dStr && (t.status === 'done' || (t as any).completed)).length;
-      const total = dayActivities + dayTasks;
+      const allActivities = [
+        ...tasks.map(t => ({ date: t.dueDate || (t as any).date, weight: t.status === 'done' || (t as any).completed ? 2 : 1, type: 'task' })),
+        ...goals.map((g: any) => ({ date: g.createdAt, weight: 3, type: 'goal' })),
+        ...goals.map((g: any) => ({ date: g.targetDate, weight: g.status === 'Completed' ? 5 : 2, type: 'goal_target' })),
+        ...habits.map(h => ({ date: h.createdAt, weight: 1, type: 'habit' }))
+      ];
+      const total = dayActivities + allActivities.filter(a => a.date === dStr).reduce((acc, curr) => acc + curr.weight, 0);
       
       let intensity = 0;
       if (total > 0) intensity = 1;

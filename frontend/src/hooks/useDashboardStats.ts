@@ -83,6 +83,8 @@ export function useDashboardStats() {
     const dStr = format(d, 'yyyy-MM-dd');
     const dayTasks = tasks.filter(t => t.dueDate === dStr);
     const comp = dayTasks.filter(t => t.status === 'done').length;
+    // Active Goals
+    const activeGoals = goals.filter((g: any) => g.status === 'In Progress').length;
     // Dummy focus calculation based on completions
     const focus = Math.max(0, comp - 1); 
     weeklyData.push({

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Calendar, Edit2, Trash2, Heart } from 'lucide-react';
+import { ChevronDown, Calendar, Edit2, Trash2, Heart, Undo } from 'lucide-react';
 import type { Goal } from '../types';
 import { cn } from '../lib/utils';
 import { Card } from './Card';
 import { MilestoneList } from './MilestoneList';
 import { format, parseISO } from 'date-fns';
-import { useAppStore } from '../store/useAppStore';
+import { useUpdateGoal, useFavoriteGoal, useRestoreGoal } from '../features/goals/hooks';
 
 interface GoalCardProps {
   goal: Goal;
@@ -16,11 +16,56 @@ interface GoalCardProps {
 
 export const GoalCard: React.FC<GoalCardProps> = ({ goal, onEdit, onDelete }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { toggleMilestone, addMilestone, deleteMilestone, updateGoal } = useAppStore();
+  const updateGoal = useUpdateGoal();
+  const favoriteGoal = useFavoriteGoal();
+  const restoreGoal = useRestoreGoal();
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
-    updateGoal(goal.id, { favorite: !goal.favorite });
+    favoriteGoal.mutate({ id: goal.id, isFavorite: !goal.favorite });
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDelete(goal.id);
+    window.dispatchEvent(new CustomEvent('toast:undoable-delete', { detail: { taskId: goal.id, module: 'goals' } }));
+  };
+
+  const getMilestonesDTO = (milestones: Goal['milestones']) => {
+    return milestones.map((m, index) => ({
+      title: m.title,
+      is_completed: m.completed,
+      due_date: m.dueDate,
+      order: index,
+    }));
+  };
+
+  const handleToggleMilestone = (goalId: string, milestoneId: string) => {
+    const updated = goal.milestones.map(m => 
+      m.id === milestoneId ? { ...m, completed: !m.completed } : m
+    );
+    updateGoal.mutate({ id: goal.id, payload: { milestones: getMilestonesDTO(updated) } });
+  };
+
+  const handleAddMilestone = (goalId: string, milestone: any) => {
+    const updated = [...goal.milestones, milestone];
+    updateGoal.mutate({ id: goal.id, payload: { milestones: getMilestonesDTO(updated) } });
+  };
+
+  const handleDeleteMilestone = (goalId: string, milestoneId: string) => {
+    const updated = goal.milestones.filter(m => m.id !== milestoneId);
+    updateGoal.mutate({ id: goal.id, payload: { milestones: getMilestonesDTO(updated) } });
+  };
+
+  const handleManualProgress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Only allow manual progress if there are no milestones
+    // However, backend auto-calculates progress based on milestones, so we just send progress if no milestones
+    // Actually, backend progress field can be written to directly. 
+    // We send it via updateGoal. Wait, UpdateGoalPayload doesn't explicitly expose progress if backend auto-updates it,
+    // but the model has a `progress` field. I will pass it through payload if needed, or we might need to add it to types.
+    // Let's add it to types and mutate.
+    const val = parseInt(e.target.value, 10);
+    updateGoal.mutate({ id: goal.id, payload: { progress: val } as any });
   };
 
   const displayDate = goal.targetDate || goal.deadline || new Date().toISOString();
@@ -49,7 +94,7 @@ export const GoalCard: React.FC<GoalCardProps> = ({ goal, onEdit, onDelete }) =>
             <Edit2 className="w-4 h-4" />
           </button>
           <button 
-            onClick={(e) => { e.stopPropagation(); onDelete(goal.id); }}
+            onClick={handleDelete}
             className="p-1.5 text-secondary hover:text-danger hover:bg-surfaceHighlight rounded-md transition-colors"
           >
             <Trash2 className="w-4 h-4" />
@@ -122,9 +167,9 @@ export const GoalCard: React.FC<GoalCardProps> = ({ goal, onEdit, onDelete }) =>
               <MilestoneList 
                 goalId={goal.id} 
                 milestones={goal.milestones || []} 
-                onToggle={toggleMilestone}
-                onAdd={addMilestone}
-                onDelete={deleteMilestone}
+                onToggle={handleToggleMilestone}
+                onAdd={handleAddMilestone}
+                onDelete={handleDeleteMilestone}
               />
               
               {(!goal.milestones || goal.milestones.length === 0) && (
@@ -134,7 +179,7 @@ export const GoalCard: React.FC<GoalCardProps> = ({ goal, onEdit, onDelete }) =>
                     type="range" 
                     min="0" max="100" 
                     value={goal.progress || 0} 
-                    onChange={(e) => updateGoal(goal.id, { progress: parseInt(e.target.value, 10) })}
+                    onChange={handleManualProgress}
                     className="w-full accent-accent bg-surfaceHighlight h-2 rounded-lg appearance-none cursor-pointer"
                   />
                 </div>
@@ -146,3 +191,4 @@ export const GoalCard: React.FC<GoalCardProps> = ({ goal, onEdit, onDelete }) =>
     </Card>
   );
 };
+

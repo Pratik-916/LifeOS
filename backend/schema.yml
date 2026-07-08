@@ -512,6 +512,416 @@ paths:
               schema:
                 $ref: '#/components/schemas/Goal'
           description: ''
+  /api/v1/habits/habits/:
+    get:
+      operationId: v1_habits_habits_list
+      description: CRUD for Habits.
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: frequency
+        schema:
+          type: string
+          enum:
+          - daily
+          - monthly
+          - weekly
+        description: |-
+          * `daily` - Daily
+          * `weekly` - Weekly
+          * `monthly` - Monthly
+      - in: query
+        name: is_archived
+        schema:
+          type: boolean
+      - in: query
+        name: is_favorite
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: priority
+        schema:
+          type: string
+          enum:
+          - high
+          - low
+          - medium
+        description: |-
+          * `low` - Low
+          * `medium` - Medium
+          * `high` - High
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - active
+          - archived
+          - paused
+        description: |-
+          * `active` - Active
+          * `paused` - Paused
+          * `archived` - Archived
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedHabitList'
+          description: ''
+    post:
+      operationId: v1_habits_habits_create
+      description: CRUD for Habits.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+  /api/v1/habits/habits/{id}/:
+    get:
+      operationId: v1_habits_habits_retrieve
+      description: CRUD for Habits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this habit.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+    put:
+      operationId: v1_habits_habits_update
+      description: CRUD for Habits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this habit.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+    patch:
+      operationId: v1_habits_habits_partial_update
+      description: CRUD for Habits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this habit.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedHabit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedHabit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedHabit'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+    delete:
+      operationId: v1_habits_habits_destroy
+      description: CRUD for Habits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this habit.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/habits/habits/{id}/log/:
+    post:
+      operationId: v1_habits_habits_log_create
+      description: Quick endpoint to log progress for a habit for a specific date
+        (defaults to today).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this habit.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+  /api/v1/habits/habits/{id}/restore/:
+    post:
+      operationId: v1_habits_habits_restore_create
+      description: CRUD for Habits.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this habit.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+  /api/v1/habits/habits/bulk-archive/:
+    post:
+      operationId: v1_habits_habits_bulk_archive_create
+      description: CRUD for Habits.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+  /api/v1/habits/habits/bulk-delete/:
+    post:
+      operationId: v1_habits_habits_bulk_delete_create
+      description: CRUD for Habits.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+  /api/v1/habits/habits/bulk-pause/:
+    post:
+      operationId: v1_habits_habits_bulk_pause_create
+      description: CRUD for Habits.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+  /api/v1/habits/habits/bulk-resume/:
+    post:
+      operationId: v1_habits_habits_bulk_resume_create
+      description: CRUD for Habits.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Habit'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Habit'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
+  /api/v1/habits/habits/stats/:
+    get:
+      operationId: v1_habits_habits_stats_retrieve
+      description: CRUD for Habits.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habit'
+          description: ''
   /api/v1/health/:
     get:
       operationId: v1_health_retrieve
@@ -1074,6 +1484,16 @@ components:
           format: email
       required:
       - email
+    FrequencyEnum:
+      enum:
+      - daily
+      - weekly
+      - monthly
+      type: string
+      description: |-
+        * `daily` - Daily
+        * `weekly` - Weekly
+        * `monthly` - Monthly
     Goal:
       type: object
       properties:
@@ -1177,6 +1597,174 @@ components:
         * `not_started` - Not Started
         * `in_progress` - In Progress
         * `completed` - Completed
+    Habit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        category:
+          type: string
+          maxLength: 50
+        icon:
+          type: string
+          maxLength: 50
+        color:
+          type: string
+          maxLength: 20
+        frequency:
+          $ref: '#/components/schemas/FrequencyEnum'
+        target_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        current_count:
+          type: integer
+          readOnly: true
+        current_streak:
+          type: integer
+          readOnly: true
+        longest_streak:
+          type: integer
+          readOnly: true
+        completion_rate:
+          type: number
+          format: double
+          readOnly: true
+        reminder_time:
+          type: string
+          format: time
+          nullable: true
+        reminder_enabled:
+          type: boolean
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        status:
+          $ref: '#/components/schemas/HabitStatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        is_favorite:
+          type: boolean
+        is_archived:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/HabitLog'
+          readOnly: true
+        reminders:
+          type: array
+          items:
+            $ref: '#/components/schemas/HabitReminder'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+      required:
+      - completion_rate
+      - created_at
+      - current_count
+      - current_streak
+      - deleted_at
+      - id
+      - logs
+      - longest_streak
+      - start_date
+      - tags_detail
+      - title
+      - updated_at
+    HabitLog:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        completion_date:
+          type: string
+          format: date
+        count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        notes:
+          type: string
+        mood:
+          type: string
+          maxLength: 50
+        duration_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - completion_date
+      - created_at
+      - id
+    HabitReminder:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        reminder_time:
+          type: string
+          format: time
+        days_of_week: {}
+        is_enabled:
+          type: boolean
+      required:
+      - id
+      - reminder_time
+    HabitStatusEnum:
+      enum:
+      - active
+      - paused
+      - archived
+      type: string
+      description: |-
+        * `active` - Active
+        * `paused` - Paused
+        * `archived` - Archived
     Login:
       type: object
       properties:
@@ -1260,6 +1848,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Goal'
+    PaginatedHabitList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Habit'
     PaginatedTagList:
       type: object
       required:
@@ -1373,6 +1984,103 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Milestone'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+    PatchedHabit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        category:
+          type: string
+          maxLength: 50
+        icon:
+          type: string
+          maxLength: 50
+        color:
+          type: string
+          maxLength: 20
+        frequency:
+          $ref: '#/components/schemas/FrequencyEnum'
+        target_count:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        current_count:
+          type: integer
+          readOnly: true
+        current_streak:
+          type: integer
+          readOnly: true
+        longest_streak:
+          type: integer
+          readOnly: true
+        completion_rate:
+          type: number
+          format: double
+          readOnly: true
+        reminder_time:
+          type: string
+          format: time
+          nullable: true
+        reminder_enabled:
+          type: boolean
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        status:
+          $ref: '#/components/schemas/HabitStatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        is_favorite:
+          type: boolean
+        is_archived:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/HabitLog'
+          readOnly: true
+        reminders:
+          type: array
+          items:
+            $ref: '#/components/schemas/HabitReminder'
         created_at:
           type: string
           format: date-time

@@ -69,3 +69,9 @@ Once the server is running, you can access the Swagger UI documentation at:
 - **Unified Activity Stream**: Replaced siloed activity models with a central GenericForeignKey Activity model.
 - **Planner Integration**: Tasks can now be linked directly to Goals via foreign key.
 - **Bulk Operations**: Added bulk complete, archive, and delete operations.
+
+## Phase 5: Habits
+- **Habits Tracking**: Track habits dynamically across Daily, Weekly, and Monthly frequencies.
+- **Smart Streaks**: Timezone-aware streak calculation engines using ISO-calendar constraints.
+- **Services Layer**: Advanced business logic extracted into highly testable \services/\ modules.
+- **Habit Logs**: Comprehensive tracking with mood, duration, and metrics mapping.

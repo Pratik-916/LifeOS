@@ -15,3 +15,10 @@
 - Added Planner to Goal linking
 - Automated Progress and Status Logic
 - Bulk Operations
+
+## [v1.5.0] - Habits Module
+- Implemented Habit, HabitLog, and HabitReminder models
+- Built Timezone-aware streak calculators for Daily/Weekly/Monthly cycles
+- Extracted complex logic into new \services/\ tier
+- Integrated Unified Activities for streaks and habit completions
+- Exposed advanced habit statistics endpoint for Dashboards

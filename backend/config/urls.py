@@ -10,6 +10,7 @@ api_v1_urlpatterns = [
     path('tags/', include('apps.tags.urls')),
     path('planner/', include('apps.planner.urls')),
     path('goals/', include('apps.goals.urls')),
+    path('habits/', include('apps.habits.urls')),
 ]
 
 urlpatterns = [

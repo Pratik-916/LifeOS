@@ -44,3 +44,5 @@ backend/logs/*
 !backend/logs/.gitkeep
 backend/media/*
 !backend/media/.gitkeep
+
+.pytest_cache/

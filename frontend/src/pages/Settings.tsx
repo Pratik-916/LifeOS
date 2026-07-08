@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { 
   User, Palette, Calendar, Book, Bell, LayoutDashboard, 
-  Database, Shield, Info, ChevronRight, 
+  Database, Shield, Info, 
   Check, Download, Upload, ShieldAlert, Globe, MessageSquare, AlertCircle
 } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -52,12 +52,11 @@ export default function Settings() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Zustand Store mappings
-  const store = useAppStore();
   const { user } = useAuth();
+  const store = useAppStore();
   const { 
     settings, 
     backupMetadata, 
-    updateProfile, 
     updateSettings, 
     updateWidgetVisibility,
     updateBackupMetadata,
@@ -71,7 +70,7 @@ export default function Settings() {
     activities
   } = store;
 
-  const tasks: any[] = [];
+  const tasks: any[] = useMemo(() => [], []);
 
   const stats = useDashboardStats();
 
@@ -79,10 +78,10 @@ export default function Settings() {
   const appStats = useMemo(() => {
     // Try to find the earliest created item to determine "Started Using"
     const allDates = [
-      ...tasks.map(t => new Date(t.createdAt).getTime()),
-      ...goals.map(g => new Date(g.createdAt).getTime()),
-      ...habits.map(h => new Date(h.createdAt).getTime()),
-      ...journalEntries.map(j => new Date(j.createdAt).getTime()),
+      ...tasks.map((t: any) => new Date(t.createdAt).getTime()),
+      ...goals.map((g: any) => new Date(g.createdAt).getTime()),
+      ...habits.map((h: any) => new Date(h.createdAt).getTime()),
+      ...journalEntries.map((j: any) => new Date(j.createdAt).getTime()),
     ].filter(d => !isNaN(d));
     
     const startedUsingDate = allDates.length > 0 ? new Date(Math.min(...allDates)) : new Date();
@@ -92,7 +91,7 @@ export default function Settings() {
       startedUsing: startedUsingDate.toLocaleDateString(),
       daysUsing,
       tasksCompleted: tasks.filter(t => t.status === 'done').length,
-      goalsCompleted: goals.filter(g => g.status === 'Completed').length,
+      goalsCompleted: goals.filter((g: any) => g.status === 'Completed').length,
       habitsCreated: habits.length,
       journalEntries: journalEntries.length,
       longestStreak: stats.longestStreak,

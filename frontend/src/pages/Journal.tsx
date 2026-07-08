@@ -6,7 +6,6 @@ import { useAppStore } from '../store/useAppStore';
 import { JournalCard } from '../components/JournalCard';
 import { JournalEditor } from '../components/JournalEditor';
 import { format } from 'date-fns';
-import type { JournalEntry } from '../types';
 import { EmptyState } from '../components/ui/EmptyState';
 import { SearchInput } from '../components/ui/SearchInput';
 import { FilterBar } from '../components/ui/FilterBar';

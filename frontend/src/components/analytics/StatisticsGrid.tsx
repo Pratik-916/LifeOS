@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '../Card';
 import { cn } from '../../lib/utils';
-import { Zap, Target, BookOpen, CheckCircle, TrendingUp, Activity, Flame, Hash } from 'lucide-react';
+import { Zap, Target, BookOpen, CheckCircle, TrendingUp, Activity, Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface StatisticsGridProps {

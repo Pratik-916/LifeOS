@@ -1,8 +1,11 @@
 # LifeOS
 
+[![Frontend CI](https://github.com/pratikpala/lifeos/actions/workflows/frontend.yml/badge.svg)](https://github.com/pratikpala/lifeos/actions/workflows/frontend.yml)
+[![Backend CI](https://github.com/pratikpala/lifeos/actions/workflows/backend.yml/badge.svg)](https://github.com/pratikpala/lifeos/actions/workflows/backend.yml)
+
 ![LifeOS Cover](https://via.placeholder.com/1200x600.png?text=LifeOS)
 
-A modern full-stack productivity operating system built with React, TypeScript, Zustand, and Django REST Framework. LifeOS is designed with a premium, elegant UI matching top-tier SaaS applications like Linear and Vercel.
+A modern full-stack productivity operating system built with React, TypeScript, Zustand, and Django REST Framework. LifeOS is designed with a premium, elegant UI matching top-tier SaaS applications.
 
 ## 🌟 Features
 
@@ -17,68 +20,58 @@ A modern full-stack productivity operating system built with React, TypeScript, 
 ## 🚀 Tech Stack
 
 ### Frontend
-- **Framework**: React 18 with Vite
+- **Framework**: React 19 with Vite
 - **Language**: TypeScript
-- **State Management**: Zustand (with local storage persistence)
+- **State Management**: Zustand (UI State), React Query (Server State)
 - **Styling**: Tailwind CSS + Custom Semantic Theming
 - **Icons**: Lucide React
 - **Animations**: Framer Motion
-- **Charts**: Recharts
 
-### Backend (Upcoming)
-- Django REST Framework (DRF)
-- PostgreSQL
-- JWT Authentication
+### Backend
+- **Framework**: Django 5.1 & Django REST Framework (DRF)
+- **Database**: SQLite (Development)
+- **Authentication**: JWT (SimpleJWT)
 
-## 📸 Screenshots
-
-*(Screenshots coming soon)*
+## 📚 Documentation
+- [Architecture Decisions](docs/ARCHITECTURE_DECISIONS.md)
+- [Frontend Architecture](docs/architecture/frontend.md)
+- [Backend Architecture](docs/architecture/backend.md)
+- [API Design](docs/architecture/api.md)
+- [Development Setup](docs/development/setup.md)
+- [Contributing Guide](docs/development/contributing.md)
 
 ## 🛠️ Installation & Development Setup
 
-LifeOS currently relies on a robust frontend architecture utilizing `localStorage` and `zustand/persist`. A Django backend is on the immediate roadmap.
+### Backend Setup
+1. `cd backend`
+2. `python -m venv .venv`
+3. Activate the virtual environment (`source .venv/bin/activate` or `.\.venv\Scripts\activate`)
+4. `pip install -r requirements.txt`
+5. `python manage.py migrate`
+6. `python manage.py runserver`
 
 ### Frontend Setup
+1. `cd frontend`
+2. `npm install`
+3. `npm run dev`
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/pratikpala/lifeos.git
-   cd lifeos/frontend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. Open `http://localhost:5173` in your browser.
+Both servers will now be running concurrently. Access the app at `http://localhost:5174/`.
 
 ## 📁 Folder Structure
 
 ```text
 LifeOS/
+├── backend/           # Django REST Framework application
+├── docs/              # Architecture and Development Guides
+│   ├── architecture/
+│   └── development/
 ├── frontend/          # React + Vite application
 │   ├── src/           # Frontend source code
 │   ├── public/        # Static assets
 │   └── package.json   # Dependencies
-├── backend/           # Future Django application
-├── docs/              # Project documentation
 ├── README.md          # Project overview
 └── LICENSE            # MIT License
 ```
-
-## 🗺️ Future Roadmap
-
-- [ ] **Backend Integration**: Full Django REST Framework integration with JWT Authentication.
-- [ ] **PostgreSQL Database**: Migrating state from `localStorage` to a robust relational database.
-- [ ] **File Uploads**: Pre-signed AWS S3 URL integration for profile avatars and journal images.
-- [ ] **AI Assistant**: Automated journal tagging and goal decomposition using LLMs.
-- [ ] **Mobile Responsiveness**: Complete optimization for mobile browsers and PWA capabilities.
 
 ## 📜 License
 

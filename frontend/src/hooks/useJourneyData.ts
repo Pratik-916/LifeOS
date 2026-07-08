@@ -27,7 +27,7 @@ import type { Task } from '../types';
 
 export function useJourneyData() {
   const { goals, memories, journalEntries, habits, activities } = useAppStore();
-  const tasks: Task[] = [];
+  const tasks: Task[] = useMemo(() => [], []);
 
   const timelineData = useMemo(() => {
     const events: TimelineEvent[] = [];

@@ -1,9 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import {    } from 'framer-motion';
-import type { Variants } from 'framer-motion';
-import { Plus } from 'lucide-react';
 import { useJourneyData } from '../hooks/useJourneyData';
-import type { TimelineYear as ITimelineYear } from '../hooks/useJourneyData';
 import { JourneyStatistics } from '../components/journey/JourneyStatistics';
 import { Timeline } from '../components/journey/Timeline';
 import { MemoryModal } from '../components/journey/MemoryModal';

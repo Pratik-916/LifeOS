@@ -63,3 +63,9 @@ Once the server is running, you can access the Swagger UI documentation at:
 - **Soft Delete**: Tasks are never fully deleted unless explicitly cleared, supporting full restore functionality.
 - **Activity Tracking**: Real-time signal tracking for all task modifications.
 - **Advanced Statistics**: Analytics endpoint powered by aggregate queryset metrics and timezone-aware calculations.
+
+## Phase 4: Goals
+- **Goals & Milestones**: Complex goal tracking with automated progress calculation based on nested milestones.
+- **Unified Activity Stream**: Replaced siloed activity models with a central GenericForeignKey Activity model.
+- **Planner Integration**: Tasks can now be linked directly to Goals via foreign key.
+- **Bulk Operations**: Added bulk complete, archive, and delete operations.

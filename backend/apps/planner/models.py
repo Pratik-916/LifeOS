@@ -2,33 +2,12 @@ import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from apps.core.models import TimeStampedModel
+from apps.core.models import TimeStampedModel, SoftDeleteModel, OptimisticLockModel
 from apps.tags.models import Tag
 
 User = get_user_model()
 
-class SoftDeleteManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted_at__isnull=True)
-
-class SoftDeleteModel(TimeStampedModel):
-    deleted_at = models.DateTimeField(null=True, blank=True)
-    
-    objects = SoftDeleteManager()
-    all_objects = models.Manager()
-
-    class Meta:
-        abstract = True
-
-    def delete(self, *args, **kwargs):
-        self.deleted_at = timezone.now()
-        self.save()
-
-    def restore(self):
-        self.deleted_at = None
-        self.save()
-
-class Task(SoftDeleteModel):
+class Task(SoftDeleteModel, OptimisticLockModel):
     STATUS_CHOICES = (
         ('todo', 'To Do'),
         ('in_progress', 'In Progress'),
@@ -43,6 +22,8 @@ class Task(SoftDeleteModel):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+    goal = models.ForeignKey('goals.Goal', null=True, blank=True, on_delete=models.SET_NULL, related_name='tasks')
+    
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
@@ -68,9 +49,6 @@ class Task(SoftDeleteModel):
     
     completed_at = models.DateTimeField(null=True, blank=True)
     
-    # version for optimistic locking
-    version = models.PositiveIntegerField(default=0)
-    
     class Meta:
         ordering = ['-created_at']
         indexes = [
@@ -84,8 +62,6 @@ class Task(SoftDeleteModel):
         elif self.status != 'completed' and self.completed_at:
             self.completed_at = None
         
-        # Increment version for optimistic locking
-        self.version += 1
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -103,15 +79,3 @@ class SubTask(TimeStampedModel):
 
     def __str__(self):
         return self.title
-
-class TaskActivity(TimeStampedModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='activities')
-    action = models.CharField(max_length=255)
-    details = models.JSONField(default=dict, blank=True)
-
-    class Meta:
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return f"{self.task.title} - {self.action}"

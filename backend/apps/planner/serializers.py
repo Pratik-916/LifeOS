@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.utils import timezone
-from .models import Task, SubTask, TaskActivity
+from .models import Task, SubTask
 from apps.tags.models import Tag
 from apps.tags.serializers import TagSerializer
 
@@ -9,12 +9,6 @@ class SubTaskSerializer(serializers.ModelSerializer):
         model = SubTask
         fields = ('id', 'title', 'is_completed', 'order')
         read_only_fields = ('id',)
-
-class TaskActivitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TaskActivity
-        fields = ('id', 'action', 'details', 'created_at')
-        read_only_fields = ('id', 'action', 'details', 'created_at')
 
 class TaskSerializer(serializers.ModelSerializer):
     subtasks = SubTaskSerializer(many=True, required=False)

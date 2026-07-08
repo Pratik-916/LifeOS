@@ -177,6 +177,341 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResetPassword'
           description: ''
+  /api/v1/goals/goals/:
+    get:
+      operationId: v1_goals_goals_list
+      description: CRUD for Goals.
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: is_archived
+        schema:
+          type: boolean
+      - in: query
+        name: is_favorite
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: priority
+        schema:
+          type: string
+          enum:
+          - high
+          - low
+          - medium
+        description: |-
+          * `low` - Low
+          * `medium` - Medium
+          * `high` - High
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - completed
+          - in_progress
+          - not_started
+        description: |-
+          * `not_started` - Not Started
+          * `in_progress` - In Progress
+          * `completed` - Completed
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedGoalList'
+          description: ''
+    post:
+      operationId: v1_goals_goals_create
+      description: CRUD for Goals.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+  /api/v1/goals/goals/{id}/:
+    get:
+      operationId: v1_goals_goals_retrieve
+      description: CRUD for Goals.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this goal.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+    put:
+      operationId: v1_goals_goals_update
+      description: CRUD for Goals.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this goal.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+    patch:
+      operationId: v1_goals_goals_partial_update
+      description: CRUD for Goals.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this goal.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGoal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGoal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGoal'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+    delete:
+      operationId: v1_goals_goals_destroy
+      description: CRUD for Goals.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this goal.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/goals/goals/{id}/restore/:
+    post:
+      operationId: v1_goals_goals_restore_create
+      description: Restores a soft-deleted goal.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this goal.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+  /api/v1/goals/goals/bulk-archive/:
+    post:
+      operationId: v1_goals_goals_bulk_archive_create
+      description: CRUD for Goals.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+  /api/v1/goals/goals/bulk-complete/:
+    post:
+      operationId: v1_goals_goals_bulk_complete_create
+      description: CRUD for Goals.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+  /api/v1/goals/goals/bulk-delete/:
+    post:
+      operationId: v1_goals_goals_bulk_delete_create
+      description: CRUD for Goals.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Goal'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Goal'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
+  /api/v1/goals/goals/stats/:
+    get:
+      operationId: v1_goals_goals_stats_retrieve
+      description: Comprehensive Statistics endpoint for Goals.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+          description: ''
   /api/v1/health/:
     get:
       operationId: v1_health_retrieve
@@ -199,6 +534,22 @@ paths:
       operationId: v1_planner_tasks_list
       description: CRUD for Tasks.
       parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+      - in: query
+        name: is_archived
+        schema:
+          type: boolean
+      - in: query
+        name: is_pinned
+        schema:
+          type: boolean
+      - in: query
+        name: is_recurring
+        schema:
+          type: boolean
       - name: ordering
         required: false
         in: query
@@ -211,12 +562,36 @@ paths:
         description: A page number within the paginated result set.
         schema:
           type: integer
+      - in: query
+        name: priority
+        schema:
+          type: string
+          enum:
+          - high
+          - low
+          - medium
+        description: |-
+          * `low` - Low
+          * `medium` - Medium
+          * `high` - High
       - name: search
         required: false
         in: query
         description: A search term.
         schema:
           type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - completed
+          - in_progress
+          - todo
+        description: |-
+          * `todo` - To Do
+          * `in_progress` - In Progress
+          * `completed` - Completed
       tags:
       - v1
       security:
@@ -263,6 +638,8 @@ paths:
         name: id
         schema:
           type: string
+          format: uuid
+        description: A UUID string identifying this task.
         required: true
       tags:
       - v1
@@ -283,6 +660,8 @@ paths:
         name: id
         schema:
           type: string
+          format: uuid
+        description: A UUID string identifying this task.
         required: true
       tags:
       - v1
@@ -315,6 +694,8 @@ paths:
         name: id
         schema:
           type: string
+          format: uuid
+        description: A UUID string identifying this task.
         required: true
       tags:
       - v1
@@ -346,6 +727,8 @@ paths:
         name: id
         schema:
           type: string
+          format: uuid
+        description: A UUID string identifying this task.
         required: true
       tags:
       - v1
@@ -363,6 +746,8 @@ paths:
         name: id
         schema:
           type: string
+          format: uuid
+        description: A UUID string identifying this task.
         required: true
       tags:
       - v1
@@ -689,6 +1074,109 @@ components:
           format: email
       required:
       - email
+    Goal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        category:
+          type: string
+          maxLength: 50
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/GoalStatusEnum'
+          readOnly: true
+        target_date:
+          type: string
+          format: date
+          nullable: true
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        progress:
+          type: number
+          format: double
+        estimated_hours:
+          type: number
+          format: double
+        actual_hours:
+          type: number
+          format: double
+        color:
+          type: string
+          maxLength: 20
+        icon:
+          type: string
+          maxLength: 50
+        is_favorite:
+          type: boolean
+        is_archived:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        milestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Milestone'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+      required:
+      - completed_at
+      - created_at
+      - deleted_at
+      - id
+      - status
+      - tags_detail
+      - title
+      - updated_at
+    GoalStatusEnum:
+      enum:
+      - not_started
+      - in_progress
+      - completed
+      type: string
+      description: |-
+        * `not_started` - Not Started
+        * `in_progress` - In Progress
+        * `completed` - Completed
     Login:
       type: object
       properties:
@@ -708,6 +1196,70 @@ components:
           type: string
       required:
       - refresh
+    Milestone:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        is_completed:
+          type: boolean
+        completed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        notes:
+          type: string
+        estimated_hours:
+          type: number
+          format: double
+        actual_hours:
+          type: number
+          format: double
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+      required:
+      - completed_at
+      - id
+      - title
+    PaginatedGoalList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Goal'
     PaginatedTagList:
       type: object
       required:
@@ -754,6 +1306,90 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Task'
+    PatchedGoal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        category:
+          type: string
+          maxLength: 50
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/GoalStatusEnum'
+          readOnly: true
+        target_date:
+          type: string
+          format: date
+          nullable: true
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        progress:
+          type: number
+          format: double
+        estimated_hours:
+          type: number
+          format: double
+        actual_hours:
+          type: number
+          format: double
+        color:
+          type: string
+          maxLength: 20
+        icon:
+          type: string
+          maxLength: 50
+        is_favorite:
+          type: boolean
+        is_archived:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        milestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Milestone'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
     PatchedTag:
       type: object
       properties:
@@ -793,7 +1429,7 @@ components:
         description:
           type: string
         status:
-          $ref: '#/components/schemas/StatusEnum'
+          $ref: '#/components/schemas/TaskStatusEnum'
         priority:
           $ref: '#/components/schemas/PriorityEnum'
         category:
@@ -942,16 +1578,6 @@ components:
       required:
       - new_password
       - token
-    StatusEnum:
-      enum:
-      - todo
-      - in_progress
-      - completed
-      type: string
-      description: |-
-        * `todo` - To Do
-        * `in_progress` - In Progress
-        * `completed` - Completed
     SubTask:
       type: object
       properties:
@@ -1016,7 +1642,7 @@ components:
         description:
           type: string
         status:
-          $ref: '#/components/schemas/StatusEnum'
+          $ref: '#/components/schemas/TaskStatusEnum'
         priority:
           $ref: '#/components/schemas/PriorityEnum'
         category:
@@ -1097,6 +1723,16 @@ components:
       - tags_detail
       - title
       - updated_at
+    TaskStatusEnum:
+      enum:
+      - todo
+      - in_progress
+      - completed
+      type: string
+      description: |-
+        * `todo` - To Do
+        * `in_progress` - In Progress
+        * `completed` - Completed
     TokenRefresh:
       type: object
       properties:

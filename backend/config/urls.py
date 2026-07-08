@@ -9,6 +9,7 @@ api_v1_urlpatterns = [
     path('users/', include('apps.users.urls')),
     path('tags/', include('apps.tags.urls')),
     path('planner/', include('apps.planner.urls')),
+    path('goals/', include('apps.goals.urls')),
 ]
 
 urlpatterns = [

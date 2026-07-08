@@ -30,3 +30,11 @@
 - Automated reading time and word count calculations via signals
 - Integrated Writing Milestones (Entries/Words) into Unified Activities
 - Optimized signals to fetch old instances more efficiently
+
+## [v1.7.0] - Journey Module
+- Implemented Memory and MemoryImage models
+- Created the central Timeline Service aggregation engine merging Activities and Memories
+- Built robust Journey Statistics reporting metrics across the entire application
+- Hooked memory lifecycle into Unified Activities
+- Created journey endpoints with filtering and pagination
+- Established AI interface stubs for future memory highlighting and summarization

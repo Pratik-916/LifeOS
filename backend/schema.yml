@@ -1279,6 +1279,411 @@ paths:
               schema:
                 $ref: '#/components/schemas/JournalEntry'
           description: ''
+  /api/v1/journey/memories/:
+    get:
+      operationId: v1_journey_memories_list
+      description: CRUD for Memories.
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: string
+          enum:
+          - achievement
+          - career
+          - celebration
+          - education
+          - finance
+          - fitness
+          - health
+          - milestone
+          - other
+          - personal
+          - project
+          - relationship
+          - travel
+        description: |-
+          * `achievement` - Achievement
+          * `career` - Career
+          * `education` - Education
+          * `health` - Health
+          * `fitness` - Fitness
+          * `travel` - Travel
+          * `relationship` - Relationship
+          * `finance` - Finance
+          * `project` - Project
+          * `personal` - Personal
+          * `milestone` - Milestone
+          * `celebration` - Celebration
+          * `other` - Other
+      - in: query
+        name: favorite
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: pinned
+        schema:
+          type: boolean
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: visibility
+        schema:
+          type: string
+          enum:
+          - private
+          - public
+          - shared
+        description: |-
+          * `private` - Private
+          * `shared` - Shared
+          * `public` - Public
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMemoryList'
+          description: ''
+    post:
+      operationId: v1_journey_memories_create
+      description: CRUD for Memories.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Memory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/journey/memories/{id}/:
+    get:
+      operationId: v1_journey_memories_retrieve
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this memory.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+    put:
+      operationId: v1_journey_memories_update
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this memory.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Memory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+    patch:
+      operationId: v1_journey_memories_partial_update
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this memory.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMemory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMemory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMemory'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+    delete:
+      operationId: v1_journey_memories_destroy
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this memory.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/journey/memories/{id}/favorite/:
+    post:
+      operationId: v1_journey_memories_favorite_create
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this memory.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Memory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/journey/memories/{id}/pin/:
+    post:
+      operationId: v1_journey_memories_pin_create
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this memory.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Memory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/journey/memories/{id}/restore/:
+    post:
+      operationId: v1_journey_memories_restore_create
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this memory.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Memory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Memory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/journey/memories/stats/:
+    get:
+      operationId: v1_journey_memories_stats_retrieve
+      description: CRUD for Memories.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/journey/memories/timeline/:
+    get:
+      operationId: v1_journey_memories_timeline_retrieve
+      description: CRUD for Memories.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/journey/memories/timeline/{year}/:
+    get:
+      operationId: v1_journey_memories_timeline_retrieve_2
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: year
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
+  /api/v1/journey/memories/timeline/{year}/{month}/:
+    get:
+      operationId: v1_journey_memories_timeline_retrieve_3
+      description: CRUD for Memories.
+      parameters:
+      - in: path
+        name: month
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      - in: path
+        name: year
+        schema:
+          type: string
+          pattern: ^\d+$
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memory'
+          description: ''
   /api/v1/planner/tasks/:
     get:
       operationId: v1_planner_tasks_list
@@ -1819,6 +2224,36 @@ components:
     BlankEnum:
       enum:
       - ''
+    CategoryEnum:
+      enum:
+      - achievement
+      - career
+      - education
+      - health
+      - fitness
+      - travel
+      - relationship
+      - finance
+      - project
+      - personal
+      - milestone
+      - celebration
+      - other
+      type: string
+      description: |-
+        * `achievement` - Achievement
+        * `career` - Career
+        * `education` - Education
+        * `health` - Health
+        * `fitness` - Fitness
+        * `travel` - Travel
+        * `relationship` - Relationship
+        * `finance` - Finance
+        * `project` - Project
+        * `personal` - Personal
+        * `milestone` - Milestone
+        * `celebration` - Celebration
+        * `other` - Other
     ForgotPassword:
       type: object
       properties:
@@ -2287,6 +2722,105 @@ components:
           type: string
       required:
       - refresh
+    Memory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        location:
+          type: string
+          maxLength: 255
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        visibility:
+          $ref: '#/components/schemas/VisibilityEnum'
+        favorite:
+          type: boolean
+        pinned:
+          type: boolean
+        color:
+          type: string
+          maxLength: 20
+        icon:
+          type: string
+          maxLength: 50
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryImage'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+      required:
+      - created_at
+      - date
+      - deleted_at
+      - id
+      - tags_detail
+      - title
+      - updated_at
+    MemoryImage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        image:
+          type: string
+          format: uri
+        caption:
+          type: string
+          maxLength: 255
+        alt_text:
+          type: string
+          maxLength: 255
+        display_order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - image
     Milestone:
       type: object
       properties:
@@ -2415,6 +2949,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/JournalEntry'
+    PaginatedMemoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Memory'
     PaginatedTagList:
       type: object
       required:
@@ -2731,6 +3288,69 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/JournalImage'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+    PatchedMemory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        date:
+          type: string
+          format: date-time
+        location:
+          type: string
+          maxLength: 255
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        visibility:
+          $ref: '#/components/schemas/VisibilityEnum'
+        favorite:
+          type: boolean
+        pinned:
+          type: boolean
+        color:
+          type: string
+          maxLength: 20
+        icon:
+          type: string
+          maxLength: 50
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryImage'
         created_at:
           type: string
           format: date-time

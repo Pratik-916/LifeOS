@@ -81,3 +81,9 @@ Once the server is running, you can access the Swagger UI documentation at:
 - **Automated Metrics**: Background calculation of word counts, reading times, and writing streaks.
 - **AI Readiness**: Architectural stubs built for sentiment analysis, auto-tagging, and summarization.
 - **Milestone Engine**: Gamification hooks into Unified Activities for 1K+ words and continuous writing streaks.
+
+## Phase 7: Journey
+- **Memories**: Create standalone manual memory moments with multiple images, categories, and unified tagging.
+- **Timeline Engine**: The single canonical timeline for LifeOS, aggregating dynamic records across Planner, Goals, Habits, Journal via the Unified Activities feed natively merged with manual Memories.
+- **Analytics Ready**: Comprehensive aggregation statistics returning stats covering total app engagement over time.
+- **Scalable Architecture**: Strict adherence to Service-layer architectural standards with ViewSets purely orchestrating data.

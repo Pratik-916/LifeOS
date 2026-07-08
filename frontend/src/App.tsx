@@ -39,6 +39,7 @@ import Habits from './pages/Habits';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { useAppStore } from './store/useAppStore';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import { FeatureErrorBoundary } from './components/ui/FeatureErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { AuthLayout } from './components/layouts/AuthLayout';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -148,7 +149,11 @@ function App() {
                   {/* Protected Application Routes */}
                   <Route element={<ProtectedLayout />}>
                     <Route path="/" element={<Dashboard />} />
-                    <Route path="/planner" element={<Planner />} />
+                    <Route path="/planner" element={
+                      <FeatureErrorBoundary featureName="Planner">
+                        <Planner />
+                      </FeatureErrorBoundary>
+                    } />
                     <Route path="/habits" element={<Habits />} />
                     <Route path="/journal" element={<Journal />} />
                     <Route path="/blog" element={<Blog />} />

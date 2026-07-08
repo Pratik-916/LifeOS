@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
+import type { PaginatedResponse } from '../../../types';
 import { plannerApi, type GetTasksFilters } from '../api/planner';
 import { plannerKeys } from '../api/planner.keys';
 import type { Task } from '../api/planner.types';
 
 export const useTasks = (filters?: GetTasksFilters) => {
-  return useQuery<Task[], Error>({
+  return useQuery<PaginatedResponse<Task>, Error>({
     queryKey: plannerKeys.tasksList(filters),
     queryFn: () => plannerApi.getTasks(filters),
     staleTime: 30 * 1000, // 30 seconds

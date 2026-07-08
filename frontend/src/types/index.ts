@@ -216,3 +216,11 @@ export interface BackupMetadata {
   backupSize: number | null; // in bytes
   applicationVersion: string;
 }
+
+export interface PaginatedResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+

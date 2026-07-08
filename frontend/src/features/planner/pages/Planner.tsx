@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { 
-  CheckCircle2, Plus, Calendar as CalendarIcon, 
+  CheckCircle2, Plus, Calendar as CalendarIcon, AlertTriangle, 
   Clock, Play, Pause, RotateCcw, ChevronLeft, ChevronRight, FileText, ClipboardList
 } from 'lucide-react';
 import { Card } from '../../../components/Card';
@@ -16,6 +17,11 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { PageHeader } from '../../../components/ui/PageHeader';
 import { SearchInput } from '../../../components/ui/SearchInput';
 import { FilterBar } from '../../../components/ui/FilterBar';
+import { Pagination } from '../../../components/ui/Pagination';
+import { plannerKeys } from '../api/planner.keys';
+import { plannerApi } from '../api/planner';
+import { useRestoreTask } from '../hooks/useRestoreTask';
+import { useOfflineStatus } from '../../../hooks/useOfflineStatus';
 import { useSearchParams } from 'react-router-dom';
 import { useTasks } from '../hooks/useTasks';
 import { usePlannerStatistics } from '../hooks/usePlannerStatistics';
@@ -39,6 +45,7 @@ const itemVariants: Variants = {
 
 export default function Planner() {
   const { settings } = useAppStore();
+  const isOffline = useOfflineStatus();
   
   // Timer State
   const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -46,11 +53,14 @@ export default function Planner() {
 
   // URL State for Filters
   const [searchParams, setSearchParams] = useSearchParams();
+  const queryClient = useQueryClient();
+  
   const searchQuery = searchParams.get('search') || '';
   const statusFilter = searchParams.get('status') || 'all';
   const priorityFilter = searchParams.get('priority') || 'all';
   const categoryFilter = searchParams.get('category') || 'all';
   const sortBy = searchParams.get('sort') || 'dueDateAsc';
+  const page = parseInt(searchParams.get('page') || '1', 10);
 
   const updateSearchParam = (key: string, value: string) => {
     const newParams = new URLSearchParams(searchParams);
@@ -59,6 +69,7 @@ export default function Planner() {
     } else {
       newParams.set(key, value);
     }
+    if (key !== 'page') newParams.set('page', '1'); // Reset to page 1 on filter change
     setSearchParams(newParams);
   };
 
@@ -69,38 +80,63 @@ export default function Planner() {
   const setSortBy = (val: string) => updateSearchParam('sort', val);
 
   // Backend Integration
-  const filters: GetTasksFilters = {};
+  const filters: GetTasksFilters = { page };
   if (statusFilter !== 'all') filters.status = statusFilter as any;
   if (priorityFilter !== 'all') filters.priority = priorityFilter as any;
   if (categoryFilter !== 'all') filters.category = categoryFilter as any;
   if (searchQuery) filters.search = searchQuery;
 
-  const { data: tasks = [], isLoading } = useTasks(filters);
+  if (sortBy === 'dueDateAsc') { filters.sort_by = 'due_date'; filters.sort_order = 'asc'; }
+  else if (sortBy === 'dueDateDesc') { filters.sort_by = 'due_date'; filters.sort_order = 'desc'; }
+  else if (sortBy === 'priorityAsc') { filters.sort_by = 'priority'; filters.sort_order = 'asc'; }
+  else if (sortBy === 'priorityDesc') { filters.sort_by = 'priority'; filters.sort_order = 'desc'; }
+
+  const { data, isLoading } = useTasks(filters);
+  const tasks = useMemo(() => data?.results || [], [data?.results]);
+  const totalCount = data?.count || 0;
+  
   const { data: stats } = usePlannerStatistics();
 
-  // Sort tasks in frontend since API doesn't specify sorting explicitly
-  const sortedTasks = useMemo(() => {
-    const sorted = [...tasks];
-    switch (sortBy) {
-      case 'dueDateAsc':
-        sorted.sort((a, b) => new Date(a.dueDate || 0).getTime() - new Date(b.dueDate || 0).getTime());
-        break;
-      case 'dueDateDesc':
-        sorted.sort((a, b) => new Date(b.dueDate || 0).getTime() - new Date(a.dueDate || 0).getTime());
-        break;
-      case 'priorityDesc': {
-        const weight: any = { high: 3, medium: 2, low: 1 };
-        sorted.sort((a, b) => weight[b.priority] - weight[a.priority]);
-        break;
-      }
-      case 'priorityAsc': {
-        const weight: any = { high: 3, medium: 2, low: 1 };
-        sorted.sort((a, b) => weight[a.priority] - weight[b.priority]);
-        break;
-      }
+  // Prefetch next page
+  useEffect(() => {
+    if (data?.next) {
+      const nextFilters = { ...filters, page: page + 1 };
+      queryClient.prefetchQuery({
+        queryKey: plannerKeys.tasksList(nextFilters),
+        queryFn: () => plannerApi.getTasks(nextFilters),
+        staleTime: 30 * 1000,
+      });
     }
-    return sorted;
-  }, [tasks, sortBy]);
+  }, [data, filters, page, queryClient]);
+
+  // Undo Delete UX
+  const [undoToast, setUndoToast] = useState<{ id: string, visible: boolean } | null>(null);
+  const restoreTaskMutation = useRestoreTask();
+
+  useEffect(() => {
+    const handleUndoableDelete = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.module === 'planner') {
+        const taskId = customEvent.detail.taskId;
+        setUndoToast({ id: taskId, visible: true });
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+          setUndoToast(prev => prev?.id === taskId ? null : prev);
+        }, 5000);
+      }
+    };
+    
+    window.addEventListener('toast:undoable-delete', handleUndoableDelete);
+    return () => window.removeEventListener('toast:undoable-delete', handleUndoableDelete);
+  }, []);
+
+  const handleUndo = () => {
+    if (undoToast) {
+      restoreTaskMutation.mutate(undoToast.id);
+      setUndoToast(null);
+    }
+  };
 
   // Store UI State
   const { isTaskModalOpen: isModalOpen, setTaskModalOpen: setIsModalOpen } = usePlannerStore();
@@ -154,14 +190,16 @@ export default function Planner() {
 
   // Modal Handlers (Memoized)
   const handleOpenCreate = useCallback(() => {
+    if (isOffline) return;
     setEditingTask(undefined);
     setIsModalOpen(true);
-  }, [setIsModalOpen]);
+  }, [setIsModalOpen, isOffline]);
 
   const handleOpenEdit = useCallback((task: Task) => {
+    if (isOffline) return;
     setEditingTask(task);
     setIsModalOpen(true);
-  }, [setIsModalOpen]);
+  }, [setIsModalOpen, isOffline]);
 
   return (
     <motion.div 
@@ -173,9 +211,16 @@ export default function Planner() {
       <PageHeader 
         title="Daily Planner"
         description="Organize your tasks, schedule, and stay focused."
-        actionLabel="New Task"
+        actionLabel={isOffline ? 'Offline Mode' : 'New Task'}
         onAction={handleOpenCreate}
       />
+      
+      {isOffline && (
+        <div className="bg-orange-500/10 border border-orange-500/20 text-orange-500 px-4 py-2 rounded-lg flex items-center justify-center gap-2 mb-6">
+          <AlertTriangle className="w-4 h-4" />
+          <span className="text-sm font-medium">You are offline. Task creation and updates are paused.</span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
@@ -238,7 +283,7 @@ export default function Planner() {
                   </div>
                 ) : (
                   <AnimatePresence mode="popLayout">
-                    {sortedTasks.length === 0 ? (
+                    {tasks.length === 0 ? (
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -251,13 +296,28 @@ export default function Planner() {
                         />
                       </motion.div>
                     ) : (
-                      sortedTasks.map(task => (
-                        <TaskCard
-                          key={task.id}
-                          task={task}
-                          onEdit={handleOpenEdit}
-                        />
-                      ))
+                      <>
+                        {tasks.map(task => (
+                          <TaskCard
+                            key={task.id}
+                            task={task}
+                            onEdit={handleOpenEdit}
+                          />
+                        ))}
+                        
+                        {totalCount > 20 && (
+                          <div className="pt-4 border-t border-border/10 mt-4">
+                            <Pagination
+                              currentPage={page}
+                              totalCount={totalCount}
+                              pageSize={20}
+                              hasNextPage={!!data?.next}
+                              hasPreviousPage={!!data?.previous}
+                              onPageChange={(p) => updateSearchParam('page', p.toString())}
+                            />
+                          </div>
+                        )}
+                      </>
                     )}
                   </AnimatePresence>
                 )}
@@ -416,6 +476,23 @@ export default function Planner() {
         onClose={() => setIsModalOpen(false)}
         initialData={editingTask}
       />
+      
+      {/* Undo Toast */}
+      <AnimatePresence>
+        {undoToast?.visible && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-6 right-6 bg-surfaceHighlight border border-border/20 shadow-2xl p-4 rounded-xl flex items-center gap-4 z-50"
+          >
+            <span className="text-sm font-medium text-primary">Task deleted</span>
+            <Button variant="secondary" size="sm" onClick={handleUndo}>
+              Undo
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

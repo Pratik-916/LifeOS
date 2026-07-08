@@ -1,4 +1,5 @@
 import { apiClient } from '../../../api/client';
+import type { PaginatedResponse } from '../../../types';
 import type { 
   Task, 
   TaskDTO, 
@@ -19,32 +20,47 @@ export interface GetTasksFilters {
   is_archived?: boolean;
   is_pinned?: boolean;
   is_recurring?: boolean;
+  sort_by?: string;
+  sort_order?: 'asc' | 'desc';
+  page?: number;
 }
 
 export const plannerApi = {
-  getTasks: async (filters?: GetTasksFilters): Promise<Task[]> => {
+  getTasks: async (filters?: GetTasksFilters): Promise<PaginatedResponse<Task>> => {
     const params = new URLSearchParams();
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined && value !== '') {
+        if (value !== undefined && value !== '' && key !== 'sort_by' && key !== 'sort_order' && key !== 'search') {
           params.append(key, String(value));
         }
       });
-    }
-    
-    // Support filtering on backend search param
-    if (filters?.search) {
-      params.append('search', filters.search);
+      
+      if (filters.search) {
+        params.append('search', filters.search);
+      }
+      
+      if (filters.sort_by) {
+        const prefix = filters.sort_order === 'desc' ? '-' : '';
+        params.append('ordering', `${prefix}${filters.sort_by}`);
+      }
     }
 
-    const response = await apiClient.get<TaskDTO[]>(`${BASE_URL}?${params.toString()}`);
-    // The interceptor unwraps {success, data} so response.data is TaskDTO[]
-    // Wait, the backend uses ModelViewSet without pagination or with pagination?
-    // If pagination is enabled, response.data could be { count, next, previous, results }
-    // LifeOS standard wrapper handles it if we don't have DRF pagination configured to override.
-    // Assuming it returns an array of objects directly inside data.
-    const data = Array.isArray(response.data) ? response.data : (response.data as any).results || [];
-    return data.map(mapTaskDTO);
+    const response = await apiClient.get<PaginatedResponse<TaskDTO>>(`${BASE_URL}?${params.toString()}`);
+    
+    // Handle DRF paginated response
+    const data = (response.data as any).results ? response.data : {
+      count: Array.isArray(response.data) ? response.data.length : 0,
+      next: null,
+      previous: null,
+      results: Array.isArray(response.data) ? response.data : []
+    };
+
+    return {
+      count: data.count,
+      next: data.next,
+      previous: data.previous,
+      results: data.results.map(mapTaskDTO)
+    };
   },
 
   getTask: async (id: string): Promise<Task> => {

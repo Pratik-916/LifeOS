@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { PaginatedResponse } from '../../../types';
 import { plannerApi } from '../api/planner';
 import { plannerKeys } from '../api/planner.keys';
 import type { Task } from '../api/planner.types';
@@ -18,9 +19,12 @@ export const useUpdateTask = () => {
       const previousTask = queryClient.getQueryData<Task>(plannerKeys.task(id));
 
       // Update the specific task in all cached lists
-      queryClient.setQueriesData<Task[]>({ queryKey: plannerKeys.tasks() }, (oldTasks) => {
-        if (!oldTasks) return [];
-        return oldTasks.map((t) => (t.id === id ? { ...t, ...payload } : t));
+      queryClient.setQueriesData<PaginatedResponse<Task>>({ queryKey: plannerKeys.tasks() }, (oldData) => {
+        if (!oldData) return undefined;
+        return {
+          ...oldData,
+          results: oldData.results.map((t) => (t.id === id ? { ...t, ...payload } : t))
+        };
       });
 
       // Update the single task cache if it exists

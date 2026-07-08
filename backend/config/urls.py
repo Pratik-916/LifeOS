@@ -11,6 +11,7 @@ api_v1_urlpatterns = [
     path('planner/', include('apps.planner.urls')),
     path('goals/', include('apps.goals.urls')),
     path('habits/', include('apps.habits.urls')),
+    path('journal/', include('apps.journal.urls')),
 ]
 
 urlpatterns = [

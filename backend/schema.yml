@@ -939,6 +939,346 @@ paths:
                 type: object
                 additionalProperties: {}
           description: ''
+  /api/v1/journal/entries/:
+    get:
+      operationId: v1_journal_entries_list
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: query
+        name: is_favorite
+        schema:
+          type: boolean
+      - in: query
+        name: is_pinned
+        schema:
+          type: boolean
+      - in: query
+        name: mood
+        schema:
+          type: string
+          enum:
+          - amazing
+          - angry
+          - anxious
+          - exhausted
+          - good
+          - neutral
+          - sad
+        description: |-
+          * `amazing` - Amazing
+          * `good` - Good
+          * `neutral` - Neutral
+          * `sad` - Sad
+          * `anxious` - Anxious
+          * `angry` - Angry
+          * `exhausted` - Exhausted
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - archived
+          - draft
+          - published
+        description: |-
+          * `draft` - Draft
+          * `published` - Published
+          * `archived` - Archived
+      - in: query
+        name: visibility
+        schema:
+          type: string
+          enum:
+          - private
+          - public
+          - shared
+        description: |-
+          * `private` - Private
+          * `shared` - Shared
+          * `public` - Public
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedJournalEntryList'
+          description: ''
+    post:
+      operationId: v1_journal_entries_create
+      description: CRUD for Journal Entries.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+  /api/v1/journal/entries/{id}/:
+    get:
+      operationId: v1_journal_entries_retrieve
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this journal entry.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+    put:
+      operationId: v1_journal_entries_update
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this journal entry.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+    patch:
+      operationId: v1_journal_entries_partial_update
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this journal entry.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedJournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedJournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedJournalEntry'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+    delete:
+      operationId: v1_journal_entries_destroy
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this journal entry.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/journal/entries/{id}/favorite/:
+    post:
+      operationId: v1_journal_entries_favorite_create
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this journal entry.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+  /api/v1/journal/entries/{id}/pin/:
+    post:
+      operationId: v1_journal_entries_pin_create
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this journal entry.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+  /api/v1/journal/entries/{id}/restore/:
+    post:
+      operationId: v1_journal_entries_restore_create
+      description: CRUD for Journal Entries.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this journal entry.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/JournalEntry'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
+  /api/v1/journal/entries/stats/:
+    get:
+      operationId: v1_journal_entries_stats_retrieve
+      description: CRUD for Journal Entries.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalEntry'
+          description: ''
   /api/v1/planner/tasks/:
     get:
       operationId: v1_planner_tasks_list
@@ -1476,6 +1816,9 @@ paths:
           description: ''
 components:
   schemas:
+    BlankEnum:
+      enum:
+      - ''
     ForgotPassword:
       type: object
       properties:
@@ -1765,6 +2108,166 @@ components:
         * `active` - Active
         * `paused` - Paused
         * `archived` - Archived
+    JournalEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        content:
+          type: string
+        summary:
+          type: string
+        mood:
+          oneOf:
+          - $ref: '#/components/schemas/MoodEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        energy_level:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        stress_level:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        gratitude:
+          type: string
+        todays_wins:
+          type: string
+        challenges:
+          type: string
+        lessons_learned:
+          type: string
+        tomorrow_focus:
+          type: string
+        is_favorite:
+          type: boolean
+        is_pinned:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/JournalEntryStatusEnum'
+        visibility:
+          $ref: '#/components/schemas/VisibilityEnum'
+        word_count:
+          type: integer
+          readOnly: true
+        reading_time:
+          type: integer
+          readOnly: true
+        ai_processed:
+          type: boolean
+          readOnly: true
+        ai_summary:
+          type: string
+          readOnly: true
+        sentiment_score:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+        writing_score:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+        ai_tags:
+          readOnly: true
+        ai_last_processed:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalImage'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+      required:
+      - ai_last_processed
+      - ai_processed
+      - ai_summary
+      - ai_tags
+      - content
+      - created_at
+      - deleted_at
+      - id
+      - reading_time
+      - sentiment_score
+      - tags_detail
+      - title
+      - updated_at
+      - word_count
+      - writing_score
+    JournalEntryStatusEnum:
+      enum:
+      - draft
+      - published
+      - archived
+      type: string
+      description: |-
+        * `draft` - Draft
+        * `published` - Published
+        * `archived` - Archived
+    JournalImage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        image:
+          type: string
+          format: uri
+        caption:
+          type: string
+          maxLength: 255
+        alt_text:
+          type: string
+          maxLength: 255
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - image
     Login:
       type: object
       properties:
@@ -1825,6 +2328,24 @@ components:
       - completed_at
       - id
       - title
+    MoodEnum:
+      enum:
+      - amazing
+      - good
+      - neutral
+      - sad
+      - anxious
+      - angry
+      - exhausted
+      type: string
+      description: |-
+        * `amazing` - Amazing
+        * `good` - Good
+        * `neutral` - Neutral
+        * `sad` - Sad
+        * `anxious` - Anxious
+        * `angry` - Angry
+        * `exhausted` - Exhausted
     PaginatedGoalList:
       type: object
       required:
@@ -1871,6 +2392,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Habit'
+    PaginatedJournalEntryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalEntry'
     PaginatedTagList:
       type: object
       required:
@@ -2081,6 +2625,112 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HabitReminder'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+    PatchedJournalEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        content:
+          type: string
+        summary:
+          type: string
+        mood:
+          oneOf:
+          - $ref: '#/components/schemas/MoodEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        energy_level:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        stress_level:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        gratitude:
+          type: string
+        todays_wins:
+          type: string
+        challenges:
+          type: string
+        lessons_learned:
+          type: string
+        tomorrow_focus:
+          type: string
+        is_favorite:
+          type: boolean
+        is_pinned:
+          type: boolean
+        status:
+          $ref: '#/components/schemas/JournalEntryStatusEnum'
+        visibility:
+          $ref: '#/components/schemas/VisibilityEnum'
+        word_count:
+          type: integer
+          readOnly: true
+        reading_time:
+          type: integer
+          readOnly: true
+        ai_processed:
+          type: boolean
+          readOnly: true
+        ai_summary:
+          type: string
+          readOnly: true
+        sentiment_score:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+        writing_score:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+        ai_tags:
+          readOnly: true
+        ai_last_processed:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/JournalImage'
         created_at:
           type: string
           format: date-time
@@ -2536,6 +3186,16 @@ components:
           type: boolean
         dashboard_widget_preferences: {}
         notification_preferences: {}
+    VisibilityEnum:
+      enum:
+      - private
+      - shared
+      - public
+      type: string
+      description: |-
+        * `private` - Private
+        * `shared` - Shared
+        * `public` - Public
   securitySchemes:
     jwtAuth:
       type: http

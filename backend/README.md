@@ -75,3 +75,9 @@ Once the server is running, you can access the Swagger UI documentation at:
 - **Smart Streaks**: Timezone-aware streak calculation engines using ISO-calendar constraints.
 - **Services Layer**: Advanced business logic extracted into highly testable \services/\ modules.
 - **Habit Logs**: Comprehensive tracking with mood, duration, and metrics mapping.
+
+## Phase 6: Journal
+- **Rich Journaling**: Track entries, mood, energy levels, and comprehensive reflections.
+- **Automated Metrics**: Background calculation of word counts, reading times, and writing streaks.
+- **AI Readiness**: Architectural stubs built for sentiment analysis, auto-tagging, and summarization.
+- **Milestone Engine**: Gamification hooks into Unified Activities for 1K+ words and continuous writing streaks.

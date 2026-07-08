@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'apps.journal',
     'apps.journey',
     'apps.analytics',
-    'apps.activities',
     'apps.blog',
+    'apps.activities',
 ]
 
 MIDDLEWARE = [

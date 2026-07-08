@@ -93,3 +93,9 @@ Once the server is running, you can access the Swagger UI documentation at:
 - **Insights Facade**: `InsightsService` layer providing a single source of truth for the Dashboard and future AI, preventing recalculations.
 - **Productivity & Burnout**: Generates weighted productivity scores and detects burnout loads using centralized constants.
 - **Chart Ready**: Returns DTO structures optimized for charting (Line, Pie, Radar, Heatmaps) natively from the backend.
+
+## Phase 9: Blog CMS
+- **Production-Ready CMS**: Fully functional internal Blog architecture featuring multi-status workflow (Draft, Review, Scheduled, Published, Archived).
+- **Extensible Search**: Search architecture designed to safely transition from Django ORM filtering to full PostgreSQL `SearchVector` implementation without API changes.
+- **Strict API Separation**: Safely separated Admin APIs (UUID-based routing for CRUD, publishing) from Public APIs (Slug-based routing for discovery).
+- **Auto-Processing Content**: Features a specialized `BlogContentService` generating word counts, reading times, slug-checking, and excerpting on the fly.

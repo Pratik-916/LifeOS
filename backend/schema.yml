@@ -376,6 +376,619 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResetPassword'
           description: ''
+  /api/v1/blog/blog/:
+    get:
+      operationId: v1_blog_blog_list
+      description: Public Read-Only API. Uses SLUG for lookups.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBlogPostPublicList'
+          description: ''
+  /api/v1/blog/blog/{slug}/:
+    get:
+      operationId: v1_blog_blog_retrieve
+      description: Public Read-Only API. Uses SLUG for lookups.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPostPublic'
+          description: ''
+  /api/v1/blog/blog/{slug}/related/:
+    get:
+      operationId: v1_blog_blog_related_retrieve
+      description: Public Read-Only API. Uses SLUG for lookups.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPostPublic'
+          description: ''
+  /api/v1/blog/blog/featured/:
+    get:
+      operationId: v1_blog_blog_featured_retrieve
+      description: Public Read-Only API. Uses SLUG for lookups.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPostPublic'
+          description: ''
+  /api/v1/blog/blog/latest/:
+    get:
+      operationId: v1_blog_blog_latest_retrieve
+      description: Public Read-Only API. Uses SLUG for lookups.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPostPublic'
+          description: ''
+  /api/v1/blog/blog/search/:
+    get:
+      operationId: v1_blog_blog_search_retrieve
+      description: Public Read-Only API. Uses SLUG for lookups.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPostPublic'
+          description: ''
+  /api/v1/blog/blog/stats/:
+    get:
+      operationId: v1_blog_blog_stats_retrieve
+      description: Public Read-Only API. Uses SLUG for lookups.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPostPublic'
+          description: ''
+  /api/v1/blog/categories/:
+    get:
+      operationId: v1_blog_categories_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBlogCategoryList'
+          description: ''
+    post:
+      operationId: v1_blog_categories_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogCategory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogCategory'
+          description: ''
+  /api/v1/blog/categories/{id}/:
+    get:
+      operationId: v1_blog_categories_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog category.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogCategory'
+          description: ''
+    put:
+      operationId: v1_blog_categories_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog category.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogCategory'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogCategory'
+          description: ''
+    patch:
+      operationId: v1_blog_categories_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog category.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBlogCategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBlogCategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBlogCategory'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogCategory'
+          description: ''
+    delete:
+      operationId: v1_blog_categories_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog category.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/blog/posts/:
+    get:
+      operationId: v1_blog_posts_list
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBlogPostList'
+          description: ''
+    post:
+      operationId: v1_blog_posts_create
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
+  /api/v1/blog/posts/{id}/:
+    get:
+      operationId: v1_blog_posts_retrieve
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
+    put:
+      operationId: v1_blog_posts_update
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
+    patch:
+      operationId: v1_blog_posts_partial_update
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBlogPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBlogPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBlogPost'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
+    delete:
+      operationId: v1_blog_posts_destroy
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/blog/posts/{id}/feature/:
+    post:
+      operationId: v1_blog_posts_feature_create
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
+  /api/v1/blog/posts/{id}/publish/:
+    post:
+      operationId: v1_blog_posts_publish_create
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
+  /api/v1/blog/posts/{id}/restore/:
+    post:
+      operationId: v1_blog_posts_restore_create
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
+  /api/v1/blog/posts/{id}/schedule/:
+    post:
+      operationId: v1_blog_posts_schedule_create
+      description: Administrative API for Blog Posts. Uses UUID for lookups.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this blog post.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlogPost'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPost'
+          description: ''
   /api/v1/goals/goals/:
     get:
       operationId: v1_goals_goals_list
@@ -2423,6 +3036,310 @@ components:
     BlankEnum:
       enum:
       - ''
+    BlogCategory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 120
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        color:
+          type: string
+          maxLength: 7
+        icon:
+          type: string
+          maxLength: 50
+      required:
+      - created_at
+      - id
+      - name
+      - slug
+      - updated_at
+    BlogImage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        image:
+          type: string
+          format: uri
+        alt_text:
+          type: string
+          maxLength: 200
+        caption:
+          type: string
+          maxLength: 300
+        display_order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        post:
+          type: string
+          format: uuid
+      required:
+      - created_at
+      - id
+      - image
+      - post
+      - updated_at
+    BlogPost:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        category_detail:
+          allOf:
+          - $ref: '#/components/schemas/BlogCategory'
+          readOnly: true
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlogImage'
+          readOnly: true
+        slug:
+          type: string
+          pattern: ^[-a-zA-Z0-9_]+$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+        version:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        title:
+          type: string
+          maxLength: 200
+        excerpt:
+          type: string
+        content:
+          type: string
+        featured_image:
+          type: string
+          format: uri
+          nullable: true
+        status:
+          $ref: '#/components/schemas/BlogPostStatusEnum'
+        visibility:
+          $ref: '#/components/schemas/BlogPostVisibilityEnum'
+        featured:
+          type: boolean
+        pinned:
+          type: boolean
+        allow_comments:
+          type: boolean
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        reading_time:
+          type: integer
+          readOnly: true
+          description: Estimated reading time in minutes
+        word_count:
+          type: integer
+          readOnly: true
+        seo_title:
+          type: string
+          maxLength: 100
+        seo_description:
+          type: string
+          maxLength: 200
+        og_title:
+          type: string
+          maxLength: 100
+        og_description:
+          type: string
+          maxLength: 200
+        og_image:
+          type: string
+          format: uri
+          nullable: true
+        twitter_title:
+          type: string
+          maxLength: 100
+        twitter_description:
+          type: string
+          maxLength: 200
+        canonical_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 500
+          - type: string
+            maxLength: 0
+        ai_generated:
+          type: boolean
+        ai_summary:
+          type: string
+        author:
+          type: string
+          format: uuid
+          readOnly: true
+        category:
+          type: string
+          format: uuid
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+      - author
+      - category_detail
+      - created_at
+      - id
+      - images
+      - reading_time
+      - tags_detail
+      - title
+      - updated_at
+      - word_count
+    BlogPostPublic:
+      type: object
+      description: |-
+        Serializer used for public facing APIs.
+        Excludes internal state and administrative fields.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        author_name:
+          type: string
+          readOnly: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/BlogCategory'
+          readOnly: true
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        slug:
+          type: string
+          maxLength: 250
+          pattern: ^[-a-zA-Z0-9_]+$
+        excerpt:
+          type: string
+        content:
+          type: string
+        featured_image:
+          type: string
+          format: uri
+          nullable: true
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        reading_time:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: Estimated reading time in minutes
+        word_count:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        seo_title:
+          type: string
+          maxLength: 100
+        seo_description:
+          type: string
+          maxLength: 200
+        canonical_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 500
+          - type: string
+            maxLength: 0
+        ai_generated:
+          type: boolean
+        ai_summary:
+          type: string
+        featured:
+          type: boolean
+        pinned:
+          type: boolean
+      required:
+      - author_name
+      - category
+      - id
+      - slug
+      - tags
+      - title
+    BlogPostStatusEnum:
+      enum:
+      - draft
+      - review
+      - scheduled
+      - published
+      - archived
+      type: string
+      description: |-
+        * `draft` - Draft
+        * `review` - Review
+        * `scheduled` - Scheduled
+        * `published` - Published
+        * `archived` - Archived
+    BlogPostVisibilityEnum:
+      enum:
+      - private
+      - unlisted
+      - public
+      type: string
+      description: |-
+        * `private` - Private
+        * `unlisted` - Unlisted
+        * `public` - Public
     CategoryEnum:
       enum:
       - achievement
@@ -3001,7 +3918,7 @@ components:
         status:
           $ref: '#/components/schemas/JournalEntryStatusEnum'
         visibility:
-          $ref: '#/components/schemas/VisibilityEnum'
+          $ref: '#/components/schemas/Visibility976Enum'
         word_count:
           type: integer
           readOnly: true
@@ -3193,7 +4110,7 @@ components:
         category:
           $ref: '#/components/schemas/CategoryEnum'
         visibility:
-          $ref: '#/components/schemas/VisibilityEnum'
+          $ref: '#/components/schemas/Visibility976Enum'
         favorite:
           type: boolean
         pinned:
@@ -3330,6 +4247,75 @@ components:
         * `anxious` - Anxious
         * `angry` - Angry
         * `exhausted` - Exhausted
+    PaginatedBlogCategoryList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlogCategory'
+    PaginatedBlogPostList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlogPost'
+    PaginatedBlogPostPublicList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlogPostPublic'
     PaginatedGoalList:
       type: object
       required:
@@ -3468,6 +4454,154 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Task'
+    PatchedBlogCategory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          maxLength: 120
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        color:
+          type: string
+          maxLength: 7
+        icon:
+          type: string
+          maxLength: 50
+    PatchedBlogPost:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        category_detail:
+          allOf:
+          - $ref: '#/components/schemas/BlogCategory'
+          readOnly: true
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlogImage'
+          readOnly: true
+        slug:
+          type: string
+          pattern: ^[-a-zA-Z0-9_]+$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+        version:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        title:
+          type: string
+          maxLength: 200
+        excerpt:
+          type: string
+        content:
+          type: string
+        featured_image:
+          type: string
+          format: uri
+          nullable: true
+        status:
+          $ref: '#/components/schemas/BlogPostStatusEnum'
+        visibility:
+          $ref: '#/components/schemas/BlogPostVisibilityEnum'
+        featured:
+          type: boolean
+        pinned:
+          type: boolean
+        allow_comments:
+          type: boolean
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        reading_time:
+          type: integer
+          readOnly: true
+          description: Estimated reading time in minutes
+        word_count:
+          type: integer
+          readOnly: true
+        seo_title:
+          type: string
+          maxLength: 100
+        seo_description:
+          type: string
+          maxLength: 200
+        og_title:
+          type: string
+          maxLength: 100
+        og_description:
+          type: string
+          maxLength: 200
+        og_image:
+          type: string
+          format: uri
+          nullable: true
+        twitter_title:
+          type: string
+          maxLength: 100
+        twitter_description:
+          type: string
+          maxLength: 200
+        canonical_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 500
+          - type: string
+            maxLength: 0
+        ai_generated:
+          type: boolean
+        ai_summary:
+          type: string
+        author:
+          type: string
+          format: uuid
+          readOnly: true
+        category:
+          type: string
+          format: uuid
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
     PatchedGoal:
       type: object
       properties:
@@ -3694,7 +4828,7 @@ components:
         status:
           $ref: '#/components/schemas/JournalEntryStatusEnum'
         visibility:
-          $ref: '#/components/schemas/VisibilityEnum'
+          $ref: '#/components/schemas/Visibility976Enum'
         word_count:
           type: integer
           readOnly: true
@@ -3776,7 +4910,7 @@ components:
         category:
           $ref: '#/components/schemas/CategoryEnum'
         visibility:
-          $ref: '#/components/schemas/VisibilityEnum'
+          $ref: '#/components/schemas/Visibility976Enum'
         favorite:
           type: boolean
         pinned:
@@ -4350,7 +5484,7 @@ components:
           type: boolean
         dashboard_widget_preferences: {}
         notification_preferences: {}
-    VisibilityEnum:
+    Visibility976Enum:
       enum:
       - private
       - shared

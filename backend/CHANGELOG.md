@@ -28,9 +28,6 @@
 - Added comprehensive Reflection fields and AI stubs
 - Implemented JournalService, JournalStatisticsService, and JournalAIService
 - Automated reading time and word count calculations via signals
-- Integrated Writing Milestones (Entries/Words) into Unified Activities
-- Optimized signals to fetch old instances more efficiently
-
 ## [v1.7.0] - Journey Module
 - Implemented Memory and MemoryImage models
 - Created the central Timeline Service aggregation engine merging Activities and Memories
@@ -38,3 +35,12 @@
 - Hooked memory lifecycle into Unified Activities
 - Created journey endpoints with filtering and pagination
 - Established AI interface stubs for future memory highlighting and summarization
+
+## [v1.8.0] - Analytics Module
+- Added pure READ Analytics Module without any models or database tables
+- Configured robust DTO layer for strong type-checking responses
+- Created 13 read-optimized endpoints supporting filtering and charts
+- Added deep PostgreSQL aggregations across all previous modules
+- Designed and implemented InsightService facade for future AI consumption
+- Implemented weighted Productivity Score and rule-based Burnout Indicator
+- Built TrendService for computing growth and momentum metrics

@@ -4,6 +4,205 @@ info:
   version: 1.0.0
   description: A production-ready API for LifeOS.
 paths:
+  /api/v1/analytics/dashboard/:
+    get:
+      operationId: v1_analytics_dashboard_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardSummary'
+          description: ''
+  /api/v1/analytics/goals/:
+    get:
+      operationId: v1_analytics_goals_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoalAnalytics'
+          description: ''
+  /api/v1/analytics/habits/:
+    get:
+      operationId: v1_analytics_habits_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HabitAnalytics'
+          description: ''
+  /api/v1/analytics/heatmap/:
+    get:
+      operationId: v1_analytics_heatmap_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/analytics/journal/:
+    get:
+      operationId: v1_analytics_journal_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalAnalytics'
+          description: ''
+  /api/v1/analytics/journey/:
+    get:
+      operationId: v1_analytics_journey_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JourneyAnalytics'
+          description: ''
+  /api/v1/analytics/monthly/:
+    get:
+      operationId: v1_analytics_monthly_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/analytics/overview/:
+    get:
+      operationId: v1_analytics_overview_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardSummary'
+          description: ''
+  /api/v1/analytics/planner/:
+    get:
+      operationId: v1_analytics_planner_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlannerAnalytics'
+          description: ''
+  /api/v1/analytics/productivity/:
+    get:
+      operationId: v1_analytics_productivity_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductivityAnalytics'
+          description: ''
+  /api/v1/analytics/trends/:
+    get:
+      operationId: v1_analytics_trends_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendAnalytics'
+          description: ''
+  /api/v1/analytics/weekly/:
+    get:
+      operationId: v1_analytics_weekly_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/analytics/yearly/:
+    get:
+      operationId: v1_analytics_yearly_retrieve
+      description: Central intelligence engine of LifeOS. Read-only Analytics.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
   /api/v1/auth/forgot-password/:
     post:
       operationId: v1_auth_forgot_password_create
@@ -2254,6 +2453,96 @@ components:
         * `milestone` - Milestone
         * `celebration` - Celebration
         * `other` - Other
+    ChartDataset:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            type: string
+        datasets:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        totals:
+          type: object
+          additionalProperties: {}
+        metadata:
+          type: object
+          additionalProperties: {}
+      required:
+      - datasets
+      - labels
+    DashboardSummary:
+      type: object
+      properties:
+        todays_tasks:
+          type: integer
+        completed_tasks:
+          type: integer
+        pending_tasks:
+          type: integer
+        overdue_tasks:
+          type: integer
+        todays_habits:
+          type: integer
+        completed_habits:
+          type: integer
+        current_habit_streak:
+          type: integer
+        longest_habit_streak:
+          type: integer
+        current_goals:
+          type: integer
+        completed_goals:
+          type: integer
+        journal_entries_this_week:
+          type: integer
+        journey_events_this_month:
+          type: integer
+        productivity_score:
+          type: integer
+        weekly_productivity:
+          type: integer
+        monthly_productivity:
+          type: integer
+        completion_percentage:
+          type: number
+          format: double
+        upcoming_deadlines:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        most_important_goal:
+          type: object
+          additionalProperties: {}
+          nullable: true
+        weekly_highlights:
+          type: array
+          items:
+            type: string
+      required:
+      - completed_goals
+      - completed_habits
+      - completed_tasks
+      - completion_percentage
+      - current_goals
+      - current_habit_streak
+      - journal_entries_this_week
+      - journey_events_this_month
+      - longest_habit_streak
+      - monthly_productivity
+      - most_important_goal
+      - overdue_tasks
+      - pending_tasks
+      - productivity_score
+      - todays_habits
+      - todays_tasks
+      - upcoming_deadlines
+      - weekly_highlights
+      - weekly_productivity
     ForgotPassword:
       type: object
       properties:
@@ -2365,6 +2654,42 @@ components:
       - tags_detail
       - title
       - updated_at
+    GoalAnalytics:
+      type: object
+      properties:
+        goal_progress:
+          type: number
+          format: double
+        completed_goals:
+          type: integer
+        average_goal_progress:
+          type: number
+          format: double
+        goal_categories:
+          $ref: '#/components/schemas/ChartDataset'
+        milestone_completion:
+          type: integer
+        estimated_hours:
+          type: number
+          format: double
+        actual_hours:
+          type: number
+          format: double
+        goal_velocity:
+          type: number
+          format: double
+        goal_completion_trends:
+          $ref: '#/components/schemas/ChartDataset'
+      required:
+      - actual_hours
+      - average_goal_progress
+      - completed_goals
+      - estimated_hours
+      - goal_categories
+      - goal_completion_trends
+      - goal_progress
+      - goal_velocity
+      - milestone_completion
     GoalStatusEnum:
       enum:
       - not_started
@@ -2485,6 +2810,56 @@ components:
       - tags_detail
       - title
       - updated_at
+    HabitAnalytics:
+      type: object
+      properties:
+        completion_rate:
+          type: number
+          format: double
+        current_streak:
+          type: integer
+        longest_streak:
+          type: integer
+        average_streak:
+          type: number
+          format: double
+        recovery_time_days:
+          type: number
+          format: double
+        break_frequency:
+          type: integer
+        weekly_activity:
+          $ref: '#/components/schemas/ChartDataset'
+        monthly_activity:
+          $ref: '#/components/schemas/ChartDataset'
+        habit_heatmap:
+          $ref: '#/components/schemas/ChartDataset'
+        category_distribution:
+          $ref: '#/components/schemas/ChartDataset'
+        consistency_score:
+          type: integer
+        best_habit:
+          type: object
+          additionalProperties: {}
+          nullable: true
+        weakest_habit:
+          type: object
+          additionalProperties: {}
+          nullable: true
+      required:
+      - average_streak
+      - best_habit
+      - break_frequency
+      - category_distribution
+      - completion_rate
+      - consistency_score
+      - current_streak
+      - habit_heatmap
+      - longest_streak
+      - monthly_activity
+      - recovery_time_days
+      - weakest_habit
+      - weekly_activity
     HabitLog:
       type: object
       properties:
@@ -2543,6 +2918,44 @@ components:
         * `active` - Active
         * `paused` - Paused
         * `archived` - Archived
+    JournalAnalytics:
+      type: object
+      properties:
+        writing_streak:
+          type: integer
+        longest_writing_streak:
+          type: integer
+        word_count_trends:
+          $ref: '#/components/schemas/ChartDataset'
+        reading_time_trends:
+          $ref: '#/components/schemas/ChartDataset'
+        mood_distribution:
+          $ref: '#/components/schemas/ChartDataset'
+        energy_trends:
+          $ref: '#/components/schemas/ChartDataset'
+        stress_trends:
+          $ref: '#/components/schemas/ChartDataset'
+        favorite_entries:
+          type: integer
+        monthly_writing:
+          $ref: '#/components/schemas/ChartDataset'
+        average_words:
+          type: integer
+        average_reading_time_mins:
+          type: number
+          format: double
+      required:
+      - average_reading_time_mins
+      - average_words
+      - energy_trends
+      - favorite_entries
+      - longest_writing_streak
+      - monthly_writing
+      - mood_distribution
+      - reading_time_trends
+      - stress_trends
+      - word_count_trends
+      - writing_streak
     JournalEntry:
       type: object
       properties:
@@ -2703,6 +3116,43 @@ components:
       - created_at
       - id
       - image
+    JourneyAnalytics:
+      type: object
+      properties:
+        timeline_growth:
+          $ref: '#/components/schemas/ChartDataset'
+        activity_timeline:
+          $ref: '#/components/schemas/ChartDataset'
+        favorite_memories:
+          type: integer
+        pinned_memories:
+          type: integer
+        memory_categories:
+          $ref: '#/components/schemas/ChartDataset'
+        most_active_month:
+          type: string
+        most_active_year:
+          type: string
+        monthly_activity:
+          $ref: '#/components/schemas/ChartDataset'
+        yearly_activity:
+          $ref: '#/components/schemas/ChartDataset'
+        milestone_counts:
+          type: integer
+        journey_score:
+          type: integer
+      required:
+      - activity_timeline
+      - favorite_memories
+      - journey_score
+      - memory_categories
+      - milestone_counts
+      - monthly_activity
+      - most_active_month
+      - most_active_year
+      - pinned_memories
+      - timeline_growth
+      - yearly_activity
     Login:
       type: object
       properties:
@@ -3508,6 +3958,44 @@ components:
           $ref: '#/components/schemas/UserProfile'
         settings:
           $ref: '#/components/schemas/UserSettings'
+    PlannerAnalytics:
+      type: object
+      properties:
+        task_completion_trend:
+          $ref: '#/components/schemas/ChartDataset'
+        priority_distribution:
+          $ref: '#/components/schemas/ChartDataset'
+        category_distribution:
+          $ref: '#/components/schemas/ChartDataset'
+        weekly_completion:
+          type: integer
+        monthly_completion:
+          type: integer
+        estimated_vs_actual_time:
+          $ref: '#/components/schemas/ChartDataset'
+        average_completion_time_hours:
+          type: number
+          format: double
+        upcoming_deadlines:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        overdue_trends:
+          $ref: '#/components/schemas/ChartDataset'
+        daily_productivity:
+          $ref: '#/components/schemas/ChartDataset'
+      required:
+      - average_completion_time_hours
+      - category_distribution
+      - daily_productivity
+      - estimated_vs_actual_time
+      - monthly_completion
+      - overdue_trends
+      - priority_distribution
+      - task_completion_trend
+      - upcoming_deadlines
+      - weekly_completion
     PriorityEnum:
       enum:
       - low
@@ -3518,6 +4006,26 @@ components:
         * `low` - Low
         * `medium` - Medium
         * `high` - High
+    ProductivityAnalytics:
+      type: object
+      properties:
+        overall_score:
+          type: integer
+        individual_module_scores:
+          type: object
+          additionalProperties: {}
+        score_breakdown:
+          type: object
+          additionalProperties: {}
+        reasons:
+          type: array
+          items:
+            type: string
+      required:
+      - individual_module_scores
+      - overall_score
+      - reasons
+      - score_breakdown
     Register:
       type: object
       properties:
@@ -3722,6 +4230,42 @@ components:
       required:
       - access
       - refresh
+    TrendAnalytics:
+      type: object
+      properties:
+        week_over_week:
+          type: object
+          additionalProperties: {}
+        month_over_month:
+          type: object
+          additionalProperties: {}
+        year_over_year:
+          type: object
+          additionalProperties: {}
+        growth:
+          type: number
+          format: double
+        decline:
+          type: number
+          format: double
+        momentum:
+          type: string
+        stagnation:
+          type: boolean
+        trend_percentages:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+      required:
+      - decline
+      - growth
+      - momentum
+      - month_over_month
+      - stagnation
+      - trend_percentages
+      - week_over_week
+      - year_over_year
     User:
       type: object
       properties:

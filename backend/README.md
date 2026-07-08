@@ -87,3 +87,9 @@ Once the server is running, you can access the Swagger UI documentation at:
 - **Timeline Engine**: The single canonical timeline for LifeOS, aggregating dynamic records across Planner, Goals, Habits, Journal via the Unified Activities feed natively merged with manual Memories.
 - **Analytics Ready**: Comprehensive aggregation statistics returning stats covering total app engagement over time.
 - **Scalable Architecture**: Strict adherence to Service-layer architectural standards with ViewSets purely orchestrating data.
+
+## Phase 8: Analytics
+- **Intelligence Engine**: A powerful READ-only analytics module built with Deep PostgreSQL aggregations.
+- **Insights Facade**: `InsightsService` layer providing a single source of truth for the Dashboard and future AI, preventing recalculations.
+- **Productivity & Burnout**: Generates weighted productivity scores and detects burnout loads using centralized constants.
+- **Chart Ready**: Returns DTO structures optimized for charting (Line, Pie, Radar, Heatmaps) natively from the backend.

@@ -13,6 +13,7 @@ api_v1_urlpatterns = [
     path('habits/', include('apps.habits.urls')),
     path('journal/', include('apps.journal.urls')),
     path('journey/', include('apps.journey.urls')),
+    path('analytics/', include('apps.analytics.urls')),
 ]
 
 urlpatterns = [

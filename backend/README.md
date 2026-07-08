@@ -56,3 +56,10 @@ Once the server is running, you can access the Swagger UI documentation at:
 - **Custom User Model**: UUIDs, email authentication.
 - **JWT**: SimpleJWT with rotation and blacklisting.
 - **Throttles**: Brute force protection enabled.
+
+## Phase 3: Planner
+- **Task & SubTask Management**: Full CRUD with nested structures.
+- **Many-to-Many Tags**: Shared tagging system across modules.
+- **Soft Delete**: Tasks are never fully deleted unless explicitly cleared, supporting full restore functionality.
+- **Activity Tracking**: Real-time signal tracking for all task modifications.
+- **Advanced Statistics**: Analytics endpoint powered by aggregate queryset metrics and timezone-aware calculations.

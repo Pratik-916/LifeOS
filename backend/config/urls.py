@@ -7,6 +7,8 @@ api_v1_urlpatterns = [
     path('health/', health_check, name='health_check'),
     path('auth/', include('apps.authentication.urls')),
     path('users/', include('apps.users.urls')),
+    path('tags/', include('apps.tags.urls')),
+    path('planner/', include('apps.planner.urls')),
 ]
 
 urlpatterns = [

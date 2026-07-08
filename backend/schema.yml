@@ -194,6 +194,416 @@ paths:
                 type: object
                 additionalProperties: {}
           description: ''
+  /api/v1/planner/tasks/:
+    get:
+      operationId: v1_planner_tasks_list
+      description: CRUD for Tasks.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTaskList'
+          description: ''
+    post:
+      operationId: v1_planner_tasks_create
+      description: CRUD for Tasks.
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+  /api/v1/planner/tasks/{id}/:
+    get:
+      operationId: v1_planner_tasks_retrieve
+      description: CRUD for Tasks.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+    put:
+      operationId: v1_planner_tasks_update
+      description: CRUD for Tasks.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+    patch:
+      operationId: v1_planner_tasks_partial_update
+      description: CRUD for Tasks.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTask'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTask'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTask'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+    delete:
+      operationId: v1_planner_tasks_destroy
+      description: CRUD for Tasks.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/planner/tasks/{id}/restore/:
+    post:
+      operationId: v1_planner_tasks_restore_create
+      description: Restores a soft-deleted task.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+  /api/v1/planner/tasks/stats/:
+    get:
+      operationId: v1_planner_tasks_stats_retrieve
+      description: |-
+        Comprehensive Statistics endpoint for the Analytics Dashboard.
+        Uses the user's local timezone for date-based calculations.
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+  /api/v1/tags/:
+    get:
+      operationId: v1_tags_list
+      description: |-
+        CRUD for Tags.
+        Since Tags might be globally shared or strictly user-scoped based on requirements,
+        we'll keep it simple: Tags are global but we only allow authenticated users to manage them.
+        (If strict per-user tags are needed, we'd add user ForeignKey to Tag model).
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: slug
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTagList'
+          description: ''
+    post:
+      operationId: v1_tags_create
+      description: |-
+        CRUD for Tags.
+        Since Tags might be globally shared or strictly user-scoped based on requirements,
+        we'll keep it simple: Tags are global but we only allow authenticated users to manage them.
+        (If strict per-user tags are needed, we'd add user ForeignKey to Tag model).
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tag'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+  /api/v1/tags/{id}/:
+    get:
+      operationId: v1_tags_retrieve
+      description: |-
+        CRUD for Tags.
+        Since Tags might be globally shared or strictly user-scoped based on requirements,
+        we'll keep it simple: Tags are global but we only allow authenticated users to manage them.
+        (If strict per-user tags are needed, we'd add user ForeignKey to Tag model).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this tag.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+    put:
+      operationId: v1_tags_update
+      description: |-
+        CRUD for Tags.
+        Since Tags might be globally shared or strictly user-scoped based on requirements,
+        we'll keep it simple: Tags are global but we only allow authenticated users to manage them.
+        (If strict per-user tags are needed, we'd add user ForeignKey to Tag model).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this tag.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Tag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Tag'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+    patch:
+      operationId: v1_tags_partial_update
+      description: |-
+        CRUD for Tags.
+        Since Tags might be globally shared or strictly user-scoped based on requirements,
+        we'll keep it simple: Tags are global but we only allow authenticated users to manage them.
+        (If strict per-user tags are needed, we'd add user ForeignKey to Tag model).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this tag.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTag'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTag'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTag'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: ''
+    delete:
+      operationId: v1_tags_destroy
+      description: |-
+        CRUD for Tags.
+        Since Tags might be globally shared or strictly user-scoped based on requirements,
+        we'll keep it simple: Tags are global but we only allow authenticated users to manage them.
+        (If strict per-user tags are needed, we'd add user ForeignKey to Tag model).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this tag.
+        required: true
+      tags:
+      - v1
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/users/me/:
     get:
       operationId: v1_users_me_retrieve
@@ -298,6 +708,164 @@ components:
           type: string
       required:
       - refresh
+    PaginatedTagList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    PaginatedTaskList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+    PatchedTag:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
+        color:
+          type: string
+          description: Hex color code or theme color name
+          maxLength: 20
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedTask:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        category:
+          type: string
+          maxLength: 50
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        due_time:
+          type: string
+          format: time
+          nullable: true
+        estimated_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        actual_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        reminder_datetime:
+          type: string
+          format: date-time
+          nullable: true
+        is_recurring:
+          type: boolean
+        recurring_type:
+          type: string
+          maxLength: 50
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        notes:
+          type: string
+        is_archived:
+          type: boolean
+        is_pinned:
+          type: boolean
+        completed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        subtasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubTask'
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
     PatchedUser:
       type: object
       properties:
@@ -326,6 +894,16 @@ components:
           $ref: '#/components/schemas/UserProfile'
         settings:
           $ref: '#/components/schemas/UserSettings'
+    PriorityEnum:
+      enum:
+      - low
+      - medium
+      - high
+      type: string
+      description: |-
+        * `low` - Low
+        * `medium` - Medium
+        * `high` - High
     Register:
       type: object
       properties:
@@ -364,6 +942,161 @@ components:
       required:
       - new_password
       - token
+    StatusEnum:
+      enum:
+      - todo
+      - in_progress
+      - completed
+      type: string
+      description: |-
+        * `todo` - To Do
+        * `in_progress` - In Progress
+        * `completed` - Completed
+    SubTask:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        is_completed:
+          type: boolean
+        order:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - id
+      - title
+    Tag:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
+        color:
+          type: string
+          description: Hex color code or theme color name
+          maxLength: 20
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+      - slug
+      - updated_at
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        priority:
+          $ref: '#/components/schemas/PriorityEnum'
+        category:
+          type: string
+          maxLength: 50
+        due_date:
+          type: string
+          format: date
+          nullable: true
+        due_time:
+          type: string
+          format: time
+          nullable: true
+        estimated_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        actual_minutes:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        reminder_datetime:
+          type: string
+          format: date-time
+          nullable: true
+        is_recurring:
+          type: boolean
+        recurring_type:
+          type: string
+          maxLength: 50
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        tags_detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          readOnly: true
+        notes:
+          type: string
+        is_archived:
+          type: boolean
+        is_pinned:
+          type: boolean
+        completed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        deleted_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        subtasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubTask'
+        last_updated_at:
+          type: string
+          format: date-time
+          writeOnly: true
+      required:
+      - completed_at
+      - created_at
+      - deleted_at
+      - id
+      - tags_detail
+      - title
+      - updated_at
     TokenRefresh:
       type: object
       properties:

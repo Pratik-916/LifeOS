@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.authentication',
     'apps.users',
+    'apps.tags',
     'apps.planner',
     'apps.habits',
     'apps.goals',

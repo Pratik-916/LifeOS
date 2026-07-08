@@ -15,7 +15,13 @@ axiosInstance.interceptors.request.use(
 
 // Response Interceptor
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Unwrap the LifeOS custom backend API response structure if present
+    if (response.data && typeof response.data === 'object' && 'success' in response.data && 'data' in response.data) {
+      response.data = response.data.data;
+    }
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
 
@@ -30,13 +36,14 @@ axiosInstance.interceptors.response.use(
           // NOTE: DO NOT use axiosInstance here to avoid infinite loops, use a clean axios request
           const { default: axios } = await import('axios');
           const { API_CONFIG } = await import('./config');
+          const { authEndpoints } = await import('./endpoints/auth');
           
-          const res = await axios.post(`${API_CONFIG.baseURL}/auth/jwt/refresh/`, {
+          const res = await axios.post(`${API_CONFIG.baseURL}${authEndpoints.refresh}`, {
             refresh: refreshToken,
           });
 
-          const newAccess = res.data.access;
-          const newRefresh = res.data.refresh || refreshToken; // Some backends don't rotate refresh tokens
+          const newAccess = res.data.data?.access || res.data.access;
+          const newRefresh = res.data.data?.refresh || res.data.refresh || refreshToken;
 
           tokenManager.setTokens(newAccess, newRefresh);
 

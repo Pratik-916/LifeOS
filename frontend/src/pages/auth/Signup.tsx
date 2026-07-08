@@ -57,7 +57,17 @@ export const Signup: React.FC = () => {
     }
 
     try {
-      await signup({ name, email, password });
+      const nameParts = name.trim().split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+      await signup({ 
+        email, 
+        password, 
+        password_confirm: confirmPassword,
+        first_name: firstName,
+        last_name: lastName
+      });
       navigate('/verify-email');
     } catch (e) {
       // Error handled by context

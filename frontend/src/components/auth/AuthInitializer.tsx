@@ -13,9 +13,10 @@ export const AuthInitializer = ({ children }: { children: React.ReactNode }) => 
     let isMounted = true;
 
     const initializeAuth = async () => {
-      const token = tokenManager.getAccessToken();
+      const refreshToken = tokenManager.getRefreshToken();
+      const accessToken = tokenManager.getAccessToken();
 
-      if (!token) {
+      if (!refreshToken) {
         if (isMounted) {
           clearAuth();
           setLoading(false);
@@ -26,17 +27,29 @@ export const AuthInitializer = ({ children }: { children: React.ReactNode }) => 
 
       try {
         setLoading(true);
-        // Using apiClient means interceptors will automatically refresh if token is expired!
+        
+        // Use clean axios for refresh to avoid interceptor loops
+        const { default: axios } = await import('axios');
+        const { API_CONFIG } = await import('../../api/config');
+        
+        const res = await axios.post(`${API_CONFIG.baseURL}${authEndpoints.refresh}`, {
+          refresh: refreshToken,
+        });
+        
+        const newAccess = res.data.data?.access || res.data.access;
+        const newRefresh = res.data.data?.refresh || res.data.refresh || refreshToken;
+        tokenManager.setTokens(newAccess, newRefresh);
+        
         const response = await apiClient.get(authEndpoints.me);
         if (isMounted) {
           setUser(response.data);
         }
       } catch (error) {
         if (isMounted) {
-          // If error happened, interceptor would have tried to refresh.
-          // If refresh failed, clearAuth() should be called via the event listener (below)
-          // or we just clear here.
           clearAuth();
+          // Explicitly clear localstorage
+          localStorage.removeItem('lifeos-auth');
+          tokenManager.clearTokens();
         }
       } finally {
         if (isMounted) {

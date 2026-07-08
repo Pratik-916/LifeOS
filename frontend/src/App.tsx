@@ -130,8 +130,9 @@ function App() {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <MotionConfig reducedMotion={settings?.animations === false ? "always" : "user"}>
-          <AuthInitializer>
-            <Router>
+          <AuthProvider>
+            <AuthInitializer>
+              <Router>
               <AnimatePresence mode="wait">
                 <Routes>
                   {/* Public Auth Routes */}
@@ -159,7 +160,8 @@ function App() {
               </AnimatePresence>
             </Router>
           </AuthInitializer>
-        </MotionConfig>
+        </AuthProvider>
+      </MotionConfig>
       </QueryClientProvider>
     </ErrorBoundary>
   );

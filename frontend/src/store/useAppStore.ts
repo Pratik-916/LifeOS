@@ -55,6 +55,11 @@ export const useAppStore = create<AppState>()(
     {
       name: 'lifeos-storage',
       version: 2,
+      partialize: (state) => ({
+        profile: state.profile,
+        settings: state.settings,
+        backupMetadata: state.backupMetadata,
+      }),
     }
   )
 );

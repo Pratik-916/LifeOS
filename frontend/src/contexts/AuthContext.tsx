@@ -1,109 +1,91 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
-import { authService } from '../services/auth/authService';
-import type { User, Session, ApiError, AuthResponse, LoginResponse } from '../types/auth';
+import { tokenManager } from '../auth/tokenManager';
+import { apiClient } from '../api/client';
+import { authEndpoints } from '../api/endpoints/auth';
+import type { User } from '../types/auth';
+import type { ApiError } from '../api/apiTypes';
+import { handleApiError } from '../api/errorHandler';
+import { NotificationService } from '../services/notificationService';
 
 interface AuthContextType {
   user: User | null;
-  session: Session | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: ApiError | null;
   
-  login: (email: string, password: string) => Promise<AuthResponse<LoginResponse>>;
-  signup: (data: any) => Promise<AuthResponse<LoginResponse>>;
-  logout: () => Promise<AuthResponse<void>>;
-  forgotPassword: (email: string) => Promise<AuthResponse<void>>;
-  resetPassword: (password: string, token: string) => Promise<AuthResponse<void>>;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (data: any) => Promise<void>;
+  logout: () => void;
+  forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (password: string, token: string) => Promise<void>;
   clearError: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { user, session, isAuthenticated, isLoading, error, setUser, setSession, setLoading, setError, clearAuth } = useAuthStore();
+  const { user, isAuthenticated, isLoading, setUser, clearAuth } = useAuthStore();
+  const [error, setError] = useState<ApiError | null>(null);
 
-  const clearError = () => setError(null);
+  const clearError = useCallback(() => setError(null), []);
 
   const login = async (email: string, password: string) => {
-    setLoading(true);
-    setError(null);
     try {
-      const response = await authService.login(email, password);
-      if (!response.success && response.error) {
-        setError(response.error);
-      } else if (response.data) {
-        setUser(response.data.user);
-        setSession(response.data.session);
-      }
-      return response;
-    } catch (e: any) {
-      const unexpectedError: ApiError = { code: 'UNEXPECTED_ERROR', message: 'An unexpected error occurred.' };
-      setError(unexpectedError);
-      return { success: false, error: unexpectedError };
-    } finally {
-      setLoading(false);
+      clearError();
+      const response = await apiClient.post(authEndpoints.login, { email, password });
+      tokenManager.setTokens(response.data.access, response.data.refresh);
+      
+      const userResponse = await apiClient.get(authEndpoints.me);
+      setUser(userResponse.data);
+      NotificationService.success('Logged in successfully');
+    } catch (err) {
+      const apiError = handleApiError(err);
+      setError(apiError);
+      throw apiError;
     }
   };
 
   const signup = async (data: any) => {
-    setLoading(true);
-    setError(null);
     try {
-      const response = await authService.signup(data);
-      if (!response.success && response.error) {
-        setError(response.error);
-      } else if (response.data) {
-        setUser(response.data.user);
-        setSession(response.data.session);
-      }
-      return response;
-    } catch (e: any) {
-      const unexpectedError: ApiError = { code: 'UNEXPECTED_ERROR', message: 'An unexpected error occurred.' };
-      setError(unexpectedError);
-      return { success: false, error: unexpectedError };
-    } finally {
-      setLoading(false);
+      clearError();
+      await apiClient.post(authEndpoints.signup, data);
+      await login(data.email, data.password);
+      NotificationService.success('Account created successfully');
+    } catch (err) {
+      const apiError = handleApiError(err);
+      setError(apiError);
+      throw apiError;
     }
   };
 
-  const logout = async () => {
-    setLoading(true);
-    try {
-      const response = await authService.logout();
-      clearAuth();
-      return response;
-    } finally {
-      setLoading(false);
-    }
-  };
+  const logout = useCallback(() => {
+    clearAuth();
+    NotificationService.info('Logged out successfully');
+  }, [clearAuth]);
 
   const forgotPassword = async (email: string) => {
-    setLoading(true);
-    setError(null);
     try {
-      const response = await authService.forgotPassword(email);
-      if (!response.success && response.error) {
-        setError(response.error);
-      }
-      return response;
-    } finally {
-      setLoading(false);
+      clearError();
+      await apiClient.post(authEndpoints.resetPassword, { email });
+      NotificationService.success('Password reset email sent');
+    } catch (err) {
+      const apiError = handleApiError(err);
+      setError(apiError);
+      throw apiError;
     }
   };
 
   const resetPassword = async (password: string, token: string) => {
-    setLoading(true);
-    setError(null);
     try {
-      const response = await authService.resetPassword(password, token);
-      if (!response.success && response.error) {
-        setError(response.error);
-      }
-      return response;
-    } finally {
-      setLoading(false);
+      clearError();
+      await apiClient.post(authEndpoints.resetPasswordConfirm, { new_password: password, token });
+      NotificationService.success('Password has been reset');
+    } catch (err) {
+      const apiError = handleApiError(err);
+      setError(apiError);
+      throw apiError;
     }
   };
 
@@ -111,7 +93,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <AuthContext.Provider
       value={{
         user,
-        session,
         isAuthenticated,
         isLoading,
         error,
@@ -120,7 +101,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         logout,
         forgotPassword,
         resetPassword,
-        clearError
+        clearError,
       }}
     >
       {children}

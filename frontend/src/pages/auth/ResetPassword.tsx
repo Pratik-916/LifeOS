@@ -61,9 +61,11 @@ export const ResetPassword: React.FC = () => {
       return;
     }
 
-    const res = await resetPassword(password, token);
-    if (res.success) {
+    try {
+      await resetPassword(password, token);
       setIsSuccess(true);
+    } catch (e) {
+      // Error handled by context
     }
   };
 

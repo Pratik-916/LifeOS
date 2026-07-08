@@ -32,9 +32,11 @@ export const Login: React.FC = () => {
       return;
     }
 
-    const res = await login(email, password);
-    if (res.success) {
+    try {
+      await login(email, password);
       navigate('/');
+    } catch (e) {
+      // Error is handled by context
     }
   };
 

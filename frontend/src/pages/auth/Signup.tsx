@@ -56,9 +56,11 @@ export const Signup: React.FC = () => {
       return;
     }
 
-    const res = await signup({ name, email, password });
-    if (res.success) {
+    try {
+      await signup({ name, email, password });
       navigate('/verify-email');
+    } catch (e) {
+      // Error handled by context
     }
   };
 

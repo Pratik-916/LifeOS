@@ -1,5 +1,30 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from '@tanstack/react-query';
+import { AuthInitializer } from './components/auth/AuthInitializer';
+import { NotificationService } from './services/notificationService';
+
+// Initialize React Query
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error) => {
+      NotificationService.error('Data Error', (error as any).message || 'Failed to fetch data');
+    },
+  }),
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      NotificationService.error('Action Failed', (error as any).message || 'Something went wrong');
+    },
+  }),
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
+
 import { Layout } from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Planner from './pages/Planner';
@@ -103,37 +128,39 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <MotionConfig reducedMotion={settings?.animations === false ? "always" : "user"}>
-        <AuthProvider>
-          <Router>
-            <AnimatePresence mode="wait">
-              <Routes>
-                {/* Public Auth Routes */}
-                <Route element={<PublicRoute><AuthLayout /></PublicRoute>}>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/reset-password" element={<ResetPassword />} />
-                  <Route path="/verify-email" element={<VerifyEmail />} />
-                </Route>
+      <QueryClientProvider client={queryClient}>
+        <MotionConfig reducedMotion={settings?.animations === false ? "always" : "user"}>
+          <AuthInitializer>
+            <Router>
+              <AnimatePresence mode="wait">
+                <Routes>
+                  {/* Public Auth Routes */}
+                  <Route element={<PublicRoute><AuthLayout /></PublicRoute>}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/verify-email" element={<VerifyEmail />} />
+                  </Route>
 
-                {/* Protected Application Routes */}
-                <Route element={<ProtectedLayout />}>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/planner" element={<Planner />} />
-                  <Route path="/habits" element={<Habits />} />
-                  <Route path="/journal" element={<Journal />} />
-                  <Route path="/blog" element={<Blog />} />
-                  <Route path="/journey" element={<Journey />} />
-                  <Route path="/goals" element={<Goals />} />
-                  <Route path="/analytics" element={<Analytics />} />
-                  <Route path="/settings" element={<Settings />} />
-                </Route>
-              </Routes>
-            </AnimatePresence>
-          </Router>
-        </AuthProvider>
-      </MotionConfig>
+                  {/* Protected Application Routes */}
+                  <Route element={<ProtectedLayout />}>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/planner" element={<Planner />} />
+                    <Route path="/habits" element={<Habits />} />
+                    <Route path="/journal" element={<Journal />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/journey" element={<Journey />} />
+                    <Route path="/goals" element={<Goals />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/settings" element={<Settings />} />
+                  </Route>
+                </Routes>
+              </AnimatePresence>
+            </Router>
+          </AuthInitializer>
+        </MotionConfig>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }

@@ -1,8 +1,11 @@
 import { useAppStore } from '../store/useAppStore';
 import { format, subDays, isSameDay, parseISO, differenceInDays } from 'date-fns';
 
+import type { Task } from '../types';
+
 export function useDashboardStats() {
-  const { tasks, habits, goals, activities, journalEntries } = useAppStore();
+  const { habits, goals, activities, journalEntries } = useAppStore();
+  const tasks: Task[] = [];
   
   const todayStr = format(new Date(), 'yyyy-MM-dd');
   

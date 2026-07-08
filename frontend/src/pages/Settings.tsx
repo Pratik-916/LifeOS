@@ -65,12 +65,13 @@ export default function Settings() {
     factoryReset,
     clearLocalData,
     resetPreferences,
-    tasks,
     goals,
     habits,
     journalEntries,
     activities
   } = store;
+
+  const tasks: any[] = [];
 
   const stats = useDashboardStats();
 
@@ -129,7 +130,7 @@ export default function Settings() {
       version: '1.0.0',
       timestamp: new Date().toISOString(),
       data: {
-        tasks: storeState.tasks,
+        tasks: [],
         habits: storeState.habits,
         goals: storeState.goals,
         activities: storeState.activities,

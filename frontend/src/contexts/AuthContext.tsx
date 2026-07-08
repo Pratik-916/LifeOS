@@ -8,6 +8,9 @@ import type { User } from '../types/auth';
 import type { ApiError } from '../api/apiTypes';
 import { handleApiError } from '../api/errorHandler';
 import { NotificationService } from '../services/notificationService';
+import { useQueryClient } from '@tanstack/react-query';
+import { plannerApi } from '../features/planner/api/planner';
+import { plannerKeys } from '../features/planner/api/planner.keys';
 
 interface AuthContextType {
   user: User | null;
@@ -28,6 +31,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user, isAuthenticated, isLoading, setUser, clearAuth } = useAuthStore();
   const [error, setError] = useState<ApiError | null>(null);
+  const queryClient = useQueryClient();
 
   const clearError = useCallback(() => setError(null), []);
 
@@ -40,6 +44,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const userResponse = await apiClient.get(authEndpoints.me);
       setUser(userResponse.data);
       NotificationService.success('Logged in successfully');
+
+      // Route Prefetching
+      queryClient.prefetchQuery({
+        queryKey: plannerKeys.statistics(),
+        queryFn: () => plannerApi.getStatistics(),
+      });
+      queryClient.prefetchQuery({
+        queryKey: plannerKeys.tasksList(),
+        queryFn: () => plannerApi.getTasks(),
+      });
     } catch (err) {
       const apiError = handleApiError(err);
       setError(apiError);

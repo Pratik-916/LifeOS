@@ -139,18 +139,12 @@ export interface TimelineEvent {
 }
 
 export interface AppState {
-  tasks: Task[];
   habits: Habit[];
   goals: Goal[];
   activities: Activity[];
   journalEntries: JournalEntry[];
   
   // Actions
-  addTask: (task: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  updateTask: (taskId: string, updates: Partial<Task>) => void;
-  deleteTask: (taskId: string) => void;
-  toggleTask: (taskId: string) => void;
-  
   addHabit: (habit: Omit<Habit, 'id' | 'createdAt' | 'updatedAt' | 'datesCompleted' | 'streak' | 'longestStreak' | 'currentCount' | 'completedToday'>) => void;
   updateHabit: (habitId: string, updates: Partial<Habit>) => void;
   deleteHabit: (habitId: string) => void;

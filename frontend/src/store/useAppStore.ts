@@ -1,7 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { TaskSlice } from './slices/taskSlice';
-import { createTaskSlice } from './slices/taskSlice';
 import type { HabitSlice } from './slices/habitSlice';
 import { createHabitSlice } from './slices/habitSlice';
 import type { GoalSlice } from './slices/goalSlice';
@@ -21,12 +19,11 @@ export interface GlobalSlice {
   clearLocalData: () => void;
 }
 
-export type AppState = TaskSlice & HabitSlice & GoalSlice & JournalSlice & ActivitySlice & SettingsSlice & MemorySlice & GlobalSlice;
+export type AppState = HabitSlice & GoalSlice & JournalSlice & ActivitySlice & SettingsSlice & MemorySlice & GlobalSlice;
 
 export const useAppStore = create<AppState>()(
   persist(
     (set, get, api) => ({
-      ...createTaskSlice(set, get, api),
       ...createHabitSlice(set, get, api),
       ...createGoalSlice(set, get, api),
       ...createJournalSlice(set, get, api),
@@ -43,7 +40,6 @@ export const useAppStore = create<AppState>()(
       },
       
       clearLocalData: () => set((state) => ({
-        tasks: [],
         habits: [],
         goals: [],
         activities: [],

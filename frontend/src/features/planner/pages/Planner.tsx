@@ -1,28 +1,35 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { 
   CheckCircle2, Plus, Calendar as CalendarIcon, 
   Clock, Play, Pause, RotateCcw, ChevronLeft, ChevronRight, FileText, ClipboardList
 } from 'lucide-react';
-import { Card } from '../components/Card';
-import { Button } from '../components/Button';
-import { cn } from '../lib/utils';
-import { timeBlocks } from '../data/planner';
-import { useAppStore } from '../store/useAppStore';
-import type { Task } from '../types';
+import { Card } from '../../../components/Card';
+import { Button } from '../../../components/Button';
+import { cn } from '../../../lib/utils';
+import { timeBlocks } from '../../../data/planner';
+import { useAppStore } from '../../../store/useAppStore';
 import { TaskCard } from '../components/TaskCard';
 import { TaskModal } from '../components/TaskModal';
-import { EmptyState } from '../components/ui/EmptyState';
-import { PageHeader } from '../components/ui/PageHeader';
-import { SearchInput } from '../components/ui/SearchInput';
-import { FilterBar } from '../components/ui/FilterBar';
-import { useFilterSort } from '../hooks/useFilterSort';
+import { EmptyState } from '../../../components/ui/EmptyState';
+import { PageHeader } from '../../../components/ui/PageHeader';
+import { SearchInput } from '../../../components/ui/SearchInput';
+import { FilterBar } from '../../../components/ui/FilterBar';
+import { useSearchParams } from 'react-router-dom';
+import { useTasks } from '../hooks/useTasks';
+import { usePlannerStatistics } from '../hooks/usePlannerStatistics';
+import { usePlannerStore } from '../hooks/usePlannerStore';
+import type { GetTasksFilters } from '../api/planner';
+import type { Task } from '../api/planner.types';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isToday, addMonths, subMonths } from 'date-fns';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
 };
 
 const itemVariants: Variants = {
@@ -31,57 +38,81 @@ const itemVariants: Variants = {
 };
 
 export default function Planner() {
-  const { tasks, addTask, updateTask, deleteTask, toggleTask, settings } = useAppStore();
+  const { settings } = useAppStore();
   
   // Timer State
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [timerMinutes, setTimerMinutes] = useState(25);
 
-  // Modal State
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
+  // URL State for Filters
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
+  const statusFilter = searchParams.get('status') || 'all';
+  const priorityFilter = searchParams.get('priority') || 'all';
+  const categoryFilter = searchParams.get('category') || 'all';
+  const sortBy = searchParams.get('sort') || 'dueDateAsc';
 
-  // Filter & Sort State
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [priorityFilter, setPriorityFilter] = useState('all');
-  const [categoryFilter, setCategoryFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('dueDateAsc');
+  const updateSearchParam = (key: string, value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value === 'all' || value === '') {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, value);
+    }
+    setSearchParams(newParams);
+  };
+
+  const setSearchQuery = (val: string) => updateSearchParam('search', val);
+  const setStatusFilter = (val: string) => updateSearchParam('status', val);
+  const setPriorityFilter = (val: string) => updateSearchParam('priority', val);
+  const setCategoryFilter = (val: string) => updateSearchParam('category', val);
+  const setSortBy = (val: string) => updateSearchParam('sort', val);
+
+  // Backend Integration
+  const filters: GetTasksFilters = {};
+  if (statusFilter !== 'all') filters.status = statusFilter as any;
+  if (priorityFilter !== 'all') filters.priority = priorityFilter as any;
+  if (categoryFilter !== 'all') filters.category = categoryFilter as any;
+  if (searchQuery) filters.search = searchQuery;
+
+  const { data: tasks = [], isLoading } = useTasks(filters);
+  const { data: stats } = usePlannerStatistics();
+
+  // Sort tasks in frontend since API doesn't specify sorting explicitly
+  const sortedTasks = useMemo(() => {
+    const sorted = [...tasks];
+    switch (sortBy) {
+      case 'dueDateAsc':
+        sorted.sort((a, b) => new Date(a.dueDate || 0).getTime() - new Date(b.dueDate || 0).getTime());
+        break;
+      case 'dueDateDesc':
+        sorted.sort((a, b) => new Date(b.dueDate || 0).getTime() - new Date(a.dueDate || 0).getTime());
+        break;
+      case 'priorityDesc': {
+        const weight: any = { high: 3, medium: 2, low: 1 };
+        sorted.sort((a, b) => weight[b.priority] - weight[a.priority]);
+        break;
+      }
+      case 'priorityAsc': {
+        const weight: any = { high: 3, medium: 2, low: 1 };
+        sorted.sort((a, b) => weight[a.priority] - weight[b.priority]);
+        break;
+      }
+    }
+    return sorted;
+  }, [tasks, sortBy]);
+
+  // Store UI State
+  const { isTaskModalOpen: isModalOpen, setTaskModalOpen: setIsModalOpen } = usePlannerStore();
+  const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
 
   // Calendar State
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  // Derived filtered & sorted tasks using hook
-  const filteredTasks = useFilterSort({
-    data: tasks,
-    searchQuery,
-    searchFields: ['title', 'description'],
-    filters: [
-      { field: 'status', value: statusFilter },
-      { field: 'priority', value: priorityFilter },
-      { field: 'category', value: categoryFilter },
-    ],
-    sortBy,
-    sortConfig: {
-      dueDateAsc: (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(),
-      dueDateDesc: (a, b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime(),
-      priorityDesc: (a, b) => {
-        const weight = { high: 3, medium: 2, low: 1 };
-        return weight[b.priority] - weight[a.priority];
-      },
-      priorityAsc: (a, b) => {
-        const weight = { high: 3, medium: 2, low: 1 };
-        return weight[a.priority] - weight[b.priority];
-      }
-    }
-  });
-
-  // Overall Task Progress (Today)
-  const todayStr = format(new Date(), 'yyyy-MM-dd');
-  const todayTasks = tasks.filter(t => t.dueDate === todayStr);
-  const completedCount = todayTasks.filter(t => t.status === 'done').length;
-  const pendingCount = todayTasks.length - completedCount;
-  const progressPercentage = todayTasks.length === 0 ? 0 : Math.round((completedCount / todayTasks.length) * 100);
+  // Overall Task Progress (from backend stats)
+  const progressPercentage = stats ? Math.round((stats.completed / Math.max(stats.totalTasks, 1)) * 100) : 0;
+  const completedCount = stats?.completed || 0;
+  const pendingCount = (stats?.totalTasks || 0) - completedCount;
 
   // Calendar Logic
   const calendarDays = useMemo(() => {
@@ -101,8 +132,8 @@ export default function Planner() {
     
     return days.map(day => {
       const dateStr = format(day, dateFormat);
-      // Check if there are tasks for this day
-      const hasEvents = tasks.some(t => t.dueDate === dateStr && t.status !== 'done');
+      // Check if there are tasks for this day (from the currently fetched tasks - this might just be the filtered ones but it gives a hint)
+      const hasEvents = tasks.some(t => t.dueDate === dateStr && t.status !== 'completed');
       
       return {
         date: day,
@@ -125,20 +156,12 @@ export default function Planner() {
   const handleOpenCreate = useCallback(() => {
     setEditingTask(undefined);
     setIsModalOpen(true);
-  }, []);
+  }, [setIsModalOpen]);
 
   const handleOpenEdit = useCallback((task: Task) => {
     setEditingTask(task);
     setIsModalOpen(true);
-  }, []);
-
-  const handleSaveTask = (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (editingTask) {
-      updateTask(editingTask.id, taskData);
-    } else {
-      addTask(taskData as any);
-    }
-  };
+  }, [setIsModalOpen]);
 
   return (
     <motion.div 
@@ -182,8 +205,8 @@ export default function Planner() {
                       options: [
                         { label: 'All Status', value: 'all' },
                         { label: 'To Do', value: 'todo' },
-                        { label: 'In Progress', value: 'in-progress' },
-                        { label: 'Done', value: 'done' }
+                        { label: 'In Progress', value: 'in_progress' },
+                        { label: 'Completed', value: 'completed' }
                       ]
                     },
                     {
@@ -209,31 +232,35 @@ export default function Planner() {
 
               {/* Task List */}
               <div className="space-y-3 mt-6">
-                <AnimatePresence mode="popLayout">
-                  {filteredTasks.length === 0 ? (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      <EmptyState 
-                        icon={ClipboardList}
-                        title="No tasks found"
-                        message="You don't have any tasks matching your current filters."
-                      />
-                    </motion.div>
-                  ) : (
-                    filteredTasks.map(task => (
-                      <TaskCard
-                        key={task.id}
-                        task={task}
-                        onToggle={toggleTask}
-                        onEdit={handleOpenEdit}
-                        onDelete={deleteTask}
-                      />
-                    ))
-                  )}
-                </AnimatePresence>
+                {isLoading ? (
+                  <div className="flex justify-center p-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                  </div>
+                ) : (
+                  <AnimatePresence mode="popLayout">
+                    {sortedTasks.length === 0 ? (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      >
+                        <EmptyState 
+                          icon={ClipboardList}
+                          title="No tasks found"
+                          message="You don't have any tasks matching your current filters."
+                        />
+                      </motion.div>
+                    ) : (
+                      sortedTasks.map(task => (
+                        <TaskCard
+                          key={task.id}
+                          task={task}
+                          onEdit={handleOpenEdit}
+                        />
+                      ))
+                    )}
+                  </AnimatePresence>
+                )}
               </div>
             </Card>
           </motion.div>
@@ -387,7 +414,6 @@ export default function Planner() {
       <TaskModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveTask}
         initialData={editingTask}
       />
     </motion.div>

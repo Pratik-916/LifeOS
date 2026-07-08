@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { X, Calendar, Clock, Tag, AlignLeft, Flag } from 'lucide-react';
-import type { Task } from '../types';
-import { Button } from './Button';
-import { Card } from './Card';
+import type { Task } from '../api/planner.types';
+import { Button } from '../../../components/Button';
+import { Card } from '../../../components/Card';
 import { format } from 'date-fns';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../../../store/useAppStore';
+
+import { useCreateTask } from '../hooks/useCreateTask';
+import { useUpdateTask } from '../hooks/useUpdateTask';
 
 interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (task: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => void;
   initialData?: Task;
 }
 
@@ -26,14 +28,17 @@ const modalVariants: Variants = {
   exit: { opacity: 0, y: 20, scale: 0.95, transition: { duration: 0.2 } }
 };
 
-export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
+export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, initialData }) => {
+  const createTaskMutation = useCreateTask();
+  const updateTaskMutation = useUpdateTask();
+  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Personal');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [dueDate, setDueDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [dueTime, setDueTime] = useState('');
-  const [status, setStatus] = useState<'todo' | 'in-progress' | 'done'>('todo');
+  const [status, setStatus] = useState<'todo' | 'in_progress' | 'completed'>('todo');
   const [notes, setNotes] = useState('');
 
   // Add useAppStore
@@ -45,7 +50,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, i
       setDescription(initialData.description || '');
       setCategory(initialData.category);
       setPriority(initialData.priority);
-      setDueDate(initialData.dueDate);
+      setDueDate(initialData.dueDate || format(new Date(), 'yyyy-MM-dd'));
       setDueTime(initialData.dueTime || '');
       setStatus(initialData.status);
       setNotes(initialData.notes || '');
@@ -66,7 +71,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, i
     e.preventDefault();
     if (!title.trim() || !dueDate) return; // Validation
 
-    onSave({
+    const payload: Partial<Task> = {
       title,
       description,
       category,
@@ -75,9 +80,20 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, i
       dueTime,
       status,
       notes,
-    });
-    onClose();
+    };
+
+    if (initialData) {
+      updateTaskMutation.mutate({ id: initialData.id, payload }, {
+        onSuccess: () => onClose()
+      });
+    } else {
+      createTaskMutation.mutate(payload, {
+        onSuccess: () => onClose()
+      });
+    }
   };
+  
+  const isPending = createTaskMutation.isPending || updateTaskMutation.isPending;
 
   return (
     <AnimatePresence>
@@ -201,12 +217,12 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, onSave, i
                 </form>
               </div>
 
-              <div className="p-6 border-t border-border/20 flex justify-end gap-3 bg-surfaceHighlight">
-                <Button variant="ghost" onClick={onClose}>Cancel</Button>
-                <Button variant="primary" type="submit" form="task-form">
-                  {initialData ? 'Save Changes' : 'Create Task'}
-                </Button>
-              </div>
+                <div className="flex gap-3 p-6 border-t border-border/10 bg-surfaceHighlight">
+                  <Button type="button" variant="ghost" className="flex-1" onClick={onClose} disabled={isPending}>Cancel</Button>
+                  <Button type="submit" variant="primary" form="task-form" className="flex-1" disabled={isPending}>
+                    {isPending ? 'Saving...' : (initialData ? 'Save Changes' : 'Create Task')}
+                  </Button>
+                </div>
             </Card>
           </motion.div>
         </div>

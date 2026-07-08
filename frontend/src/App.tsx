@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthInitializer } from './components/auth/AuthInitializer';
 import { NotificationService } from './services/notificationService';
 
@@ -27,7 +28,7 @@ const queryClient = new QueryClient({
 
 import { Layout } from './components/Layout';
 import Dashboard from './pages/Dashboard';
-import Planner from './pages/Planner';
+import Planner from './features/planner/pages/Planner';
 import Journal from './pages/Journal';
 import Blog from './pages/Blog';
 import Journey from './pages/Journey';
@@ -162,6 +163,7 @@ function App() {
           </AuthInitializer>
         </AuthProvider>
       </MotionConfig>
+      <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ErrorBoundary>
   );

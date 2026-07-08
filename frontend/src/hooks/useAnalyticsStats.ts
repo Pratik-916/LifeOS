@@ -7,8 +7,11 @@ import {
 
 export type TimeRange = '7D' | '30D' | '90D' | 'YEAR' | 'ALL';
 
+import type { Task } from '../types';
+
 export function useAnalyticsStats(timeRange: TimeRange) {
-  const { tasks, goals, journalEntries, activities, habits } = useAppStore();
+  const { goals, journalEntries, activities, habits } = useAppStore();
+  const tasks: Task[] = [];
 
   const now = new Date();
   

@@ -1,7 +1,8 @@
 import React from 'react';
-import type { TimeRange } from '../../hooks/useAnalyticsStats';
 import { Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils';
+
+export type TimeRange = '7D' | '30D' | '90D' | 'YEAR' | 'ALL';
 
 interface DateRangeSelectorProps {
   timeRange: TimeRange;

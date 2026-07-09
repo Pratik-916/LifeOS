@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Target, Palette, Hash } from 'lucide-react';
-import type { Habit } from '../types';
+import type { HabitModel, CreateHabitPayload } from '../features/habits/api/habits.types';
 
 interface HabitModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (habit: Partial<Habit>) => void;
-  initialData?: Habit;
+  onSave: (habit: Partial<CreateHabitPayload>) => void;
+  initialData?: HabitModel;
 }
 
 const CATEGORIES = ['Health', 'Learning', 'Work', 'Personal', 'Finance', 'Other'];
@@ -22,30 +22,30 @@ const COLORS = [
 ];
 
 export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
-  const [formData, setFormData] = useState<Partial<Habit>>({
+  const [formData, setFormData] = useState<Partial<CreateHabitPayload>>({
     title: '',
     category: 'Health',
     frequency: 'daily',
-    targetCount: 1,
+    target_count: 1,
     color: COLORS[0].value,
-    isFavorite: false,
-    isArchived: false,
-    notes: ''
   });
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      setFormData({
+        title: initialData.title,
+        category: initialData.category,
+        frequency: initialData.frequency,
+        target_count: initialData.targetCount,
+        color: initialData.color,
+      });
     } else {
       setFormData({
         title: '',
         category: 'Health',
         frequency: 'daily',
-        targetCount: 1,
+        target_count: 1,
         color: COLORS[0].value,
-        isFavorite: false,
-        isArchived: false,
-        notes: ''
       });
     }
   }, [initialData, isOpen]);
@@ -92,7 +92,7 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave,
                   autoFocus
                   required
                   type="text"
-                  value={formData.title || formData.name || ''}
+                  value={formData.title || ''}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
                   placeholder="e.g., Drink 2L Water"
                   className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-3 text-primary focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all placeholder:text-secondary/50 text-lg font-medium"
@@ -137,8 +137,8 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave,
                     min="1"
                     max="100"
                     required
-                    value={formData.targetCount}
-                    onChange={e => setFormData({ ...formData, targetCount: parseInt(e.target.value) || 1 })}
+                    value={formData.target_count}
+                    onChange={e => setFormData({ ...formData, target_count: parseInt(e.target.value) || 1 })}
                     className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all text-primary"
                   />
                 </div>

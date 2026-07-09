@@ -118,10 +118,20 @@ class JourneyTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         
         data = response.json()['data']['results']
-        self.assertTrue(len(data) >= 1) # At least the memory should be in there
-        # Since we just created Task and Goal, depending on if they trigger Activities directly, they might also be in the timeline
-        types_in_timeline = [item['entity_type'] for item in data]
+        
+        events = []
+        for year_data in data:
+            for month_data in year_data['months']:
+                events.extend(month_data['events'])
+                
+        self.assertTrue(len(events) >= 1) # At least the memory should be in there
+        
+        types_in_timeline = [item['entity_type'] for item in events]
         self.assertIn('memory', types_in_timeline)
+        
+        # Verify ordering is descending across events
+        dates = [item['timestamp'] for item in events]
+        self.assertEqual(dates, sorted(dates, reverse=True))
 
     def test_journey_statistics(self):
         self.client.force_authenticate(user=self.user)

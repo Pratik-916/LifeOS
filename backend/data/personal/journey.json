@@ -1,0 +1,26 @@
+[
+  {
+    "import_id": "memory-ahmedabad",
+    "title": "Moved to Ahmedabad",
+    "date": "2023-06-01T00:00:00Z",
+    "category": "personal"
+  },
+  {
+    "import_id": "memory-college",
+    "title": "Started college",
+    "date": "2023-08-01T00:00:00Z",
+    "category": "education"
+  },
+  {
+    "import_id": "memory-gym",
+    "title": "Joined gym",
+    "date": "2024-01-01T00:00:00Z",
+    "category": "fitness"
+  },
+  {
+    "import_id": "memory-laptop",
+    "title": "Bought Lenovo LOQ",
+    "date": "2024-05-15T00:00:00Z",
+    "category": "achievement"
+  }
+]

@@ -10,7 +10,6 @@ import { cn } from '../lib/utils';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { useAppStore } from '../store/useAppStore';
-import { useDashboardStats } from '../hooks/useDashboardStats';
 import { useAuth } from '../contexts/AuthContext';
 
 const containerVariants: Variants = {
@@ -64,41 +63,25 @@ export default function Settings() {
     factoryReset,
     clearLocalData,
     resetPreferences,
-    goals,
-    habits,
-    journalEntries,
     activities
   } = store;
 
   const tasks: any[] = useMemo(() => [], []);
 
-  const stats = useDashboardStats();
-
   // Calculate App Statistics
   const appStats = useMemo(() => {
-    // Try to find the earliest created item to determine "Started Using"
-    const allDates = [
-      ...tasks.map((t: any) => new Date(t.createdAt).getTime()),
-      ...goals.map((g: any) => new Date(g.createdAt).getTime()),
-      ...habits.map((h: any) => new Date(h.createdAt).getTime()),
-      ...journalEntries.map((j: any) => new Date(j.createdAt).getTime()),
-    ].filter(d => !isNaN(d));
-    
-    const startedUsingDate = allDates.length > 0 ? new Date(Math.min(...allDates)) : new Date();
-    const daysUsing = Math.max(1, Math.floor((Date.now() - startedUsingDate.getTime()) / (1000 * 60 * 60 * 24)));
-
     return {
-      startedUsing: startedUsingDate.toLocaleDateString(),
-      daysUsing,
-      tasksCompleted: tasks.filter(t => t.status === 'done').length,
-      goalsCompleted: goals.filter((g: any) => g.status === 'Completed').length,
-      habitsCreated: habits.length,
-      journalEntries: journalEntries.length,
-      longestStreak: stats.longestStreak,
-      productivityScore: stats.productivityScore,
+      startedUsing: new Date().toLocaleDateString(),
+      daysUsing: 1,
+      tasksCompleted: 0,
+      goalsCompleted: 0,
+      habitsCreated: 0,
+      journalEntries: 0,
+      longestStreak: 0,
+      productivityScore: 0,
       totalActivities: activities.length
     };
-  }, [tasks, goals, habits, journalEntries, activities, stats]);
+  }, [activities]);
 
   // Toggles Wrapper
   const toggleSetting = (key: keyof typeof settings) => {
@@ -130,11 +113,7 @@ export default function Settings() {
       timestamp: new Date().toISOString(),
       data: {
         tasks: [],
-        habits: storeState.habits,
-        goals: storeState.goals,
         activities: storeState.activities,
-        journalEntries: storeState.journalEntries,
-        memories: storeState.memories,
         profile: storeState.profile,
         settings: storeState.settings
       }

@@ -1,26 +1,40 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Flame, Edit2, Trash2, Heart, CheckCircle2 } from 'lucide-react';
-import type { Habit } from '../types';
+import type { HabitModel } from '../features/habits/api/habits.types';
 import { cn } from '../lib/utils';
 import { Card } from './Card';
-import { useAppStore } from '../store/useAppStore';
+import { useFavoriteHabit, useLogHabit } from '../features/habits/hooks';
 
 interface HabitCardProps {
-  habit: Habit;
-  onEdit: (habit: Habit) => void;
+  habit: HabitModel;
+  onEdit: (habit: HabitModel) => void;
   onDelete: (id: string) => void;
 }
 
 export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete }) => {
-  const { toggleHabit, updateHabit } = useAppStore();
+  const favoriteHabit = useFavoriteHabit();
+  const logHabit = useLogHabit();
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
-    updateHabit(habit.id, { isFavorite: !habit.isFavorite });
+    favoriteHabit.mutate({ id: habit.id, isFavorite: !habit.isFavorite });
   };
 
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDelete(habit.id);
+    window.dispatchEvent(new CustomEvent('toast:undoable-delete', { detail: { taskId: habit.id, module: 'habits' } }));
+  };
+
+  const handleLogHabit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    logHabit.mutate({ id: habit.id, payload: { count: 1 } });
+  };
+
+  const isCompletedToday = habit.currentCount >= habit.targetCount;
   const progressPct = Math.round((habit.currentCount / habit.targetCount) * 100);
+  const displayTitle = habit.title;
 
   return (
     <Card className="p-0 overflow-hidden border border-border/20 bg-surfaceHighlight hover:bg-surfaceHighlight transition-colors">
@@ -39,7 +53,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete })
             <Edit2 className="w-4 h-4" />
           </button>
           <button 
-            onClick={() => onDelete(habit.id)}
+            onClick={handleDelete}
             className="p-1.5 text-secondary hover:text-danger hover:bg-surfaceHighlight rounded-md transition-colors"
           >
             <Trash2 className="w-4 h-4" />
@@ -48,7 +62,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete })
 
         <div className="flex items-center gap-4">
           <button 
-            onClick={() => toggleHabit(habit.id)}
+            onClick={handleLogHabit}
             className="relative w-16 h-16 flex-shrink-0 flex items-center justify-center rounded-full bg-surfaceHighlight border border-border/20 group/btn focus:outline-none"
           >
             {/* SVG Progress Circle */}
@@ -61,12 +75,12 @@ export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete })
                 strokeWidth="8"
                 strokeDasharray={2 * Math.PI * 46}
                 initial={{ strokeDashoffset: 2 * Math.PI * 46 }}
-                animate={{ strokeDashoffset: 2 * Math.PI * 46 * (1 - progressPct / 100) }}
+                animate={{ strokeDashoffset: 2 * Math.PI * 46 * (1 - Math.min(progressPct, 100) / 100) }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className={cn("text-accent", habit.color && habit.color.includes('green') ? 'text-green-500' : habit.color && habit.color.includes('purple') ? 'text-purple-500' : habit.color && habit.color.includes('orange') ? 'text-orange-500' : 'text-blue-500')}
               />
             </svg>
-            {habit.completedToday ? (
+            {isCompletedToday ? (
               <CheckCircle2 className="w-8 h-8 text-success absolute" />
             ) : (
               <span className="text-xl font-bold absolute group-hover/btn:scale-110 transition-transform text-primary">{habit.currentCount}</span>
@@ -75,7 +89,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete })
 
           <div className="flex-1 pr-16">
             <div className="flex items-center gap-3 mb-1">
-              <h3 className="text-lg font-bold text-primary">{habit.title || habit.name}</h3>
+              <h3 className="text-lg font-bold text-primary">{displayTitle}</h3>
               <span className="px-2 py-0.5 rounded-full bg-surfaceHighlight border border-border/20 text-[10px] font-semibold text-secondary uppercase tracking-wider">
                 {habit.category}
               </span>
@@ -83,8 +97,8 @@ export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete })
             
             <div className="flex items-center gap-4 text-xs font-medium text-secondary mt-2">
               <span className="flex items-center gap-1.5 px-2 py-1 bg-surfaceHighlight rounded-md sensitive-data">
-                <Flame className={cn("w-3.5 h-3.5", habit.streak > 0 ? "text-orange-500" : "text-secondary/50")} fill={habit.streak > 0 ? "currentColor" : "none"} />
-                {habit.streak} Day Streak
+                <Flame className={cn("w-3.5 h-3.5", habit.currentStreak > 0 ? "text-orange-500" : "text-secondary/50")} fill={habit.currentStreak > 0 ? "currentColor" : "none"} />
+                {habit.currentStreak} Day Streak
               </span>
               <span>Target: {habit.targetCount} / {habit.frequency}</span>
             </div>

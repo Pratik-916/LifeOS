@@ -1,21 +1,19 @@
 import React from 'react';
-import {  } from 'framer-motion';
-import { Calendar, ChevronRight, Heart } from 'lucide-react';
-import type { JournalEntry } from '../types';
+import { Calendar, Heart, Pin } from 'lucide-react';
+import type { JournalEntryModel } from '../features/journal/api/journal.types';
 import { cn } from '../lib/utils';
 import { format, parseISO } from 'date-fns';
 
 interface JournalCardProps {
-  entry: JournalEntry;
+  entry: JournalEntryModel;
   isActive: boolean;
-  onClick: (entry: JournalEntry) => void;
-  onToggleFavorite: (id: string, e: React.MouseEvent) => void;
+  onClick: (entry: JournalEntryModel) => void;
+  onToggleFavorite: (e: React.MouseEvent) => void;
 }
 
 export const JournalCard: React.FC<JournalCardProps> = ({ entry, isActive, onClick, onToggleFavorite }) => {
-  // Legacy fallback for date parsing if needed
-  const displayDate = entry.date || new Date().toISOString();
-  let formattedDate = entry.date;
+  const displayDate = entry.createdAt || new Date().toISOString();
+  let formattedDate = entry.createdAt;
   try {
     formattedDate = format(parseISO(displayDate), 'MMM do, yyyy');
   } catch (e) {
@@ -33,17 +31,21 @@ export const JournalCard: React.FC<JournalCardProps> = ({ entry, isActive, onCli
       )}
     >
       <div className="flex justify-between items-start mb-1 gap-2">
-        <h4 className="font-medium text-sm text-primary group-hover:text-accent transition-colors line-clamp-1 flex-1">
+        <h4 className="font-medium text-sm text-primary group-hover:text-accent transition-colors line-clamp-1 flex-1 flex items-center gap-2">
+          {entry.isPinned && <Pin className="w-3 h-3 text-accent" />}
           {entry.title || 'Untitled Entry'}
         </h4>
         <button 
-          onClick={(e) => onToggleFavorite(entry.id, e)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite(e);
+          }}
           className={cn(
-            "p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus:outline-none",
-            entry.favorite ? "opacity-100 text-red-500" : "text-secondary hover:text-red-400"
+            "p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus:outline-none z-10 relative",
+            entry.isFavorite ? "opacity-100 text-red-500" : "text-secondary hover:text-red-400"
           )}
         >
-          <Heart className="w-4 h-4" fill={entry.favorite ? "currentColor" : "none"} />
+          <Heart className="w-4 h-4" fill={entry.isFavorite ? "currentColor" : "none"} />
         </button>
       </div>
       
@@ -59,18 +61,18 @@ export const JournalCard: React.FC<JournalCardProps> = ({ entry, isActive, onCli
       </p>
       
       <p className="text-xs text-secondary/70 line-clamp-2 leading-relaxed sensitive-data">
-        {entry.excerpt || entry.content || 'No content...'}
+        {entry.summary || entry.content || 'No content...'}
       </p>
 
-      {entry.tags && entry.tags.length > 0 && (
+      {entry.tagsDetail && entry.tagsDetail.length > 0 && (
         <div className="flex flex-wrap gap-1 mt-3">
-          {entry.tags.slice(0, 3).map(tag => (
-            <span key={tag} className="text-[10px] px-1.5 py-0.5 bg-surfaceHighlight rounded text-secondary">
-              #{tag}
+          {entry.tagsDetail.slice(0, 3).map(tag => (
+            <span key={tag.id} className="text-[10px] px-1.5 py-0.5 rounded text-secondary" style={{ backgroundColor: `${tag.color}20`, color: tag.color }}>
+              #{tag.name}
             </span>
           ))}
-          {entry.tags.length > 3 && (
-            <span className="text-[10px] px-1.5 py-0.5 text-secondary">+{entry.tags.length - 3}</span>
+          {entry.tagsDetail.length > 3 && (
+            <span className="text-[10px] px-1.5 py-0.5 text-secondary bg-surfaceHighlight rounded">+{entry.tagsDetail.length - 3}</span>
           )}
         </div>
       )}

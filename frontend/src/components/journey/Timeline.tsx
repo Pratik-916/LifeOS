@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import type { TimelineYear as ITimelineYear } from '../../hooks/useJourneyData';
+import type { TimelineYearModel } from '../../features/journey/api/journey.types';
 import { TimelineYear } from './TimelineYear';
 import { EmptyState } from '../ui/EmptyState';
 import { Map } from 'lucide-react';
 
 interface TimelineProps {
-  timeline: ITimelineYear[];
+  timeline: TimelineYearModel[];
 }
 
 export const Timeline: React.FC<TimelineProps> = ({ timeline }) => {

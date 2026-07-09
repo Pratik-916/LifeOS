@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '../Card';
-import type { JourneyStatisticsData } from '../../hooks/useJourneyData';
+import type { JourneyStatsModel } from '../../features/journey/api/journey.types';
 import { Trophy, Target, CheckCircle2, BookOpen, Flame, Image as ImageIcon } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { motion } from 'framer-motion';
@@ -12,7 +12,7 @@ const itemVariants: Variants = {
 };
 
 interface JourneyStatisticsProps {
-  stats: JourneyStatisticsData;
+  stats: JourneyStatsModel;
 }
 
 export const JourneyStatistics: React.FC<JourneyStatisticsProps> = ({ stats }) => {

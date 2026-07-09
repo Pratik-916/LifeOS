@@ -1,4 +1,4 @@
-import type { Task, Habit, Goal, Activity, JournalEntry } from '../types';
+import type { Task, Habit, Goal, Activity } from '../types';
 import { format, subDays } from 'date-fns';
 
 const today = new Date();
@@ -162,54 +162,4 @@ export const initialActivities: Activity[] = [
   { id: 'a2', type: 'habit', message: 'Logged "Read 20 pages"', timestamp: new Date(Date.now() - 4 * 3600000).toISOString() },
   { id: 'a3', type: 'journal', message: 'Wrote a new journal entry', timestamp: subDays(new Date(), 1).toISOString() },
   { id: 'a4', type: 'goal', message: 'Reached milestone in "Learn Rust"', timestamp: subDays(new Date(), 2).toISOString() },
-];
-
-export const initialJournalEntries: JournalEntry[] = [
-  {
-    id: 'j1',
-    title: 'Thoughts on product design',
-    content: 'Today I spent a lot of time thinking about how to improve the UX of our main dashboard. It feels a bit cluttered right now. I want to embrace more whitespace and perhaps introduce a glassmorphism effect to make it feel more premium.\n\nI read an article by Dieter Rams and his principles of "Less, but better" really resonated with me. I need to strip away the non-essentials.',
-    excerpt: 'Today I spent a lot of time thinking about how to improve the UX of our main dashboard...',
-    mood: 'Inspired',
-    tags: ['Design', 'Work', 'Reflections'],
-    date: todayStr,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    todaysWins: 'Finished the new dashboard layout mockups.',
-    whatILearned: 'Less is more. Whitespace is a tool, not just empty space.',
-    favorite: true,
-    wordCount: 56,
-    characterCount: 345,
-    readingTime: 1
-  },
-  {
-    id: 'j2',
-    title: 'Weekend hike at Mount Tam',
-    content: 'The weather was absolutely perfect today. We started the hike early at 7 AM to avoid the crowd. The mist was still hanging over the trees, creating this beautiful ethereal atmosphere.\n\nWe finally reached the peak around 10 AM. The view of the bay was breathtaking. It really puts things into perspective and makes all the daily stress melt away.',
-    excerpt: 'The weather was absolutely perfect today. We started the hike early at 7 AM...',
-    mood: 'Happy',
-    tags: ['Personal', 'Health', 'Nature'],
-    date: yesterdayStr,
-    createdAt: subDays(new Date(), 1).toISOString(),
-    updatedAt: subDays(new Date(), 1).toISOString(),
-    gratitude: 'My health, nature, and good friends.',
-    favorite: false,
-    wordCount: 61,
-    characterCount: 350,
-    readingTime: 1
-  }
-];
-
-export const initialMemories = [
-  {
-    id: 'mem1',
-    title: 'First Tech Job Offer',
-    description: 'After months of interviews and late-night coding sessions, finally landed a role as a Frontend Developer!',
-    date: subDays(new Date(), 400).toISOString(),
-    photos: [],
-    tags: ['Career', 'Milestone'],
-    favorite: true,
-    createdAt: subDays(new Date(), 400).toISOString(),
-    updatedAt: subDays(new Date(), 400).toISOString(),
-  }
 ];

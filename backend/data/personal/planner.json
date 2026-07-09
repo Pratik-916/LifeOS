@@ -1,0 +1,37 @@
+[
+  {
+    "import_id": "task-sem-exams",
+    "title": "Semester exams",
+    "status": "completed",
+    "priority": "high",
+    "category": "education"
+  },
+  {
+    "import_id": "task-portfolio",
+    "title": "Portfolio completed",
+    "status": "completed",
+    "priority": "high",
+    "category": "career"
+  },
+  {
+    "import_id": "task-internship",
+    "title": "Internship applications",
+    "status": "completed",
+    "priority": "medium",
+    "category": "career"
+  },
+  {
+    "import_id": "task-driving",
+    "title": "Driving licence milestones",
+    "status": "completed",
+    "priority": "medium",
+    "category": "personal"
+  },
+  {
+    "import_id": "task-deploy",
+    "title": "Website deployments",
+    "status": "completed",
+    "priority": "high",
+    "category": "project"
+  }
+]

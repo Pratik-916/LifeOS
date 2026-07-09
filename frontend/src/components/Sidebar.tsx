@@ -17,7 +17,6 @@ import {
 import { cn } from '../lib/utils';
 import { motion } from 'framer-motion';
 import { useAppStore } from '../store/useAppStore';
-import { useDashboardStats } from '../hooks/useDashboardStats';
 import { useAuth } from '../contexts/AuthContext';
 import { LogoutDialog } from './auth/LogoutDialog';
 import { useState } from 'react';
@@ -36,13 +35,12 @@ const navItems = [
 
 export function Sidebar() {
   const location = useLocation();
-  const stats = useDashboardStats();
   const { user } = useAuth();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
-  // Calculate Level (just a fun derived stat based on completed tasks)
+  // Calculate Level
   const calculateLevel = () => {
-    return Math.max(1, Math.floor(stats.completedTasks / 50) + 1);
+    return 1;
   };
 
   return (
@@ -103,7 +101,7 @@ export function Sidebar() {
             <div className="flex flex-col gap-1">
               <span className="flex items-center gap-1.5 text-orange-400">
                 <Flame className="w-3.5 h-3.5" />
-                {stats.currentStreak} Day Streak
+                0 Day Streak
               </span>
               <span className="flex items-center gap-1.5 text-yellow-400">
                 <Award className="w-3.5 h-3.5" />
@@ -113,7 +111,7 @@ export function Sidebar() {
             <div className="flex flex-col gap-1">
               <span className="flex items-center gap-1.5 text-accent">
                 <TrendingUp className="w-3.5 h-3.5" />
-                {stats.productivityScore}%
+                0%
               </span>
               <button 
                 onClick={() => setIsLogoutOpen(true)}

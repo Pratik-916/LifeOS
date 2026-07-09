@@ -1,0 +1,12 @@
+{
+  "owner_email": "Pratikpala9999@gmail.com",
+  "importer_version": "1.0",
+  "enabled_modules": [
+    "planner",
+    "goals",
+    "habits",
+    "journal",
+    "journey",
+    "blog"
+  ]
+}

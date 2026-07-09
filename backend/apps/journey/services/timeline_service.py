@@ -140,4 +140,43 @@ class TimelineService:
         # Apply offset and limit
         paginated_events = events[offset:offset+limit]
         
-        return [event.to_dict() for event in paginated_events]
+        # Group by Year -> Month
+        grouped_by_year = {}
+        for event in paginated_events:
+            if not event.timestamp:
+                continue
+                
+            # Handle localized/naive datetime safely
+            dt = event.timestamp
+            year = str(dt.year)
+            month = dt.strftime('%B')
+            
+            if year not in grouped_by_year:
+                grouped_by_year[year] = {}
+                
+            if month not in grouped_by_year[year]:
+                grouped_by_year[year][month] = []
+                
+            grouped_by_year[year][month].append(event.to_dict())
+            
+        timeline = []
+        # Sort months conceptually (reverse chronological)
+        month_order = ['December', 'November', 'October', 'September', 'August', 'July', 'June', 'May', 'April', 'March', 'February', 'January']
+        
+        for year, months_map in grouped_by_year.items():
+            months = []
+            for month, month_events in months_map.items():
+                months.append({
+                    'month': month,
+                    'events': month_events
+                })
+            months.sort(key=lambda m: month_order.index(m['month']))
+            timeline.append({
+                'year': year,
+                'months': months
+            })
+            
+        # Sort years descending
+        timeline.sort(key=lambda y: int(y['year']), reverse=True)
+        
+        return timeline

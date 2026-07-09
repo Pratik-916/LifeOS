@@ -20,10 +20,21 @@ class GoalsAPI {
       params.append('ordering', `${prefix}${filters.sort_by}`);
     }
 
-    const { data } = await axiosInstance.get<PaginatedResponse<GoalDTO>>(`/goals/?${params.toString()}`);
+    const { data } = await axiosInstance.get<PaginatedResponse<GoalDTO> | GoalDTO[]>(`/goals/?${params.toString()}`);
+    
+    // Check if the backend returned an array directly instead of a PaginatedResponse
+    if (Array.isArray(data)) {
+      return {
+        count: data.length,
+        next: null,
+        previous: null,
+        results: data.map(mapGoalFromDTO)
+      };
+    }
+    
     return {
       ...data,
-      results: data.results.map(mapGoalFromDTO)
+      results: (data.results || []).map(mapGoalFromDTO)
     };
   }
 

@@ -27,6 +27,7 @@ class BlogCategory(TimeStampedModel):
 
 class BlogPost(SoftDeleteModel, OptimisticLockModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_posts')
+    import_id = models.CharField(max_length=255, null=True, blank=True, unique=True, db_index=True)
     category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts')
     tags = models.ManyToManyField(Tag, blank=True, related_name='blog_posts')
 

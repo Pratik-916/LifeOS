@@ -1,0 +1,12 @@
+[
+  {
+    "import_id": "journal-lifeos-start",
+    "title": "Started LifeOS project",
+    "content": "Today I started architecting the LifeOS project.",
+    "mood": "good",
+    "todays_wins": "Set up the Django backend",
+    "challenges": "Deciding on the architecture",
+    "lessons_learned": "Planning saves time later",
+    "tomorrow_focus": "Frontend setup"
+  }
+]

@@ -27,15 +27,19 @@ const queryClient = new QueryClient({
 });
 
 import { Layout } from './components/Layout';
-import Dashboard from './pages/Dashboard';
+import { Dashboard } from './features/dashboard/pages/Dashboard';
 import Planner from './features/planner/pages/Planner';
 import Journal from './pages/Journal';
-import Blog from './pages/Blog';
 import Journey from './pages/Journey';
 import Goals from './pages/Goals';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import Habits from './pages/Habits';
+import BlogHome from './features/blog/pages/BlogHome';
+import BlogPostView from './features/blog/pages/BlogPostView';
+import BlogAdmin from './features/blog/pages/BlogAdmin';
+import BlogAdminEdit from './features/blog/pages/BlogAdminEdit';
+import BlogPreview from './features/blog/pages/BlogPreview';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { useAppStore } from './store/useAppStore';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
@@ -58,21 +62,14 @@ const ProtectedLayout = () => (
   </ProtectedRoute>
 );
 
-function App() {
-  const resetDailyHabits = useAppStore(state => state.resetDailyHabits);
-  const settings = useAppStore(state => state.settings);
+const PublicLayout = () => (
+  <Layout>
+    <Outlet />
+  </Layout>
+);
 
-  useEffect(() => {
-    // Reset daily habits if a new day has started
-    resetDailyHabits();
-    
-    // Set up an interval to check for new days while app is running
-    const interval = setInterval(() => {
-      resetDailyHabits();
-    }, 60000 * 60); // Check every hour
-    
-    return () => clearInterval(interval);
-  }, [resetDailyHabits]);
+function App() {
+  const settings = useAppStore(state => state.settings);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -156,11 +153,39 @@ function App() {
                     } />
                     <Route path="/habits" element={<Habits />} />
                     <Route path="/journal" element={<Journal />} />
-                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/admin" element={
+                      <FeatureErrorBoundary featureName="Blog CMS">
+                        <BlogAdmin />
+                      </FeatureErrorBoundary>
+                    } />
+                    <Route path="/blog/admin/edit/:id" element={
+                      <FeatureErrorBoundary featureName="Blog Editor">
+                        <BlogAdminEdit />
+                      </FeatureErrorBoundary>
+                    } />
+                    <Route path="/blog/preview/:id" element={
+                      <FeatureErrorBoundary featureName="Blog Preview">
+                        <BlogPreview />
+                      </FeatureErrorBoundary>
+                    } />
                     <Route path="/journey" element={<Journey />} />
                     <Route path="/goals" element={<Goals />} />
                     <Route path="/analytics" element={<Analytics />} />
                     <Route path="/settings" element={<Settings />} />
+                  </Route>
+
+                  {/* Public Blog Routes */}
+                  <Route element={<PublicLayout />}>
+                    <Route path="/blog" element={
+                      <FeatureErrorBoundary featureName="Blog Public">
+                        <BlogHome />
+                      </FeatureErrorBoundary>
+                    } />
+                    <Route path="/blog/post/:slug" element={
+                      <FeatureErrorBoundary featureName="Blog Post">
+                        <BlogPostView />
+                      </FeatureErrorBoundary>
+                    } />
                   </Route>
                 </Routes>
               </AnimatePresence>

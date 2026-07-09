@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import type { TimelineMonth as ITimelineMonth } from '../../hooks/useJourneyData';
+import type { TimelineMonthModel } from '../../features/journey/api/journey.types';
 import { TimelineCard } from './TimelineCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 interface TimelineMonthProps {
-  data: ITimelineMonth;
+  data: TimelineMonthModel;
   isExpanded: boolean;
   onToggle: () => void;
 }

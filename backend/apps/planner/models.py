@@ -21,6 +21,7 @@ class Task(SoftDeleteModel, OptimisticLockModel):
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    import_id = models.CharField(max_length=255, null=True, blank=True, unique=True, db_index=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
     goal = models.ForeignKey('goals.Goal', null=True, blank=True, on_delete=models.SET_NULL, related_name='tasks')
     

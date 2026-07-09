@@ -92,41 +92,6 @@ export interface Activity {
   timestamp: string; // ISO date
 }
 
-export interface JournalEntry {
-  id: string;
-  title: string;
-  content: string;
-  mood: string;
-  tags: string[];
-  date: string;
-  createdAt: string;
-  updatedAt: string;
-  gratitude?: string;
-  todaysWins?: string;
-  challengesFaced?: string;
-  whatILearned?: string;
-  tomorrowsPlan?: string;
-  favorite: boolean;
-  images?: string[];
-  wordCount: number;
-  readingTime: number;
-  characterCount: number;
-  // Legacy support fields
-  excerpt?: string;
-}
-
-export interface Memory {
-  id: string;
-  title: string;
-  description: string;
-  date: string; // ISO format
-  photos: string[];
-  tags: string[];
-  favorite: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface TimelineEvent {
   id: string;
   type: 'goal' | 'milestone' | 'project' | 'journal' | 'habit' | 'task' | 'memory';
@@ -142,7 +107,6 @@ export interface AppState {
   habits: Habit[];
   goals: Goal[];
   activities: Activity[];
-  journalEntries: JournalEntry[];
   
   // Actions
   addHabit: (habit: Omit<Habit, 'id' | 'createdAt' | 'updatedAt' | 'datesCompleted' | 'streak' | 'longestStreak' | 'currentCount' | 'completedToday'>) => void;
@@ -150,11 +114,6 @@ export interface AppState {
   deleteHabit: (habitId: string) => void;
   toggleHabit: (habitId: string) => void;
   resetDailyHabits: () => void;
-  
-  addJournalEntry: (entry: Omit<JournalEntry, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  updateJournalEntry: (entryId: string, updates: Partial<JournalEntry>) => void;
-  deleteJournalEntry: (entryId: string) => void;
-  toggleJournalFavorite: (entryId: string) => void;
   
   addGoal: (goal: Omit<Goal, 'id' | 'createdAt' | 'updatedAt' | 'progress'>) => void;
   updateGoal: (goalId: string, updates: Partial<Goal>) => void;

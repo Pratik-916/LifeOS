@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {  } from 'framer-motion';
-import { Calendar, AlignLeft, CheckSquare, Hash, Save, Check } from 'lucide-react';
-import type { JournalEntry } from '../types';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Calendar, AlignLeft, CheckSquare, Hash, Save, Check, WifiOff, AlertTriangle, RefreshCw } from 'lucide-react';
+import type { JournalEntryModel } from '../features/journal/api/journal.types';
 import { cn } from '../lib/utils';
 import { format, parseISO } from 'date-fns';
 import { useAppStore } from '../store/useAppStore';
+import { useUpdateJournalEntry, useCreateJournalEntry } from '../features/journal/hooks';
+import { useOfflineStatus } from '../hooks/useOfflineStatus';
 
 interface JournalEditorProps {
-  entry: JournalEntry;
-  onSave: (id: string, updates: Partial<JournalEntry>) => void;
+  entry: JournalEntryModel;
+  onDraftCreated?: (id: string) => void;
 }
 
 const MOODS = [
@@ -21,57 +22,169 @@ const MOODS = [
   { id: 'Inspired', emoji: '✨' },
 ];
 
-export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) => {
-  // Local state for instant typing
-  const [localEntry, setLocalEntry] = useState<JournalEntry>(entry);
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onDraftCreated }) => {
+  const [localEntry, setLocalEntry] = useState<JournalEntryModel>(entry);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'unsaved' | 'offline' | 'error' | 'conflict'>('idle');
+  const [conflictMessage, setConflictMessage] = useState<string | null>(null);
+  
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const saveQueueRef = useRef<Promise<any>>(Promise.resolve());
+  const isCreatingDraft = useRef(false);
+  
+  const isOffline = useOfflineStatus();
+  const { mutateAsync: updateEntryAsync } = useUpdateJournalEntry();
+  const { mutateAsync: createEntryAsync } = useCreateJournalEntry();
 
-  // Sync local state when active entry changes externally
+  // Load from local storage if available for this entry
   useEffect(() => {
-    setLocalEntry(entry);
-    setSaveStatus('idle');
-    if (timerRef.current) clearTimeout(timerRef.current);
-  }, [entry.id]);
-
-  // Handle local changes and trigger debounced save
-  const handleChange = (field: keyof JournalEntry, value: any) => {
-    const updated = { ...localEntry, [field]: value };
-    
-    // Auto-calculate word/char counts if content changes
-    if (field === 'content') {
-      const text = value as string;
-      const charCount = text.length;
-      const wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
-      const readingTime = Math.max(1, Math.ceil(wordCount / 200));
-      
-      updated.characterCount = charCount;
-      updated.wordCount = wordCount;
-      updated.readingTime = readingTime;
-      
-      // Update excerpt
-      updated.excerpt = text.slice(0, 100) + (text.length > 100 ? '...' : '');
+    if (entry.id !== 'draft') {
+      const pendingData = localStorage.getItem(`journal_draft_${entry.id}`);
+      if (pendingData) {
+        try {
+          const parsed = JSON.parse(pendingData);
+          setLocalEntry(parsed);
+          setSaveStatus('unsaved');
+        } catch (e) {
+          setLocalEntry(entry);
+          setSaveStatus('idle');
+        }
+      } else {
+        setLocalEntry(entry);
+        setSaveStatus('idle');
+      }
+    } else {
+      setLocalEntry(entry);
+      setSaveStatus('idle');
     }
+    setConflictMessage(null);
+    isCreatingDraft.current = false;
+    
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [entry.id]); // Intentionally not dependent on entry object fully to avoid overwriting pending edits on background refresh
 
-    setLocalEntry(updated);
+  // Monitor offline status
+  useEffect(() => {
+    if (isOffline && saveStatus !== 'idle' && saveStatus !== 'saved') {
+      setSaveStatus('offline');
+    } else if (!isOffline && saveStatus === 'offline') {
+      setSaveStatus('unsaved');
+      // trigger save
+      handleDebouncedSave(localEntry);
+    }
+  }, [isOffline]);
+
+  const persistToLocalStorage = (data: JournalEntryModel) => {
+    if (data.id !== 'draft') {
+      localStorage.setItem(`journal_draft_${data.id}`, JSON.stringify(data));
+    }
+  };
+
+  const clearLocalStorage = (id: string) => {
+    localStorage.removeItem(`journal_draft_${id}`);
+  };
+
+  const handleDebouncedSave = useCallback((latestData: JournalEntryModel) => {
+    if (isOffline) {
+      setSaveStatus('offline');
+      return;
+    }
+    if (conflictMessage) return; // Stop saving if in conflict
+
     setSaveStatus('saving');
+
+    saveQueueRef.current = saveQueueRef.current.then(async () => {
+      try {
+        if (latestData.id === 'draft') {
+          if (isCreatingDraft.current) return;
+          
+          // Only create draft if there's actual content
+          if (!latestData.title && !latestData.content && !latestData.todaysWins && !latestData.challenges && !latestData.gratitude && !latestData.lessonsLearned && !latestData.tomorrowFocus) {
+            setSaveStatus('idle');
+            return;
+          }
+          
+          isCreatingDraft.current = true;
+          const newEntry = await createEntryAsync({
+            title: latestData.title || 'Untitled Draft',
+            content: latestData.content,
+            mood: latestData.mood,
+            gratitude: latestData.gratitude,
+            todays_wins: latestData.todaysWins,
+            challenges: latestData.challenges,
+            lessons_learned: latestData.lessonsLearned,
+            tomorrow_focus: latestData.tomorrowFocus,
+            status: 'draft'
+          });
+          
+          isCreatingDraft.current = false;
+          setSaveStatus('saved');
+          if (onDraftCreated) onDraftCreated(newEntry.id);
+          
+        } else {
+          // Update existing
+          await updateEntryAsync({
+            id: latestData.id,
+            payload: {
+              title: latestData.title,
+              content: latestData.content,
+              mood: latestData.mood,
+              gratitude: latestData.gratitude,
+              todays_wins: latestData.todaysWins,
+              challenges: latestData.challenges,
+              lessons_learned: latestData.lessonsLearned,
+              tomorrow_focus: latestData.tomorrowFocus,
+              last_updated_at: latestData.lastUpdatedAt,
+            }
+          });
+          
+          clearLocalStorage(latestData.id);
+          setSaveStatus('saved');
+          setTimeout(() => {
+            setSaveStatus(prev => prev === 'saved' ? 'idle' : prev);
+          }, 2000);
+        }
+      } catch (error: any) {
+        if (error?.response?.status === 400 && error?.response?.data?.non_field_errors) {
+          setConflictMessage(error.response.data.non_field_errors[0] || 'Conflict detected');
+          setSaveStatus('conflict');
+        } else {
+          setSaveStatus('error');
+        }
+      }
+    });
+  }, [isOffline, conflictMessage, createEntryAsync, updateEntryAsync, onDraftCreated]);
+
+  const handleChange = (field: keyof JournalEntryModel, value: any) => {
+    const updated = { ...localEntry, [field]: value };
+    setLocalEntry(updated);
+    
+    if (updated.id !== 'draft') {
+      persistToLocalStorage(updated);
+    }
+    
+    setSaveStatus('unsaved');
 
     if (timerRef.current) clearTimeout(timerRef.current);
     
     const settings = useAppStore.getState().settings;
     if (settings.autosave) {
       timerRef.current = setTimeout(() => {
-        onSave(localEntry.id, updated);
-        setSaveStatus('saved');
-        
-        // Reset saved indicator after 2 seconds
-        setTimeout(() => setSaveStatus('idle'), 2000);
-      }, 1000);
+        handleDebouncedSave(updated);
+      }, 1000); // 1s debounce
     }
   };
 
-  const displayDate = localEntry.date || new Date().toISOString();
-  let formattedDate = localEntry.date;
+  const handleReload = () => {
+    clearLocalStorage(entry.id);
+    setLocalEntry(entry);
+    setConflictMessage(null);
+    setSaveStatus('idle');
+  };
+
+  const displayDate = entry.createdAt || new Date().toISOString();
+  let formattedDate = entry.createdAt;
   try {
     formattedDate = format(parseISO(displayDate), 'MMMM do, yyyy');
   } catch (e) {
@@ -79,28 +192,49 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) =
   }
 
   return (
-    <div className="flex-1 bg-surfaceHighlight rounded-3xl border border-border/20 p-8 lg:p-12 relative overflow-y-auto no-scrollbar">
+    <div className="flex-1 bg-surfaceHighlight rounded-3xl border border-border/20 p-8 lg:p-12 relative overflow-y-auto no-scrollbar flex flex-col">
       {/* Subtle background decoration */}
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
       
-      <div className="max-w-2xl mx-auto space-y-10 relative z-10">
+      <div className="max-w-2xl mx-auto space-y-10 relative z-10 w-full flex-1">
         
+        {conflictMessage && (
+          <div className="bg-danger/10 border border-danger/20 text-danger p-4 rounded-xl flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <h4 className="font-semibold text-sm">Version Conflict</h4>
+              <p className="text-sm mt-1">{conflictMessage}</p>
+            </div>
+            <button 
+              onClick={handleReload}
+              className="px-3 py-1.5 bg-danger text-white text-xs font-medium rounded-lg hover:bg-danger/90 transition-colors flex items-center gap-2"
+            >
+              <RefreshCw className="w-3 h-3" /> Reload
+            </button>
+          </div>
+        )}
+
         {/* Header & Save Indicator */}
         <div className="space-y-4">
-          <div className="flex justify-between items-start">
+          <div className="flex justify-between items-start gap-4">
             <input 
               type="text" 
               placeholder="Untitled Entry"
-              value={localEntry.title}
+              value={localEntry.title || ''}
               onChange={(e) => handleChange('title', e.target.value)}
-              className="w-full bg-transparent text-4xl md:text-5xl font-bold tracking-tight text-primary placeholder:text-secondary/50 focus:outline-none"
+              disabled={!!conflictMessage}
+              className="w-full bg-transparent text-4xl md:text-5xl font-bold tracking-tight text-primary placeholder:text-secondary/50 focus:outline-none disabled:opacity-50"
             />
             
             {/* Save Status Indicator */}
-            <div className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-surfaceHighlight text-secondary">
-              {saveStatus === 'saving' && <><Save className="w-3 h-3 animate-pulse" /> Saving...</>}
+            <div className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full bg-surface text-secondary border border-border/10">
+              {saveStatus === 'offline' && <><WifiOff className="w-3 h-3 text-warning" /> Offline</>}
+              {saveStatus === 'saving' && <><Save className="w-3 h-3 animate-pulse text-accent" /> Saving...</>}
               {saveStatus === 'saved' && <><Check className="w-3 h-3 text-success" /> Saved</>}
-              {saveStatus === 'idle' && <span className="opacity-50">Saved locally</span>}
+              {saveStatus === 'idle' && <span className="opacity-60">Idle</span>}
+              {saveStatus === 'unsaved' && <span className="text-warning">Unsaved Changes</span>}
+              {saveStatus === 'error' && <span className="text-danger">Sync Error</span>}
+              {saveStatus === 'conflict' && <span className="text-danger font-bold">Conflict</span>}
             </div>
           </div>
           
@@ -112,10 +246,17 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) =
             <span>•</span>
             <div className="flex items-center gap-1.5" title="Word Count">
               <AlignLeft className="w-4 h-4" />
-              <span>{localEntry.wordCount || 0} words</span>
+              <span>{entry.wordCount || 0} words</span>
             </div>
             <span>•</span>
-            <span>{localEntry.readingTime || 1} min read</span>
+            <span>{entry.readingTime || 1} min read</span>
+            
+            {entry.aiProcessed && (
+              <>
+                <span>•</span>
+                <span className="text-accent">AI Processed</span>
+              </>
+            )}
           </div>
         </div>
 
@@ -129,8 +270,9 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) =
               <button
                 key={mood.id}
                 onClick={() => handleChange('mood', mood.id)}
+                disabled={!!conflictMessage}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-full border transition-all text-sm",
+                  "flex items-center gap-2 px-4 py-2 rounded-full border transition-all text-sm disabled:opacity-50",
                   localEntry.mood === mood.id 
                     ? "bg-accent/20 border-accent/40 text-accent" 
                     : "bg-transparent border-border/20 text-secondary hover:bg-surfaceHighlight hover:text-primary"
@@ -152,7 +294,8 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) =
             <textarea 
               value={localEntry.todaysWins || ''}
               onChange={(e) => handleChange('todaysWins', e.target.value)}
-              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-success/40 text-sm leading-relaxed"
+              disabled={!!conflictMessage}
+              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-success/40 text-sm leading-relaxed disabled:opacity-50"
               placeholder="What went well today? Big or small..."
             />
           </div>
@@ -162,9 +305,10 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) =
               <Hash className="w-4 h-4" /> What I Learned
             </h3>
             <textarea 
-              value={localEntry.whatILearned || ''}
-              onChange={(e) => handleChange('whatILearned', e.target.value)}
-              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-orange-500/40 text-sm leading-relaxed"
+              value={localEntry.lessonsLearned || ''}
+              onChange={(e) => handleChange('lessonsLearned', e.target.value)}
+              disabled={!!conflictMessage}
+              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-orange-500/40 text-sm leading-relaxed disabled:opacity-50"
               placeholder="Insights, lessons, or new knowledge..."
             />
           </div>
@@ -174,9 +318,10 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) =
               <Hash className="w-4 h-4" /> Challenges
             </h3>
             <textarea 
-              value={localEntry.challengesFaced || ''}
-              onChange={(e) => handleChange('challengesFaced', e.target.value)}
-              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-danger/40 text-sm leading-relaxed"
+              value={localEntry.challenges || ''}
+              onChange={(e) => handleChange('challenges', e.target.value)}
+              disabled={!!conflictMessage}
+              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-danger/40 text-sm leading-relaxed disabled:opacity-50"
               placeholder="What obstacles did you face?"
             />
           </div>
@@ -188,23 +333,49 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onSave }) =
             <textarea 
               value={localEntry.gratitude || ''}
               onChange={(e) => handleChange('gratitude', e.target.value)}
-              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-purple-500/40 text-sm leading-relaxed"
+              disabled={!!conflictMessage}
+              className="w-full h-24 bg-transparent resize-none focus:outline-none text-primary placeholder:text-purple-500/40 text-sm leading-relaxed disabled:opacity-50"
               placeholder="I am grateful for..."
+            />
+          </div>
+          
+          <div className="space-y-3 p-5 rounded-2xl dark:bg-blue-500/10 bg-blue-500/5 border dark:border-blue-500/20 border-blue-500/10 transition-colors focus-within:border-blue-500/30 md:col-span-2">
+            <h3 className="font-semibold text-blue-500 flex items-center gap-2">
+              <Hash className="w-4 h-4" /> Tomorrow's Focus
+            </h3>
+            <textarea 
+              value={localEntry.tomorrowFocus || ''}
+              onChange={(e) => handleChange('tomorrowFocus', e.target.value)}
+              disabled={!!conflictMessage}
+              className="w-full h-20 bg-transparent resize-none focus:outline-none text-primary placeholder:text-blue-500/40 text-sm leading-relaxed disabled:opacity-50"
+              placeholder="What is your main focus for tomorrow?"
             />
           </div>
         </div>
 
         {/* Main Freeform Editor */}
-        <div className="pt-6 border-t border-border/20 space-y-4">
+        <div className="pt-6 border-t border-border/20 space-y-4 flex-1 flex flex-col">
           <textarea
-            value={localEntry.content}
+            value={localEntry.content || ''}
             onChange={(e) => handleChange('content', e.target.value)}
-            className="w-full min-h-[400px] bg-transparent resize-none focus:outline-none text-primary/90 placeholder:text-secondary/30 text-lg leading-relaxed font-serif"
+            disabled={!!conflictMessage}
+            className="w-full flex-1 min-h-[400px] bg-transparent resize-none focus:outline-none text-primary/90 placeholder:text-secondary/30 text-lg leading-relaxed font-serif disabled:opacity-50"
             placeholder="Write your thoughts here... Start typing to focus."
           />
         </div>
+        
+        {/* AI Metadata Display (Read-Only) */}
+        {entry.aiSummary && (
+          <div className="pt-6 border-t border-border/20 space-y-4">
+             <h3 className="text-sm font-medium text-secondary">AI Summary</h3>
+             <p className="text-sm text-secondary/80 bg-surfaceHighlight p-4 rounded-xl leading-relaxed italic border border-border/10">
+               {entry.aiSummary}
+             </p>
+          </div>
+        )}
 
       </div>
     </div>
   );
 };
+

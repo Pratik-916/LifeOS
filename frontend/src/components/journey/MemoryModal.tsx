@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, AlignLeft, Tag, Image as ImageIcon } from 'lucide-react';
-import type { Memory } from '../../types';
+import type { MemoryModel, CreateMemoryPayload, UpdateMemoryPayload } from '../../features/journey/api/journey.types';
 import { Button } from '../Button';
 import { Card } from '../Card';
 import { format } from 'date-fns';
+import type { Variants } from 'framer-motion';
 
 interface MemoryModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (memory: Omit<Memory, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  memory?: Memory | null;
+  onSave: (memory: any) => void;
+  memory?: MemoryModel | null;
 }
-
-import type { Variants } from 'framer-motion';
 
 const overlayVariants: Variants = {
   hidden: { opacity: 0 },
@@ -50,14 +49,26 @@ export const MemoryModal: React.FC<MemoryModalProps> = ({ isOpen, onClose, onSav
     e.preventDefault();
     if (!title.trim() || !description.trim() || !date) return;
 
-    onSave({
-      title,
-      description,
-      date: new Date(date).toISOString(),
-      tags: tags.split(',').map(t => t.trim()).filter(Boolean),
-      photos: memory?.photos || [],
-      favorite: memory?.favorite || false
-    });
+    if (memory) {
+      onSave({
+        id: memory.id,
+        payload: {
+          title,
+          description,
+          date: new Date(date).toISOString(),
+          tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+          favorite: memory.favorite
+        } as UpdateMemoryPayload
+      });
+    } else {
+      onSave({
+        title,
+        description,
+        date: new Date(date).toISOString(),
+        tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+        favorite: false
+      } as CreateMemoryPayload);
+    }
     onClose();
   };
 

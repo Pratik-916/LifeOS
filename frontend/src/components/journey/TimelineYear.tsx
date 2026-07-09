@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import type { TimelineYear as ITimelineYear } from '../../hooks/useJourneyData';
+import type { TimelineYearModel } from '../../features/journey/api/journey.types';
 import { TimelineMonth } from './TimelineMonth';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 interface TimelineYearProps {
-  data: ITimelineYear;
+  data: TimelineYearModel;
   isExpanded: boolean;
   onToggle: () => void;
 }

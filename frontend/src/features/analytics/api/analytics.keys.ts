@@ -1,0 +1,16 @@
+export const analyticsKeys = {
+  all: ['analytics'] as const,
+  dashboard: (filters?: Record<string, any>) => [...analyticsKeys.all, 'dashboard', filters] as const,
+  overview: (filters?: Record<string, any>) => [...analyticsKeys.all, 'overview', filters] as const,
+  planner: (filters?: Record<string, any>) => [...analyticsKeys.all, 'planner', filters] as const,
+  goals: (filters?: Record<string, any>) => [...analyticsKeys.all, 'goals', filters] as const,
+  habits: (filters?: Record<string, any>) => [...analyticsKeys.all, 'habits', filters] as const,
+  journal: (filters?: Record<string, any>) => [...analyticsKeys.all, 'journal', filters] as const,
+  journey: (filters?: Record<string, any>) => [...analyticsKeys.all, 'journey', filters] as const,
+  productivity: (filters?: Record<string, any>) => [...analyticsKeys.all, 'productivity', filters] as const,
+  heatmap: (filters?: Record<string, any>) => [...analyticsKeys.all, 'heatmap', filters] as const,
+  trends: (filters?: Record<string, any>) => [...analyticsKeys.all, 'trends', filters] as const,
+  weekly: (filters?: Record<string, any>) => [...analyticsKeys.all, 'weekly', filters] as const,
+  monthly: (filters?: Record<string, any>) => [...analyticsKeys.all, 'monthly', filters] as const,
+  yearly: (filters?: Record<string, any>) => [...analyticsKeys.all, 'yearly', filters] as const,
+};

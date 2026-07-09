@@ -3,19 +3,10 @@ import { Card } from '../Card';
 import { cn } from '../../lib/utils';
 import { Zap, Target, BookOpen, CheckCircle, TrendingUp, Activity, Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
+import type { DashboardSummaryModel } from '../../features/analytics/api/analytics.types';
 
 interface StatisticsGridProps {
-  overview: {
-    productivityScore: number;
-    currentStreak: number;
-    longestStreak: number;
-    totalTasks: number;
-    completedTasks: number;
-    activeGoals: number;
-    completedGoals: number;
-    journalEntries: number;
-    totalActivities: number;
-  };
+  overview: DashboardSummaryModel;
 }
 
 import type { Variants } from 'framer-motion';
@@ -29,11 +20,11 @@ export const StatisticsGrid: React.FC<StatisticsGridProps> = ({ overview }) => {
   const stats = [
     { id: 'prod', title: 'Productivity', value: `${overview.productivityScore}`, icon: Zap, color: 'text-yellow-600 dark:text-yellow-500' },
     { id: 'tasks', title: 'Tasks Done', value: overview.completedTasks, icon: CheckCircle, color: 'text-success' },
-    { id: 'goals', title: 'Active Goals', value: overview.activeGoals, icon: Target, color: 'text-accent' },
-    { id: 'journal', title: 'Journal Entries', value: overview.journalEntries, icon: BookOpen, color: 'text-purple-600 dark:text-purple-500' },
-    { id: 'streak', title: 'Current Streak', value: `${overview.currentStreak}d`, icon: Flame, color: 'text-orange-600 dark:text-orange-500' },
-    { id: 'longest', title: 'Best Streak', value: `${overview.longestStreak}d`, icon: Trophy, color: 'text-amber-600 dark:text-amber-400' },
-    { id: 'activity', title: 'Total Activities', value: overview.totalActivities, icon: Activity, color: 'text-blue-600 dark:text-blue-400' },
+    { id: 'goals', title: 'Active Goals', value: overview.currentGoals, icon: Target, color: 'text-accent' },
+    { id: 'journal', title: 'Journal Entries', value: overview.journalEntriesThisWeek, icon: BookOpen, color: 'text-purple-600 dark:text-purple-500' },
+    { id: 'streak', title: 'Current Streak', value: `${overview.currentHabitStreak}d`, icon: Flame, color: 'text-orange-600 dark:text-orange-500' },
+    { id: 'longest', title: 'Best Streak', value: `${overview.longestHabitStreak}d`, icon: Trophy, color: 'text-amber-600 dark:text-amber-400' },
+    { id: 'activity', title: 'Monthly Journey', value: overview.journeyEventsThisMonth, icon: Activity, color: 'text-blue-600 dark:text-blue-400' },
     { id: 'goals_done', title: 'Goals Completed', value: overview.completedGoals, icon: TrendingUp, color: 'text-emerald-600 dark:text-emerald-400' },
   ];
 

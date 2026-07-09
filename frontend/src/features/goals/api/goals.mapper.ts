@@ -10,6 +10,23 @@ export const mapMilestoneFromDTO = (dto: MilestoneDTO): Milestone => ({
   dueDate: dto.due_date,
 });
 
+export const mapPaginatedGoalsFromDTO = (dto: any) => {
+  if (Array.isArray(dto)) {
+    return {
+      count: dto.length,
+      next: null,
+      previous: null,
+      results: dto.map(mapGoalFromDTO)
+    };
+  }
+  return {
+    count: dto.count || 0,
+    next: dto.next || null,
+    previous: dto.previous || null,
+    results: (dto.results || []).map(mapGoalFromDTO)
+  };
+};
+
 export const mapGoalFromDTO = (dto: GoalDTO): Goal => ({
   id: dto.id,
   title: dto.title,

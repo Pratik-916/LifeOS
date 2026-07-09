@@ -1,0 +1,58 @@
+[
+  {
+    "import_id": "goal-python",
+    "title": "Learn Python",
+    "status": "completed",
+    "priority": "high",
+    "category": "education",
+    "progress": 100
+  },
+  {
+    "import_id": "goal-django",
+    "title": "Learn Django",
+    "status": "completed",
+    "priority": "high",
+    "category": "education",
+    "progress": 100
+  },
+  {
+    "import_id": "goal-react",
+    "title": "Learn React",
+    "status": "completed",
+    "priority": "high",
+    "category": "education",
+    "progress": 100
+  },
+  {
+    "import_id": "goal-portfolio",
+    "title": "Complete Portfolio",
+    "status": "completed",
+    "priority": "high",
+    "category": "career",
+    "progress": 100
+  },
+  {
+    "import_id": "goal-notenest",
+    "title": "Build Notenest",
+    "status": "completed",
+    "priority": "high",
+    "category": "project",
+    "progress": 100
+  },
+  {
+    "import_id": "goal-lifeos",
+    "title": "Build LifeOS",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "project",
+    "progress": 70
+  },
+  {
+    "import_id": "goal-gym",
+    "title": "Gym weight gain",
+    "status": "in_progress",
+    "priority": "high",
+    "category": "health",
+    "progress": 50
+  }
+]

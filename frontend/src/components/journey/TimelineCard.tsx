@@ -1,12 +1,12 @@
 import React from 'react';
-import type { TimelineEvent } from '../../types';
+import type { TimelineEventModel } from '../../features/journey/api/journey.types';
 import { motion } from 'framer-motion';
 import { Target, Trophy, BookOpen, Flame, CheckCircle2, Image as ImageIcon, Heart } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { format, parseISO } from 'date-fns';
 
 interface TimelineCardProps {
-  event: TimelineEvent;
+  event: TimelineEventModel;
   index: number;
 }
 
@@ -35,12 +35,13 @@ const getEventColor = (type: string) => {
 };
 
 export const TimelineCard: React.FC<TimelineCardProps> = ({ event, index }) => {
-  const Icon = getEventIcon(event.type);
-  const colorClass = getEventColor(event.type);
+  const type = event.entityType || event.type || 'memory';
+  const Icon = getEventIcon(type);
+  const colorClass = getEventColor(type);
   
-  let formattedDate = event.date;
+  let formattedDate = event.timestamp;
   try {
-    formattedDate = format(parseISO(event.date), 'MMM do');
+    formattedDate = format(parseISO(event.timestamp), 'MMM do');
   } catch (e) {}
 
   return (
@@ -75,7 +76,7 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({ event, index }) => {
         
         {event.description && (
           <p className="text-sm text-secondary/90 mt-3 leading-relaxed">
-            {event.type === 'journal' ? `"${event.description}"` : event.description}
+            {type === 'journal' ? `"${event.description}"` : event.description}
           </p>
         )}
 

@@ -1,0 +1,30 @@
+[
+  {
+    "import_id": "habit-gym",
+    "title": "Gym",
+    "frequency": "daily",
+    "status": "active",
+    "start_date": "2024-01-01"
+  },
+  {
+    "import_id": "habit-coding",
+    "title": "Coding",
+    "frequency": "daily",
+    "status": "active",
+    "start_date": "2024-01-01"
+  },
+  {
+    "import_id": "habit-reading",
+    "title": "Reading",
+    "frequency": "daily",
+    "status": "active",
+    "start_date": "2024-01-01"
+  },
+  {
+    "import_id": "habit-coffee",
+    "title": "Black coffee",
+    "frequency": "daily",
+    "status": "active",
+    "start_date": "2024-01-01"
+  }
+]

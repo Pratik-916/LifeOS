@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { ActivitySlice } from './slices/activitySlice';
-import { createActivitySlice } from './slices/activitySlice';
 import type { SettingsSlice } from './slices/settingsSlice';
 import { createSettingsSlice } from './slices/settingsSlice';
 
@@ -12,13 +10,12 @@ export interface GlobalSlice {
   clearLocalData: () => void;
 }
 
-export type AppState = ActivitySlice & SettingsSlice & GlobalSlice;
+export type AppState = SettingsSlice & GlobalSlice;
 
 export const useAppStore = create<AppState>()(
   persist(
     (set, get, api) => ({
 
-      ...createActivitySlice(set, get, api),
       ...createSettingsSlice(set, get, api),
       
       importData: (data) => set((state) => ({ ...state, ...data })),
@@ -29,7 +26,7 @@ export const useAppStore = create<AppState>()(
       },
       
       clearLocalData: () => set((state) => ({
-        activities: [],
+        // Clear any specific client-side data if needed
       }))
     }),
     {

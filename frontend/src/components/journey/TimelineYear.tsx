@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { TimelineYearModel } from '../../features/journey/api/journey.types';
+import type { TimelineYearModel, TimelineEventModel } from '../../features/journey/api/journey.types';
 import { TimelineMonth } from './TimelineMonth';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
@@ -8,9 +8,10 @@ interface TimelineYearProps {
   data: TimelineYearModel;
   isExpanded: boolean;
   onToggle: () => void;
+  onEditMemory?: (event: TimelineEventModel) => void;
 }
 
-export const TimelineYear: React.FC<TimelineYearProps> = ({ data, isExpanded, onToggle }) => {
+export const TimelineYear: React.FC<TimelineYearProps> = ({ data, isExpanded, onToggle, onEditMemory }) => {
   const [expandedMonths, setExpandedMonths] = useState<Record<string, boolean>>({});
 
   const toggleMonth = (month: string) => {
@@ -66,6 +67,7 @@ export const TimelineYear: React.FC<TimelineYearProps> = ({ data, isExpanded, on
                   data={month}
                   isExpanded={expandedMonths[month.month] || false}
                   onToggle={() => toggleMonth(month.month)}
+                  onEditMemory={onEditMemory}
                 />
               ))}
             </div>

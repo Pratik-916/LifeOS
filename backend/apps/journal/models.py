@@ -9,13 +9,13 @@ User = get_user_model()
 
 class JournalEntry(SoftDeleteModel, OptimisticLockModel):
     MOOD_CHOICES = (
-        ('amazing', 'Amazing'),
-        ('good', 'Good'),
+        ('happy', 'Happy'),
         ('neutral', 'Neutral'),
         ('sad', 'Sad'),
-        ('anxious', 'Anxious'),
-        ('angry', 'Angry'),
-        ('exhausted', 'Exhausted'),
+        ('excited', 'Excited'),
+        ('tired', 'Tired'),
+        ('motivated', 'Motivated'),
+        ('inspired', 'Inspired'),
     )
     
     STATUS_CHOICES = (
@@ -35,7 +35,7 @@ class JournalEntry(SoftDeleteModel, OptimisticLockModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='journal_entries')
     
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     summary = models.TextField(blank=True)
     
     mood = models.CharField(max_length=20, choices=MOOD_CHOICES, blank=True)

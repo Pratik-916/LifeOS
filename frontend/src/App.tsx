@@ -44,6 +44,7 @@ import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { useAppStore } from './store/useAppStore';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { FeatureErrorBoundary } from './components/ui/FeatureErrorBoundary';
+import { Toaster } from './components/ui/Toaster';
 import { AuthProvider } from './contexts/AuthContext';
 import { AuthLayout } from './components/layouts/AuthLayout';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -194,6 +195,7 @@ function App() {
         </AuthProvider>
       </MotionConfig>
       <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
       </QueryClientProvider>
     </ErrorBoundary>
   );

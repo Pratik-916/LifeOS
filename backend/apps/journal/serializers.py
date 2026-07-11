@@ -12,7 +12,11 @@ class JournalImageSerializer(serializers.ModelSerializer):
 class JournalEntrySerializer(serializers.ModelSerializer):
     images = JournalImageSerializer(many=True, required=False)
     
-    tags = serializers.PrimaryKeyRelatedField(many=True, queryset=Tag.objects.all(), required=False)
+    tags = serializers.ListField(
+        child=serializers.CharField(max_length=50), 
+        required=False,
+        write_only=True
+    )
     tags_detail = TagSerializer(source='tags', many=True, read_only=True)
     
     last_updated_at = serializers.DateTimeField(required=False, write_only=True)
@@ -51,7 +55,11 @@ class JournalEntrySerializer(serializers.ModelSerializer):
         entry = JournalEntry.objects.create(**validated_data)
         
         if tags_data:
-            entry.tags.set(tags_data)
+            tag_objs = []
+            for t_name in tags_data:
+                tag, _ = Tag.objects.get_or_create(name=t_name.strip())
+                tag_objs.append(tag)
+            entry.tags.set(tag_objs)
             
         for index, image_data in enumerate(images_data):
             if 'order' not in image_data:
@@ -68,7 +76,11 @@ class JournalEntrySerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         
         if tags_data is not None:
-            instance.tags.set(tags_data)
+            tag_objs = []
+            for t_name in tags_data:
+                tag, _ = Tag.objects.get_or_create(name=t_name.strip())
+                tag_objs.append(tag)
+            instance.tags.set(tag_objs)
 
         if images_data is not None:
             # Recreate for simplicity, real app might sync IDs for images
@@ -80,3 +92,8 @@ class JournalEntrySerializer(serializers.ModelSerializer):
                 
         instance.save()
         return instance
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['tags'] = [tag.name for tag in instance.tags.all()]
+        return ret

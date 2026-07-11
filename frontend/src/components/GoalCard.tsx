@@ -111,15 +111,14 @@ export const GoalCard: React.FC<GoalCardProps> = ({ goal, onEdit, onDelete }) =>
             </div>
             <div className="flex items-center gap-4 text-xs font-medium text-secondary">
               <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {formattedDate}</span>
-              <span className={cn(
-                "px-2 py-0.5 rounded text-[10px] uppercase font-bold",
-                goal.status === 'Completed' ? 'bg-success/20 text-success' :
-                goal.status === 'In Progress' ? 'bg-accent/20 text-accent' :
-                goal.status === 'Archived' ? 'bg-secondary/20 text-secondary' :
-                'bg-surfaceHighlight text-primary'
+              <div className={cn("px-3 py-1 rounded-full text-xs font-medium border", 
+                goal.status === 'completed' ? "bg-success/10 text-success border-success/20" :
+                goal.status === 'in_progress' ? "bg-accent/10 text-accent border-accent/20" :
+                goal.status === 'archived' ? "bg-secondary/10 text-secondary border-secondary/20" :
+                "bg-surface text-secondary border-border/20"
               )}>
                 {goal.status}
-              </span>
+              </div>
             </div>
           </div>
           
@@ -174,8 +173,10 @@ export const GoalCard: React.FC<GoalCardProps> = ({ goal, onEdit, onDelete }) =>
               
               {(!goal.milestones || goal.milestones.length === 0) && (
                 <div className="mt-6">
-                  <label className="text-xs font-semibold text-secondary uppercase tracking-wider mb-2 block">Manual Progress ({goal.progress || 0}%)</label>
+                  <label htmlFor={`progress-${goal.id}`} className="text-xs font-semibold text-secondary uppercase tracking-wider mb-2 block">Manual Progress ({goal.progress || 0}%)</label>
                   <input 
+                    id={`progress-${goal.id}`}
+                    name={`progress-${goal.id}`}
                     type="range" 
                     min="0" max="100" 
                     value={goal.progress || 0} 

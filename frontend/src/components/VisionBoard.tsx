@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const MOCK_PHOTOS = [
-  { id: '1', title: 'Health', url: 'https://images.unsplash.com/photo-1526506159807-1c67358718f3?w=500&auto=format&fit=crop&q=60' },
-  { id: '2', title: 'Focus', url: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500&auto=format&fit=crop&q=60' },
-  { id: '3', title: 'Travel', url: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&auto=format&fit=crop&q=60' },
-  { id: '4', title: 'Growth', url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&auto=format&fit=crop&q=60' }
+  { id: '1', title: 'Health', url: 'https://picsum.photos/seed/health/500/400' },
+  { id: '2', title: 'Focus', url: 'https://picsum.photos/seed/focus/500/400' },
+  { id: '3', title: 'Travel', url: 'https://picsum.photos/seed/travel/500/400' },
+  { id: '4', title: 'Growth', url: 'https://picsum.photos/seed/growth/500/400' }
 ];
 
 export const VisionBoard: React.FC = () => {

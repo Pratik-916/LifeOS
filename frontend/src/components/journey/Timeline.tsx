@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import type { TimelineYearModel } from '../../features/journey/api/journey.types';
+import type { TimelineYearModel, TimelineEventModel } from '../../features/journey/api/journey.types';
 import { TimelineYear } from './TimelineYear';
 import { EmptyState } from '../ui/EmptyState';
 import { Map } from 'lucide-react';
 
 interface TimelineProps {
   timeline: TimelineYearModel[];
+  onEditMemory?: (event: TimelineEventModel) => void;
 }
 
-export const Timeline: React.FC<TimelineProps> = ({ timeline }) => {
+export const Timeline: React.FC<TimelineProps> = ({ timeline, onEditMemory }) => {
   const [expandedYear, setExpandedYear] = useState<string | null>(null);
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export const Timeline: React.FC<TimelineProps> = ({ timeline }) => {
           data={yearData}
           isExpanded={expandedYear === yearData.year}
           onToggle={() => toggleYear(yearData.year)}
+          onEditMemory={onEditMemory}
         />
       ))}
     </div>

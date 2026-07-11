@@ -47,6 +47,16 @@ class GoalViewSet(viewsets.ModelViewSet):
             return Response({'status': 'goal restored'})
         return Response({'status': 'goal was not deleted'}, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=True, methods=['post'])
+    def favorite(self, request, pk=None):
+        """
+        Toggles the favorite status of a goal.
+        """
+        goal = self.get_object()
+        goal.is_favorite = not goal.is_favorite
+        goal.save()
+        return Response({'status': 'favorite toggled', 'is_favorite': goal.is_favorite})
+
     @action(detail=False, methods=['post'], url_path='bulk-complete')
     def bulk_complete(self, request):
         ids = request.data.get('ids', [])

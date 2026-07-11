@@ -13,6 +13,7 @@ import { timeBlocks } from '../../../data/planner';
 import { useAppStore } from '../../../store/useAppStore';
 import { TaskCard } from '../components/TaskCard';
 import { TaskModal } from '../components/TaskModal';
+import { PlannerTimers } from '../components/PlannerTimers';
 import { EmptyState } from '../../../components/ui/EmptyState';
 import { PageHeader } from '../../../components/ui/PageHeader';
 import { SearchInput } from '../../../components/ui/SearchInput';
@@ -47,10 +48,6 @@ export default function Planner() {
   const { settings } = useAppStore();
   const isOffline = useOfflineStatus();
   
-  // Timer State
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [timerMinutes, setTimerMinutes] = useState(25);
-
   // URL State for Filters
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
@@ -59,6 +56,7 @@ export default function Planner() {
   const statusFilter = searchParams.get('status') || 'all';
   const priorityFilter = searchParams.get('priority') || 'all';
   const categoryFilter = searchParams.get('category') || 'all';
+  const dateFilter = searchParams.get('date') || 'all';
   const sortBy = searchParams.get('sort') || 'dueDateAsc';
   const page = parseInt(searchParams.get('page') || '1', 10);
 
@@ -77,6 +75,7 @@ export default function Planner() {
   const setStatusFilter = (val: string) => updateSearchParam('status', val);
   const setPriorityFilter = (val: string) => updateSearchParam('priority', val);
   const setCategoryFilter = (val: string) => updateSearchParam('category', val);
+  const setDateFilter = (val: string) => updateSearchParam('date', val);
   const setSortBy = (val: string) => updateSearchParam('sort', val);
 
   // Backend Integration
@@ -84,6 +83,7 @@ export default function Planner() {
   if (statusFilter !== 'all') filters.status = statusFilter as any;
   if (priorityFilter !== 'all') filters.priority = priorityFilter as any;
   if (categoryFilter !== 'all') filters.category = categoryFilter as any;
+  if (dateFilter === 'today') (filters as any).due_date = format(new Date(), 'yyyy-MM-dd');
   if (searchQuery) filters.search = searchQuery;
 
   if (sortBy === 'dueDateAsc') { filters.sort_by = 'due_date'; filters.sort_order = 'asc'; }
@@ -262,6 +262,13 @@ export default function Planner() {
                         { label: 'Medium', value: 'medium' },
                         { label: 'Low', value: 'low' }
                       ]
+                    },
+                    {
+                      id: 'date', label: 'Date', value: dateFilter, onChange: setDateFilter,
+                      options: [
+                        { label: 'All Time', value: 'all' },
+                        { label: 'Today', value: 'today' }
+                      ]
                     }
                   ]}
                   sortBy={sortBy}
@@ -296,7 +303,13 @@ export default function Planner() {
                         />
                       </motion.div>
                     ) : (
-                      <>
+                      <motion.div 
+                        key="task-list"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="w-full space-y-3"
+                      >
                         {tasks.map(task => (
                           <TaskCard
                             key={task.id}
@@ -317,7 +330,7 @@ export default function Planner() {
                             />
                           </div>
                         )}
-                      </>
+                      </motion.div>
                     )}
                   </AnimatePresence>
                 )}
@@ -374,22 +387,7 @@ export default function Planner() {
 
             {/* Pomodoro Timer */}
             <motion.div variants={itemVariants}>
-              <Card className="p-6 flex flex-col items-center justify-center text-center h-full bg-gradient-to-b from-surfaceHighlight to-surfaceHighlight/10 border-border/20">
-                <h3 className="text-sm font-semibold text-secondary uppercase tracking-wider mb-2 flex items-center gap-2">
-                  <Clock className="w-4 h-4" /> Focus
-                </h3>
-                <div className="text-5xl font-bold tracking-tighter text-primary mb-4 font-mono">
-                  {timerMinutes}:00
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="primary" size="sm" onClick={() => setIsTimerRunning(!isTimerRunning)} className="w-10 p-0">
-                    {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-1" />}
-                  </Button>
-                  <Button variant="secondary" size="sm" className="w-10 p-0">
-                    <RotateCcw className="w-4 h-4" />
-                  </Button>
-                </div>
-              </Card>
+              <PlannerTimers />
             </motion.div>
           </div>
 
@@ -440,7 +438,12 @@ export default function Planner() {
                   <Clock className="w-5 h-5 text-orange-400" />
                   Schedule
                 </h2>
-                <Button variant="ghost" size="sm" className="h-8 text-xs">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-8 text-xs"
+                  onClick={() => alert("Time blocks are automatically generated. Custom block support is coming soon!")}
+                >
                   <Plus className="w-4 h-4 mr-1" /> Add Block
                 </Button>
               </div>

@@ -10,7 +10,10 @@ export const GoalSearch: React.FC<GoalSearchProps> = ({ searchQuery, setSearchQu
   return (
     <div className="relative flex-1 md:max-w-xs">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary/70" />
+      <label htmlFor="goal-search" className="sr-only">Search Goals</label>
       <input
+        id="goal-search"
+        name="goal-search"
         type="text"
         placeholder="Search goals..."
         value={searchQuery}

@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { 
@@ -9,8 +9,9 @@ import {
 import { cn } from '../lib/utils';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
-import { useAppStore } from '../store/useAppStore';
 import { useAuth } from '../contexts/AuthContext';
+import { useAppStore } from '../store/useAppStore';
+import { NotificationService } from '../services/notificationService';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -50,8 +51,7 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState('Profile');
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  // Zustand Store mappings
-  const { user } = useAuth();
+  const { user, updateProfile, changePassword } = useAuth();
   const store = useAppStore();
   const { 
     settings, 
@@ -62,9 +62,56 @@ export default function Settings() {
     importData,
     factoryReset,
     clearLocalData,
-    resetPreferences,
-    activities
+    resetPreferences
   } = store;
+
+  // Form states
+  const [profileForm, setProfileForm] = useState({
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    email: user?.email || '',
+  });
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+
+  const [passwordForm, setPasswordForm] = useState({
+    oldPassword: '',
+    newPassword: '',
+  });
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setProfileForm({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        email: user.email || '',
+      });
+    }
+  }, [user]);
+
+  const handleUpdateProfile = async () => {
+    try {
+      setIsUpdatingProfile(true);
+      await updateProfile(profileForm);
+    } catch (error) {
+      // Error handled by AuthContext
+    } finally {
+      setIsUpdatingProfile(false);
+    }
+  };
+
+  const handleUpdatePassword = async () => {
+    if (!passwordForm.oldPassword || !passwordForm.newPassword) return;
+    try {
+      setIsUpdatingPassword(true);
+      await changePassword(passwordForm.oldPassword, passwordForm.newPassword);
+      setPasswordForm({ oldPassword: '', newPassword: '' });
+    } catch (error: any) {
+      NotificationService.error(error?.message || 'Failed to update password');
+    } finally {
+      setIsUpdatingPassword(false);
+    }
+  };
 
   const tasks: any[] = useMemo(() => [], []);
 
@@ -79,9 +126,9 @@ export default function Settings() {
       journalEntries: 0,
       longestStreak: 0,
       productivityScore: 0,
-      totalActivities: activities.length
+      totalActivities: 0
     };
-  }, [activities]);
+  }, []);
 
   // Toggles Wrapper
   const toggleSetting = (key: keyof typeof settings) => {
@@ -101,6 +148,7 @@ export default function Settings() {
     { name: 'Dashboard', icon: LayoutDashboard },
     { name: 'Data & Backup', icon: Database },
     { name: 'Security', icon: Shield },
+    { name: 'Danger Zone', icon: ShieldAlert },
     { name: 'About', icon: Info },
   ];
 
@@ -113,7 +161,7 @@ export default function Settings() {
       timestamp: new Date().toISOString(),
       data: {
         tasks: [],
-        activities: storeState.activities,
+        activities: [],
         profile: storeState.profile,
         settings: storeState.settings
       }
@@ -246,36 +294,47 @@ export default function Settings() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary">First Name</label>
+                  <label htmlFor="profile-firstName" className="text-sm font-medium text-secondary">First Name</label>
                   <input 
+                    id="profile-firstName"
+                    name="profile-firstName"
                     type="text" 
-                    value={user?.firstName || ''} 
-                    disabled
-                    className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent transition-colors opacity-70 cursor-not-allowed" 
+                    value={profileForm.firstName}
+                    onChange={(e) => setProfileForm(prev => ({ ...prev, firstName: e.target.value }))}
+                    className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent transition-colors" 
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary">Last Name</label>
+                  <label htmlFor="profile-lastName" className="text-sm font-medium text-secondary">Last Name</label>
                   <input 
+                    id="profile-lastName"
+                    name="profile-lastName"
                     type="text" 
-                    value={user?.lastName || ''}
-                    disabled
-                    className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent transition-colors opacity-70 cursor-not-allowed" 
+                    value={profileForm.lastName}
+                    onChange={(e) => setProfileForm(prev => ({ ...prev, lastName: e.target.value }))}
+                    className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent transition-colors" 
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm font-medium text-secondary">Email</label>
+                  <label htmlFor="profile-email" className="text-sm font-medium text-secondary">Email (Read-only)</label>
                   <input 
+                    id="profile-email"
+                    name="profile-email"
                     type="email" 
-                    value={user?.email || ''}
+                    value={profileForm.email}
                     disabled
-                    className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent transition-colors opacity-70 cursor-not-allowed" 
+                    className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent transition-colors opacity-50 cursor-not-allowed" 
                   />
                 </div>
               </div>
               <div className="pt-4 border-t border-border/20 flex justify-end">
-                <Button variant="primary" disabled className="gap-2">
-                  Save Changes <ComingSoonBadge />
+                <Button 
+                  variant="primary" 
+                  className="gap-2"
+                  onClick={handleUpdateProfile}
+                  disabled={isUpdatingProfile}
+                >
+                  {isUpdatingProfile ? 'Saving...' : 'Save Changes'}
                 </Button>
               </div>
             </Card>
@@ -351,21 +410,20 @@ export default function Settings() {
             </Card>
 
             <Card className="p-0 overflow-hidden divide-y divide-border">
-              <div className="p-6 flex items-center justify-between">
-                <div>
-                  <h3 className="font-semibold">Compact Mode</h3>
-                  <p className="text-sm text-secondary">Reduce padding and font sizes across the app.</p>
+                <div role="button" tabIndex={0} onClick={() => toggleSetting('compactMode')} className="p-6 w-full flex items-center justify-between text-left hover:bg-surfaceHighlight transition-colors cursor-pointer">
+                  <div>
+                    <h3 className="font-semibold">Compact Mode</h3>
+                    <p className="text-sm text-secondary">Reduce padding and font sizes across the app.</p>
+                  </div>
+                  <Toggle checked={settings.compactMode} onChange={() => toggleSetting('compactMode')} />
                 </div>
-                <Toggle checked={settings.compactMode} onChange={() => toggleSetting('compactMode')} />
-              </div>
-              <div className="p-6 flex items-center justify-between">
-                <div>
-                  <h3 className="font-semibold">UI Animations</h3>
-                  <p className="text-sm text-secondary">Enable smooth transitions and micro-interactions.</p>
-                </div>
-                <Toggle checked={settings.animations} onChange={() => toggleSetting('animations')} />
-              </div>
-            </Card>
+                <div role="button" tabIndex={0} onClick={() => toggleSetting('animations')} className="p-6 w-full flex items-center justify-between text-left hover:bg-surfaceHighlight transition-colors cursor-pointer">
+                  <div>
+                    <h3 className="font-semibold">UI Animations</h3>
+                    <p className="text-sm text-secondary">Enable smooth transitions and micro-interactions.</p>
+                  </div>
+                  <Toggle checked={settings.animations} onChange={() => toggleSetting('animations')} />
+                </div></Card>
           </motion.div>
         )}
 
@@ -379,8 +437,10 @@ export default function Settings() {
             <Card className="p-6 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary">Default View <ComingSoonBadge /></label>
+                  <label htmlFor="planner-defaultView" className="text-sm font-medium text-secondary">Default View <ComingSoonBadge /></label>
                   <select 
+                    id="planner-defaultView"
+                    name="planner-defaultView"
                     disabled
                     value={settings.defaultView}
                     className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none transition-colors appearance-none opacity-50 cursor-not-allowed"
@@ -391,8 +451,10 @@ export default function Settings() {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary">Week Starts On</label>
+                  <label htmlFor="planner-weekStartsOn" className="text-sm font-medium text-secondary">Week Starts On</label>
                   <select 
+                    id="planner-weekStartsOn"
+                    name="planner-weekStartsOn"
                     value={settings.weekStartsOn}
                     onChange={(e) => updateSettings({ weekStartsOn: e.target.value as any })}
                     className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-accent transition-colors appearance-none"
@@ -402,8 +464,10 @@ export default function Settings() {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary">Default Reminder Time</label>
+                  <label htmlFor="planner-defaultReminder" className="text-sm font-medium text-secondary">Default Reminder Time</label>
                   <input 
+                    id="planner-defaultReminder"
+                    name="planner-defaultReminder"
                     type="time" 
                     value={settings.defaultReminderTime}
                     onChange={(e) => updateSettings({ defaultReminderTime: e.target.value })}
@@ -514,26 +578,14 @@ export default function Settings() {
               <p className="text-secondary text-sm">Toggle widgets on your home screen.</p>
             </div>
             <Card className="p-0 overflow-hidden divide-y divide-border">
-              <div className="p-6 flex items-center justify-between">
-                <h3 className="font-semibold">Productivity Score</h3>
-                <Toggle checked={settings.widgetVisibility.productivityScore} onChange={() => toggleWidget('productivityScore')} />
-              </div>
+              <div role="button" tabIndex={0} onClick={() => toggleWidget('productivityScore')} className="p-6 flex items-center justify-between cursor-pointer hover:bg-surfaceHighlight transition-colors"><h3 className="font-semibold">Productivity Score</h3><Toggle checked={settings.widgetVisibility.productivityScore} onChange={() => toggleWidget('productivityScore')} /></div>
               <div className="p-6 flex items-center justify-between opacity-50 bg-surfaceHighlight">
                 <h3 className="font-semibold flex items-center">Weather <ComingSoonBadge /></h3>
                 <Toggle checked={false} onChange={() => {}} disabled />
               </div>
-              <div className="p-6 flex items-center justify-between">
-                <h3 className="font-semibold">Motivational Quotes</h3>
-                <Toggle checked={settings.widgetVisibility.quotes} onChange={() => toggleWidget('quotes')} />
-              </div>
-              <div className="p-6 flex items-center justify-between">
-                <h3 className="font-semibold">Recent Activity</h3>
-                <Toggle checked={settings.widgetVisibility.recentActivity} onChange={() => toggleWidget('recentActivity')} />
-              </div>
-              <div className="p-6 flex items-center justify-between">
-                <h3 className="font-semibold">Habit Tracker</h3>
-                <Toggle checked={settings.widgetVisibility.habitTracker} onChange={() => toggleWidget('habitTracker')} />
-              </div>
+              <div role="button" tabIndex={0} onClick={() => toggleWidget('quotes')} className="p-6 flex items-center justify-between cursor-pointer hover:bg-surfaceHighlight transition-colors"><h3 className="font-semibold">Motivational Quotes</h3><Toggle checked={settings.widgetVisibility.quotes} onChange={() => toggleWidget('quotes')} /></div>
+              <div role="button" tabIndex={0} onClick={() => toggleWidget('recentActivity')} className="p-6 flex items-center justify-between cursor-pointer hover:bg-surfaceHighlight transition-colors"><h3 className="font-semibold">Recent Activity</h3><Toggle checked={settings.widgetVisibility.recentActivity} onChange={() => toggleWidget('recentActivity')} /></div>
+              <div role="button" tabIndex={0} onClick={() => toggleWidget('habitTracker')} className="p-6 flex items-center justify-between cursor-pointer hover:bg-surfaceHighlight transition-colors"><h3 className="font-semibold">Habit Tracker</h3><Toggle checked={settings.widgetVisibility.habitTracker} onChange={() => toggleWidget('habitTracker')} /></div>
             </Card>
           </motion.div>
         )}
@@ -557,6 +609,7 @@ export default function Settings() {
                   <h3 className="font-semibold mb-1">Export Data</h3>
                   <p className="text-xs text-secondary">Download as JSON</p>
                 </div>
+                <Button variant="secondary" size="sm" onClick={handleExport} className="mt-2">Export Now</Button>
               </Card>
               <Card 
                 className="p-6 flex flex-col items-center justify-center text-center space-y-4 hover:bg-surfaceHighlight transition-colors cursor-pointer border-dashed border-border/50"
@@ -569,6 +622,7 @@ export default function Settings() {
                   <h3 className="font-semibold mb-1">Import Data</h3>
                   <p className="text-xs text-secondary">Restore from a backup</p>
                 </div>
+                <Button variant="secondary" size="sm" onClick={() => fileInputRef.current?.click()} className="mt-2">Select File</Button>
                 <input 
                   type="file" 
                   accept=".json" 
@@ -611,12 +665,42 @@ export default function Settings() {
                 </div>
                 <Toggle checked={settings.privacyMode} onChange={() => toggleSetting('privacyMode')} />
               </div>
-              <div className="p-6 flex items-center justify-between opacity-50 bg-surfaceHighlight">
-                <div>
-                  <h3 className="font-semibold flex items-center">Change Password <ComingSoonBadge /></h3>
-                  <p className="text-sm text-secondary">Requires backend integration.</p>
-                </div>
-                <Button variant="secondary" size="sm" disabled>Update</Button>
+              <div className="p-6">
+                <form onSubmit={(e) => { e.preventDefault(); handleUpdatePassword(); }}>
+                  <h3 className="font-semibold flex items-center mb-4">Change Password</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input 
+                      id="oldPassword"
+                      name="oldPassword"
+                      type="password" 
+                      placeholder="Current Password"
+                      autoComplete="current-password"
+                      value={passwordForm.oldPassword}
+                      onChange={(e) => setPasswordForm(prev => ({ ...prev, oldPassword: e.target.value }))}
+                      className="bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent"
+                    />
+                    <input 
+                      id="newPassword"
+                      name="newPassword"
+                      type="password" 
+                      placeholder="New Password"
+                      autoComplete="new-password"
+                      value={passwordForm.newPassword}
+                      onChange={(e) => setPasswordForm(prev => ({ ...prev, newPassword: e.target.value }))}
+                      className="bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent"
+                    />
+                  </div>
+                  <div className="mt-4 flex justify-end">
+                    <Button 
+                      type="submit"
+                      variant="secondary" 
+                      size="sm" 
+                      disabled={isUpdatingPassword || !passwordForm.oldPassword || !passwordForm.newPassword}
+                    >
+                      {isUpdatingPassword ? 'Updating...' : 'Update Password'}
+                    </Button>
+                  </div>
+                </form>
               </div>
               <div className="p-6 flex items-center justify-between opacity-50 bg-surfaceHighlight">
                 <div>
@@ -707,36 +791,41 @@ export default function Settings() {
           </motion.div>
         )}
 
-        {/* Danger Zone */}
-        <motion.div variants={itemVariants} className="pt-10">
-          <h2 className="text-sm font-semibold text-danger uppercase tracking-wider mb-4 flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4" /> Danger Zone
-          </h2>
-          <Card className="p-0 overflow-hidden border-danger/20 divide-y divide-danger/10">
-            <div className="p-6 flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold text-primary">Reset Preferences</h3>
-                <p className="text-sm text-secondary">Reset all settings to default.</p>
-              </div>
-              <Button onClick={resetPreferences} variant="secondary" size="sm" className="text-primary hover:text-white hover:bg-surfaceHighlight border-border/20">Reset Settings</Button>
+        {activeTab === 'Danger Zone' && (
+          <motion.div variants={itemVariants} className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold mb-2 text-danger flex items-center gap-2">
+                <ShieldAlert className="w-6 h-6" /> Danger Zone
+              </h2>
+              <p className="text-secondary text-sm">Destructive actions for your account.</p>
             </div>
-            <div className="p-6 flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold text-primary">Clear Local Data</h3>
-                <p className="text-sm text-secondary">Wipe tasks, goals, habits, etc. (Keeps Settings)</p>
+            <Card className="p-0 overflow-hidden border-danger/20 divide-y divide-danger/10">
+              <div className="p-6 flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-primary">Reset Preferences</h3>
+                  <p className="text-sm text-secondary">Reset all settings to default.</p>
+                </div>
+                <Button onClick={() => { if(window.confirm('Reset all UI settings?')) resetPreferences() }} variant="secondary" size="sm" className="text-primary hover:text-white hover:bg-surfaceHighlight border-border/20">Reset Settings</Button>
               </div>
-              <Button onClick={() => { if(window.confirm('Clear all user data?')) clearLocalData() }} variant="secondary" size="sm" className="text-primary hover:text-white hover:bg-surfaceHighlight border-border/20">Clear Data</Button>
-            </div>
-            <div className="p-6 flex items-center justify-between bg-danger/5">
-              <div>
-                <h3 className="font-semibold text-danger">Factory Reset</h3>
-                <p className="text-sm text-danger/70">Permanently delete everything and refresh app.</p>
+              <div className="p-6 flex items-center justify-between">
+                <div>
+                  <h3 className="font-semibold text-primary">Clear Local Data</h3>
+                  <p className="text-sm text-secondary">Wipe tasks, goals, habits, etc. (Keeps Settings)</p>
+                </div>
+                <Button onClick={() => { if(window.confirm('Clear all user data?')) clearLocalData() }} variant="secondary" size="sm" className="text-primary hover:text-white hover:bg-surfaceHighlight border-border/20">Clear Data</Button>
               </div>
-              <Button onClick={handleFactoryReset} variant="secondary" size="sm" className="text-danger border-danger/20 hover:bg-danger hover:text-white transition-colors">Factory Reset</Button>
-            </div>
-          </Card>
-        </motion.div>
+              <div className="p-6 flex items-center justify-between bg-danger/5">
+                <div>
+                  <h3 className="font-semibold text-danger">Factory Reset</h3>
+                  <p className="text-sm text-danger/70">Permanently delete everything and refresh app.</p>
+                </div>
+                <Button onClick={handleFactoryReset} variant="secondary" size="sm" className="text-danger border-danger/20 hover:bg-danger hover:text-white transition-colors">Factory Reset</Button>
+              </div>
+            </Card>
+          </motion.div>
+        )}
       </motion.div>
     </div>
   );
 }
+

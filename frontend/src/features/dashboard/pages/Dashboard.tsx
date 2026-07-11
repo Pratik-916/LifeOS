@@ -5,10 +5,17 @@ import { useAppStore } from '../../../store/useAppStore';
 import { PageHeader } from '../../../components/ui/PageHeader';
 import { DashboardOverview } from '../components/DashboardOverview';
 import { QuickActions } from '../components/QuickActions';
+import { QUOTES } from '../data/quotes';
 
 export const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const { profile } = useAppStore();
+  const [quote, setQuote] = useState('');
+  const { profile, settings } = useAppStore();
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * QUOTES.length);
+    setQuote(QUOTES[randomIndex]);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -42,6 +49,22 @@ export const Dashboard = () => {
             {getGreeting()}, <br className="md:hidden" />
             Welcome back, {profile.name}
           </h1>
+          
+          {settings.widgetVisibility.quotes && quote && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-4 border-l-4 border-accent pl-4 max-w-2xl"
+            >
+              <p className="text-lg italic text-secondary">
+                "{(settings as any).customThought || quote.split(' - ')[0]}"
+              </p>
+              <p className="text-sm font-semibold text-secondary/80 mt-1">
+                — {(settings as any).customThought ? 'You' : quote.split(' - ')[1]}
+              </p>
+            </motion.div>
+          )}
         </div>
       </div>
 

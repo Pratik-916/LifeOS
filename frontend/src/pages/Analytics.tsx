@@ -1,4 +1,5 @@
 import React, { useState, Suspense, lazy } from 'react';
+import { useIsFetching } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { DateRangeSelector } from '../components/analytics/DateRangeSelector';
@@ -25,6 +26,7 @@ const itemVariants: Variants = {
 
 export default function Analytics() {
   const [timeRange, setTimeRange] = useState<string>('30D');
+  const isFetching = useIsFetching();
   const filters = { range: timeRange };
 
   return (
@@ -40,7 +42,7 @@ export default function Analytics() {
           <h1 className="text-4xl font-bold tracking-tight mb-2">Analytics</h1>
           <p className="text-secondary text-sm">Visualize your progress and discover patterns.</p>
         </div>
-        <DateRangeSelector timeRange={timeRange as any} setTimeRange={setTimeRange as any} />
+        <DateRangeSelector timeRange={timeRange as any} setTimeRange={setTimeRange as any} isLoading={isFetching > 0} />
       </div>
 
       <motion.div variants={itemVariants} className="w-full space-y-12">

@@ -20,7 +20,7 @@ class GoalsAPI {
       params.append('ordering', `${prefix}${filters.sort_by}`);
     }
 
-    const { data } = await axiosInstance.get<PaginatedResponse<GoalDTO> | GoalDTO[]>(`/goals/?${params.toString()}`);
+    const { data } = await axiosInstance.get<PaginatedResponse<GoalDTO> | GoalDTO[]>(`/goals/goals/?${params.toString()}`);
     
     // Check if the backend returned an array directly instead of a PaginatedResponse
     if (Array.isArray(data)) {
@@ -39,32 +39,32 @@ class GoalsAPI {
   }
 
   async getGoal(id: string): Promise<Goal> {
-    const { data } = await axiosInstance.get<GoalDTO>(`/goals/${id}/`);
+    const { data } = await axiosInstance.get<GoalDTO>(`/goals/goals/${id}/`);
     return mapGoalFromDTO(data);
   }
 
   async getGoalProgress(id: string): Promise<number> {
     // Relying on the detail endpoint which calculates progress in backend
-    const { data } = await axiosInstance.get<GoalDTO>(`/goals/${id}/`);
+    const { data } = await axiosInstance.get<GoalDTO>(`/goals/goals/${id}/`);
     return data.progress;
   }
 
   async createGoal(payload: CreateGoalPayload): Promise<Goal> {
-    const { data } = await axiosInstance.post<GoalDTO>('/goals/', payload);
+    const { data } = await axiosInstance.post<GoalDTO>('/goals/goals/', payload);
     return mapGoalFromDTO(data);
   }
 
   async updateGoal(id: string, payload: UpdateGoalPayload): Promise<Goal> {
-    const { data } = await axiosInstance.patch<GoalDTO>(`/goals/${id}/`, payload);
+    const { data } = await axiosInstance.patch<GoalDTO>(`/goals/goals/${id}/`, payload);
     return mapGoalFromDTO(data);
   }
 
   async deleteGoal(id: string): Promise<void> {
-    await axiosInstance.delete(`/goals/${id}/`);
+    await axiosInstance.delete(`/goals/goals/${id}/`);
   }
 
   async restoreGoal(id: string): Promise<void> {
-    await axiosInstance.post(`/goals/${id}/restore/`);
+    await axiosInstance.post(`/goals/goals/${id}/restore/`);
   }
 
   async archiveGoal(id: string): Promise<Goal> {
@@ -72,11 +72,12 @@ class GoalsAPI {
   }
 
   async completeGoal(id: string): Promise<Goal> {
-    return this.updateGoal(id, { status: 'Completed' });
+    return this.updateGoal(id, { status: 'completed' });
   }
 
   async favoriteGoal(id: string, isFavorite: boolean): Promise<Goal> {
-    return this.updateGoal(id, { is_favorite: isFavorite });
+    const { data } = await axiosInstance.post(`/goals/goals/${id}/favorite/`, { is_favorite: isFavorite });
+    return mapGoalFromDTO(data);
   }
 
   async pinGoal(id: string, isPinned: boolean): Promise<Goal> {
@@ -85,12 +86,12 @@ class GoalsAPI {
   }
 
   async getGoalStatistics(): Promise<GoalStatsDTO> {
-    const { data } = await axiosInstance.get<GoalStatsDTO>('/goals/stats/');
+    const { data } = await axiosInstance.get<GoalStatsDTO>('/goals/goals/stats/');
     return data;
   }
 
   async bulkComplete(ids: string[]): Promise<void> {
-    await axiosInstance.post('/goals/bulk-complete/', { ids });
+    await axiosInstance.post('/goals/goals/bulk-complete/', { ids });
   }
 
   async bulkArchive(ids: string[]): Promise<void> {

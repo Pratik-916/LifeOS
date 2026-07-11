@@ -70,8 +70,8 @@ export const mapPaginatedHabitsToDomain = (dto: any): PaginatedHabitsModel => {
 };
 
 export const mapHabitStatsToDomain = (dto: HabitStatsDTO): HabitStatsModel => ({
-  totalHabits: dto.total_habits,
-  completedToday: dto.completed_today,
-  completionRate: dto.completion_rate,
-  longestActiveStreak: dto.longest_active_streak,
+  totalHabits: dto.total_today || 0,
+  completedToday: dto.completed_today || 0,
+  completionRate: dto.completion_percentage || 0,
+  longestActiveStreak: dto.longest_streak_ever || 0,
 });

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from 'react';
 import { Save, AlertTriangle, RefreshCw, WifiOff, Check, Image as ImageIcon } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { BlogPostModel } from '../api/blog.types';
 import { cn } from '../../../lib/utils';
 import { useUpdatePost } from '../hooks/useBlogMutations';
@@ -51,10 +52,11 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ post }) => {
             status: latestData.status,
             visibility: latestData.visibility,
             featured: latestData.featured,
+            featured_image: latestData.featuredImage,
           }
         });
         setSaveStatus('saved');
-        setTimeout(() => setSaveStatus('idle'), 2000);
+        setTimeout(() => setSaveStatus(prev => prev === 'saved' ? 'idle' : prev), 3000);
       } catch (err: any) {
         if (err.response?.status === 409) {
           setSaveStatus('conflict');
@@ -77,22 +79,32 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ post }) => {
   };
 
   const renderSaveStatus = () => {
+    let content = null;
     switch (saveStatus) {
       case 'saving':
-        return <span className="flex items-center gap-2 text-secondary text-sm"><RefreshCw className="w-4 h-4 animate-spin" /> Saving...</span>;
+        content = <motion.span key="saving" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} className="flex items-center gap-2 text-secondary text-sm"><RefreshCw className="w-4 h-4 animate-spin" /> Saving...</motion.span>;
+        break;
       case 'saved':
-        return <span className="flex items-center gap-2 text-accent text-sm"><Check className="w-4 h-4" /> Saved</span>;
+        content = <motion.span key="saved" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.2, filter: 'blur(4px)' }} transition={{ duration: 0.3 }} className="flex items-center gap-2 text-accent text-sm font-medium bg-accent/10 px-2 py-1 rounded-md"><Check className="w-4 h-4" /> Saved</motion.span>;
+        break;
       case 'unsaved':
-        return <span className="flex items-center gap-2 text-secondary text-sm"><Save className="w-4 h-4" /> Unsaved changes</span>;
+        content = <motion.span key="unsaved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2 text-secondary text-sm"><Save className="w-4 h-4" /> Unsaved changes</motion.span>;
+        break;
       case 'offline':
-        return <span className="flex items-center gap-2 text-orange-400 text-sm"><WifiOff className="w-4 h-4" /> Offline (waiting)</span>;
+        content = <motion.span key="offline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2 text-orange-400 text-sm"><WifiOff className="w-4 h-4" /> Offline (waiting)</motion.span>;
+        break;
       case 'error':
-        return <span className="flex items-center gap-2 text-danger text-sm"><AlertTriangle className="w-4 h-4" /> Sync error</span>;
+        content = <motion.span key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2 text-danger text-sm"><AlertTriangle className="w-4 h-4" /> Sync error</motion.span>;
+        break;
       case 'conflict':
-        return <span className="flex items-center gap-2 text-danger text-sm"><AlertTriangle className="w-4 h-4" /> Version conflict</span>;
-      default:
-        return null;
+        content = <motion.span key="conflict" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2 text-danger text-sm"><AlertTriangle className="w-4 h-4" /> Version conflict</motion.span>;
+        break;
     }
+    return (
+      <div className="relative flex items-center justify-end min-w-[140px]">
+        <AnimatePresence mode="wait">{content}</AnimatePresence>
+      </div>
+    );
   };
 
   return (
@@ -100,7 +112,10 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ post }) => {
       {/* Editor Header */}
       <div className="flex items-center justify-between p-4 border-b border-border/10 bg-surfaceHighlight/30 backdrop-blur-md">
         <div className="flex items-center gap-4">
+          <label htmlFor="title" className="sr-only">Title</label>
           <input
+            id="title"
+            name="title"
             type="text"
             value={localPost.title}
             onChange={(e) => handleChange('title', e.target.value)}
@@ -110,7 +125,24 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ post }) => {
         </div>
         <div className="flex items-center gap-4">
           {renderSaveStatus()}
+          
+          <label htmlFor="visibility" className="sr-only">Visibility</label>
+          <select
+            id="visibility"
+            name="visibility"
+            value={localPost.visibility}
+            onChange={(e) => handleChange('visibility', e.target.value)}
+            className="bg-surfaceElevated border border-border/20 rounded-lg px-3 py-1.5 text-sm text-primary focus:outline-none focus:border-accent"
+          >
+            <option value="public">Public</option>
+            <option value="unlisted">Unlisted</option>
+            <option value="private">Private</option>
+          </select>
+
+          <label htmlFor="status" className="sr-only">Status</label>
           <select 
+            id="status"
+            name="status"
             value={localPost.status}
             onChange={(e) => handleChange('status', e.target.value)}
             className="bg-surfaceElevated border border-border/20 rounded-lg px-3 py-1.5 text-sm text-primary focus:outline-none focus:border-accent"
@@ -124,14 +156,45 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({ post }) => {
         </div>
       </div>
 
-      {/* Excerpt */}
-      <div className="p-4 border-b border-border/5">
-        <textarea
-          value={localPost.excerpt}
-          onChange={(e) => handleChange('excerpt', e.target.value)}
-          placeholder="Brief excerpt (used for SEO and previews)..."
-          className="w-full h-16 bg-transparent resize-none focus:outline-none text-sm text-secondary"
-        />
+      {/* Excerpt and Cover Image */}
+      <div className="p-4 border-b border-border/5 space-y-4">
+        <div>
+          <label htmlFor="excerpt" className="sr-only">Excerpt</label>
+          <textarea
+            id="excerpt"
+            name="excerpt"
+            value={localPost.excerpt}
+            onChange={(e) => handleChange('excerpt', e.target.value)}
+            placeholder="Brief excerpt (used for SEO and previews)..."
+            className="w-full h-16 bg-transparent resize-none focus:outline-none text-sm text-secondary"
+          />
+        </div>
+        
+        <div className="flex flex-col gap-2">
+          <label htmlFor="featured_image" className="text-xs font-semibold text-secondary uppercase tracking-wider flex items-center gap-2">
+            <ImageIcon className="w-3 h-3" /> Cover Image URL
+          </label>
+          <input
+            id="featured_image"
+            name="featured_image"
+            type="url"
+            value={localPost.featuredImage || ''}
+            onChange={(e) => handleChange('featuredImage', e.target.value)}
+            placeholder="https://example.com/image.jpg"
+            className="w-full bg-surfaceElevated border border-border/10 rounded-lg px-3 py-2 text-sm text-primary focus:outline-none focus:border-accent"
+          />
+          {localPost.featuredImage && (
+            <div className="mt-2 rounded-xl overflow-hidden h-32 w-full max-w-sm border border-border/10">
+              <img 
+                src={localPost.featuredImage} 
+                alt="Cover Preview" 
+                className="w-full h-full object-cover" 
+                onError={(e) => (e.currentTarget.style.display = 'none')} 
+                onLoad={(e) => (e.currentTarget.style.display = 'block')} 
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Editor Body */}

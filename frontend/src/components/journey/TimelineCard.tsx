@@ -4,10 +4,14 @@ import { motion } from 'framer-motion';
 import { Target, Trophy, BookOpen, Flame, CheckCircle2, Image as ImageIcon, Heart } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { format, parseISO } from 'date-fns';
+import { useFavoriteMemory, usePinMemory, useDeleteMemory } from '../../features/journey/hooks';
+import { Button } from '../Button';
+import { Pin, Trash2, Edit2 } from 'lucide-react';
 
 interface TimelineCardProps {
   event: TimelineEventModel;
   index: number;
+  onEditMemory?: (event: TimelineEventModel) => void;
 }
 
 const getEventIcon = (type: string) => {
@@ -34,7 +38,7 @@ const getEventColor = (type: string) => {
   }
 };
 
-export const TimelineCard: React.FC<TimelineCardProps> = ({ event, index }) => {
+export const TimelineCard: React.FC<TimelineCardProps> = ({ event, index, onEditMemory }) => {
   const type = event.entityType || event.type || 'memory';
   const Icon = getEventIcon(type);
   const colorClass = getEventColor(type);
@@ -43,6 +47,32 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({ event, index }) => {
   try {
     formattedDate = format(parseISO(event.timestamp), 'MMM do');
   } catch (e) {}
+
+  const { mutate: favoriteMemory } = useFavoriteMemory();
+  const { mutate: pinMemory } = usePinMemory();
+  const { mutate: deleteMemory } = useDeleteMemory();
+
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (type === 'memory') favoriteMemory(event.entityId);
+  };
+
+  const handlePin = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (type === 'memory') pinMemory(event.entityId);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (type === 'memory') deleteMemory(event.entityId);
+  };
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (type === 'memory' && onEditMemory) {
+      onEditMemory(event);
+    }
+  };
 
   return (
     <motion.div
@@ -72,6 +102,23 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({ event, index }) => {
               <span className="text-xs font-medium text-secondary/70">{formattedDate}</span>
             </div>
           </div>
+          
+          {type === 'memory' && (
+            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-secondary hover:text-pink-500" onClick={handleFavorite} title={event.favorite ? 'Unfavorite Memory' : 'Favorite Memory'} aria-label={event.favorite ? 'Unfavorite Memory' : 'Favorite Memory'}>
+                <Heart className={cn("w-4 h-4", event.favorite && "fill-pink-500 text-pink-500")} />
+              </Button>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-secondary hover:text-primary" onClick={handlePin} title={event.pinned ? 'Unpin Memory' : 'Pin Memory'} aria-label={event.pinned ? 'Unpin Memory' : 'Pin Memory'}>
+                <Pin className={cn("w-4 h-4", event.pinned && "fill-primary text-primary")} />
+              </Button>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-secondary hover:text-accent" onClick={handleEdit} title="Edit Memory" aria-label="Edit Memory">
+                <Edit2 className="w-4 h-4" />
+              </Button>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-secondary hover:text-danger" onClick={handleDelete} title="Delete Memory" aria-label="Delete Memory">
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
         </div>
         
         {event.description && (

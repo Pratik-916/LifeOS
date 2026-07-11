@@ -15,8 +15,9 @@ export const Signup: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [validationError, setValidationError] = useState('');
   const [touched, setTouched] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const { signup, isLoading, error, clearError } = useAuth();
+  const { signup, error, clearError } = useAuth();
   const navigate = useNavigate();
 
   // Strong password validation rules
@@ -56,6 +57,7 @@ export const Signup: React.FC = () => {
       return;
     }
 
+    setIsSubmitting(true);
     try {
       const nameParts = name.trim().split(' ');
       const firstName = nameParts[0];
@@ -71,6 +73,8 @@ export const Signup: React.FC = () => {
       navigate('/verify-email');
     } catch (e) {
       // Error handled by context
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -93,7 +97,7 @@ export const Signup: React.FC = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            disabled={isLoading}
+            disabled={isSubmitting}
             className="w-full bg-surfaceHighlight border border-border/20 rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all text-primary placeholder:text-secondary/50"
             placeholder="John Doe"
           />
@@ -106,7 +110,7 @@ export const Signup: React.FC = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            disabled={isLoading}
+            disabled={isSubmitting}
             className="w-full bg-surfaceHighlight border border-border/20 rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all text-primary placeholder:text-secondary/50"
             placeholder="you@example.com"
           />
@@ -121,7 +125,7 @@ export const Signup: React.FC = () => {
               setPassword(e.target.value);
               setTouched(true);
             }}
-            disabled={isLoading}
+            disabled={isSubmitting}
             placeholder="Create a strong password"
           />
           
@@ -147,13 +151,13 @@ export const Signup: React.FC = () => {
             id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            disabled={isLoading}
+            disabled={isSubmitting}
             placeholder="Confirm your password"
           />
         </div>
 
-        <Button type="submit" variant="primary" className="w-full justify-center mt-2" disabled={isLoading}>
-          {isLoading ? 'Creating account...' : 'Create account'}
+        <Button type="submit" variant="primary" className="w-full justify-center mt-2" disabled={isSubmitting}>
+          {isSubmitting ? 'Creating account...' : 'Create account'}
         </Button>
       </form>
 

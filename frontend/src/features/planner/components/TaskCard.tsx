@@ -73,6 +73,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
                 <span>{task.dueTime}</span>
               </div>
             )}
+            {!!task.estimatedMinutes && (
+              <div className="flex items-center gap-1 text-accent">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{task.estimatedMinutes}m</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

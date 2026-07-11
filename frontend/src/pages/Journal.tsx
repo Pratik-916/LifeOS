@@ -94,7 +94,7 @@ export default function Journal() {
       title: '',
       content: '',
       summary: '',
-      mood: settings.defaultMood || 'Neutral',
+      mood: (settings.defaultMood || 'neutral').toLowerCase(),
       energyLevel: 0,
       stressLevel: 0,
       gratitude: '',
@@ -186,12 +186,12 @@ export default function Journal() {
                 id: 'mood', label: 'Mood', value: moodFilter, onChange: (v) => setParam('mood', v),
                 options: [
                   { label: 'All Moods', value: 'all' },
-                  { label: 'Happy', value: 'Happy' },
-                  { label: 'Neutral', value: 'Neutral' },
-                  { label: 'Sad', value: 'Sad' },
-                  { label: 'Excited', value: 'Excited' },
-                  { label: 'Tired', value: 'Tired' },
-                  { label: 'Motivated', value: 'Motivated' }
+                  { label: 'Happy', value: 'happy' },
+                  { label: 'Neutral', value: 'neutral' },
+                  { label: 'Sad', value: 'sad' },
+                  { label: 'Excited', value: 'excited' },
+                  { label: 'Tired', value: 'tired' },
+                  { label: 'Motivated', value: 'motivated' }
                 ]
               },
               {
@@ -270,8 +270,8 @@ export default function Journal() {
       <motion.div variants={itemVariants} className="flex-1 flex min-h-[500px]">
         {activeEntry ? (
           <JournalEditor 
-            key={activeEntry.id} // Force remount if ID changes to reset local state
             entry={activeEntry}
+            onDraftCreated={setActiveEntryId}
           />
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center bg-surfaceHighlight rounded-3xl border border-border/20 p-12 text-center">

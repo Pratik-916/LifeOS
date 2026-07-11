@@ -56,7 +56,7 @@ export const MemoryModal: React.FC<MemoryModalProps> = ({ isOpen, onClose, onSav
           title,
           description,
           date: new Date(date).toISOString(),
-          tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+          tags: [], // Fallback for now to prevent 400
           favorite: memory.favorite
         } as UpdateMemoryPayload
       });
@@ -65,7 +65,7 @@ export const MemoryModal: React.FC<MemoryModalProps> = ({ isOpen, onClose, onSav
         title,
         description,
         date: new Date(date).toISOString(),
-        tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+        tags: [], // Fallback for now to prevent 400
         favorite: false
       } as CreateMemoryPayload);
     }

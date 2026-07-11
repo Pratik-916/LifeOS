@@ -16,3 +16,4 @@ export default function OverviewWidget({ filters }: { filters?: Record<string, a
 
   return <StatisticsGrid overview={data} />;
 }
+

@@ -6,7 +6,7 @@ import { Image as ImageIcon, ArrowRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 
 export const JourneyCard = () => {
-  const { data: timelineData, isLoading, isError, refetch } = useJourneyTimeline({});
+  const { data: timelineData, isLoading, isError, error, refetch } = useJourneyTimeline({});
   const navigate = useNavigate();
 
   // Flatten timeline to get latest events
@@ -20,7 +20,7 @@ export const JourneyCard = () => {
       title="Journey Highlights"
       isLoading={isLoading}
       isError={isError}
-      error={timelineData instanceof Error ? timelineData : null}
+      error={error as Error}
       isEmpty={latestEvents.length === 0}
       onRefresh={refetch}
       headerAction={

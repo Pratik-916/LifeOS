@@ -140,9 +140,9 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day',
-        'auth': '50/minute', # For login/register/reset endpoints
+        'anon': '10000/day',
+        'user': '100000/day',
+        'auth': '1000/minute', # For login/register/reset endpoints
     }
 }
 

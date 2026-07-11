@@ -30,6 +30,9 @@ export const GoalFilters: React.FC<GoalFiltersProps> = ({
       </div>
 
       <select
+        id="goal-filter-status"
+        name="goal-filter-status"
+        aria-label="Filter by Status"
         value={statusFilter}
         onChange={(e) => setStatusFilter(e.target.value)}
         className="bg-surfaceHighlight border border-border/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent transition-colors appearance-none"
@@ -39,6 +42,9 @@ export const GoalFilters: React.FC<GoalFiltersProps> = ({
       </select>
 
       <select
+        id="goal-filter-category"
+        name="goal-filter-category"
+        aria-label="Filter by Category"
         value={categoryFilter}
         onChange={(e) => setCategoryFilter(e.target.value)}
         className="bg-surfaceHighlight border border-border/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent transition-colors appearance-none"
@@ -48,6 +54,9 @@ export const GoalFilters: React.FC<GoalFiltersProps> = ({
       </select>
 
       <select
+        id="goal-filter-priority"
+        name="goal-filter-priority"
+        aria-label="Filter by Priority"
         value={priorityFilter}
         onChange={(e) => setPriorityFilter(e.target.value)}
         className="bg-surfaceHighlight border border-border/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent transition-colors appearance-none"
@@ -61,6 +70,9 @@ export const GoalFilters: React.FC<GoalFiltersProps> = ({
       <div className="flex items-center gap-2">
         <ArrowUpDown className="w-4 h-4 text-secondary" />
         <select
+          id="goal-sort-by"
+          name="goal-sort-by"
+          aria-label="Sort Goals by"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
           className="bg-transparent border-none text-sm font-medium focus:outline-none focus:ring-0 appearance-none cursor-pointer text-primary"

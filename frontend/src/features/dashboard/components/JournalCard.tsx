@@ -6,15 +6,16 @@ import { PenTool, ArrowRight, Calendar } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 
 export const JournalCard = () => {
-  const { data: entriesData, isLoading, isError, refetch } = useJournalEntries({});
+  const { data: journalResponse, isLoading, isError, error, refetch } = useJournalEntries({});
   const navigate = useNavigate();
 
-  const latestEntry = entriesData?.results?.[0];
+  const latestEntry = journalResponse?.results?.[0];
 
   return (
     <DashboardWidget
       id="journal"
       title="Latest Journal"
+      error={error as Error}
       isLoading={isLoading}
       isError={isError}
       isEmpty={!latestEntry}

@@ -55,7 +55,9 @@ class TimelineService:
             filters = {}
 
         # Fetch Activities
-        activities_qs = Activity.objects.filter(user=user).select_related('content_type').order_by('-created_at')
+        from django.contrib.contenttypes.models import ContentType
+        memory_ct = ContentType.objects.get_for_model(Memory)
+        activities_qs = Activity.objects.filter(user=user).exclude(content_type=memory_ct).select_related('content_type').order_by('-created_at')
         
         # Apply standard filters for activities
         # We will map standard filters as best as possible.

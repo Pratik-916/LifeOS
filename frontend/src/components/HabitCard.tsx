@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Flame, Edit2, Trash2, Heart, CheckCircle2 } from 'lucide-react';
+import { format, subDays } from 'date-fns';
 import type { HabitModel } from '../features/habits/api/habits.types';
 import { cn } from '../lib/utils';
 import { Card } from './Card';
@@ -39,7 +40,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete })
   return (
     <Card className="p-0 overflow-hidden border border-border/20 bg-surfaceHighlight hover:bg-surfaceHighlight transition-colors">
       <div className="p-5 relative group">
-        <div className="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-4 right-4 flex items-center gap-2 transition-opacity">
           <button 
             onClick={handleToggleFavorite}
             className={cn("p-1.5 rounded-md hover:bg-surfaceHighlight transition-colors", habit.isFavorite ? "text-red-500 opacity-100" : "text-secondary hover:text-red-400")}
@@ -102,6 +103,38 @@ export const HabitCard: React.FC<HabitCardProps> = ({ habit, onEdit, onDelete })
               </span>
               <span>Target: {habit.targetCount} / {habit.frequency}</span>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-border/10 flex items-center justify-between">
+          <span className="text-xs font-medium text-secondary">Last 7 Days</span>
+          <div className="flex items-center gap-1.5">
+            {Array.from({ length: 7 }).map((_, i) => {
+              const dateStr = format(subDays(new Date(), 6 - i), 'yyyy-MM-dd');
+              const completed = habit.logs?.some(log => log.completionDate === dateStr) || false;
+              
+              return (
+                <button
+                  key={dateStr}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!completed) {
+                      logHabit.mutate({ id: habit.id, payload: { completion_date: dateStr, count: 1 } });
+                    }
+                  }}
+                  disabled={completed}
+                  title={dateStr}
+                  className={cn(
+                    "w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-all",
+                    completed 
+                      ? "bg-success text-white" 
+                      : "bg-surfaceHighlight border border-border/20 text-secondary hover:border-accent hover:text-accent cursor-pointer"
+                  )}
+                >
+                  {format(new Date(dateStr + 'T12:00:00'), 'EE').charAt(0)}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

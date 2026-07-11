@@ -50,9 +50,9 @@ export default function ProductivityAnalyticsWidget({ filters }: { filters?: Rec
                 <XAxis dataKey="name" stroke="var(--chart-text)" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="var(--chart-text)" fontSize={12} tickLine={false} axisLine={false} />
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
-                <RechartsTooltip cursor={{fill: 'var(--chart-cursor)'}} contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
+                <RechartsTooltip isAnimationActive={false} allowEscapeViewBox={{ x: false, y: false }} cursor={{fill: 'var(--chart-cursor)'}} contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
-                <Bar dataKey="score" fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={30} />
+                <Bar isAnimationActive={false} dataKey="score" fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={30} />
               </BarChart>
             </ResponsiveContainer>
           ) : <AnalyticsEmptyState />}
@@ -61,3 +61,4 @@ export default function ProductivityAnalyticsWidget({ filters }: { filters?: Rec
     </div>
   );
 }
+

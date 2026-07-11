@@ -89,7 +89,10 @@ export const MilestoneList: React.FC<MilestoneListProps> = ({
             className="flex items-center gap-3 p-2 rounded-xl bg-surfaceHighlight border border-accent/30"
             onClick={(e) => e.stopPropagation()}
           >
+            <label htmlFor={`new-milestone-${goalId}`} className="sr-only">New Milestone Title</label>
             <input
+              id={`new-milestone-${goalId}`}
+              name={`new-milestone-${goalId}`}
               type="text"
               autoFocus
               value={newTitle}

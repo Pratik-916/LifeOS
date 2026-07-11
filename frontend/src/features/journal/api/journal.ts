@@ -15,50 +15,50 @@ import {
 
 export const JournalAPI = {
   getJournalEntries: async (filters: JournalFilters = {}) => {
-    const { data } = await axiosInstance.get<PaginatedJournalDTO>('/journal/', { params: filters });
+    const { data } = await axiosInstance.get<PaginatedJournalDTO>('/journal/entries/', { params: filters });
     return mapPaginatedJournalToDomain(data);
   },
 
   getJournalEntry: async (id: string) => {
-    const { data } = await axiosInstance.get<JournalEntryDTO>(`/journal/${id}/`);
+    const { data } = await axiosInstance.get<JournalEntryDTO>(`/journal/entries/${id}/`);
     return mapJournalEntryToDomain(data);
   },
 
   createJournalEntry: async (payload: CreateJournalEntryPayload) => {
-    const { data } = await axiosInstance.post<JournalEntryDTO>('/journal/', payload);
+    const { data } = await axiosInstance.post<JournalEntryDTO>('/journal/entries/', payload);
     return mapJournalEntryToDomain(data);
   },
 
   updateJournalEntry: async (id: string, payload: UpdateJournalEntryPayload) => {
-    const { data } = await axiosInstance.patch<JournalEntryDTO>(`/journal/${id}/`, payload);
+    const { data } = await axiosInstance.patch<JournalEntryDTO>(`/journal/entries/${id}/`, payload);
     return mapJournalEntryToDomain(data);
   },
 
   deleteJournalEntry: async (id: string) => {
-    await axiosInstance.delete(`/journal/${id}/`);
+    await axiosInstance.delete(`/journal/entries/${id}/`);
   },
 
   restoreJournalEntry: async (id: string) => {
-    const { data } = await axiosInstance.post<JournalEntryDTO>(`/journal/${id}/restore/`);
+    const { data } = await axiosInstance.post<JournalEntryDTO>(`/journal/entries/${id}/restore/`);
     return mapJournalEntryToDomain(data);
   },
 
   favoriteJournalEntry: async (id: string) => {
-    const { data } = await axiosInstance.post(`/journal/${id}/favorite/`);
+    const { data } = await axiosInstance.post(`/journal/entries/${id}/favorite/`);
     return data;
   },
 
   pinJournalEntry: async (id: string) => {
-    const { data } = await axiosInstance.post(`/journal/${id}/pin/`);
+    const { data } = await axiosInstance.post(`/journal/entries/${id}/pin/`);
     return data;
   },
 
   getJournalStatistics: async () => {
-    const { data } = await axiosInstance.get<JournalStatsDTO>('/journal/stats/');
+    const { data } = await axiosInstance.get<JournalStatsDTO>('/journal/entries/stats/');
     return mapJournalStatsToDomain(data);
   },
 
   bulkDelete: async (ids: string[]) => {
-    await axiosInstance.post('/journal/bulk-delete/', { ids });
+    await axiosInstance.post('/journal/entries/bulk-delete/', { ids });
   }
 };

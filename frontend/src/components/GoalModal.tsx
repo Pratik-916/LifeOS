@@ -12,16 +12,21 @@ interface GoalModalProps {
   initialData?: Goal;
 }
 
+const PRIORITIES = ['low', 'medium', 'high'];
 const CATEGORIES = ['Work', 'Personal', 'Health', 'Learning', 'Finance', 'Project', 'Career'];
-const PRIORITIES = ['Low', 'Medium', 'High'];
-const STATUSES = ['Not Started', 'In Progress', 'Completed', 'Archived'];
+const STATUSES = [
+  { label: 'Not Started', value: 'not_started' },
+  { label: 'In Progress', value: 'in_progress' },
+  { label: 'Completed', value: 'completed' },
+  { label: 'Archived', value: 'archived' }
+];
 const COLORS = [
-  { label: 'Blue', value: 'from-blue-500 to-cyan-500' },
-  { label: 'Green', value: 'from-green-500 to-emerald-500' },
-  { label: 'Red', value: 'from-orange-500 to-red-500' },
-  { label: 'Purple', value: 'from-purple-500 to-fuchsia-500' },
-  { label: 'Pink', value: 'from-pink-500 to-rose-500' },
-  { label: 'Yellow', value: 'from-yellow-400 to-orange-500' },
+  { label: 'Blue', value: 'blue' },
+  { label: 'Green', value: 'green' },
+  { label: 'Red', value: 'red' },
+  { label: 'Purple', value: 'purple' },
+  { label: 'Pink', value: 'pink' },
+  { label: 'Yellow', value: 'yellow' },
 ];
 
 export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialData }) => {
@@ -33,8 +38,8 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
     title: '',
     description: '',
     category: 'Personal',
-    priority: 'Medium',
-    status: 'Not Started',
+    priority: 'medium',
+    status: 'not_started',
     targetDate: format(new Date(), 'yyyy-MM-dd'),
     progress: 0,
     favorite: false,
@@ -44,14 +49,17 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      setFormData({
+        ...initialData,
+        targetDate: initialData.targetDate ? initialData.targetDate.split('T')[0] : format(new Date(), 'yyyy-MM-dd')
+      });
     } else {
       setFormData({
         title: '',
         description: '',
         category: 'Personal',
-        priority: 'Medium',
-        status: 'Not Started',
+        priority: 'medium',
+        status: 'not_started',
         targetDate: format(new Date(), 'yyyy-MM-dd'),
         progress: 0,
         favorite: false,
@@ -72,7 +80,7 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
         title: formData.title,
         description: formData.description || '',
         category: formData.category || 'Personal',
-        priority: formData.priority as any || 'Medium',
+        priority: formData.priority as any || 'medium',
         target_date: formData.targetDate || format(new Date(), 'yyyy-MM-dd'),
         color: formData.color,
       };
@@ -122,8 +130,10 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
             <form id="goal-form" onSubmit={handleSubmit} className="space-y-6">
               
               <div className="space-y-2">
-                <label className="text-sm font-medium text-secondary">Goal Title</label>
+                <label htmlFor="goal-title" className="text-sm font-medium text-secondary">Goal Title</label>
                 <input
+                  id="goal-title"
+                  name="title"
                   autoFocus
                   required
                   type="text"
@@ -135,8 +145,10 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-secondary">Description</label>
+                <label htmlFor="goal-desc" className="text-sm font-medium text-secondary">Description</label>
                 <textarea
+                  id="goal-desc"
+                  name="description"
                   value={formData.description}
                   onChange={e => setFormData({ ...formData, description: e.target.value })}
                   placeholder="What is the context or motivation behind this goal?"
@@ -147,10 +159,12 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary flex items-center gap-2">
+                  <label htmlFor="goal-category" className="text-sm font-medium text-secondary flex items-center gap-2">
                     <Flag className="w-4 h-4" /> Category
                   </label>
                   <select
+                    id="goal-category"
+                    name="category"
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value })}
                     className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all appearance-none"
@@ -160,10 +174,12 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary flex items-center gap-2">
+                  <label htmlFor="goal-priority" className="text-sm font-medium text-secondary flex items-center gap-2">
                     <Hash className="w-4 h-4" /> Priority
                   </label>
                   <select
+                    id="goal-priority"
+                    name="priority"
                     value={formData.priority}
                     onChange={e => setFormData({ ...formData, priority: e.target.value as any })}
                     className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all appearance-none"
@@ -173,10 +189,12 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary flex items-center gap-2">
+                  <label htmlFor="goal-target-date" className="text-sm font-medium text-secondary flex items-center gap-2">
                     <Calendar className="w-4 h-4" /> Target Date
                   </label>
                   <input
+                    id="goal-target-date"
+                    name="targetDate"
                     type="date"
                     required
                     value={formData.targetDate ? formData.targetDate.split('T')[0] : ''}
@@ -188,16 +206,20 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, initialDa
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-secondary flex items-center gap-2">
+                  <label htmlFor="goal-status" className="text-sm font-medium text-secondary flex items-center gap-2">
                     Status
                   </label>
-                  <select
-                    value={formData.status}
-                    onChange={e => setFormData({ ...formData, status: e.target.value as any })}
-                    className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all appearance-none"
-                  >
-                    {STATUSES.map(stat => <option key={stat} value={stat}>{stat}</option>)}
-                  </select>
+                    <select
+                      id="goal-status"
+                      name="status"
+                      value={formData.status}
+                      onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                      className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent appearance-none transition-all"
+                    >
+                      {STATUSES.map(s => (
+                        <option key={s.value} value={s.value}>{s.label}</option>
+                      ))}
+                    </select>
                 </div>
 
                 <div className="space-y-2">

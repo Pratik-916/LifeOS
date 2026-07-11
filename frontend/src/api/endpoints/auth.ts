@@ -7,5 +7,6 @@ export const authEndpoints = {
   // Future endpoints
   resetPassword: '/auth/forgot-password/',
   resetPasswordConfirm: '/auth/reset-password/',
+  changePassword: '/auth/change-password/',
   verifyEmail: '/auth/verify-email/',
 };

@@ -40,6 +40,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, initialDa
   const [dueTime, setDueTime] = useState('');
   const [status, setStatus] = useState<'todo' | 'in_progress' | 'completed'>('todo');
   const [notes, setNotes] = useState('');
+  const [estimatedMinutes, setEstimatedMinutes] = useState<number>(30);
+  const [tagsInput, setTagsInput] = useState('');
 
   // Add useAppStore
   const settings = useAppStore(state => state.settings);
@@ -54,6 +56,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, initialDa
       setDueTime(initialData.dueTime || '');
       setStatus(initialData.status);
       setNotes(initialData.notes || '');
+      setEstimatedMinutes(initialData.estimatedMinutes || 30);
+      setTagsInput(initialData.tags ? initialData.tags.join(', ') : '');
     } else if (isOpen) {
       // Reset form for new task, and use default settings
       setTitle('');
@@ -64,6 +68,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, initialDa
       setDueTime(settings?.defaultReminderTime || '');
       setStatus('todo');
       setNotes('');
+      setEstimatedMinutes(30);
+      setTagsInput('');
     }
   }, [initialData, isOpen, settings]);
 
@@ -80,6 +86,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, initialDa
       dueTime,
       status,
       notes,
+      estimatedMinutes,
+      tags: tagsInput.split(',').map(t => t.trim()).filter(Boolean),
     };
 
     if (initialData) {
@@ -211,6 +219,31 @@ export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, initialDa
                           <option value="Health">Health</option>
                           <option value="Learning">Learning</option>
                         </select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-secondary flex items-center gap-2">
+                          <Tag className="w-4 h-4" /> Tags
+                        </label>
+                        <input
+                          type="text"
+                          value={tagsInput}
+                          onChange={(e) => setTagsInput(e.target.value)}
+                          placeholder="e.g. urgent, frontend, bug"
+                          className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-accent transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-secondary flex items-center gap-2">
+                          <Clock className="w-4 h-4" /> Estimated (min)
+                        </label>
+                        <input
+                          type="number"
+                          value={estimatedMinutes}
+                          onChange={(e) => setEstimatedMinutes(parseInt(e.target.value) || 0)}
+                          className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-accent transition-colors"
+                          min="0"
+                          step="5"
+                        />
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Loader2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export type TimeRange = '7D' | '30D' | '90D' | 'YEAR' | 'ALL';
@@ -7,6 +7,7 @@ export type TimeRange = '7D' | '30D' | '90D' | 'YEAR' | 'ALL';
 interface DateRangeSelectorProps {
   timeRange: TimeRange;
   setTimeRange: (range: TimeRange) => void;
+  isLoading?: boolean;
 }
 
 const RANGES: { label: string; value: TimeRange }[] = [
@@ -17,11 +18,15 @@ const RANGES: { label: string; value: TimeRange }[] = [
   { label: 'All Time', value: 'ALL' },
 ];
 
-export const DateRangeSelector: React.FC<DateRangeSelectorProps> = ({ timeRange, setTimeRange }) => {
+export const DateRangeSelector: React.FC<DateRangeSelectorProps> = ({ timeRange, setTimeRange, isLoading }) => {
   return (
     <div className="flex items-center gap-2 bg-surfaceHighlight p-1.5 rounded-xl border border-border/20">
-      <div className="pl-2 pr-1 hidden sm:block">
-        <Calendar className="w-4 h-4 text-secondary" />
+      <div className="pl-2 pr-1 hidden sm:flex items-center min-w-[24px] justify-center">
+        {isLoading ? (
+          <Loader2 className="w-4 h-4 text-accent animate-spin" />
+        ) : (
+          <Calendar className="w-4 h-4 text-secondary" />
+        )}
       </div>
       <div className="flex">
         {RANGES.map((range) => (

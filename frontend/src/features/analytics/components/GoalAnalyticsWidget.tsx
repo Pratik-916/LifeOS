@@ -68,7 +68,7 @@ export default function GoalAnalyticsWidget({ filters }: { filters?: Record<stri
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <RechartsTooltip contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
+                <RechartsTooltip isAnimationActive={false} allowEscapeViewBox={{ x: false, y: false }}  contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
               </PieChart>
             </ResponsiveContainer>
@@ -78,3 +78,4 @@ export default function GoalAnalyticsWidget({ filters }: { filters?: Record<stri
     </div>
   );
 }
+

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { TimelineMonthModel } from '../../features/journey/api/journey.types';
+import type { TimelineMonthModel, TimelineEventModel } from '../../features/journey/api/journey.types';
 import { TimelineCard } from './TimelineCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
@@ -9,9 +9,10 @@ interface TimelineMonthProps {
   data: TimelineMonthModel;
   isExpanded: boolean;
   onToggle: () => void;
+  onEditMemory?: (event: TimelineEventModel) => void;
 }
 
-export const TimelineMonth: React.FC<TimelineMonthProps> = ({ data, isExpanded, onToggle }) => {
+export const TimelineMonth: React.FC<TimelineMonthProps> = ({ data, isExpanded, onToggle, onEditMemory }) => {
   return (
     <div className="relative pl-6 md:pl-8 mb-6">
       {/* Month Node Line */}
@@ -49,7 +50,7 @@ export const TimelineMonth: React.FC<TimelineMonthProps> = ({ data, isExpanded, 
           >
             <div className="pt-2 pb-4 space-y-2">
               {data.events.map((event, idx) => (
-                <TimelineCard key={event.id} event={event} index={idx} />
+                <TimelineCard key={event.id} event={event} index={idx} onEditMemory={onEditMemory} />
               ))}
             </div>
           </motion.div>

@@ -6,10 +6,10 @@ import { Target, ArrowRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 
 export const GoalCard = () => {
-  const { data: goalsResponse, isLoading, isError, refetch } = useGoals({});
+  const { data: goalsResponse, isLoading, isError, error, refetch } = useGoals({});
   const navigate = useNavigate();
 
-  const activeGoals = goalsResponse?.results?.filter(g => g.status === 'In Progress' || g.status === 'Not Started') || [];
+  const activeGoals = goalsResponse?.results?.filter(g => g.status === 'in_progress' || g.status === 'not_started') || [];
   
   // Sort by closest target date
   const sortedGoals = [...activeGoals].sort((a, b) => {
@@ -24,7 +24,7 @@ export const GoalCard = () => {
       title="Active Goals"
       isLoading={isLoading}
       isError={isError}
-      error={goalsResponse instanceof Error ? goalsResponse : null}
+      error={error as Error}
       isEmpty={activeGoals.length === 0}
       onRefresh={refetch}
       headerAction={

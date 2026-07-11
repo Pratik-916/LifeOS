@@ -23,6 +23,8 @@ interface AuthContextType {
   logout: () => void;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (password: string, token: string) => Promise<void>;
+  changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
+  updateProfile: (data: Partial<User>) => Promise<void>;
   clearError: () => void;
 }
 
@@ -42,7 +44,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       tokenManager.setTokens(response.data.access, response.data.refresh);
       
       const userResponse = await apiClient.get(authEndpoints.me);
-      setUser(userResponse.data);
+      
+      const mappedUser: User = {
+        id: userResponse.data.id,
+        email: userResponse.data.email,
+        firstName: userResponse.data.first_name,
+        lastName: userResponse.data.last_name,
+        avatarUrl: userResponse.data.avatar,
+        createdAt: userResponse.data.created_at || new Date().toISOString(),
+      };
+      
+      setUser(mappedUser);
       NotificationService.success('Logged in successfully');
 
       // Route Prefetching
@@ -103,6 +115,46 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const changePassword = async (oldPassword: string, newPassword: string) => {
+    try {
+      clearError();
+      await apiClient.put(authEndpoints.changePassword, { old_password: oldPassword, new_password: newPassword });
+      NotificationService.success('Password updated successfully');
+    } catch (err) {
+      const apiError = handleApiError(err);
+      setError(apiError);
+      throw apiError;
+    }
+  };
+
+  const updateProfile = async (data: Partial<User>) => {
+    try {
+      clearError();
+      const payload: any = {};
+      if (data.firstName) payload.first_name = data.firstName;
+      if (data.lastName) payload.last_name = data.lastName;
+      if (data.email) payload.email = data.email;
+      
+      const response = await apiClient.patch(authEndpoints.me, payload);
+      
+      const mappedUser: User = {
+        id: response.data.id,
+        email: response.data.email,
+        firstName: response.data.first_name,
+        lastName: response.data.last_name,
+        avatarUrl: response.data.avatar,
+        createdAt: response.data.created_at || new Date().toISOString(),
+      };
+      
+      setUser(mappedUser);
+      NotificationService.success('Profile updated successfully');
+    } catch (err) {
+      const apiError = handleApiError(err);
+      setError(apiError);
+      throw apiError;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -115,6 +167,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         logout,
         forgotPassword,
         resetPassword,
+        changePassword,
+        updateProfile,
         clearError,
       }}
     >

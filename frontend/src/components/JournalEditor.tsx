@@ -13,19 +13,20 @@ interface JournalEditorProps {
 }
 
 const MOODS = [
-  { id: 'Happy', emoji: '😊' },
-  { id: 'Neutral', emoji: '😐' },
-  { id: 'Sad', emoji: '😔' },
-  { id: 'Excited', emoji: '🤩' },
-  { id: 'Tired', emoji: '😴' },
-  { id: 'Motivated', emoji: '🚀' },
-  { id: 'Inspired', emoji: '✨' },
+  { id: 'happy', label: 'Happy', emoji: '😊' },
+  { id: 'neutral', label: 'Neutral', emoji: '😐' },
+  { id: 'sad', label: 'Sad', emoji: '😔' },
+  { id: 'excited', label: 'Excited', emoji: '🤩' },
+  { id: 'tired', label: 'Tired', emoji: '😴' },
+  { id: 'motivated', label: 'Motivated', emoji: '🚀' },
+  { id: 'inspired', label: 'Inspired', emoji: '✨' },
 ];
 
 export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onDraftCreated }) => {
   const [localEntry, setLocalEntry] = useState<JournalEntryModel>(entry);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'unsaved' | 'offline' | 'error' | 'conflict'>('idle');
   const [conflictMessage, setConflictMessage] = useState<string | null>(null);
+  const [tagsInput, setTagsInput] = useState<string>(entry.tags?.join(', ') || '');
   
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const saveQueueRef = useRef<Promise<any>>(Promise.resolve());
@@ -37,6 +38,9 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onDraftCrea
 
   // Load from local storage if available for this entry
   useEffect(() => {
+    // Prevent overwriting local edits if we just transitioned from draft to the newly saved ID
+    if (localEntry.id === entry.id && entry.id !== 'draft') return;
+
     if (entry.id !== 'draft') {
       const pendingData = localStorage.getItem(`journal_draft_${entry.id}`);
       if (pendingData) {
@@ -56,15 +60,18 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onDraftCrea
       setLocalEntry(entry);
       setSaveStatus('idle');
     }
+    setTagsInput(entry.tags?.join(', ') || '');
     setConflictMessage(null);
     isCreatingDraft.current = false;
     
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entry.id]); // Intentionally not dependent on entry object fully to avoid overwriting pending edits on background refresh
 
   // Monitor offline status
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (isOffline && saveStatus !== 'idle' && saveStatus !== 'saved') {
       setSaveStatus('offline');
@@ -115,31 +122,34 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onDraftCrea
             challenges: latestData.challenges,
             lessons_learned: latestData.lessonsLearned,
             tomorrow_focus: latestData.tomorrowFocus,
+            tags: latestData.tags,
             status: 'draft'
           });
           
           isCreatingDraft.current = false;
           setSaveStatus('saved');
+          setLocalEntry(prev => ({ ...prev, id: newEntry.id }));
           if (onDraftCreated) onDraftCreated(newEntry.id);
           
         } else {
-          // Update existing
-          await updateEntryAsync({
-            id: latestData.id,
-            payload: {
-              title: latestData.title,
-              content: latestData.content,
-              mood: latestData.mood,
-              gratitude: latestData.gratitude,
-              todays_wins: latestData.todaysWins,
-              challenges: latestData.challenges,
-              lessons_learned: latestData.lessonsLearned,
-              tomorrow_focus: latestData.tomorrowFocus,
-              last_updated_at: latestData.lastUpdatedAt,
-            }
-          });
-          
-          clearLocalStorage(latestData.id);
+            // Update existing
+            await updateEntryAsync({
+              id: latestData.id,
+              payload: {
+                title: latestData.title,
+                content: latestData.content,
+                mood: latestData.mood,
+                gratitude: latestData.gratitude,
+                todays_wins: latestData.todaysWins,
+                challenges: latestData.challenges,
+                lessons_learned: latestData.lessonsLearned,
+                tomorrow_focus: latestData.tomorrowFocus,
+                last_updated_at: latestData.lastUpdatedAt,
+                tags: latestData.tags,
+              }
+            });
+            
+            clearLocalStorage(latestData.id);
           setSaveStatus('saved');
           setTimeout(() => {
             setSaveStatus(prev => prev === 'saved' ? 'idle' : prev);
@@ -179,6 +189,7 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onDraftCrea
   const handleReload = () => {
     clearLocalStorage(entry.id);
     setLocalEntry(entry);
+    setTagsInput(entry.tags?.join(', ') || '');
     setConflictMessage(null);
     setSaveStatus('idle');
   };
@@ -279,10 +290,29 @@ export const JournalEditor: React.FC<JournalEditorProps> = ({ entry, onDraftCrea
                 )}
               >
                 <span className="text-base">{mood.emoji}</span>
-                <span className="font-medium">{mood.id}</span>
+                <span className="font-medium">{mood.label}</span>
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Tags UI */}
+        <div className="space-y-3 pt-4 border-t border-border/10">
+          <label className="text-sm font-medium text-secondary flex items-center gap-2">
+            Tags (comma separated)
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. work, thoughts, health"
+            value={tagsInput}
+            onChange={(e) => {
+              setTagsInput(e.target.value);
+              const newTags = e.target.value.split(',').map(t => t.trim()).filter(Boolean);
+              handleChange('tags', newTags);
+            }}
+            disabled={!!conflictMessage}
+            className="w-full bg-surfaceHighlight border border-border/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-accent transition-colors disabled:opacity-50"
+          />
         </div>
 
         {/* Structured Sections */}

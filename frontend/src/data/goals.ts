@@ -80,8 +80,8 @@ export const longTermGoals = [
 ];
 
 export const visionBoardPhotos = [
-  { id: 1, url: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=600&h=400', title: 'Deep Work Setup' },
-  { id: 2, url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=600&h=400', title: 'Travel More' },
-  { id: 3, url: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=600&h=400', title: 'Fitness' },
-  { id: 4, url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600&h=400', title: 'Code Mastery' },
+  { id: 1, url: 'https://picsum.photos/seed/deepwork/600/400', title: 'Deep Work Setup' },
+  { id: 2, url: 'https://picsum.photos/seed/travel2/600/400', title: 'Travel More' },
+  { id: 3, url: 'https://picsum.photos/seed/fitness/600/400', title: 'Fitness' },
+  { id: 4, url: 'https://picsum.photos/seed/code/600/400', title: 'Code Mastery' },
 ];

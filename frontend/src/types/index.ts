@@ -64,8 +64,8 @@ export interface Goal {
   title: string;
   description: string;
   category: string;
-  priority: 'Low' | 'Medium' | 'High';
-  status: 'Not Started' | 'In Progress' | 'Completed' | 'Archived';
+  priority: 'low' | 'medium' | 'high';
+  status: 'not_started' | 'in_progress' | 'completed' | 'archived';
   targetDate: string;
   createdAt: string;
   updatedAt: string;

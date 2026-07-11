@@ -41,6 +41,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       {filters.map(filter => (
         <select
           key={filter.id}
+          id={`filter-${filter.id}`}
+          name={`filter-${filter.id}`}
+          aria-label={filter.label}
           value={filter.value}
           onChange={(e) => filter.onChange(e.target.value)}
           className="bg-surfaceHighlight border border-border/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent transition-colors appearance-none"
@@ -57,6 +60,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           <div className="flex items-center gap-2">
             <ArrowUpDown className="w-4 h-4 text-secondary" />
             <select
+              id="sort-by"
+              name="sort-by"
+              aria-label="Sort by"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="bg-transparent border-none text-sm font-medium focus:outline-none focus:ring-0 appearance-none cursor-pointer text-primary"

@@ -16,6 +16,9 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     <div className="relative flex-1 md:max-w-xs">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary/70" />
       <input
+        id="search-input"
+        name="search"
+        aria-label="Search"
         type="text"
         placeholder={placeholder}
         value={value}

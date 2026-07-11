@@ -63,7 +63,7 @@ export default function JournalAnalyticsWidget({ filters }: { filters?: Record<s
                     <Cell key={`cell-${index}`} fill={COLORS[(index + 3) % COLORS.length]} />
                   ))}
                 </Pie>
-                <RechartsTooltip contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
+                <RechartsTooltip isAnimationActive={false} allowEscapeViewBox={{ x: false, y: false }}  contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
               </PieChart>
             </ResponsiveContainer>
@@ -73,3 +73,4 @@ export default function JournalAnalyticsWidget({ filters }: { filters?: Record<s
     </div>
   );
 }
+

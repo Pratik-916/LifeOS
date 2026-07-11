@@ -7,7 +7,7 @@ import { EmptyState } from '../../../components/ui/EmptyState';
 import { Button } from '../../../components/Button';
 import { Plus, Edit2, Trash2, ExternalLink } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function BlogAdmin() {
   const [page, setPage] = useState(1);
@@ -15,6 +15,18 @@ export default function BlogAdmin() {
   const { mutateAsync: createPost } = useCreatePost();
   const { mutate: deletePost } = useDeletePost();
   const navigate = useNavigate();
+  const location = useLocation();
+  const hasCreatedDraft = React.useRef(false);
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('action') === 'create' && !hasCreatedDraft.current) {
+      hasCreatedDraft.current = true;
+      // Remove the query param immediately so it doesn't loop on back navigation
+      navigate('/blog/admin', { replace: true });
+      handleCreateDraft();
+    }
+  }, [location.search, navigate]);
 
   const handleCreateDraft = async () => {
     try {
@@ -23,8 +35,7 @@ export default function BlogAdmin() {
         content: '',
         status: 'draft',
       });
-      // In a real app we'd navigate to the editor for this new draft
-      // e.g. navigate(`/blog/admin/edit/${newPost.id}`);
+      navigate(`/blog/admin/edit/${newPost.id}`);
     } catch (e) {
       console.error(e);
     }

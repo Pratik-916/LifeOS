@@ -20,8 +20,8 @@ export interface GoalDTO {
   title: string;
   description: string;
   category: string;
-  priority: 'Low' | 'Medium' | 'High';
-  status: 'Not Started' | 'In Progress' | 'Completed' | 'Archived';
+  priority: 'low' | 'medium' | 'high';
+  status: 'not_started' | 'in_progress' | 'completed' | 'archived';
   target_date: string;
   start_date?: string;
   completed_at?: string;
@@ -73,7 +73,7 @@ export interface CreateGoalPayload {
   title: string;
   description: string;
   category: string;
-  priority: 'Low' | 'Medium' | 'High';
+  priority: 'low' | 'medium' | 'high';
   target_date: string;
   color?: string;
   icon?: string;
@@ -81,7 +81,7 @@ export interface CreateGoalPayload {
 }
 
 export interface UpdateGoalPayload extends Partial<CreateGoalPayload> {
-  status?: 'Not Started' | 'In Progress' | 'Completed' | 'Archived';
+  status?: 'not_started' | 'in_progress' | 'completed' | 'archived';
   progress?: number;
   is_favorite?: boolean;
   is_archived?: boolean;

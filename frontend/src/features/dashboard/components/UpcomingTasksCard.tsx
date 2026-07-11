@@ -8,11 +8,11 @@ import { cn } from '../../../lib/utils';
 
 export const UpcomingTasksCard = () => {
   // Fetch tasks. We'll sort and filter client-side for the dashboard view to avoid excessive distinct API calls
-  const { data: tasksData, isLoading, isError, refetch } = useTasks({});
+  const { data: tasksResponse, isLoading, isError, error, refetch } = useTasks({});
   
   const navigate = useNavigate();
   
-  const tasks = tasksData?.results || [];
+  const tasks = tasksResponse?.results || [];
   
   const activeTasks = tasks.filter(t => t.status !== 'completed');
   
@@ -28,6 +28,7 @@ export const UpcomingTasksCard = () => {
       title="Upcoming Tasks"
       isLoading={isLoading}
       isError={isError}
+      error={error as Error}
       isEmpty={tasks.length === 0}
       onRefresh={refetch}
       headerAction={

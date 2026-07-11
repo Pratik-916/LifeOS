@@ -13,12 +13,12 @@ interface HabitModalProps {
 const CATEGORIES = ['Health', 'Learning', 'Work', 'Personal', 'Finance', 'Other'];
 const FREQUENCIES = ['daily', 'weekly'];
 const COLORS = [
-  { label: 'Blue', value: 'from-blue-500 to-cyan-500' },
-  { label: 'Green', value: 'from-green-500 to-emerald-500' },
-  { label: 'Red', value: 'from-orange-500 to-red-500' },
-  { label: 'Purple', value: 'from-purple-500 to-fuchsia-500' },
-  { label: 'Pink', value: 'from-pink-500 to-rose-500' },
-  { label: 'Yellow', value: 'from-yellow-400 to-orange-500' },
+  { label: 'Blue', value: 'blue', className: 'bg-blue-500' },
+  { label: 'Green', value: 'green', className: 'bg-green-500' },
+  { label: 'Red', value: 'red', className: 'bg-red-500' },
+  { label: 'Purple', value: 'purple', className: 'bg-purple-500' },
+  { label: 'Pink', value: 'pink', className: 'bg-pink-500' },
+  { label: 'Orange', value: 'orange', className: 'bg-orange-500' },
 ];
 
 export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
@@ -28,6 +28,7 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave,
     frequency: 'daily',
     target_count: 1,
     color: COLORS[0].value,
+    start_date: new Date().toISOString().split('T')[0],
   });
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave,
         frequency: 'daily',
         target_count: 1,
         color: COLORS[0].value,
+        start_date: new Date().toISOString().split('T')[0],
       });
     }
   }, [initialData, isOpen]);
@@ -153,7 +155,7 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave,
                         key={color.label}
                         type="button"
                         onClick={() => setFormData({ ...formData, color: color.value })}
-                        className={`w-6 h-6 rounded-full bg-gradient-to-r ${color.value} transition-transform ${formData.color === color.value ? 'scale-125 ring-2 ring-border ring-offset-2 ring-offset-background' : 'hover:scale-110'}`}
+                        className={`w-6 h-6 rounded-full ${color.className} transition-transform ${formData.color === color.value ? 'scale-125 ring-2 ring-border ring-offset-2 ring-offset-background' : 'hover:scale-110'}`}
                         title={color.label}
                       />
                     ))}

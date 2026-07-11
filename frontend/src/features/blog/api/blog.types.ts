@@ -251,6 +251,7 @@ export interface CreateBlogPostPayload {
   status?: 'draft' | 'review' | 'scheduled' | 'published' | 'archived';
   visibility?: 'private' | 'unlisted' | 'public';
   featured?: boolean;
+  featured_image?: string | null;
 }
 
 export interface UpdateBlogPostPayload extends Partial<CreateBlogPostPayload> {

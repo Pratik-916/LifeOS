@@ -9,7 +9,16 @@ export const useCreateJournalEntry = () => {
   return useMutation({
     mutationFn: (payload: CreateJournalEntryPayload) => JournalAPI.createJournalEntry(payload),
     onSuccess: (newEntry) => {
-      // Invalidate lists to show the new entry
+      // Optimistically update lists so UI doesn't flicker when activeEntryId changes
+      queryClient.setQueriesData({ queryKey: journalKeys.lists() }, (oldData: any) => {
+        if (!oldData || !oldData.results) return oldData;
+        return {
+          ...oldData,
+          results: [newEntry, ...oldData.results]
+        };
+      });
+      
+      // Invalidate lists to fetch the true latest state
       queryClient.invalidateQueries({ queryKey: journalKeys.lists() });
       queryClient.invalidateQueries({ queryKey: journalKeys.statistics() });
       queryClient.invalidateQueries({ queryKey: journalKeys.dashboard() });

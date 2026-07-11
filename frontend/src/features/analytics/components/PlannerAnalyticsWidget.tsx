@@ -43,10 +43,10 @@ export default function PlannerAnalyticsWidget({ filters }: { filters?: Record<s
                 <XAxis dataKey="name" stroke="var(--chart-text)" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="var(--chart-text)" fontSize={12} tickLine={false} axisLine={false} />
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
-                <RechartsTooltip cursor={{fill: 'var(--chart-cursor)'}} contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
+                <RechartsTooltip isAnimationActive={false} allowEscapeViewBox={{ x: false, y: false }} cursor={{fill: 'var(--chart-cursor)'}} contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
-                <Bar dataKey="completed" stackId="a" fill="#22c55e" radius={[0, 0, 4, 4]} barSize={20} />
-                <Bar dataKey="pending" stackId="a" fill="#ef4444" radius={[4, 4, 0, 0]} opacity={0.6} />
+                <Bar isAnimationActive={false} dataKey="completed" stackId="a" fill="#22c55e" radius={[0, 0, 4, 4]} barSize={20} />
+                <Bar isAnimationActive={false} dataKey="pending" stackId="a" fill="#ef4444" radius={[4, 4, 0, 0]} opacity={0.6} />
               </BarChart>
             </ResponsiveContainer>
           ) : <AnalyticsEmptyState />}
@@ -67,7 +67,7 @@ export default function PlannerAnalyticsWidget({ filters }: { filters?: Record<s
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <RechartsTooltip contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
+                <RechartsTooltip isAnimationActive={false} allowEscapeViewBox={{ x: false, y: false }}  contentStyle={{ backgroundColor: 'var(--chart-bg)', color: 'var(--color-primary)', borderColor: 'var(--chart-border)', borderRadius: '12px' }} />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
               </PieChart>
             </ResponsiveContainer>
@@ -77,3 +77,4 @@ export default function PlannerAnalyticsWidget({ filters }: { filters?: Record<s
     </div>
   );
 }
+

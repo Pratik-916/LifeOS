@@ -41,33 +41,33 @@ export const blogApi = {
   },
 
   schedulePost: async (id: string, published_at: string) => {
-    await axiosInstance.post(`/posts/${id}/schedule/`, { published_at });
+    await axiosInstance.post(`/blog/posts/${id}/schedule/`, { published_at });
   },
 
   featurePost: async (id: string, featured: boolean = true) => {
-    await axiosInstance.post(`/posts/${id}/feature/`, { featured });
+    await axiosInstance.post(`/blog/posts/${id}/feature/`, { featured });
   },
 
   // ---------------------------------------------------------------------------
   // Public Blog API
   // ---------------------------------------------------------------------------
   getPublicPosts: async (filters: GetPostsFilters = {}) => {
-    const response = await axiosInstance.get<{results: BlogPostPublicDTO[], count: number, next: string | null}>('/blog/', { params: filters });
+    const response = await axiosInstance.get<{results: BlogPostPublicDTO[], count: number, next: string | null}>('/blog/blog/', { params: filters });
     return response.data;
   },
 
   getPublicPostBySlug: async (slug: string) => {
-    const response = await axiosInstance.get<BlogPostPublicDTO>(`/blog/${slug}/`);
+    const response = await axiosInstance.get<BlogPostPublicDTO>(`/blog/blog/${slug}/`);
     return response.data;
   },
 
   getLatestPosts: async () => {
-    const response = await axiosInstance.get<BlogPostPublicDTO[]>('/blog/latest/');
+    const response = await axiosInstance.get<BlogPostPublicDTO[]>('/blog/blog/latest/');
     return response.data;
   },
 
   getFeaturedPosts: async () => {
-    const response = await axiosInstance.get<BlogPostPublicDTO[]>('/blog/featured/');
+    const response = await axiosInstance.get<BlogPostPublicDTO[]>('/blog/blog/featured/');
     return response.data;
   },
 
@@ -75,17 +75,17 @@ export const blogApi = {
     const params: any = { q: query };
     if (category) params.category = category;
     if (tag) params.tag = tag;
-    const response = await axiosInstance.get<{results: BlogPostPublicDTO[], count: number, next: string | null}>('/blog/search/', { params });
+    const response = await axiosInstance.get<{results: BlogPostPublicDTO[], count: number, next: string | null}>('/blog/blog/search/', { params });
     return response.data;
   },
 
   getRelatedPosts: async (slug: string) => {
-    const response = await axiosInstance.get<BlogPostPublicDTO[]>(`/blog/${slug}/related/`);
+    const response = await axiosInstance.get<BlogPostPublicDTO[]>(`/blog/blog/${slug}/related/`);
     return response.data;
   },
 
   getBlogStatistics: async () => {
-    const response = await axiosInstance.get<BlogStatisticsDTO>('/blog/stats/');
+    const response = await axiosInstance.get<BlogStatisticsDTO>('/blog/blog/stats/');
     return response.data;
   },
 
@@ -93,7 +93,7 @@ export const blogApi = {
   // Categories
   // ---------------------------------------------------------------------------
   getCategories: async () => {
-    const response = await axiosInstance.get<BlogCategoryDTO[]>('/categories/');
+    const response = await axiosInstance.get<BlogCategoryDTO[]>('/blog/categories/');
     // Handle pagination if categories API is paginated
     if (response.data && typeof (response.data as any).results !== 'undefined') {
       return (response.data as any).results as BlogCategoryDTO[];

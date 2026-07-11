@@ -47,10 +47,12 @@ export interface HabitDTO {
 }
 
 export interface HabitStatsDTO {
-  total_habits: number;
+  total_today: number;
   completed_today: number;
-  completion_rate: number;
-  longest_active_streak: number;
+  completion_percentage: number;
+  longest_streak_ever: number;
+  pending_today: number;
+  current_streak_sum: number;
 }
 
 export interface PaginatedHabitsDTO {
@@ -141,6 +143,7 @@ export interface CreateHabitPayload {
   color?: string;
   frequency: 'daily' | 'weekly';
   target_count?: number;
+  start_date?: string;
   reminder_time?: string | null;
   reminder_enabled?: boolean;
   status?: 'active' | 'paused' | 'archived';

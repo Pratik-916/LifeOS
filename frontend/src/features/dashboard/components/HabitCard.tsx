@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { cn } from '../../../lib/utils';
 
 export const HabitCard = () => {
-  const { data: habitsResponse, isLoading, isError, refetch } = useHabits({});
+  const { data: habitsResponse, isLoading, isError, error, refetch } = useHabits({});
   const navigate = useNavigate();
   
   const activeHabits = habitsResponse?.results?.filter(h => h.status === 'active') || [];
@@ -27,7 +27,7 @@ export const HabitCard = () => {
       title="Today's Habits"
       isLoading={isLoading}
       isError={isError}
-      error={habitsResponse instanceof Error ? habitsResponse : null}
+      error={error as Error}
       isEmpty={activeHabits.length === 0}
       onRefresh={refetch}
       headerAction={

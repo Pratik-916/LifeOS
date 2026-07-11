@@ -40,6 +40,7 @@ import BlogPostView from './features/blog/pages/BlogPostView';
 import BlogAdmin from './features/blog/pages/BlogAdmin';
 import BlogAdminEdit from './features/blog/pages/BlogAdminEdit';
 import BlogPreview from './features/blog/pages/BlogPreview';
+import NotFound from './pages/NotFound';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { useAppStore } from './store/useAppStore';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
@@ -188,6 +189,9 @@ function App() {
                       </FeatureErrorBoundary>
                     } />
                   </Route>
+
+                  {/* 404 Catch-All Route */}
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </AnimatePresence>
             </Router>

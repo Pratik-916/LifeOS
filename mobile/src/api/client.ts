@@ -1,20 +1,21 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { useAuthStore } from '../store/useAuthStore';
-import { API_CONFIG } from './config';
+import { config } from '../config/config';
+import { endpoints } from './endpoints';
 
 export const apiClient = axios.create({
-  baseURL: API_CONFIG.baseURL,
-  timeout: API_CONFIG.timeout,
+  baseURL: config.api.baseURL,
+  timeout: config.api.timeout,
 });
 
 apiClient.interceptors.request.use(
-  async (config) => {
+  async (reqConfig) => {
     const token = useAuthStore.getState().accessToken;
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (token && reqConfig.headers) {
+      reqConfig.headers.Authorization = `Bearer ${token}`;
     }
-    return config;
+    return reqConfig;
   },
   (error) => Promise.reject(error)
 );
@@ -34,7 +35,7 @@ apiClient.interceptors.response.use(
 
       if (refreshToken) {
         try {
-          const res = await axios.post(`${API_CONFIG.baseURL}/api/v1/auth/refresh/`, {
+          const res = await axios.post(`${config.api.baseURL}${endpoints.auth.refresh}`, {
             refresh: refreshToken,
           });
 

@@ -5,10 +5,11 @@ The LifeOS mobile application strictly adheres to a feature-first architecture t
 ## Directory Layout
 `mobile/src/`
 - `api/`: Centralized networking logic, Axios configurations, and interceptors.
-- `components/`: Pure, un-opinionated UI primitives (e.g., Button, Card, Input).
+- `components/ui/`: Pure, generic UI primitives (e.g., Button, Input, ErrorBoundary).
+- `config/`: Environment schemas and config objects mapping EXPO_PUBLIC_* variables.
 - `features/`: Domain-specific business logic and screens grouped by feature (e.g., auth, dashboard).
+- `hooks/`: Reusable global React hooks (e.g. useNetworkStatus).
 - `navigation/`: React Navigation stacks and tab coordinators.
+- `services/`: Third-party integration abstractions (permissions).
 - `store/`: Zustand global state slices.
-- `theme/`: Global aesthetic configurations (Tailwind/NativeWind).
-- `types/`: Global TypeScript interfaces.
-- `utils/`: Pure helper functions.
+- `theme/`: Global aesthetic configurations (Colors, Spacing, Typography).

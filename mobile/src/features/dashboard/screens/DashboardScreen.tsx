@@ -8,7 +8,6 @@ import { Typography } from '../../../components/ui/Typography';
 import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
 import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
-import { LogOut } from 'lucide-react-native';
 
 export const DashboardScreen = () => {
   const logout = useAuthStore((state) => state.clearTokens);

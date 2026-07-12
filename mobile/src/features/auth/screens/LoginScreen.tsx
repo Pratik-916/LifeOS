@@ -56,6 +56,7 @@ export const LoginScreen = () => {
       {mutation.isError && (
         <View className="bg-red-50 p-3 rounded-lg mb-4 border border-red-100">
           <Typography variant="caption" className="text-red-600">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {(mutation.error as unknown as any).response?.data?.message || mutation.error.message || 'Login failed. Please try again.'}
           </Typography>
         </View>

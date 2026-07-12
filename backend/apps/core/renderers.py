@@ -19,7 +19,7 @@ class CustomJSONRenderer(JSONRenderer):
         status_code = response.status_code if response else 200
 
         # If data is already standardized from custom exception handler, pass it through
-        if isinstance(data, dict) and 'success' in data and 'error' in data:
+        if isinstance(data, dict) and 'success' in data and ('error' in data or 'errors' in data):
             return super().render(data, accepted_media_type, renderer_context)
 
         # Standardize success response
@@ -34,9 +34,8 @@ class CustomJSONRenderer(JSONRenderer):
         # If somehow we get here with an error status that wasn't caught by the exception handler
         error_data = {
             'success': False,
-            'error': {
-                'code': 'error',
-                'message': 'An error occurred',
+            'message': 'An error occurred',
+            'errors': {
                 'details': data
             }
         }

@@ -62,7 +62,7 @@ class PlannerTests(TestCase):
         response = self.client.patch(f'{self.tasks_url}{task.id}/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertFalse(response.json()['success'])
-        self.assertIn('non_field_errors', response.json()['error']['details'])
+        self.assertIn('non_field_errors', response.json()['errors'])
 
     def test_soft_delete_and_restore(self):
         self.client.force_authenticate(user=self.user)

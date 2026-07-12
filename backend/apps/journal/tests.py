@@ -37,12 +37,14 @@ class JournalTests(TestCase):
         data = {
             'title': 'My First Entry',
             'content': 'This is the content of my journal. It has some words.',
-            'mood': 'amazing',
+            'mood': 'happy',
             'energy_level': 8,
             'stress_level': 2,
-            'tags': [self.tag.id]
+            'tags': [self.tag.name]
         }
         response = self.client.post(self.journal_url, data, format='json')
+        if response.status_code != status.HTTP_201_CREATED:
+            print("ERROR response:", response.json())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(response.json()['success'])
         

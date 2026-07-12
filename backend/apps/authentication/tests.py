@@ -33,7 +33,7 @@ class AuthenticationTests(TestCase):
         response = self.client.post(self.register_url, self.user_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertFalse(response.json()['success'])
-        self.assertIn('email', response.json()['error']['details'])
+        self.assertIn('email', response.json()['errors'])
 
     def test_login_success(self):
         self.client.post(self.register_url, self.user_data)

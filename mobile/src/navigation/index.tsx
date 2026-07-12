@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { useAuthStore } from '../store/useAuthStore';
 import { AuthStack } from './AuthStack';
-import { BottomTabNavigator } from './BottomTabNavigator';
+import { MainStack } from './MainStack';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 
 export const RootNavigator = () => {
@@ -18,7 +18,7 @@ export const RootNavigator = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <BottomTabNavigator /> : <AuthStack />}
+      {isAuthenticated ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };

@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View, Text } from 'react-native';
 import { LayoutDashboard, CheckSquare, Target, BookHeart, Compass } from 'lucide-react-native';
 import { DashboardScreen } from '../features/dashboard/screens/DashboardScreen';
-import { View, Text } from 'react-native';
+import { PlannerScreen } from '../features/planner/screens/PlannerScreen';
 
 export type BottomTabParamList = {
   Dashboard: undefined;
@@ -44,7 +45,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen 
         name="Planner" 
-        component={() => <PlaceholderScreen name="Planner" />} 
+        component={PlannerScreen} 
         options={{
           tabBarIcon: ({ color, size }) => <CheckSquare color={color} size={size} />
         }}

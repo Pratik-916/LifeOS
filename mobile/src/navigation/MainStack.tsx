@@ -14,6 +14,9 @@ import { HabitSearchScreen } from '../features/habits/screens/HabitSearchScreen'
 import { JournalDetailsScreen } from '../features/journal/screens/JournalDetailsScreen';
 import { JournalEditorScreen } from '../features/journal/screens/JournalEditorScreen';
 import { JournalSearchScreen } from '../features/journal/screens/JournalSearchScreen';
+import { GoalDetailsScreen } from '../features/goals/screens/GoalDetailsScreen';
+import { GoalEditorScreen } from '../features/goals/screens/GoalEditorScreen';
+import { GoalSearchScreen } from '../features/goals/screens/GoalSearchScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -62,6 +65,19 @@ export const MainStack = () => {
       <Stack.Screen 
         name="JournalSearch" 
         component={JournalSearchScreen}
+        options={{ presentation: 'transparentModal', animation: 'fade' }}
+      />
+      
+      {/* Goals Module */}
+      <Stack.Screen name="GoalDetails" component={GoalDetailsScreen} />
+      <Stack.Screen 
+        name="GoalEditor" 
+        component={GoalEditorScreen}
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen 
+        name="GoalSearch" 
+        component={GoalSearchScreen}
         options={{ presentation: 'transparentModal', animation: 'fade' }}
       />
     </Stack.Navigator>

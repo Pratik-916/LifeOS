@@ -1,0 +1,200 @@
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RouteProp } from '@react-navigation/native';
+import { ArrowLeft, Save, Plus } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { MainStackParamList } from '../../../navigation/types';
+import { useGoal } from '../hooks/useGoal';
+import { useGoalMutations } from '../hooks/useGoalMutations';
+import { Typography } from '../../../components/ui/Typography';
+import { MilestoneCard } from '../components/MilestoneCard';
+
+type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
+type EditorRouteProp = RouteProp<MainStackParamList, 'GoalEditor'>;
+
+const DRAFT_KEY = '@goal_draft';
+
+export const GoalEditorScreen = () => {
+  const route = useRoute<EditorRouteProp>();
+  const navigation = useNavigation<NavigationProp>();
+  const { id } = route.params;
+  const isEditing = !!id;
+
+  const { data: goal } = useGoal(id as string, isEditing);
+  const { createGoal, updateGoal } = useGoalMutations();
+
+  const [milestones, setMilestones] = useState<any[]>([]);
+  const [milestoneInput, setMilestoneInput] = useState('');
+
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    category: 'Personal',
+    priority: 'medium',
+    targetDate: new Date().toISOString().split('T')[0],
+  });
+
+  const loadDraft = useCallback(async () => {
+    try {
+      const draftStr = await AsyncStorage.getItem(DRAFT_KEY);
+      if (draftStr) {
+        const draft = JSON.parse(draftStr);
+        setForm(draft.form);
+        setMilestones(draft.milestones);
+      }
+    } catch (e: any) {
+      console.error(e);
+    }
+  }, []);
+
+  const saveDraft = async () => {
+    if (isEditing) return;
+    try {
+      await AsyncStorage.setItem(DRAFT_KEY, JSON.stringify({ form, milestones }));
+    } catch (e: any) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (isEditing && goal) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setForm({
+        title: goal.title,
+        description: goal.description,
+        category: goal.category,
+        priority: goal.priority,
+        targetDate: goal.targetDate,
+      });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMilestones(goal.milestones.map((m: any) => ({
+        id: m.id,
+        title: m.title,
+        is_completed: m.completed,
+      })));
+    } else {
+      loadDraft();
+    }
+  }, [goal, isEditing, loadDraft]);
+
+  // Debounced auto draft logic removed for brevity, saveDraft can be called on blur/change
+
+  const handleSave = async () => {
+    try {
+      const payload = {
+        title: form.title,
+        description: form.description,
+        category: form.category,
+        priority: form.priority as 'low' | 'medium' | 'high',
+        target_date: form.targetDate,
+        milestones: milestones.map((m: any) => ({
+          ...(m.id && !m.id.startsWith('temp_') ? { id: m.id } : {}),
+          title: m.title,
+          is_completed: m.is_completed || false,
+        })),
+      };
+
+      if (isEditing && id) {
+        await updateGoal({ id, payload });
+      } else {
+        await createGoal(payload);
+        await AsyncStorage.removeItem(DRAFT_KEY);
+      }
+      navigation.goBack();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const addMilestone = () => {
+    if (!milestoneInput.trim()) return;
+    setMilestones([...milestones, { id: `temp_${Date.now()}`, title: milestoneInput.trim(), is_completed: false }]);
+    setMilestoneInput('');
+  };
+
+  const removeMilestone = (idx: number) => {
+    setMilestones(milestones.filter((_, i) => i !== idx));
+  };
+
+  return (
+    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
+        <View className="flex-row items-center justify-between px-4 py-3 border-b border-slate-100">
+          <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
+            <ArrowLeft size={24} color="#0F172A" />
+          </TouchableOpacity>
+          <Typography variant="h3" className="text-slate-900">
+            {isEditing ? 'Edit Goal' : 'New Goal'}
+          </Typography>
+          <TouchableOpacity onPress={handleSave} className="p-2 -mr-2 flex-row items-center">
+            <Save size={20} color="#6366F1" />
+            <Typography variant="body" className="text-indigo-600 font-medium ml-1">Save</Typography>
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView className="flex-1 p-5">
+          <Typography variant="label" className="text-slate-700 mb-2">Title</Typography>
+          <TextInput
+            value={form.title}
+            onChangeText={(v) => { setForm({ ...form, title: v }); saveDraft(); }}
+            placeholder="What do you want to achieve?"
+            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-slate-900 font-medium"
+            placeholderTextColor="#94A3B8"
+          />
+
+          <Typography variant="label" className="text-slate-700 mb-2">Description</Typography>
+          <TextInput
+            value={form.description}
+            onChangeText={(v) => { setForm({ ...form, description: v }); saveDraft(); }}
+            placeholder="Why is this important?"
+            multiline
+            numberOfLines={4}
+            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-slate-900 h-24 text-top"
+            textAlignVertical="top"
+            placeholderTextColor="#94A3B8"
+          />
+
+          <Typography variant="label" className="text-slate-700 mb-2">Target Date (YYYY-MM-DD)</Typography>
+          <TextInput
+            value={form.targetDate}
+            onChangeText={(v) => { setForm({ ...form, targetDate: v }); saveDraft(); }}
+            placeholder="YYYY-MM-DD"
+            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-slate-900"
+            placeholderTextColor="#94A3B8"
+          />
+
+          <View className="mb-8">
+            <Typography variant="h3" className="text-slate-900 mb-4">Milestones</Typography>
+            
+            {milestones.map((ms, i) => (
+              <MilestoneCard 
+                key={ms.id || i}
+                milestone={{ id: ms.id, title: ms.title, completed: ms.is_completed, description: '' }}
+                onDelete={() => removeMilestone(i)}
+                isEditor
+              />
+            ))}
+            
+            <View className="flex-row items-center mt-3">
+              <TextInput
+                value={milestoneInput}
+                onChangeText={setMilestoneInput}
+                placeholder="Add a milestone..."
+                className="flex-1 border border-slate-200 rounded-lg p-3 bg-slate-50 text-slate-900 mr-2"
+                placeholderTextColor="#94A3B8"
+                onSubmitEditing={addMilestone}
+              />
+              <TouchableOpacity onPress={addMilestone} className="w-12 h-12 bg-indigo-600 rounded-lg items-center justify-center">
+                <Plus size={24} color="#FFF" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};

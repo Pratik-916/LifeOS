@@ -12,4 +12,7 @@ export type MainStackParamList = {
   JournalDetails: { id: string };
   JournalEditor: { id?: string };
   JournalSearch: undefined;
+  GoalDetails: { id: string };
+  GoalEditor: { id?: string };
+  GoalSearch: undefined;
 };

@@ -1,17 +1,20 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text } from 'react-native';
-import { LayoutDashboard, CheckSquare, Target, BookHeart, Compass, BookOpen } from 'lucide-react-native';
+import { LayoutDashboard, CheckSquare, Target, Compass, BookOpen } from 'lucide-react-native';
 import { DashboardScreen } from '../features/dashboard/screens/DashboardScreen';
 import { PlannerScreen } from '../features/planner/screens/PlannerScreen';
 import { HabitScreen } from '../features/habits/screens/HabitScreen';
 import { JournalScreen } from '../features/journal/screens/JournalScreen';
+import { GoalScreen } from '../features/goals/screens/GoalScreen';
+import { Trophy } from 'lucide-react-native';
 
 export type BottomTabParamList = {
   Dashboard: undefined;
   Planner: undefined;
   Habits: undefined;
   Journal: undefined;
+  Goals: undefined;
   Journey: undefined;
 };
 
@@ -68,10 +71,10 @@ export const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen 
-        name="Journal" 
-        component={() => <PlaceholderScreen name="Journal" />} 
+        name="Goals" 
+        component={GoalScreen} 
         options={{
-          tabBarIcon: ({ color, size }) => <BookHeart color={color} size={size} />
+          tabBarIcon: ({ color, size }) => <Trophy color={color} size={size} />
         }}
       />
       <Tab.Screen 

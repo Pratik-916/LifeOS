@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MainStackParamList } from '../../../navigation/types';
 import { useJournalEntries } from '../hooks/useJournalEntries';
+import { useJournalMutations } from '../hooks/useJournalMutations';
 import { JournalCard } from '../components/JournalCard';
 import { JournalSkeleton } from '../components/JournalSkeleton';
 import { Typography } from '../../../components/ui/Typography';
@@ -27,6 +28,7 @@ export const JournalSearchScreen = () => {
   }, [searchTerm]);
 
   const { data, isLoading } = useJournalEntries(debouncedTerm ? { search: debouncedTerm } : { search: '---none---' });
+  const { favoriteJournalEntry, deleteJournalEntry, pinJournalEntry } = useJournalMutations();
   
   const entries = debouncedTerm ? (data?.results || []) : [];
 
@@ -64,6 +66,10 @@ export const JournalSearchScreen = () => {
             <JournalCard
               entry={item}
               onPress={() => navigation.navigate('JournalDetails', { id: item.id })}
+              onEdit={() => navigation.navigate('JournalEditor', { id: item.id })}
+              onFavorite={() => favoriteJournalEntry(item.id)}
+              onDelete={() => deleteJournalEntry(item.id)}
+              onPin={() => pinJournalEntry(item.id)}
             />
           )}
           ListEmptyComponent={

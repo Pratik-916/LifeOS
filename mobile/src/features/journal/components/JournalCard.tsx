@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Animated } from 'react-native';
+import { View, TouchableOpacity, Animated, Alert } from 'react-native';
 // @ts-expect-error swipeable missing types
 import { Swipeable } from 'react-native-gesture-handler';
 import { Trash2, Heart, Pin } from 'lucide-react-native';
@@ -11,8 +11,10 @@ import { format } from 'date-fns';
 interface JournalCardProps {
   entry: JournalEntryModel;
   onPress: () => void;
+  onEdit?: () => void;
   onFavorite?: () => void;
   onDelete?: () => void;
+  onPin?: () => void;
 }
 
 const getMoodEmoji = (mood: string) => {
@@ -26,7 +28,7 @@ const getMoodEmoji = (mood: string) => {
   return map[mood?.toLowerCase()] || '📝';
 };
 
-export const JournalCard = ({ entry, onPress, onFavorite, onDelete }: JournalCardProps) => {
+export const JournalCard = ({ entry, onPress, onEdit, onFavorite, onDelete, onPin }: JournalCardProps) => {
   const renderRightActions = (
     progress: Animated.AnimatedInterpolation<number>,
     dragX: Animated.AnimatedInterpolation<number>
@@ -57,9 +59,20 @@ export const JournalCard = ({ entry, onPress, onFavorite, onDelete }: JournalCar
     );
   };
 
+  const handleLongPress = () => {
+    Alert.alert('Journal Entry', entry.title || 'Untitled', [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Edit', onPress: onEdit },
+      { text: entry.isFavorite ? 'Unfavorite' : 'Favorite', onPress: onFavorite },
+      { text: entry.isPinned ? 'Unpin' : 'Pin', onPress: onPin },
+      { text: 'Share (Coming Soon)', onPress: () => {} },
+      { text: 'Delete', style: 'destructive', onPress: onDelete },
+    ]);
+  };
+
   return (
     <Swipeable renderRightActions={renderRightActions} overshootRight={false}>
-      <TouchableOpacity onPress={onPress} activeOpacity={0.7} className="mb-3 px-4">
+      <TouchableOpacity onPress={onPress} onLongPress={handleLongPress} activeOpacity={0.7} className="mb-3 px-4">
         <Card className="p-4 flex-row justify-between items-start">
           <View className="flex-1 mr-3">
             <View className="flex-row items-center mb-1">

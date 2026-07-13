@@ -3,7 +3,7 @@ import { View, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
-import { Edit2, ArrowLeft, Heart, Pin, Trash2 } from 'lucide-react-native';
+import { Edit2, ArrowLeft, Heart, Pin, Trash2, Sparkles } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { format } from 'date-fns';
 
@@ -88,7 +88,7 @@ export const JournalDetailsScreen = () => {
         
         <Typography variant="h2" className="mb-6 mt-2">{entry.title || 'Untitled'}</Typography>
         
-        <Typography variant="body" className="mb-8 leading-7 text-slate-800">
+        <Typography variant="body" className="mb-10 text-lg leading-8 text-slate-800">
           {entry.content}
         </Typography>
 
@@ -119,6 +119,14 @@ export const JournalDetailsScreen = () => {
             <Typography variant="body" className="text-slate-700">{entry.gratitude}</Typography>
           </ReflectionCard>
         )}
+
+        <ReflectionCard title="AI Insights" icon={<Sparkles size={18} color="#6366F1" />}>
+          <View className="py-2 items-center justify-center">
+            <Typography variant="body" className="text-slate-400 italic">
+              Coming Soon
+            </Typography>
+          </View>
+        </ReflectionCard>
 
         <View className="mt-8 pt-4 border-t border-slate-100 flex-row justify-between">
           {entry.writingScore != null && (

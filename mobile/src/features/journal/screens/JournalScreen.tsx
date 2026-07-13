@@ -22,7 +22,7 @@ export const JournalScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const { data: paginatedData, isLoading, refetch, isRefetching } = useJournalEntries();
   const { data: statsData } = useJournalStats();
-  const { favoriteJournalEntry, deleteJournalEntry } = useJournalMutations();
+  const { favoriteJournalEntry, deleteJournalEntry, pinJournalEntry } = useJournalMutations();
 
   const entries = paginatedData?.results || [];
   
@@ -60,8 +60,10 @@ export const JournalScreen = () => {
           <JournalCard
             entry={item}
             onPress={() => navigation.navigate('JournalDetails', { id: item.id })}
+            onEdit={() => navigation.navigate('JournalEditor', { id: item.id })}
             onFavorite={() => favoriteJournalEntry(item.id)}
             onDelete={() => deleteJournalEntry(item.id)}
+            onPin={() => pinJournalEntry(item.id)}
           />
         )}
         contentContainerStyle={{ paddingBottom: 100 }}

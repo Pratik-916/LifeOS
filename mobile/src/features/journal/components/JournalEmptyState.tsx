@@ -9,7 +9,7 @@ interface JournalEmptyStateProps {
   message?: string;
 }
 
-export const JournalEmptyState = ({ onAction, message = "You haven't written any entries yet." }: JournalEmptyStateProps) => {
+export const JournalEmptyState = ({ onAction, message = "Every great journey begins with a single thought." }: JournalEmptyStateProps) => {
   return (
     <View className="flex-1 items-center justify-center p-8 min-h-[300px]">
       <View className="w-16 h-16 rounded-full bg-indigo-50 items-center justify-center mb-4">
@@ -22,9 +22,7 @@ export const JournalEmptyState = ({ onAction, message = "You haven't written any
         {message}
       </Typography>
       {onAction && (
-        <Button variant="primary" onPress={onAction} title="
-          Write your first entry
-        " />
+        <Button variant="primary" title="Create Your First Journal Entry" onPress={onAction} />
       )}
     </View>
   );

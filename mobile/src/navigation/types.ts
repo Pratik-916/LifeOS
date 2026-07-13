@@ -9,4 +9,7 @@ export type MainStackParamList = {
   HabitDetails: { habitId: string };
   HabitEditor: { habitId?: string };
   HabitSearch: undefined;
+  JournalDetails: { id: string };
+  JournalEditor: { id?: string };
+  JournalSearch: undefined;
 };

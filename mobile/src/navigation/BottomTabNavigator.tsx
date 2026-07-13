@@ -1,10 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text } from 'react-native';
-import { LayoutDashboard, CheckSquare, Target, BookHeart, Compass } from 'lucide-react-native';
+import { LayoutDashboard, CheckSquare, Target, BookHeart, Compass, BookOpen } from 'lucide-react-native';
 import { DashboardScreen } from '../features/dashboard/screens/DashboardScreen';
 import { PlannerScreen } from '../features/planner/screens/PlannerScreen';
 import { HabitScreen } from '../features/habits/screens/HabitScreen';
+import { JournalScreen } from '../features/journal/screens/JournalScreen';
 
 export type BottomTabParamList = {
   Dashboard: undefined;
@@ -52,6 +53,14 @@ export const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen 
+        name="Journal" 
+        component={JournalScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <BookOpen color={color} size={size} />
+          ),
+        }}
+      /><Tab.Screen 
         name="Habits" 
         component={HabitScreen} 
         options={{

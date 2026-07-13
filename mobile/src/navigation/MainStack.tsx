@@ -11,6 +11,9 @@ import { TaskSearchScreen } from '../features/planner/screens/TaskSearchScreen';
 import { HabitDetailsScreen } from '../features/habits/screens/HabitDetailsScreen';
 import { HabitEditorScreen } from '../features/habits/screens/HabitEditorScreen';
 import { HabitSearchScreen } from '../features/habits/screens/HabitSearchScreen';
+import { JournalDetailsScreen } from '../features/journal/screens/JournalDetailsScreen';
+import { JournalEditorScreen } from '../features/journal/screens/JournalEditorScreen';
+import { JournalSearchScreen } from '../features/journal/screens/JournalSearchScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -45,8 +48,21 @@ export const MainStack = () => {
       />
       <Stack.Screen 
         name="HabitSearch" 
-        component={HabitSearchScreen} 
-        options={{ presentation: 'fullScreenModal' }}
+        component={HabitSearchScreen}
+        options={{ presentation: 'transparentModal', animation: 'fade' }}
+      />
+      
+      {/* Journal Module */}
+      <Stack.Screen name="JournalDetails" component={JournalDetailsScreen} />
+      <Stack.Screen 
+        name="JournalEditor" 
+        component={JournalEditorScreen}
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen 
+        name="JournalSearch" 
+        component={JournalSearchScreen}
+        options={{ presentation: 'transparentModal', animation: 'fade' }}
       />
     </Stack.Navigator>
   );

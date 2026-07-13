@@ -1,5 +1,6 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { BottomTabParamList } from './BottomTabNavigator';
+import type { RouteProp } from '@react-navigation/native';
 
 export type MainStackParamList = {
   Tabs: NavigatorScreenParams<BottomTabParamList>;
@@ -15,4 +16,10 @@ export type MainStackParamList = {
   GoalDetails: { id: string };
   GoalEditor: { id?: string };
   GoalSearch: undefined;
+  MemoryDetails: { id: string };
+  MemoryEditor: { id?: string };
+  MemorySearch: undefined;
 };
+
+export type MemoryDetailsRouteProp = RouteProp<MainStackParamList, 'MemoryDetails'>;
+export type MemoryEditorRouteProp = RouteProp<MainStackParamList, 'MemoryEditor'>;

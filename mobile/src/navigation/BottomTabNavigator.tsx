@@ -1,12 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text } from 'react-native';
 import { LayoutDashboard, CheckSquare, Target, Compass, BookOpen } from 'lucide-react-native';
 import { DashboardScreen } from '../features/dashboard/screens/DashboardScreen';
 import { PlannerScreen } from '../features/planner/screens/PlannerScreen';
 import { HabitScreen } from '../features/habits/screens/HabitScreen';
 import { JournalScreen } from '../features/journal/screens/JournalScreen';
 import { GoalScreen } from '../features/goals/screens/GoalScreen';
+import { JourneyScreen } from '../features/journey/screens/JourneyScreen';
 import { Trophy } from 'lucide-react-native';
 
 export type BottomTabParamList = {
@@ -19,12 +19,6 @@ export type BottomTabParamList = {
 };
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
-
-const PlaceholderScreen = ({ name }: { name: string }) => (
-  <View className="flex-1 justify-center items-center bg-gray-50">
-    <Text className="text-xl font-bold text-gray-400">{name} (Coming Soon)</Text>
-  </View>
-);
 
 export const BottomTabNavigator = () => {
   return (
@@ -79,7 +73,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen 
         name="Journey" 
-        component={() => <PlaceholderScreen name="Journey" />} 
+        component={JourneyScreen} 
         options={{
           tabBarIcon: ({ color, size }) => <Compass color={color} size={size} />
         }}

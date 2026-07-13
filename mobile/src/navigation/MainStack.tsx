@@ -17,6 +17,9 @@ import { JournalSearchScreen } from '../features/journal/screens/JournalSearchSc
 import { GoalDetailsScreen } from '../features/goals/screens/GoalDetailsScreen';
 import { GoalEditorScreen } from '../features/goals/screens/GoalEditorScreen';
 import { GoalSearchScreen } from '../features/goals/screens/GoalSearchScreen';
+import { MemoryDetailsScreen } from '../features/journey/screens/MemoryDetailsScreen';
+import { MemoryEditorScreen } from '../features/journey/screens/MemoryEditorScreen';
+import { MemorySearchScreen } from '../features/journey/screens/MemorySearchScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -78,6 +81,19 @@ export const MainStack = () => {
       <Stack.Screen 
         name="GoalSearch" 
         component={GoalSearchScreen}
+        options={{ presentation: 'transparentModal', animation: 'fade' }}
+      />
+      
+      {/* Journey Module */}
+      <Stack.Screen name="MemoryDetails" component={MemoryDetailsScreen} />
+      <Stack.Screen 
+        name="MemoryEditor" 
+        component={MemoryEditorScreen}
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen 
+        name="MemorySearch" 
+        component={MemorySearchScreen}
         options={{ presentation: 'transparentModal', animation: 'fade' }}
       />
     </Stack.Navigator>

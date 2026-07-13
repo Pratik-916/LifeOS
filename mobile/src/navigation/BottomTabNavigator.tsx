@@ -4,11 +4,12 @@ import { View, Text } from 'react-native';
 import { LayoutDashboard, CheckSquare, Target, BookHeart, Compass } from 'lucide-react-native';
 import { DashboardScreen } from '../features/dashboard/screens/DashboardScreen';
 import { PlannerScreen } from '../features/planner/screens/PlannerScreen';
+import { HabitScreen } from '../features/habits/screens/HabitScreen';
 
 export type BottomTabParamList = {
   Dashboard: undefined;
   Planner: undefined;
-  Goals: undefined;
+  Habits: undefined;
   Journal: undefined;
   Journey: undefined;
 };
@@ -51,8 +52,8 @@ export const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen 
-        name="Goals" 
-        component={() => <PlaceholderScreen name="Goals" />} 
+        name="Habits" 
+        component={HabitScreen} 
         options={{
           tabBarIcon: ({ color, size }) => <Target color={color} size={size} />
         }}

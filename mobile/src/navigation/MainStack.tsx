@@ -8,6 +8,10 @@ import { TaskDetailsScreen } from '../features/planner/screens/TaskDetailsScreen
 import { TaskEditorScreen } from '../features/planner/screens/TaskEditorScreen';
 import { TaskSearchScreen } from '../features/planner/screens/TaskSearchScreen';
 
+import { HabitDetailsScreen } from '../features/habits/screens/HabitDetailsScreen';
+import { HabitEditorScreen } from '../features/habits/screens/HabitEditorScreen';
+import { HabitSearchScreen } from '../features/habits/screens/HabitSearchScreen';
+
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 export const MainStack = () => {
@@ -27,6 +31,21 @@ export const MainStack = () => {
       <Stack.Screen 
         name="TaskSearch" 
         component={TaskSearchScreen} 
+        options={{ presentation: 'fullScreenModal' }}
+      />
+      <Stack.Screen 
+        name="HabitDetails" 
+        component={HabitDetailsScreen} 
+        options={{ presentation: 'card' }}
+      />
+      <Stack.Screen 
+        name="HabitEditor" 
+        component={HabitEditorScreen} 
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen 
+        name="HabitSearch" 
+        component={HabitSearchScreen} 
         options={{ presentation: 'fullScreenModal' }}
       />
     </Stack.Navigator>

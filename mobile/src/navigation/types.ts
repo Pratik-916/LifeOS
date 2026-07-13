@@ -6,4 +6,7 @@ export type MainStackParamList = {
   TaskDetails: { taskId: string };
   TaskEditor: { taskId?: string };
   TaskSearch: undefined;
+  HabitDetails: { habitId: string };
+  HabitEditor: { habitId?: string };
+  HabitSearch: undefined;
 };

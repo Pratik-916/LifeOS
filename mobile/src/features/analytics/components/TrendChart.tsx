@@ -4,6 +4,7 @@ import { BarChart } from 'react-native-gifted-charts';
 import { Card } from '../../../components/ui/Card';
 import { Typography } from '../../../components/ui/Typography';
 import type { ChartDataset } from '../api/analytics.types';
+import { LazyRender } from './LazyRender';
 
 interface TrendChartProps {
   data?: ChartDataset;
@@ -28,25 +29,32 @@ export const TrendChart = React.memo(({ data, title, type = 'weekly' }: TrendCha
   const screenWidth = Dimensions.get('window').width;
 
   return (
-    <Card className="mb-4">
+    <Card 
+      className="mb-4"
+      accessible={true}
+      accessibilityLabel={`${title} Chart`}
+      accessibilityHint={`Displays a bar chart for ${title}.`}
+    >
       <Typography variant="h3" className="mb-4">{title}</Typography>
-      <View className="overflow-hidden">
-        <BarChart
-          data={chartData}
-          width={screenWidth - 80}
-          height={180}
-          barWidth={type === 'weekly' ? 22 : 8}
-          spacing={type === 'weekly' ? 20 : 4}
-          roundedTop
-          hideRules
-          xAxisThickness={0}
-          yAxisThickness={0}
-          yAxisTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
-          xAxisLabelTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
-          noOfSections={4}
-          isAnimated
-        />
-      </View>
+      <LazyRender>
+        <View className="overflow-hidden">
+          <BarChart
+            data={chartData}
+            width={screenWidth - 80}
+            height={180}
+            barWidth={type === 'weekly' ? 22 : 8}
+            spacing={type === 'weekly' ? 20 : 4}
+            roundedTop
+            hideRules
+            xAxisThickness={0}
+            yAxisThickness={0}
+            yAxisTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
+            xAxisLabelTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
+            noOfSections={4}
+            isAnimated
+          />
+        </View>
+      </LazyRender>
     </Card>
   );
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, RefreshControl } from 'react-native';
+import { View, ScrollView, RefreshControl, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAnalyticsDashboard } from '../hooks/useAnalyticsDashboard';
 import { AnalyticsSummaryCard } from '../components/AnalyticsSummaryCard';
@@ -82,6 +82,28 @@ export const AnalyticsDashboardScreen = () => {
           onPress={() => navigation.navigate('Heatmap')} 
           className="w-[48%] mb-2"
           variant="secondary"
+        />
+      </View>
+
+      <Typography variant="h3" className="mt-4 mb-2">Export Data</Typography>
+      <View className="flex-row flex-wrap justify-between mb-8">
+        <Button 
+          title="Share Report" 
+          onPress={() => Alert.alert('Export', 'Share functionality coming soon!')} 
+          className="w-[31%] mb-2"
+          variant="ghost"
+        />
+        <Button 
+          title="Export PDF" 
+          onPress={() => Alert.alert('Export', 'PDF export coming soon!')} 
+          className="w-[31%] mb-2"
+          variant="ghost"
+        />
+        <Button 
+          title="Export CSV" 
+          onPress={() => Alert.alert('Export', 'CSV export coming soon!')} 
+          className="w-[31%] mb-2"
+          variant="ghost"
         />
       </View>
     </ScrollView>

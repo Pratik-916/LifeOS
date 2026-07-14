@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, RefreshControl } from 'react-native';
 import { useHabitAnalytics } from '../hooks/useHabitAnalytics';
 import { FilterBar } from '../components/FilterBar';
 import { AnalyticsSkeleton } from '../components/AnalyticsSkeleton';
@@ -17,7 +17,11 @@ export const HabitAnalyticsScreen = () => {
   if (!data) return <AnalyticsEmptyState onAction={refetch} />;
 
   return (
-    <ScrollView className="flex-1 bg-white" contentContainerStyle={{ padding: 16 }}>
+    <ScrollView 
+      className="flex-1 bg-white" 
+      contentContainerStyle={{ padding: 16 }}
+      refreshControl={<RefreshControl refreshing={false} onRefresh={refetch} />}
+    >
       <FilterBar selectedRange={range} onSelectRange={setRange} />
       
       <View className="flex-row mb-2">

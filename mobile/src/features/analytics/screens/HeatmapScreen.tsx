@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, RefreshControl } from 'react-native';
 import { useAnalyticsHeatmap } from '../hooks/useAnalyticsHeatmap';
 import { FilterBar } from '../components/FilterBar';
 import { AnalyticsSkeleton } from '../components/AnalyticsSkeleton';
@@ -17,7 +17,11 @@ export const HeatmapScreen = () => {
   const heatmapDataset = mapChartDataset(data as unknown as import('../api/analytics.types').ChartDatasetDTO);
 
   return (
-    <ScrollView className="flex-1 bg-white" contentContainerStyle={{ padding: 16 }}>
+    <ScrollView 
+      className="flex-1 bg-white" 
+      contentContainerStyle={{ padding: 16 }}
+      refreshControl={<RefreshControl refreshing={false} onRefresh={refetch} />}
+    >
       <FilterBar selectedRange={range} onSelectRange={setRange} />
       <HeatmapGrid data={heatmapDataset} title="Global Activity Heatmap" />
     </ScrollView>

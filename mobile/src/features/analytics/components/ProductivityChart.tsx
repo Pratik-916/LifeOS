@@ -4,6 +4,7 @@ import { LineChart } from 'react-native-gifted-charts';
 import { Card } from '../../../components/ui/Card';
 import { Typography } from '../../../components/ui/Typography';
 import type { ChartDataset } from '../api/analytics.types';
+import { LazyRender } from './LazyRender';
 
 interface ProductivityChartProps {
   data?: ChartDataset;
@@ -29,26 +30,33 @@ export const ProductivityChart = React.memo(({ data, title }: ProductivityChartP
   const screenWidth = Dimensions.get('window').width;
 
   return (
-    <Card className="mb-4">
+    <Card 
+      className="mb-4"
+      accessible={true}
+      accessibilityLabel={`${title} Chart`}
+      accessibilityHint={`Displays a line chart for ${title}.`}
+    >
       <Typography variant="h3" className="mb-4">{title}</Typography>
-      <View className="overflow-hidden">
-        <LineChart
-          data={chartData}
-          width={screenWidth - 80}
-          height={180}
-          thickness={3}
-          color="#2563EB"
-          hideRules
-          yAxisTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
-          xAxisLabelTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
-          isAnimated
-          curved
-          dataPointsColor="#2563EB"
-          dataPointsRadius={4}
-          hideDataPoints={false}
-          spacing={(screenWidth - 100) / Math.max(1, chartData.length - 1)}
-        />
-      </View>
+      <LazyRender>
+        <View className="overflow-hidden">
+          <LineChart
+            data={chartData}
+            width={screenWidth - 80}
+            height={180}
+            thickness={3}
+            color="#2563EB"
+            hideRules
+            yAxisTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
+            xAxisLabelTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
+            isAnimated
+            curved
+            dataPointsColor="#2563EB"
+            dataPointsRadius={4}
+            hideDataPoints={false}
+            spacing={(screenWidth - 100) / Math.max(1, chartData.length - 1)}
+          />
+        </View>
+      </LazyRender>
     </Card>
   );
 });

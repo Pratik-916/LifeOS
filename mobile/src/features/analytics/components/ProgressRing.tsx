@@ -19,7 +19,11 @@ export const ProgressRing = ({ progress, size = 120, color = '#2563EB', label }:
   ];
 
   return (
-    <View className="items-center justify-center">
+    <View 
+      className="items-center justify-center"
+      accessible={true}
+      accessibilityLabel={`Progress Ring showing ${Math.round(validProgress)} percent ${label || ''}`}
+    >
       <PieChart
         data={pieData}
         donut

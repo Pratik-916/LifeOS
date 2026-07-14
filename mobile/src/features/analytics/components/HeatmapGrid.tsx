@@ -24,7 +24,12 @@ export const HeatmapGrid = React.memo(({ data, title = "Activity Heatmap" }: Hea
   };
 
   return (
-    <Card className="mb-4">
+    <Card 
+      className="mb-4"
+      accessible={true}
+      accessibilityLabel={title}
+      accessibilityHint="A heatmap grid visualizing activity intensity over time."
+    >
       <Typography variant="h3" className="mb-4">{title}</Typography>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View className="flex-row flex-wrap" style={{ width: 400, height: 100 }}>

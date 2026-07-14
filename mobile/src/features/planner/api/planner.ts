@@ -44,11 +44,14 @@ export const plannerApi = {
     const response = await apiClient.get<unknown>(`${BASE_URL}?${params.toString()}`);
     
     // Handle DRF paginated response
-    const data = response.data.results ? response.data : {
-      count: Array.isArray(response.data) ? response.data.length : 0,
-      next: null,
-      previous: null,
-      results: Array.isArray(response.data) ? response.data : []
+    const rawData = response.data as { results?: TaskDTO[], count?: number, next?: string | null, previous?: string | null } | TaskDTO[];
+    const isArray = Array.isArray(rawData);
+    
+    const data = {
+      count: !isArray && rawData.results ? (rawData.count || 0) : (isArray ? rawData.length : 0),
+      next: !isArray ? (rawData.next || null) : null,
+      previous: !isArray ? (rawData.previous || null) : null,
+      results: (!isArray && rawData.results) ? rawData.results : (isArray ? rawData : [])
     };
 
     return {

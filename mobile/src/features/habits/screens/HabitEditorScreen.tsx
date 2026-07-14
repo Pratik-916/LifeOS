@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { X, Calendar, CalendarDays } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
+import type { Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -49,8 +50,7 @@ export const HabitEditorScreen = () => {
   const [showTimePicker, setShowTimePicker] = useState(false);
 
   const { control, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<HabitFormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(habitSchema) as unknown,
+    resolver: zodResolver(habitSchema) as unknown as Resolver<HabitFormData>,
     defaultValues: {
       title: '',
       description: '',

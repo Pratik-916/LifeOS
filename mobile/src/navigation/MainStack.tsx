@@ -2,6 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { MainStackParamList } from './types';
+import { ProfileScreen } from '../features/profile/screens/ProfileScreen';
 
 // We'll import these once created
 import { TaskDetailsScreen } from '../features/planner/screens/TaskDetailsScreen';
@@ -37,6 +38,7 @@ export const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen 
         name="TaskDetails" 
         component={TaskDetailsScreen} 

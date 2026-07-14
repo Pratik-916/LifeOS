@@ -23,7 +23,10 @@ export const HabitCard: React.FC<HabitCardProps> = ({
   const isCompleted = habit.currentCount >= habit.targetCount;
   const isArchived = habit.status === 'archived';
 
-  const renderRightActions = (progress: unknown, dragX: unknown) => {
+  const renderRightActions = (
+    progress: import('react-native').Animated.AnimatedInterpolation<string | number>, 
+    dragX: import('react-native').Animated.AnimatedInterpolation<string | number>
+  ) => {
     const scale = dragX.interpolate({
       inputRange: [-80, 0],
       outputRange: [1, 0],
@@ -44,7 +47,10 @@ export const HabitCard: React.FC<HabitCardProps> = ({
     );
   };
 
-  const renderLeftActions = (progress: unknown, dragX: unknown) => {
+  const renderLeftActions = (
+    progress: import('react-native').Animated.AnimatedInterpolation<string | number>, 
+    dragX: import('react-native').Animated.AnimatedInterpolation<string | number>
+  ) => {
     const scale = dragX.interpolate({
       inputRange: [0, 80],
       outputRange: [0, 1],

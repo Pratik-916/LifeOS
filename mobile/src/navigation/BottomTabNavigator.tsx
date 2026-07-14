@@ -25,57 +25,70 @@ export const BottomTabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#2563EB',
-        tabBarInactiveTintColor: '#9CA3AF',
+        tabBarActiveTintColor: '#0F172A',
+        tabBarInactiveTintColor: '#94A3B8',
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+          marginTop: -4,
+          marginBottom: 4,
+        },
         tabBarStyle: {
           borderTopWidth: 1,
-          borderTopColor: '#F3F4F6',
+          borderTopColor: '#F1F5F9',
           elevation: 0,
           shadowOpacity: 0,
+          height: 64,
+          paddingTop: 8,
+          paddingBottom: 8,
+          backgroundColor: '#FFFFFF',
         },
+        tabBarItemStyle: {
+          paddingVertical: 4,
+        }
       }}
     >
       <Tab.Screen 
         name="Dashboard" 
         component={DashboardScreen} 
         options={{
-          tabBarIcon: ({ color, size }) => <LayoutDashboard color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => <LayoutDashboard color={focused ? '#2563EB' : color} size={26} strokeWidth={focused ? 2.5 : 2} />
         }}
       />
       <Tab.Screen 
         name="Planner" 
         component={PlannerScreen} 
         options={{
-          tabBarIcon: ({ color, size }) => <CheckSquare color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => <CheckSquare color={focused ? '#2563EB' : color} size={26} strokeWidth={focused ? 2.5 : 2} />
         }}
       />
       <Tab.Screen 
         name="Journal" 
         component={JournalScreen}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <BookOpen color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => (
+            <BookOpen color={focused ? '#8B5CF6' : color} size={26} strokeWidth={focused ? 2.5 : 2} />
           ),
         }}
       /><Tab.Screen 
         name="Habits" 
         component={HabitScreen} 
         options={{
-          tabBarIcon: ({ color, size }) => <Target color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => <Target color={focused ? '#10B981' : color} size={26} strokeWidth={focused ? 2.5 : 2} />
         }}
       />
       <Tab.Screen 
         name="Goals" 
         component={GoalScreen} 
         options={{
-          tabBarIcon: ({ color, size }) => <Trophy color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => <Trophy color={focused ? '#F59E0B' : color} size={26} strokeWidth={focused ? 2.5 : 2} />
         }}
       />
       <Tab.Screen 
         name="Journey" 
         component={JourneyScreen} 
         options={{
-          tabBarIcon: ({ color, size }) => <Compass color={color} size={size} />
+          tabBarIcon: ({ color, focused }) => <Compass color={focused ? '#14B8A6' : color} size={26} strokeWidth={focused ? 2.5 : 2} />
         }}
       />
     </Tab.Navigator>

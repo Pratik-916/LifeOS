@@ -5,6 +5,7 @@ interface ButtonProps extends TouchableOpacityProps {
   title: string;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   isLoading?: boolean;
+  icon?: React.ReactNode;
 }
 
 export const Button: React.FC<ButtonProps> = ({ 
@@ -12,6 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary', 
   isLoading, 
   className, 
+  icon,
   ...props 
 }) => {
   const baseClasses = "py-3 px-4 rounded-xl flex-row items-center justify-center";
@@ -39,7 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
       {isLoading ? (
         <ActivityIndicator color={variant === 'primary' ? 'white' : 'gray'} />
       ) : (
-        <Text className={textClasses[variant]}>{title}</Text>
+        <Text className={textClasses[variant]}>{icon}{title}</Text>
       )}
     </TouchableOpacity>
   );

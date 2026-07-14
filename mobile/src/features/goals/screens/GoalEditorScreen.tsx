@@ -27,7 +27,8 @@ export const GoalEditorScreen = () => {
   const { data: goal } = useGoal(id as string, isEditing);
   const { createGoal, updateGoal } = useGoalMutations();
 
-  const [milestones, setMilestones] = useState<Record<string, unknown>[]>([]);
+  type EditorMilestone = { id?: string; title: string; is_completed: boolean; };
+  const [milestones, setMilestones] = useState<EditorMilestone[]>([]);
   const [milestoneInput, setMilestoneInput] = useState('');
 
   const [form, setForm] = useState({
@@ -71,7 +72,7 @@ export const GoalEditorScreen = () => {
         targetDate: goal.targetDate,
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setMilestones(goal.milestones.map((m: unknown) => ({
+      setMilestones(goal.milestones.map((m) => ({
         id: m.id,
         title: m.title,
         is_completed: m.completed,
@@ -91,7 +92,7 @@ export const GoalEditorScreen = () => {
         category: form.category,
         priority: form.priority as 'low' | 'medium' | 'high',
         target_date: form.targetDate,
-        milestones: milestones.map((m: unknown) => ({
+        milestones: milestones.map((m) => ({
           ...(m.id && !m.id.startsWith('temp_') ? { id: m.id } : {}),
           title: m.title,
           is_completed: m.is_completed || false,
@@ -172,8 +173,8 @@ export const GoalEditorScreen = () => {
             
             {milestones.map((ms, i) => (
               <MilestoneCard 
-                key={ms.id || i}
-                milestone={{ id: ms.id, title: ms.title, completed: ms.is_completed, description: '' }}
+                key={ms.id || `temp-${i}`}
+                milestone={{ id: ms.id as string, title: ms.title, completed: ms.is_completed, description: '' }}
                 onDelete={() => removeMilestone(i)}
                 isEditor
               />

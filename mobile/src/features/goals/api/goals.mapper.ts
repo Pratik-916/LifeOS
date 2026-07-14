@@ -22,7 +22,7 @@ export const mapGoalFromDTO = (dto: GoalDTO): Goal => ({
   completedAt: dto.completed_at,
   progress: dto.progress,
   milestones: (dto.milestones || []).map(mapMilestoneFromDTO),
-  tags: (dto.tags_detail || []).map(t => t.name),
+  tags: (dto.tags_detail || []).map((t: unknown) => (t as { name: string }).name),
   notes: '',
   color: dto.color,
   icon: dto.icon,

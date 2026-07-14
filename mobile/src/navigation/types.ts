@@ -18,6 +18,8 @@ export type MainStackParamList = {
   GoalSearch: undefined;
   MemoryDetails: { id: string };
   MemoryEditor: { id?: string };
+  // Core
+  Profile: undefined;
   MemorySearch: undefined;
   JourneyStatistics: undefined;
   

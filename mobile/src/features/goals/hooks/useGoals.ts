@@ -1,9 +1,9 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { goalsApi } from '../api/goals';
 import { goalKeys } from '../api/goals.keys';
-import type { GetGoalsFilters } from '../api/goals.types';
 
-export const useGoals = (filters: GetGoalsFilters = {}) => {
+
+export const useGoals = (filters: Record<string, unknown> = {}) => {
   return useQuery({
     queryKey: goalKeys.list(filters),
     queryFn: () => goalsApi.getGoals(filters),

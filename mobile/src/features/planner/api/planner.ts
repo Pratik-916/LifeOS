@@ -41,7 +41,7 @@ export const plannerApi = {
       }
     }
 
-    const response = await apiClient.get<any>(`${BASE_URL}?${params.toString()}`);
+    const response = await apiClient.get<unknown>(`${BASE_URL}?${params.toString()}`);
     
     // Handle DRF paginated response
     const data = response.data.results ? response.data : {

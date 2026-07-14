@@ -63,6 +63,7 @@ export const JournalEditorScreen = () => {
     },
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = watch();
 
   // 1. Initialize Form

@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react';
+import { View, ScrollView, TouchableOpacity, Share } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { Edit2, Share as ShareIcon, Trash2 } from 'lucide-react-native';

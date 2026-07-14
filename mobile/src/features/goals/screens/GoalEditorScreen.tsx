@@ -27,7 +27,7 @@ export const GoalEditorScreen = () => {
   const { data: goal } = useGoal(id as string, isEditing);
   const { createGoal, updateGoal } = useGoalMutations();
 
-  const [milestones, setMilestones] = useState<any[]>([]);
+  const [milestones, setMilestones] = useState<Record<string, unknown>[]>([]);
   const [milestoneInput, setMilestoneInput] = useState('');
 
   const [form, setForm] = useState({
@@ -46,7 +46,7 @@ export const GoalEditorScreen = () => {
         setForm(draft.form);
         setMilestones(draft.milestones);
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
     }
   }, []);
@@ -55,7 +55,7 @@ export const GoalEditorScreen = () => {
     if (isEditing) return;
     try {
       await AsyncStorage.setItem(DRAFT_KEY, JSON.stringify({ form, milestones }));
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
     }
   };
@@ -71,7 +71,7 @@ export const GoalEditorScreen = () => {
         targetDate: goal.targetDate,
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setMilestones(goal.milestones.map((m: any) => ({
+      setMilestones(goal.milestones.map((m: unknown) => ({
         id: m.id,
         title: m.title,
         is_completed: m.completed,
@@ -91,7 +91,7 @@ export const GoalEditorScreen = () => {
         category: form.category,
         priority: form.priority as 'low' | 'medium' | 'high',
         target_date: form.targetDate,
-        milestones: milestones.map((m: any) => ({
+        milestones: milestones.map((m: unknown) => ({
           ...(m.id && !m.id.startsWith('temp_') ? { id: m.id } : {}),
           title: m.title,
           is_completed: m.is_completed || false,

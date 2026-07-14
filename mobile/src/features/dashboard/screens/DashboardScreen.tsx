@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiClient } from '../../../api/client';
 import { useAuthStore } from '../../../store/useAuthStore';
@@ -9,8 +10,12 @@ import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
 import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
 
+import type { NavigationProp } from '@react-navigation/native';
+import type { MainStackParamList } from '../../../navigation/types';
+
 export const DashboardScreen = () => {
   const logout = useAuthStore((state) => state.clearTokens);
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   const { data: dashboardData, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['dashboard', 'summary'],
@@ -84,6 +89,13 @@ export const DashboardScreen = () => {
                 React Native is successfully consuming the Django API.
               </Typography>
             </Card>
+
+            <Button 
+              title="View Analytics" 
+              onPress={() => navigation.navigate('AnalyticsDashboard')} 
+              className="mt-4" 
+              variant="primary"
+            />
           </View>
         )}
       </ScrollView>

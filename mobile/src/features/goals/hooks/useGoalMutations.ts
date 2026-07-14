@@ -52,7 +52,7 @@ export const useGoalMutations = () => {
       const previousData = queryClient.getQueryData(goalKeys.lists());
 
       // Try optimistic update on lists if structure is flat (fallback to invalidation later)
-      queryClient.setQueriesData({ queryKey: goalKeys.lists() }, (oldData: any) => {
+      queryClient.setQueriesData({ queryKey: goalKeys.lists() }, (oldData: unknown) => {
         if (!oldData || !oldData.results) return oldData;
         return {
           ...oldData,

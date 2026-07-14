@@ -50,7 +50,7 @@ export const HabitEditorScreen = () => {
 
   const { control, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<HabitFormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(habitSchema) as any,
+    resolver: zodResolver(habitSchema) as unknown,
     defaultValues: {
       title: '',
       description: '',
@@ -140,7 +140,7 @@ export const HabitEditorScreen = () => {
     }
   };
 
-  const handleTimeChange = (event: any, selectedDate?: Date) => {
+  const handleTimeChange = (event: unknown, selectedDate?: Date) => {
     setShowTimePicker(Platform.OS === 'ios');
     if (selectedDate) {
       setReminderTimeObj(selectedDate);

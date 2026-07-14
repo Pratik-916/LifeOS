@@ -57,11 +57,11 @@ export const GoalDetailsScreen = () => {
 
   const handleMilestoneToggle = (milestoneId: string, currentCompleted: boolean) => {
     // Quick optimistic milestone completion by updating the goal payload
-    const updatedMilestones = goal.milestones.map((m: any) => 
+    const updatedMilestones = goal.milestones.map((m: unknown) => 
       m.id === milestoneId ? { ...m, is_completed: !currentCompleted } : m
     );
     // Notice: we map back to DTO keys since the backend expects them
-    const dtoMilestones = updatedMilestones.map((m: any) => ({
+    const dtoMilestones = updatedMilestones.map((m: unknown) => ({
       id: m.id,
       title: m.title,
       description: m.description,

@@ -22,7 +22,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
 }) => {
   const isCompleted = task.status === 'completed';
 
-  const renderRightActions = (progress: any, dragX: any) => {
+  const renderRightActions = (progress: unknown, dragX: unknown) => {
     const scale = dragX.interpolate({
       inputRange: [-80, 0],
       outputRange: [1, 0],
@@ -43,7 +43,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
     );
   };
 
-  const renderLeftActions = (progress: any, dragX: any) => {
+  const renderLeftActions = (progress: unknown, dragX: unknown) => {
     const scale = dragX.interpolate({
       inputRange: [0, 80],
       outputRange: [0, 1],

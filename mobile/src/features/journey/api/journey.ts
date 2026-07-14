@@ -1,106 +1,130 @@
 import { apiClient } from '../../../api/client';
 import type { 
-  MemoryFilters,
-  TimelineFilters,
-  CreateMemoryPayload, 
-  UpdateMemoryPayload,
-  PaginatedMemoryDTO,
-  MemoryDTO,
-  PaginatedTimelineDTO,
-  JourneyStatsDTO,
-  MemoryModel,
-  PaginatedMemoryModel,
-  PaginatedTimelineModel,
-  JourneyStatsModel
+  PaginatedResponse, 
+  Memory, MemoryDTO,
+  TimelineYearGroup,
+  JourneyStatistics, JourneyStatisticsDTO,
+  CreateMemoryPayload, UpdateMemoryPayload
 } from './journey.types';
 import { 
-  mapMemoryToDomain, 
-  mapPaginatedMemoryToDomain,
-  mapPaginatedTimelineToDomain,
-  mapJourneyStatsToDomain 
+  mapMemoryDTO, 
+  mapTimelineYearGroupDTO, 
+  mapJourneyStatisticsDTO,
+  mapCreateMemoryPayload,
+  mapUpdateMemoryPayload
 } from './journey.mapper';
 
+const MEMORIES_BASE_URL = '/api/v1/journey/memories/';
+
+export interface GetMemoriesFilters {
+  category?: string;
+  visibility?: string;
+  favorite?: boolean;
+  pinned?: boolean;
+  search?: string;
+  sort_by?: string;
+  sort_order?: 'asc' | 'desc';
+  page?: number;
+}
+
+export interface GetTimelineFilters {
+  year?: number;
+  month?: number;
+  offset?: number;
+  limit?: number;
+}
+
 export const journeyApi = {
-  getMemories: async (filters: MemoryFilters = {}): Promise<PaginatedMemoryModel> => {
+  getMemories: async (filters?: GetMemoriesFilters): Promise<PaginatedResponse<Memory>> => {
     const params = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined) params.append(key, String(value));
-    });
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== '' && key !== 'sort_by' && key !== 'sort_order' && key !== 'search') {
+          params.append(key, String(value));
+        }
+      });
+      if (filters.search) params.append('search', filters.search);
+      if (filters.sort_by) {
+        const prefix = filters.sort_order === 'desc' ? '-' : '';
+        params.append('ordering', `${prefix}${filters.sort_by}`);
+      }
+      if (filters.page) params.append('page', String(filters.page));
+    }
+
+    const response = await apiClient.get<PaginatedResponse<MemoryDTO>>(`${MEMORIES_BASE_URL}?${params.toString()}`);
     
-    const { data } = await apiClient.get<PaginatedMemoryDTO>(`/journey/memories/?${params.toString()}`);
-    return mapPaginatedMemoryToDomain(data);
+    const data = response.data.results ? response.data : {
+      count: Array.isArray(response.data) ? response.data.length : 0,
+      next: null,
+      previous: null,
+      results: Array.isArray(response.data) ? response.data : []
+    };
+
+    return {
+      count: data.count,
+      next: data.next,
+      previous: data.previous,
+      results: data.results.map(mapMemoryDTO)
+    };
   },
 
-  getMemory: async (id: string): Promise<MemoryModel> => {
-    const { data } = await apiClient.get<MemoryDTO>(`/journey/memories/${id}/`);
-    return mapMemoryToDomain(data);
+  getMemory: async (id: string): Promise<Memory> => {
+    const response = await apiClient.get<MemoryDTO>(`${MEMORIES_BASE_URL}${id}/`);
+    return mapMemoryDTO(response.data);
   },
 
-  createMemory: async (payload: CreateMemoryPayload): Promise<MemoryModel> => {
-    const { data } = await apiClient.post<MemoryDTO>('/journey/memories/', payload);
-    return mapMemoryToDomain(data);
+  createMemory: async (payload: CreateMemoryPayload): Promise<Memory> => {
+    const dtoPayload = mapCreateMemoryPayload(payload);
+    const response = await apiClient.post<MemoryDTO>(MEMORIES_BASE_URL, dtoPayload);
+    return mapMemoryDTO(response.data);
   },
 
-  updateMemory: async (id: string, payload: UpdateMemoryPayload): Promise<MemoryModel> => {
-    const { data } = await apiClient.patch<MemoryDTO>(`/journey/memories/${id}/`, payload);
-    return mapMemoryToDomain(data);
+  updateMemory: async (id: string, payload: UpdateMemoryPayload): Promise<Memory> => {
+    const dtoPayload = mapUpdateMemoryPayload(payload);
+    const response = await apiClient.patch<MemoryDTO>(`${MEMORIES_BASE_URL}${id}/`, dtoPayload);
+    return mapMemoryDTO(response.data);
   },
 
   deleteMemory: async (id: string): Promise<void> => {
-    await apiClient.delete(`/journey/memories/${id}/`);
+    await apiClient.delete(`${MEMORIES_BASE_URL}${id}/`);
   },
 
-  restoreMemory: async (id: string): Promise<MemoryModel> => {
-    const { data } = await apiClient.post<MemoryDTO>(`/journey/memories/${id}/restore/`);
-    return mapMemoryToDomain(data);
+  restoreMemory: async (id: string): Promise<Memory> => {
+    const response = await apiClient.post<MemoryDTO>(`${MEMORIES_BASE_URL}${id}/restore/`);
+    return mapMemoryDTO(response.data);
   },
 
-  favoriteMemory: async (id: string): Promise<{status: string, favorite: boolean}> => {
-    const { data } = await apiClient.post<{status: string, favorite: boolean}>(`/journey/memories/${id}/favorite/`);
-    return data;
+  favoriteMemory: async (id: string): Promise<{ status: string; favorite: boolean }> => {
+    const response = await apiClient.post(`${MEMORIES_BASE_URL}${id}/favorite/`);
+    return response.data;
   },
 
-  pinMemory: async (id: string): Promise<{status: string, pinned: boolean}> => {
-    const { data } = await apiClient.post<{status: string, pinned: boolean}>(`/journey/memories/${id}/pin/`);
-    return data;
+  pinMemory: async (id: string): Promise<{ status: string; pinned: boolean }> => {
+    const response = await apiClient.post(`${MEMORIES_BASE_URL}${id}/pin/`);
+    return response.data;
   },
 
-  getJourneyTimeline: async (filters: TimelineFilters = {}): Promise<PaginatedTimelineModel> => {
-    let url = '/journey/memories/timeline/';
-    if (filters.year && filters.month) {
-      url = `/journey/memories/timeline/${filters.year}/${filters.month}/`;
-    } else if (filters.year) {
-      url = `/journey/memories/timeline/${filters.year}/`;
+  getTimeline: async (filters?: GetTimelineFilters): Promise<PaginatedResponse<TimelineYearGroup>> => {
+    const params = new URLSearchParams();
+    if (filters) {
+      if (filters.offset !== undefined) params.append('offset', String(filters.offset));
+      if (filters.limit !== undefined) params.append('limit', String(filters.limit));
+      if (filters.year !== undefined) params.append('year', String(filters.year));
+      if (filters.month !== undefined) params.append('month', String(filters.month));
     }
     
-    const params = new URLSearchParams();
-    if (filters.limit) params.append('limit', String(filters.limit));
-    if (filters.offset) params.append('offset', String(filters.offset));
-    
-    const queryString = params.toString() ? `?${params.toString()}` : '';
-    const { data } = await apiClient.get<PaginatedTimelineDTO>(`${url}${queryString}`);
-    
-    return mapPaginatedTimelineToDomain(data);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await apiClient.get<any>(`${MEMORIES_BASE_URL}timeline/?${params.toString()}`);
+    return {
+      count: response.data.count,
+      next: response.data.next,
+      previous: response.data.previous,
+      results: (response.data.results || []).map(mapTimelineYearGroupDTO)
+    };
   },
 
-  getJourneyStatistics: async (): Promise<JourneyStatsModel> => {
-    const { data } = await apiClient.get<JourneyStatsDTO>('/journey/memories/stats/');
-    return mapJourneyStatsToDomain(data);
+  getStatistics: async (): Promise<JourneyStatistics> => {
+    const response = await apiClient.get<JourneyStatisticsDTO>(`${MEMORIES_BASE_URL}stats/`);
+    return mapJourneyStatisticsDTO(response.data);
   },
-
-  // Image support placeholder
-  uploadMemoryImages: async (id: string, formData: FormData): Promise<MemoryModel> => {
-    // Note: react-native needs special handling for FormData over typical web usage
-    // For now, this points to the backend which expects multipart/form-data
-    const { data } = await apiClient.post<MemoryDTO>(`/journey/memories/${id}/images/`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return mapMemoryToDomain(data);
-  },
-
-  deleteMemoryImage: async (id: string, imageId: string): Promise<void> => {
-    await apiClient.delete(`/journey/memories/${id}/images/${imageId}/`);
-  }
 };

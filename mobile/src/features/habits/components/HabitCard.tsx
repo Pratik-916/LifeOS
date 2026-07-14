@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native';
-// @ts-expect-error swipeable missing types
 import { Swipeable } from 'react-native-gesture-handler';
 import { CheckCircle2, Circle, Flame, Archive, Undo2, Star } from 'lucide-react-native';
 import { Typography } from '../../../components/ui/Typography';

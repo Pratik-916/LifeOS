@@ -1,12 +1,23 @@
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { journeyApi } from '../api/journey';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { journeyApi, GetMemoriesFilters } from '../api/journey';
 import { journeyKeys } from '../api/journey.keys';
-import type { MemoryFilters } from '../api/journey.types';
 
-export const useMemories = (filters: MemoryFilters = {}) => {
-  return useQuery({
-    queryKey: journeyKeys.memoryList(filters),
-    queryFn: () => journeyApi.getMemories(filters),
-    placeholderData: keepPreviousData,
+export const useMemories = (filters?: GetMemoriesFilters) => {
+  return useInfiniteQuery({
+    queryKey: journeyKeys.memoriesList(filters),
+    queryFn: async ({ pageParam = 1 }) => {
+      return journeyApi.getMemories({
+        ...filters,
+        page: pageParam,
+      });
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.next) {
+        const url = new URL(lastPage.next);
+        return Number(url.searchParams.get('page')) || undefined;
+      }
+      return undefined;
+    },
   });
 };

@@ -19,6 +19,7 @@ export type MainStackParamList = {
   MemoryDetails: { id: string };
   MemoryEditor: { id?: string };
   MemorySearch: undefined;
+  JourneyStatistics: undefined;
 };
 
 export type MemoryDetailsRouteProp = RouteProp<MainStackParamList, 'MemoryDetails'>;

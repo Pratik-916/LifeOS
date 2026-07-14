@@ -1,12 +1,24 @@
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { journeyApi } from '../api/journey';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { journeyApi, GetTimelineFilters } from '../api/journey';
 import { journeyKeys } from '../api/journey.keys';
-import type { TimelineFilters } from '../api/journey.types';
 
-export const useJourneyTimeline = (filters: TimelineFilters = {}) => {
-  return useQuery({
-    queryKey: journeyKeys.timelineList(filters),
-    queryFn: () => journeyApi.getJourneyTimeline(filters),
-    placeholderData: keepPreviousData,
+export const useJourneyTimeline = (filters?: GetTimelineFilters) => {
+  return useInfiniteQuery({
+    queryKey: journeyKeys.timeline(filters),
+    queryFn: async ({ pageParam = 0 }) => {
+      return journeyApi.getTimeline({
+        ...filters,
+        offset: pageParam,
+        limit: 10,
+      });
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.next) {
+        const url = new URL(lastPage.next);
+        return Number(url.searchParams.get('offset')) || 0;
+      }
+      return undefined;
+    },
   });
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, TouchableOpacity, Animated, Alert } from 'react-native';
-// @ts-expect-error swipeable missing types
 import { Swipeable } from 'react-native-gesture-handler';
 import { Trash2, Heart, Pin } from 'lucide-react-native';
 import { Typography } from '../../../components/ui/Typography';

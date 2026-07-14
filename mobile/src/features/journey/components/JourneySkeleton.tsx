@@ -4,22 +4,17 @@ import { Card } from '../../../components/ui/Card';
 
 export const JourneySkeleton = () => {
   return (
-    <View className="px-4 mb-4">
-      <View className="h-8 w-24 bg-slate-200 rounded mb-4 animate-pulse mt-4" />
-      <View className="flex-row items-center mb-4">
-        <View className="h-5 w-16 bg-slate-200 rounded animate-pulse mr-4" />
-        <View className="flex-1 h-px bg-slate-100" />
-      </View>
-      
-      <Card className="overflow-hidden">
-        <View className="h-40 bg-slate-200 animate-pulse" />
-        <View className="p-4">
-          <View className="h-4 w-20 bg-slate-200 rounded mb-3 animate-pulse" />
-          <View className="h-6 w-3/4 bg-slate-200 rounded mb-2 animate-pulse" />
-          <View className="h-4 w-full bg-slate-200 rounded mb-1 animate-pulse" />
-          <View className="h-4 w-5/6 bg-slate-200 rounded animate-pulse" />
-        </View>
-      </Card>
+    <View className="p-4">
+      {[1, 2, 3].map((i) => (
+        <Card key={i} className="mb-4 flex-row opacity-50">
+          <View className="w-10 h-10 rounded-full bg-gray-200 mr-3" />
+          <View className="flex-1">
+            <View className="w-3/4 h-5 bg-gray-200 rounded mb-2" />
+            <View className="w-full h-4 bg-gray-200 rounded mb-1" />
+            <View className="w-2/3 h-4 bg-gray-200 rounded" />
+          </View>
+        </Card>
+      ))}
     </View>
   );
 };

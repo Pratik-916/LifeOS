@@ -1,0 +1,10 @@
+﻿
+07-14 19:25:06.722  9249  9665 E unknown:UIManagerHelper: com.facebook.react.bridge.ReactNoCrashSoftException: Cannot 
+get UIManager because the context doesn't contain an active React instance.
+--------- beginning of crash
+07-14 19:25:07.370  9249  9683 F libc    : Fatal signal 11 (SIGSEGV), code 128 (SI_KERNEL), fault addr 0x0 in tid 9683 
+(mqt_v_js), pid 9249 (st.exp.exponent)
+07-14 19:25:07.596  9700  9700 F DEBUG   : signal 11 (SIGSEGV), code 128 (SI_KERNEL), fault addr 0x0000000000000000 
+(read)
+
+

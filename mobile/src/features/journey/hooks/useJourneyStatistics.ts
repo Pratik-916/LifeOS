@@ -5,6 +5,6 @@ import { journeyKeys } from '../api/journey.keys';
 export const useJourneyStatistics = () => {
   return useQuery({
     queryKey: journeyKeys.statistics(),
-    queryFn: () => journeyApi.getJourneyStatistics(),
+    queryFn: () => journeyApi.getStatistics(),
   });
 };

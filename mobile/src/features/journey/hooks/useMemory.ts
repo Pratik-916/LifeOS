@@ -4,8 +4,8 @@ import { journeyKeys } from '../api/journey.keys';
 
 export const useMemory = (id: string, enabled = true) => {
   return useQuery({
-    queryKey: journeyKeys.memoryDetail(id),
+    queryKey: journeyKeys.memory(id),
     queryFn: () => journeyApi.getMemory(id),
-    enabled: !!id && enabled,
+    enabled: enabled && !!id,
   });
 };

@@ -1,94 +1,81 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { View, FlatList, TextInput, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import { View, FlatList, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { MainStackParamList } from '../../../navigation/types';
-import { useMemories, useJourneyMutations } from '../hooks';
+import { Search as SearchIcon } from 'lucide-react-native';
+import { useMemories } from '../hooks/useMemories';
 import { MemoryCard } from '../components/MemoryCard';
-import { JourneySkeleton } from '../components/JourneySkeleton';
-import { ArrowLeft, Search, X } from 'lucide-react-native';
-import { Typography } from '../../../components/ui/Typography';
-
-type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
+import { JourneyEmptyState } from '../components/JourneyEmptyState';
+import type { Memory } from '../api/journey.types';
+import type { NavigationProp } from '@react-navigation/native';
+import type { MainStackParamList } from '../../../navigation/types';
 
 export const MemorySearchScreen = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-
-  const { favoriteMemory, pinMemory } = useJourneyMutations();
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 500);
-    return () => clearTimeout(timer);
+  
+  // Simple inline debounce since we can't be sure useDebounce exists globally
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  const { data: memoriesPaginated, isLoading } = useMemories({
-    search: debouncedQuery,
-  });
+  const { data, isLoading } = useMemories({ search: debouncedSearch });
 
-  const handleMemoryPress = useCallback((id: string) => {
-    navigation.navigate('MemoryDetails', { id });
-  }, [navigation]);
+  const memories = data?.pages.flatMap(page => page.results) || [];
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
-      <View className="px-4 py-2 border-b border-slate-100 flex-row items-center">
-        <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3 p-1">
-          <ArrowLeft size={24} color="#0F172A" />
-        </TouchableOpacity>
-        
-        <View className="flex-1 flex-row items-center bg-slate-100 rounded-xl px-3 py-2">
-          <Search size={18} color="#64748B" />
-          <TextInput
-            className="flex-1 ml-2 text-slate-900 text-base"
-            placeholder="Search memories..."
-            placeholderTextColor="#94A3B8"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            autoFocus
-          />
-          {searchQuery.length > 0 && (
-            <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <X size={18} color="#64748B" />
-            </TouchableOpacity>
-          )}
-        </View>
+    <View className="flex-1 bg-white">
+      <View className="p-4 border-b border-gray-100 flex-row items-center bg-gray-50">
+        <SearchIcon size={20} color="#9CA3AF" />
+        <TextInput
+          className="flex-1 ml-2 text-base text-gray-900 py-2"
+          placeholder="Search memories, locations, tags..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          autoFocus
+        />
       </View>
 
-      <View className="flex-1 bg-slate-50">
-        {isLoading ? (
-          <View className="p-4">
-            <JourneySkeleton />
-            <JourneySkeleton />
+      <FlatList
+        data={memories}
+        keyExtractor={(item: Memory) => item.id}
+        renderItem={({ item }) => (
+          <View className="px-4">
+            <MemoryCard 
+              event={{
+                id: `mem_${item.id}`,
+                entityType: 'memory',
+                entityId: item.id,
+                title: item.title,
+                description: item.description,
+                timestamp: item.date,
+                icon: item.icon,
+                color: item.color,
+                category: item.category,
+                tags: item.tags,
+                sourceModule: 'journey',
+                visibility: item.visibility,
+                favorite: item.favorite,
+                pinned: item.pinned,
+                preview: item.description,
+                image: item.images?.[0]?.image || null,
+                actionUrl: '',
+                entityStatus: 'active'
+              }} 
+              onPress={() => navigation.navigate('MemoryDetails', { id: item.id })} 
+            />
           </View>
-        ) : (
-          <FlatList
-            data={memoriesPaginated?.results || []}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{ padding: 16 }}
-            renderItem={({ item }) => (
-              <MemoryCard
-                event={item}
-                onPress={() => handleMemoryPress(item.id)}
-                onFavorite={() => favoriteMemory(item.id)}
-                onPin={() => pinMemory(item.id)}
-              />
-            )}
-            ListEmptyComponent={
-              debouncedQuery.length > 0 ? (
-                <View className="py-12 items-center">
-                  <Search size={48} color="#CBD5E1" />
-                  <Typography variant="h3" className="mt-4 text-slate-500">
-                    No memories found
-                  </Typography>
-                </View>
-              ) : null
-            }
-          />
         )}
-      </View>
-    </SafeAreaView>
+        ListEmptyComponent={
+          debouncedSearch && !isLoading ? (
+            <JourneyEmptyState isSearch />
+          ) : null
+        }
+        contentContainerStyle={{ paddingVertical: 16 }}
+      />
+    </View>
   );
 };

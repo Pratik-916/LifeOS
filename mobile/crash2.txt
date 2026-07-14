@@ -1,0 +1,340 @@
+--------- beginning of main
+07-14 19:13:09.683   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:12.690   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:14.460  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:13:15.697   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:18.703   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:21.710   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:24.460  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:13:24.717   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:27.725   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:30.734   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:33.745   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:34.460  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:13:36.750   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:39.758   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:42.770   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:44.460  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:13:45.779   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:48.789   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:51.797   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:54.462  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:13:54.805   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:13:57.814   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:00.821   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:03.829   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:04.463  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:14:06.835   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:09.842   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:12.852   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:14.463  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:14:15.863   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:18.871   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:21.878   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:24.464  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:14:24.883   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:27.890   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:30.898   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:33.907   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:34.465  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:14:36.918   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:39.930   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:42.941   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:44.465  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:14:45.950   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:48.955   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:51.964   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:54.465  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:14:54.972   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:14:57.980   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:00.987   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:03.990   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:04.467  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:15:06.999   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:08.035  1379  8605 E hjbn    : Trace clearcut-QosUploaderChimeraService_onRunTaskAsync timed out after 1309905 ms. Complete trace: # hjcg@8457d83f
+07-14 19:15:08.035  1379  8605 E hjbn    : hjco: 
+07-14 19:15:08.035  1379  8605 E hjbn    : 	at tk_trace.BinderCall_android.app.IActivityManager#unbindService(Started After:3)
+07-14 19:15:08.035  1379  8605 E hjbn    : 	at tk_trace.ScheduledTaskImpl(Started After:0)
+07-14 19:15:08.035  1379  8605 E hjbn    : 	at tk_trace.clearcut-QosUploaderChimeraService_onRunTaskAsync(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : Trace scheduler-SchedulerWakeupIntentOperation_onHandleIntentWithRedelivery timed out after 1310032 ms. Complete trace: # hjcg@dcd85160
+07-14 19:15:08.037  1379  8605 E hjbn    : hjco: 
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.MainThreadWork(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.scheduler-ServiceConnection_com.google.android.gms.auth.account.be.accountstate.GcmTaskService_onServiceConnected(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.checkQueueLazily(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.NetworkScheduler_alarmUp(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.scheduler-SchedulerWakeupIntentOperation_onHandleIntentWithRedelivery(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : Trace location-SignalCollector_ActivityDetectionRunnerInFuture timed out after 1310030 ms. Complete trace: # hjcg@62beffc6
+07-14 19:15:08.037  1379  8605 E hjbn    : hjco: 
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.MainThreadWork(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.location_base-ActivityRecognitionListenersNew_doReportActivity(Started After:0)
+07-14 19:15:08.037  1379  8605 E hjbn    : 	at tk_trace.location-SignalCollector_ActivityDetectionRunnerInFuture(Started After:0)
+07-14 19:15:10.005   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:12.726   709   931 E Nl80211Native: getChannelsMhzForBand: Wiphy index not recorded for band 8
+07-14 19:15:12.726   709   931 E Nl80211Native: getChannelsMhzForBand: Wiphy index not recorded for band 16
+07-14 19:15:13.010   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:14.467  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:15:16.016   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:19.023   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:22.027   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:24.467  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:15:25.041   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:28.046   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:31.054   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:34.062   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:34.468  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:15:37.069   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:40.080   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:43.090   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:44.468  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:15:46.101   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:49.111   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:52.119   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:54.469  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:15:55.123   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:15:58.130   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:01.138   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:04.148   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:04.468  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:16:07.160   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:10.167   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:13.180   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:14.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:16:16.192   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:19.201   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:22.210   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:24.469  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:16:25.215   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:28.223   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:31.232   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:34.241   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:34.469  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:16:37.250   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:40.259   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:43.270   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:44.471  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:16:46.279   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:49.287   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:52.296   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:54.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:16:55.303   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:16:58.312   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:01.323   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:04.330   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:04.469  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:17:07.337   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:10.344   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:13.347   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:14.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:17:16.353   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:19.358   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:22.362   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:24.469  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:17:25.372   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:28.375   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:29.556  9056  9056 E FeatureFlagsImplExport: android.os.flagging.AconfigStorageReadException: ERROR_PACKAGE_NOT_FOUND: package android.xr cannot be found on the device
+--------- beginning of system
+07-14 19:17:29.606   709  1354 E TransitionChain: Can't collect into a chain with no transition
+07-14 19:17:29.801  9056  9102 E st.exp.exponent: No package ID 6a found for resource ID 0x6a0b0013.
+07-14 19:17:30.189   709  2123 E TransitionChain: Can't collect into a chain with no transition
+07-14 19:17:30.342   709  1354 E ConsumerBase: [ImageReader-864x1920f1m1-709-26] abandonLocked: ConsumerBase is abandoned!
+07-14 19:17:30.678  9056  9154 E i       : java.net.MalformedURLException: Attempt to invoke virtual method 'int java.lang.String.length()' on a null object reference
+07-14 19:17:30.693  9056  9056 E g       : java.lang.RuntimeException: A TaskDescription's primary color should be opaque
+07-14 19:17:30.705  9056  9154 E i       : java.net.MalformedURLException: Attempt to invoke virtual method 'int java.lang.String.length()' on a null object reference
+07-14 19:17:30.712  9056  9056 E o       : java.lang.NoSuchFieldException: No field numActivities in class Landroid/app/ActivityManager$RecentTaskInfo; (declaration of 'android.app.ActivityManager$RecentTaskInfo' appears in /system/framework/framework.jar)
+07-14 19:17:30.731   709  1015 E ConsumerBase: [ImageReader-864x1920f1m1-709-27] abandonLocked: ConsumerBase is abandoned!
+07-14 19:17:30.767  9056  9056 E g       : java.lang.RuntimeException: A TaskDescription's primary color should be opaque
+07-14 19:17:31.377   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:33.504   709  1729 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+07-14 19:17:34.384   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:34.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:17:37.390   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:40.396   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:43.404   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:44.471  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: Unhandled SoftException
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: com.facebook.react.bridge.ReactNoCrashSoftException: Cannot get UIManager because the context doesn't contain an active React instance.
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.uimanager.UIManagerHelper.getUIManager(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:18)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at xd.f.d(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:8)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at Ed.g.<init>(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:11)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.reactnativekeyboardcontroller.KeyboardControllerModule.<init>(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:11)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at versioned.host.exp.exponent.ExponentPackage.createNativeModules(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:178)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.ReactPackageTurboModuleManagerDelegate.initialize(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:57)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.ReactPackageTurboModuleManagerDelegate.<init>(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:14)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.defaults.DefaultTurboModuleManagerDelegate.<init>(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:2)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.defaults.DefaultTurboModuleManagerDelegate.<init>(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.defaults.DefaultTurboModuleManagerDelegate$Builder.build(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:8)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.defaults.DefaultTurboModuleManagerDelegate$Builder.build(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.ReactPackageTurboModuleManagerDelegate$Builder.build(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:3)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.ReactInstance.<init>(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:230)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.ReactHostImpl.getOrCreateReactInstanceTask$lambda$45$lambda$41(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:63)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.ReactHostImpl.x(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.T.then(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:5)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task$Companion.completeImmediately$lambda$3(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task$Companion.e(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.i.run(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:7)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Executors$ImmediateExecutor.execute(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:6)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task$Companion.completeImmediately(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:6)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task$Companion.access$completeImmediately(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task.continueWith(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:8)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task.continueWith$default(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:7)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task.onSuccess$lambda$12(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:38)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task.e(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.c.then(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:3)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task$Companion.completeAfterTask$lambda$5(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.Task$Companion.a(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:1)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at com.facebook.react.runtime.internal.bolts.j.run(r8-map-id-76a6598150d3c068205f2ece489a9b1fcd1ad82203d07640bcb897ca4fe7d60d:7)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1100)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+07-14 19:17:46.226  9056  9173 E unknown:UIManagerHelper: 	at java.lang.Thread.run(Thread.java:1569)
+07-14 19:17:46.413   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+--------- beginning of crash
+07-14 19:17:46.959  9056  9201 F libc    : Fatal signal 11 (SIGSEGV), code 128 (SI_KERNEL), fault addr 0x0 in tid 9201 (mqt_v_js), pid 9056 (st.exp.exponent)
+07-14 19:17:47.212  9219  9219 F DEBUG   : *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+07-14 19:17:47.212  9219  9219 F DEBUG   : Build fingerprint: 'google/sdk_gphone16k_x86_64/emu64xa16k:17/CP31.260618.005/15731206:user/dev-keys'
+07-14 19:17:47.212  9219  9219 F DEBUG   : Kernel Release: '6.12.69-android16-6-g214d1615c480-ab15053784'
+07-14 19:17:47.212  9219  9219 F DEBUG   : Revision: '0'
+07-14 19:17:47.212  9219  9219 F DEBUG   : ABI: 'x86_64'
+07-14 19:17:47.212  9219  9219 F DEBUG   : Timestamp: 2026-07-14 19:17:47.038203700+0530
+07-14 19:17:47.212  9219  9219 F DEBUG   : Process uptime: 19s
+07-14 19:17:47.212  9219  9219 F DEBUG   : Page size: 16384 bytes
+07-14 19:17:47.212  9219  9219 F DEBUG   : Executable: /system/bin/app_process64
+07-14 19:17:47.212  9219  9219 F DEBUG   : Cmdline: host.exp.exponent
+07-14 19:17:47.212  9219  9219 F DEBUG   : pid: 9056, ppid: 468, tid: 9201, name: mqt_v_js  >>> host.exp.exponent <<<
+07-14 19:17:47.212  9219  9219 F DEBUG   : uid: 10229
+07-14 19:17:47.212  9219  9219 F DEBUG   : signal 11 (SIGSEGV), code 128 (SI_KERNEL), fault addr 0x0000000000000000 (read)
+07-14 19:17:47.212  9219  9219 F DEBUG   : 
+07-14 19:17:47.212  9219  9219 F DEBUG   :     rax 0000774196f9feb0  rbx 0000000004e7c149  rcx 0000000000000100  rdx 0000000004e7c149
+07-14 19:17:47.212  9219  9219 F DEBUG   :     r8  000077445a4a7164  r9  0000000000000000  r10 0000000004e80000  r11 0000000000000246
+07-14 19:17:47.212  9219  9219 F DEBUG   :     r12 0000000004e7c151  r13 fffffffffffffff0  r14 0000774196f9feb0  r15 802874c739491845
+07-14 19:17:47.212  9219  9219 F DEBUG   :     rdi 0000774196f9feb0  rsi 802874c739491845
+07-14 19:17:47.212  9219  9219 F DEBUG   :     rbp 00007741a73d4dd0  rsp 00007741a73d4cf0  rip 000077445a565ede  err 0000000000000000
+07-14 19:17:47.212  9219  9219 F DEBUG   : 
+07-14 19:17:47.212  9219  9219 F DEBUG   : 43 total frames
+07-14 19:17:47.212  9219  9219 F DEBUG   : backtrace:
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #00 pc 00000000000ddede  /apex/com.android.runtime/lib64/bionic/libc.so (memmove_avx2+1390) (BuildId: 31d9c7e84272403b9dbdd97d6cb13ac7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #01 pc 00000000000f8fff  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #02 pc 00000000000f9767  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #03 pc 00000000000efc58  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #04 pc 0000000000091ced  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libworklets.so (offset 0xb7e8000) (BuildId: eacfc0111b9a31222d8842a19a3f33fb532d1e94)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #05 pc 00000000000fc234  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #06 pc 00000000000fbf22  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #07 pc 00000000001f9c2f  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #08 pc 000000000020df66  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #09 pc 000000000020e85a  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #10 pc 000000000020e031  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #11 pc 000000000025020c  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #12 pc 00000000000ee534  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #13 pc 00000000000f750d  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #14 pc 00000000000ee320  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libhermesvm.so (offset 0x9cd8000) (BuildId: f6a341460d1a9a9091803cc231b6022bc1d4a23a)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #15 pc 00000000002c0cd8  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libreactnative.so (offset 0xa3c4000) (BuildId: ee82067200b1fbe25b8135139dcb63a408b537a7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #16 pc 0000000000517b59  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libreactnative.so (offset 0xa3c4000) (facebook::react::Task::execute(facebook::jsi::Runtime&, bool)+313) (BuildId: ee82067200b1fbe25b8135139dcb63a408b537a7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #17 pc 0000000000515a88  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libreactnative.so (offset 0xa3c4000) (facebook::react::RuntimeScheduler_Modern::executeTask(facebook::jsi::Runtime&, facebook::react::Task&, bool) const+56) (BuildId: ee82067200b1fbe25b8135139dcb63a408b537a7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #18 pc 0000000000516361  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libreactnative.so (offset 0xa3c4000) (facebook::react::RuntimeScheduler_Modern::runEventLoopTick(facebook::jsi::Runtime&, facebook::react::Task&)+113) (BuildId: ee82067200b1fbe25b8135139dcb63a408b537a7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #19 pc 0000000000516087  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libreactnative.so (offset 0xa3c4000) (facebook::react::RuntimeScheduler_Modern::runEventLoop(facebook::jsi::Runtime&)+119) (BuildId: ee82067200b1fbe25b8135139dcb63a408b537a7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #20 pc 00000000002bec09  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libreactnative.so (offset 0xa3c4000) (BuildId: ee82067200b1fbe25b8135139dcb63a408b537a7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #21 pc 00000000005637ad  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libreactnative.so (offset 0xa3c4000) (BuildId: ee82067200b1fbe25b8135139dcb63a408b537a7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #22 pc 0000000000017202  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libfbjni.so (offset 0x9c30000) (facebook::jni::detail::MethodWrapper<void (facebook::jni::JNativeRunnable::*)(), &facebook::jni::JNativeRunnable::run(), facebook::jni::JNativeRunnable, void>::dispatch(facebook::jni::alias_ref<facebook::jni::detail::JTypeFor<facebook::jni::HybridClass<facebook::jni::JNativeRunnable, facebook::jni::JRunnable>::JavaPart, facebook::jni::JRunnable, void>::_javaobject*>)+66) (BuildId: 2f4b0da170c8a1af5bf245a5dba7c30a6974f2f2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #23 pc 0000000000017143  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/base.apk!libfbjni.so (offset 0x9c30000) (facebook::jni::detail::FunctionWrapper<void (*)(facebook::jni::alias_ref<facebook::jni::detail::JTypeFor<facebook::jni::HybridClass<facebook::jni::JNativeRunnable, facebook::jni::JRunnable>::JavaPart, facebook::jni::JRunnable, void>::_javaobject*>), facebook::jni::detail::JTypeFor<facebook::jni::HybridClass<facebook::jni::JNativeRunnable, facebook::jni::JRunnable>::JavaPart, facebook::jni::JRunnable, void>::_javaobject*, void>::call(_JNIEnv*, _jobject*, void (*)(facebook::jni::alias_ref<facebook::jni::detail::JTypeFor<facebook::jni::HybridClass<facebook::jni::JNativeRunnable, facebook::jni::JRunnable>::JavaPart, facebook::jni::JRunnable, void>::_javaobject*>))+51) (BuildId: 2f4b0da170c8a1af5bf245a5dba7c30a6974f2f2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #24 pc 00000000002e1073  /system/framework/x86_64/boot.oat (art_jni_trampoline+131) (BuildId: f7a07dd2121f1aa5c6852771368e6675a695579f)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #25 pc 00000000004ac0ec  /system/framework/x86_64/boot-framework.oat (android.os.Handler.dispatchMessage+76) (BuildId: f52c31ec9e1a61b557ca34406b0da49d7254c003)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #26 pc 00000000002098f1  /apex/com.android.art/lib64/libart.so (nterp_helper+3837) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #27 pc 0000000001096036  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/oat/x86_64/base.vdex (com.facebook.react.bridge.queue.MessageQueueThreadHandler.dispatchMessage+10)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #28 pc 00000000005174c9  /system/framework/x86_64/boot-framework.oat (android.os.Looper.loopOnce+1257) (BuildId: f52c31ec9e1a61b557ca34406b0da49d7254c003)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #29 pc 0000000000516f12  /system/framework/x86_64/boot-framework.oat (android.os.Looper.loop+306) (BuildId: f52c31ec9e1a61b557ca34406b0da49d7254c003)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #30 pc 0000000000208a99  /apex/com.android.art/lib64/libart.so (nterp_helper+165) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #31 pc 00000000010962e4  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/oat/x86_64/base.vdex (com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion.startNewBackgroundThread$lambda$0+28)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #32 pc 0000000000208a2c  /apex/com.android.art/lib64/libart.so (nterp_helper+56) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #33 pc 0000000001096280  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/oat/x86_64/base.vdex (com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion.a+0)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #34 pc 0000000000208a2c  /apex/com.android.art/lib64/libart.so (nterp_helper+56) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #35 pc 00000000010960cc  /data/app/~~nuZefSiuootQ7l4RIQMyVw==/host.exp.exponent--JX2F04iGGVLzkRxSTPK5A==/oat/x86_64/base.vdex (com.facebook.react.bridge.queue.b.run+4)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #36 pc 00000000000aa1a7  /system/framework/x86_64/boot.oat (java.lang.Thread.run+71) (BuildId: f7a07dd2121f1aa5c6852771368e6675a695579f)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #37 pc 0000000000211d54  /apex/com.android.art/lib64/libart.so (art_quick_invoke_stub+756) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #38 pc 00000000005a21d1  /apex/com.android.art/lib64/libart.so (art::ArtMethod::Invoke(art::Thread*, unsigned int*, unsigned int, art::JValue*, char const*)+193) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #39 pc 0000000000a59a4e  /apex/com.android.art/lib64/libart.so (art::Thread::CreateCallback(void*)+1534) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #40 pc 0000000000a59448  /apex/com.android.art/lib64/libart.so (art::Thread::CreateCallbackWithUffdGc(void*)+8) (BuildId: fab9191c29e4f256dce500f66003d5d2)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #41 pc 000000000009383f  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start(void*) (.__uniq.67847048707805468364044055584648682506)+63) (BuildId: 31d9c7e84272403b9dbdd97d6cb13ac7)
+07-14 19:17:47.212  9219  9219 F DEBUG   :       #42 pc 00000000000839dd  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+45) (BuildId: 31d9c7e84272403b9dbdd97d6cb13ac7)
+07-14 19:17:47.212  9219  9219 F DEBUG   : 
+07-14 19:17:47.212  9219  9219 F DEBUG   : Note: To display stack pointer information, use the pbtombstone tool:
+07-14 19:17:47.212  9219  9219 F DEBUG   :         pbtombstone --display-sp tombstone_XX.pb
+07-14 19:17:47.225   379   379 E tombstoned: Tombstone written to: tombstone_08
+07-14 19:17:47.252   709   877 E InputDispatcher: channel 'dd476d6 host.exp.exponent/host.exp.exponent.experience.ExperienceActivity' ~ Channel is unrecoverably broken and will be disposed!
+07-14 19:17:47.265   709   938 E NsdService: id 24 for 31 has no client mapping
+07-14 19:17:47.311   709  2132 E WindowOrganizerController: Attempting to externally change a non-organized container: Task{2a0f8f5 #30 type=standard A=10229:host.exp.exponent}={handlePackageUpdate:false,} playercount=2 taskorg=android.window.ITaskOrganizer$Stub$Proxy@62bbcc3
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: Unexpected invisibility after animation end: workspace.isVisible=true, workspace.alpha=1.0, hotseat.isVisible=false, hotseat.alpha=1.0
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: java.lang.Exception
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.quickstep.util.ScalingWorkspaceRevealAnim$4.run(go/retraceme a798b636504514d5f14cf6621c43761343057d4d4e3029f17e0063fb9c290362:123)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.launcher3.anim.AnimatorListeners$1.onAnimationEnd(go/retraceme a798b636504514d5f14cf6621c43761343057d4d4e3029f17e0063fb9c290362:2)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.Animator$AnimatorListener.onAnimationEnd(Animator.java:773)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.Animator$AnimatorCaller$$ExternalSyntheticLambda1.call(D8$$SyntheticClass:0)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.Animator.callOnList(Animator.java:731)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.Animator.notifyListeners(Animator.java:629)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.Animator.notifyEndListeners(Animator.java:654)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.Animator.completeEndAnimation(Animator.java:697)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.AnimatorSet.completeEndAnimation(AnimatorSet.java:1474)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.Animator.notifyEndListenersFromEndAnimation(Animator.java:686)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.AnimatorSet.endAnimation(AnimatorSet.java:1464)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.AnimatorSet.endAnimation(AnimatorSet.java:1447)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.AnimatorSet.endAnimationAndNotifyEndListenersImmediately(AnimatorSet.java:437)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.animation.AnimatorSet.cancel(AnimatorSet.java:425)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.quickstep.util.ScalingWorkspaceRevealAnim.cancelAnimations(go/retraceme a798b636504514d5f14cf6621c43761343057d4d4e3029f17e0063fb9c290362:21)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.launcher3.QuickstepTransitionManager.createWallpaperOpenAnimations(go/retraceme a798b636504514d5f14cf6621c43761343057d4d4e3029f17e0063fb9c290362:164)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.launcher3.QuickstepTransitionManager$WallpaperOpenLauncherAnimationRunner.onAnimationStart(go/retraceme a798b636504514d5f14cf6621c43761343057d4d4e3029f17e0063fb9c290362:135)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.launcher3.LauncherAnimationRunner$$ExternalSyntheticLambda2.run(go/retraceme a798b636504514d5f14cf6621c43761343057d4d4e3029f17e0063fb9c290362:71)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.os.Handler.handleCallback(Handler.java:1082)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.os.Handler.dispatchMessageImpl(Handler.java:135)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.os.Handler.dispatchMessage(Handler.java:126)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.os.Looper.loopOnce(Looper.java:295)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.os.Looper.loop(Looper.java:398)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at android.app.ActivityThread.main(ActivityThread.java:9572)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at java.lang.reflect.Method.invoke(Native Method)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:575)
+07-14 19:17:47.376  1197  1197 E ScalingWorkspaceRevealAnim: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:842)
+07-14 19:17:48.400   709   829 E libbinder.IPCThreadState: Binder transaction failure. id: 769766, cmd: BR_DEAD_REPLY (29189), error: -22 (Invalid argument)
+07-14 19:17:48.414   709   829 E WindowOrganizerController: Attempting to externally change a non-organized container: Task{926bf84 #31 type=standard A=10229:host.exp.exponent}={handlePackageUpdate:false,} playercount=2 taskorg=android.window.ITaskOrganizer$Stub$Proxy@62bbcc3
+07-14 19:17:48.446   529   529 E BpTransactionCompletedListener: Failed to transact (-32)
+07-14 19:17:49.418   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:50.822   709  1729 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+07-14 19:17:52.425   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:52.733   709   931 E Nl80211Native: getChannelsMhzForBand: Wiphy index not recorded for band 8
+07-14 19:17:52.733   709   931 E Nl80211Native: getChannelsMhzForBand: Wiphy index not recorded for band 16
+07-14 19:17:54.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:17:55.431   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:17:58.437   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:01.441   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:04.446   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:04.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:18:07.452   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:10.456   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:13.462   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:14.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:18:16.469   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:19.475   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 11 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:21.884  9249  9249 E FeatureFlagsImplExport: android.os.flagging.AconfigStorageReadException: ERROR_PACKAGE_NOT_FOUND: package android.xr cannot be found on the device
+07-14 19:18:22.022  9249  9280 E st.exp.exponent: No package ID 6a found for resource ID 0x6a0b0013.
+07-14 19:18:22.478   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:24.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:18:25.482   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 2 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:28.485   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:31.491   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:34.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:18:34.495   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:37.501   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:40.507   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:43.512   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:44.470  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:18:46.514   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:49.517   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:52.523   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:54.471  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:18:55.529   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:18:58.535   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:19:01.541   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:19:04.471  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:19:04.545   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:19:07.552   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:19:10.558   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 5 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:19:13.562   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:19:14.471  1185  1372 E SatelliteController: isSatelliteEnabled: mIsSatelliteEnabled=null
+07-14 19:19:16.568   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e
+07-14 19:19:19.573   709   924 E WifiDataStall: Ignore this poll. newStats: null txLinkSpeedMbps: 1 rxLinkSpeedMbps: 2 rssi: -50 connectionCapabilities: com.android.server.wifi.WifiNative$ConnectionCapabilities@cdfb21e

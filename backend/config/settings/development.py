@@ -12,3 +12,4 @@ DATABASES = {
 
 # In development, we can relax some security settings if needed, 
 # but we stick to the provided defaults mostly.
+ALLOWED_HOSTS = ['*']

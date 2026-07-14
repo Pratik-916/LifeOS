@@ -1,17 +1,11 @@
 export interface TagDTO {
-  id: string;
-  name: string;
-  color: string;
-}
-
-export interface TagModel {
-  id: string;
+  id: number;
   name: string;
   color: string;
 }
 
 export interface MemoryImageDTO {
-  id: string;
+  id: number;
   image: string;
   caption: string;
   alt_text: string;
@@ -19,20 +13,11 @@ export interface MemoryImageDTO {
   created_at: string;
 }
 
-export interface MemoryImageModel {
-  id: string;
-  image: string;
-  caption: string;
-  altText: string;
-  displayOrder: number;
-  createdAt: string;
-}
-
 export interface MemoryDTO {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  date: string;
+  date: string | null;
   location: string;
   category: string;
   visibility: string;
@@ -40,34 +25,13 @@ export interface MemoryDTO {
   pinned: boolean;
   color: string;
   icon: string;
-  tags: string[];
-  tags_detail: TagDTO[];
-  images: MemoryImageDTO[];
+  tags: number[];
+  tags_detail?: TagDTO[];
+  images?: MemoryImageDTO[];
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
   last_updated_at?: string;
-}
-
-export interface MemoryModel {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-  category: string;
-  visibility: string;
-  favorite: boolean;
-  pinned: boolean;
-  color: string;
-  icon: string;
-  tags: string[];
-  tagsDetail: TagModel[];
-  images: MemoryImageModel[];
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-  lastUpdatedAt?: string;
 }
 
 export interface TimelineEventDTO {
@@ -76,7 +40,7 @@ export interface TimelineEventDTO {
   entity_id: string;
   title: string;
   description: string;
-  timestamp: string;
+  timestamp: string | null;
   icon: string;
   color: string;
   category: string;
@@ -91,13 +55,82 @@ export interface TimelineEventDTO {
   entity_status: string;
 }
 
-export interface TimelineEventModel {
+export interface TimelineMonthGroupDTO {
+  month: string;
+  events: TimelineEventDTO[];
+}
+
+export interface TimelineYearGroupDTO {
+  year: string;
+  months: TimelineMonthGroupDTO[];
+}
+
+export interface JourneyStatisticsDTO {
+  total_memories: number;
+  total_timeline_events: number;
+  active_years: number;
+  current_year_activity: number;
+  completed_goals: number;
+  completed_tasks: number;
+  habit_milestones: number;
+  writing_milestones: number;
+  longest_habit_streak: number;
+  longest_writing_streak: number;
+  favorite_memories: number;
+  pinned_memories: number;
+  monthly_activity_counts: { month: string; count: number }[];
+  yearly_activity_counts: { year: string; count: number }[];
+  category_distribution: { category: string; count: number }[];
+  most_active_month: string | null;
+  most_active_year: number | null;
+  most_used_category: string | null;
+  most_active_module: string | null;
+  average_events_per_month: number;
+}
+
+// Frontend Domain Models
+export interface Tag {
+  id: string;
+  name: string;
+  color: string;
+}
+
+export interface MemoryImage {
+  id: string;
+  image: string;
+  caption: string;
+  altText: string;
+  displayOrder: number;
+  createdAt: string;
+}
+
+export interface Memory {
+  id: string;
+  title: string;
+  description: string;
+  date: string | null;
+  location: string;
+  category: string;
+  visibility: string;
+  favorite: boolean;
+  pinned: boolean;
+  color: string;
+  icon: string;
+  tags: string[];
+  tagsDetail: Tag[];
+  images: MemoryImage[];
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+}
+
+export interface TimelineEvent {
   id: string;
   entityType: string;
   entityId: string;
   title: string;
   description: string;
-  timestamp: string;
+  timestamp: string | null;
   icon: string;
   color: string;
   category: string;
@@ -110,119 +143,62 @@ export interface TimelineEventModel {
   image: string | null;
   actionUrl: string;
   entityStatus: string;
-  type?: string; 
 }
 
-export interface TimelineMonthDTO {
+export interface TimelineMonthGroup {
   month: string;
-  events: TimelineEventDTO[];
+  events: TimelineEvent[];
 }
 
-export interface TimelineMonthModel {
-  month: string;
-  events: TimelineEventModel[];
-}
-
-export interface TimelineYearDTO {
+export interface TimelineYearGroup {
   year: string;
-  months: TimelineMonthDTO[];
+  months: TimelineMonthGroup[];
 }
 
-export interface TimelineYearModel {
-  year: string;
-  months: TimelineMonthModel[];
-}
-
-export interface PaginatedTimelineDTO {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: TimelineYearDTO[];
-}
-
-export interface PaginatedTimelineModel {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: TimelineYearModel[];
-}
-
-export interface PaginatedMemoryDTO {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: MemoryDTO[];
-}
-
-export interface PaginatedMemoryModel {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: MemoryModel[];
-}
-
-export interface JourneyStatsDTO {
-  active_years: number;
-  total_achievements: number;
-  goals_completed: number;
-  tasks_completed: number;
-  journal_entries: number;
-  longest_habit_streak: number;
-  total_memories: number;
-}
-
-export interface JourneyStatsModel {
-  activeYears: number;
-  totalAchievements: number;
-  goalsCompleted: number;
-  tasksCompleted: number;
-  journalEntries: number;
-  longestHabitStreak: number;
+export interface JourneyStatistics {
   totalMemories: number;
+  totalTimelineEvents: number;
+  activeYears: number;
+  currentYearActivity: number;
+  completedGoals: number;
+  completedTasks: number;
+  habitMilestones: number;
+  writingMilestones: number;
+  longestHabitStreak: number;
+  longestWritingStreak: number;
+  favoriteMemories: number;
+  pinnedMemories: number;
+  monthlyActivityCounts: { month: string; count: number }[];
+  yearlyActivityCounts: { year: string; count: number }[];
+  categoryDistribution: { category: string; count: number }[];
+  mostActiveMonth: string | null;
+  mostActiveYear: number | null;
+  mostUsedCategory: string | null;
+  mostActiveModule: string | null;
+  averageEventsPerMonth: number;
 }
 
-export interface MemoryFilters {
-  page?: number;
-  search?: string;
-  category?: string;
-  visibility?: string;
-  favorite?: boolean | string;
-  pinned?: boolean | string;
-  ordering?: string;
-}
-
-export interface TimelineFilters {
-  offset?: number;
-  limit?: number;
-  year?: number;
-  month?: number;
+export interface PaginatedResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
 }
 
 export interface CreateMemoryPayload {
   title: string;
   description?: string;
-  date: string;
+  date?: string | null;
   location?: string;
   category?: string;
   visibility?: string;
-  color?: string;
-  icon?: string;
   favorite?: boolean;
   pinned?: boolean;
+  color?: string;
+  icon?: string;
   tags?: string[];
 }
 
-export interface UpdateMemoryPayload {
-  title?: string;
-  description?: string;
-  date?: string;
-  location?: string;
-  category?: string;
-  visibility?: string;
-  color?: string;
-  icon?: string;
-  favorite?: boolean;
-  pinned?: boolean;
-  tags?: string[];
+export interface UpdateMemoryPayload extends Partial<CreateMemoryPayload> {
   last_updated_at?: string;
 }

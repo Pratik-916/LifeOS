@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,14 +10,20 @@ import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { Typography } from '../../../components/ui/Typography';
 
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../../../navigation/AuthStack';
+
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
+type NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
 export const LoginScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
   const setTokens = useAuthStore((state) => state.setTokens);
   
   const { control, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
@@ -29,7 +35,7 @@ export const LoginScreen = () => {
     mutationFn: async (data: LoginFormData) => {
       // For compatibility, pass email as username or just map it on backend
       const response = await apiClient.post('/api/v1/auth/login/', {
-        username: data.email,
+        email: data.email,
         password: data.password
       });
       return response.data;
@@ -100,6 +106,13 @@ export const LoginScreen = () => {
         onPress={handleSubmit(onSubmit)} 
         isLoading={mutation.isPending}
       />
+
+      <View className="mt-6 flex-row justify-center">
+        <Typography variant="body" className="text-gray-500">Don't have an account? </Typography>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Typography variant="body" className="text-blue-600 font-bold">Sign Up</Typography>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   );
 };

@@ -1,122 +1,60 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, Animated } from 'react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { View, TouchableOpacity } from 'react-native';
+import { format } from 'date-fns';
 import { Card } from '../../../components/ui/Card';
-import type { TimelineEventModel, MemoryModel } from '../api/journey.types';
-import { CategoryChip, LocationBadge, FavoriteBadge, PinnedBadge } from './JourneyBadges';
-import { Heart, Pin } from 'lucide-react-native';
-// @ts-expect-error swipeable
-import { Swipeable } from 'react-native-gesture-handler';
+import { Typography } from '../../../components/ui/Typography';
+import { CategoryBadge } from './CategoryBadge';
+import { FavoriteBadge } from './FavoriteBadge';
+import { PinnedBadge } from './PinnedBadge';
+import type { TimelineEvent } from '../api/journey.types';
+import { Activity, Book, Star, Target, CheckCircle } from 'lucide-react-native';
 
 interface MemoryCardProps {
-  event: TimelineEventModel | MemoryModel;
+  event: TimelineEvent;
   onPress: () => void;
   onLongPress?: () => void;
-  onFavorite?: () => void;
-  onPin?: () => void;
 }
 
-export const MemoryCard = ({ event, onPress, onLongPress, onFavorite, onPin }: MemoryCardProps) => {
-  // Map fields slightly depending on if it's a TimelineEventModel or a MemoryModel
-  const title = event.title;
-  const description = event.description;
-  const category = event.category;
-  const location = 'location' in event ? event.location : ''; // timeline event might not have location
-  const favorite = event.favorite;
-  const pinned = event.pinned;
-  const image = 'image' in event ? event.image : ('images' in event && event.images?.length > 0 ? event.images[0].image : null);
+const getIcon = (iconName: string, color: string) => {
+  switch (iconName.toLowerCase()) {
+    case 'book': return <Book size={20} color={color} />;
+    case 'star': return <Star size={20} color={color} />;
+    case 'target': return <Target size={20} color={color} />;
+    case 'check': return <CheckCircle size={20} color={color} />;
+    default: return <Activity size={20} color={color} />;
+  }
+};
 
-  const renderLeftActions = (progress: Animated.AnimatedInterpolation<number>, dragX: Animated.AnimatedInterpolation<number>) => {
-    const scale = dragX.interpolate({
-      inputRange: [0, 100],
-      outputRange: [0.5, 1],
-      extrapolate: 'clamp',
-    });
-
-    return (
-      <TouchableOpacity 
-        className={`w-20 justify-center items-center rounded-l-2xl ${favorite ? 'bg-slate-200' : 'bg-rose-100'}`}
-        onPress={onFavorite}
-      >
-        <Animated.View style={{ transform: [{ scale }] }}>
-          <Heart size={24} color={favorite ? '#64748B' : '#E11D48'} fill={favorite ? 'none' : '#E11D48'} />
-        </Animated.View>
-      </TouchableOpacity>
-    );
-  };
-
-  const renderRightActions = (progress: Animated.AnimatedInterpolation<number>, dragX: Animated.AnimatedInterpolation<number>) => {
-    const scale = dragX.interpolate({
-      inputRange: [-100, 0],
-      outputRange: [1, 0.5],
-      extrapolate: 'clamp',
-    });
-
-    return (
-      <TouchableOpacity 
-        className={`w-20 justify-center items-center rounded-r-2xl ${pinned ? 'bg-slate-200' : 'bg-amber-100'}`}
-        onPress={onPin}
-      >
-        <Animated.View style={{ transform: [{ scale }] }}>
-          <Pin size={24} color={pinned ? '#64748B' : '#D97706'} fill={pinned ? 'none' : '#D97706'} />
-        </Animated.View>
-      </TouchableOpacity>
-    );
-  };
-
-  const CardContent = (
-    <Card className="mb-4 overflow-hidden border border-slate-100">
-      <TouchableOpacity 
-        activeOpacity={0.8}
-        onPress={onPress}
-        onLongPress={onLongPress}
-      >
-        {image && (
-          <Image 
-            source={{ uri: image }} 
-            className="w-full h-40 bg-slate-200"
-            resizeMode="cover"
-          />
-        )}
-        
-        <View className="p-4">
-          <View className="flex-row items-center justify-between mb-2">
-            <CategoryChip category={category} />
-            <View className="flex-row">
-              <FavoriteBadge isFavorite={favorite} />
-              <PinnedBadge isPinned={pinned} />
-            </View>
+export const MemoryCard = ({ event, onPress, onLongPress }: MemoryCardProps) => {
+  return (
+    <TouchableOpacity onPress={onPress} onLongPress={onLongPress} activeOpacity={0.7} className="mb-4">
+      <Card className="flex-row border-l-4" style={{ borderLeftColor: event.color }}>
+        <View className="mr-3 mt-1">
+          <View className="w-10 h-10 rounded-full items-center justify-center" style={{ backgroundColor: `${event.color}15` }}>
+            {getIcon(event.icon, event.color)}
+          </View>
+        </View>
+        <View className="flex-1">
+          <View className="flex-row justify-between items-start mb-1">
+            <Typography variant="h3" className="flex-1 mr-2 text-base">{event.title}</Typography>
+            {event.timestamp && (
+              <Typography variant="caption" className="text-xs">{format(new Date(event.timestamp), 'MMM d')}</Typography>
+            )}
           </View>
           
-          <Typography variant="h3" className="text-slate-900 mb-1 leading-6">
-            {title}
-          </Typography>
-          
-          {description ? (
-            <Typography variant="body" className="text-slate-600 mb-3" numberOfLines={2}>
-              {description}
+          {event.preview ? (
+            <Typography variant="body" className="mb-2 text-gray-600 text-sm" numberOfLines={3}>
+              {event.preview}
             </Typography>
           ) : null}
 
-          {location ? (
-            <LocationBadge location={location} />
-          ) : null}
+          <View className="flex-row flex-wrap mt-1">
+            <PinnedBadge pinned={event.pinned} />
+            <FavoriteBadge favorite={event.favorite} />
+            {event.category ? <CategoryBadge category={event.category} /> : null}
+          </View>
         </View>
-      </TouchableOpacity>
-    </Card>
-  );
-
-  if (!onFavorite && !onPin) return CardContent;
-
-  return (
-    <Swipeable
-      renderLeftActions={onFavorite ? renderLeftActions : undefined}
-      renderRightActions={onPin ? renderRightActions : undefined}
-      friction={2}
-      rightThreshold={40}
-      leftThreshold={40}
-    >
-      {CardContent}
-    </Swipeable>
+      </Card>
+    </TouchableOpacity>
   );
 };

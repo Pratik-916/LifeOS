@@ -20,6 +20,7 @@ import { GoalSearchScreen } from '../features/goals/screens/GoalSearchScreen';
 import { MemoryDetailsScreen } from '../features/journey/screens/MemoryDetailsScreen';
 import { MemoryEditorScreen } from '../features/journey/screens/MemoryEditorScreen';
 import { MemorySearchScreen } from '../features/journey/screens/MemorySearchScreen';
+import { JourneyStatisticsScreen } from '../features/journey/screens/JourneyStatisticsScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -95,6 +96,10 @@ export const MainStack = () => {
         name="MemorySearch" 
         component={MemorySearchScreen}
         options={{ presentation: 'transparentModal', animation: 'fade' }}
+      />
+      <Stack.Screen 
+        name="JourneyStatistics" 
+        component={JourneyStatisticsScreen}
       />
     </Stack.Navigator>
   );

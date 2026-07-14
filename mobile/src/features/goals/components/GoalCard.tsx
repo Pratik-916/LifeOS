@@ -7,7 +7,6 @@ import { StatusBadge, PriorityBadge, CategoryChip } from './GoalBadges';
 import { GoalProgressBar } from './GoalProgressBar';
 import { differenceInDays, parseISO } from 'date-fns';
 import { Heart, Archive, Calendar, Target } from 'lucide-react-native';
-// @ts-expect-error swipeable
 import { Swipeable } from 'react-native-gesture-handler';
 
 interface GoalCardProps {

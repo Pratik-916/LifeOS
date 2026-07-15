@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, ScrollView,  Alert } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
@@ -14,6 +15,8 @@ type HabitDetailsRouteProp = RouteProp<MainStackParamList, 'HabitDetails'>;
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const HabitDetailsScreen = () => {
+  const { theme } = useTheme();
+
   const route = useRoute<HabitDetailsRouteProp>();
   const navigation = useNavigation<NavigationProp>();
   const { habitId } = route.params;
@@ -78,22 +81,22 @@ export const HabitDetailsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
-        <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} className="-ml-2" accessibilityRole="button" />
+        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="ArrowLeft" onPress={() => navigation.goBack()} className="-ml-2" accessibilityRole="button" />
         
         <View className="flex-row space-x-2">
           {habit.isArchived ? (
-            <IconButton leftIcon="Undo2" onPress={handleRestore} accessibilityRole="button" />
+            <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Undo2" onPress={handleRestore} accessibilityRole="button" />
           ) : (
             <>
-              <IconButton 
+              <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
                 leftIcon="Star" 
                 onPress={toggleFavorite} 
                 accessibilityRole="button" 
                 // Color customization for IconButton could be limited, fallback to standard Icon inside  if we need fill, 
                 // but let's use the standard IconButton for simplicity.
               />
-              <IconButton leftIcon="Edit2" onPress={() => navigation.navigate('HabitEditor', { habitId })} accessibilityRole="button" />
-              <IconButton leftIcon="Trash2" onPress={handleDelete} accessibilityRole="button" variant="danger" />
+              <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Edit2" onPress={() => navigation.navigate('HabitEditor', { habitId })} accessibilityRole="button" />
+              <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Trash2" onPress={handleDelete} accessibilityRole="button" variant="danger" />
             </>
           )}
         </View>
@@ -129,19 +132,19 @@ export const HabitDetailsScreen = () => {
         {/* Streaks & Stats */}
         <View className="flex-row justify-between mb-6">
           <View className="bg-orange-50 rounded-xl p-4 flex-1 mr-2 items-center">
-            <Icon name="Flame" color="#F97316" size={24} className="mb-2" />
+            <Icon name="Flame" color={theme.colors.orange[500]} size={24} className="mb-2" />
             <HeadingLG className="text-orange-600">{habit.currentStreak}</HeadingLG>
             <Caption className="text-orange-700 font-medium">Current Streak</Caption>
           </View>
           
           <View className="bg-blue-50 rounded-xl p-4 flex-1 mx-1 items-center">
-            <Icon name="Flame" color="#3B82F6" size={24} className="mb-2" />
+            <Icon name="Flame" color={theme.colors.primary[400]} size={24} className="mb-2" />
             <HeadingLG className="text-blue-600">{habit.longestStreak}</HeadingLG>
             <Caption className="text-blue-700 font-medium">Best Streak</Caption>
           </View>
           
           <View className="bg-emerald-50 rounded-xl p-4 flex-1 ml-2 items-center">
-            <Icon name="CheckCircle2" color="#10B981" size={24} className="mb-2" />
+            <Icon name="CheckCircle2" color={theme.colors.success} size={24} className="mb-2" />
             <HeadingLG className="text-emerald-600">{habit.completionRate.toFixed(0)}%</HeadingLG>
             <Caption className="text-emerald-700 font-medium">Success</Caption>
           </View>

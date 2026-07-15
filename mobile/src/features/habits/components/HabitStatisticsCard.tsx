@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { HeadingSM, Caption, Card, Icon } from '../../../design-system';
@@ -20,7 +21,7 @@ export const HabitStatisticsCard: React.FC<HabitStatisticsCardProps> = ({ stats 
       <View className="flex-row justify-between">
         <View className="items-center flex-1">
           <View className="w-10 h-10 rounded-full bg-emerald-50 items-center justify-center mb-2">
-            <Icon name="CheckCircle2" color="#10B981" size={20} />
+            <Icon name="CheckCircle2" color={theme.colors.success} size={20} />
           </View>
           <HeadingSM>{stats.completedToday} / {stats.totalHabits}</HeadingSM>
           <Caption className="text-text-muted text-center">Today</Caption>
@@ -28,7 +29,7 @@ export const HabitStatisticsCard: React.FC<HabitStatisticsCardProps> = ({ stats 
 
         <View className="items-center flex-1">
           <View className="w-10 h-10 rounded-full bg-orange-50 items-center justify-center mb-2">
-            <Icon name="Flame" color="#F97316" size={20} />
+            <Icon name="Flame" color={theme.colors.orange[500]} size={20} />
           </View>
           <HeadingSM>{stats.longestActiveStreak}</HeadingSM>
           <Caption className="text-text-muted text-center">Best Streak</Caption>

@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { Icon, HeadingMD, BodyMD } from '../../../design-system';
@@ -8,10 +9,12 @@ interface DashboardEmptyStateProps {
 }
 
 export const DashboardEmptyState = ({ title, description }: DashboardEmptyStateProps) => {
+  const { theme } = useTheme();
+
   return (
     <View className="items-center justify-center py-10 px-6 bg-slate-50 rounded-[24px] border border-slate-100 border-dashed">
       <View className="w-16 h-16 rounded-full bg-background-light dark:bg-background-dark items-center justify-center mb-4 shadow-sm">
-        <Icon name="Smile" size={32} color="#94A3B8" />
+        <Icon name="Smile" size={32} color={theme.colors.text.disabled} />
       </View>
       <HeadingMD className="text-slate-800 text-center mb-2">{title}</HeadingMD>
       <BodyMD className="text-slate-500 text-center leading-6">{description}</BodyMD>

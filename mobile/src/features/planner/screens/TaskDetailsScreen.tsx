@@ -68,15 +68,15 @@ export const TaskDetailsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
-        <IconButton onPress={() => navigation.goBack()} className="p-2 -ml-2" leftIcon="" />
+        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" onPress={() => navigation.goBack()} className="p-2 -ml-2" leftIcon="" />
         
         <View className="flex-row space-x-4">
           {task.isArchived ? (
-            <IconButton onPress={handleRestore} className="p-2" leftIcon="" />
+            <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" onPress={handleRestore} className="p-2" leftIcon="" />
           ) : (
             <>
-              <IconButton onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" leftIcon="" />
-              <IconButton onPress={handleDelete} className="p-2" leftIcon="" />
+              <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" leftIcon="" />
+              <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" onPress={handleDelete} className="p-2" leftIcon="" />
             </>
           )}
         </View>

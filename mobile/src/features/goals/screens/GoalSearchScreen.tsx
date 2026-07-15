@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,6 +15,8 @@ import { BodyMD, Icon } from '../../../design-system';
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const GoalSearchScreen = () => {
+  const { theme } = useTheme();
+
   const navigation = useNavigation<NavigationProp>();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState('');
@@ -47,22 +50,22 @@ export const GoalSearchScreen = () => {
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark" edges={['top']}>
       <View className="flex-row items-center px-4 py-3 border-b border-slate-100">
         <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2 mr-2">
-          <Icon name="ArrowLeft" size={24} color="#0F172A" />
+          <Icon name="ArrowLeft" size={24} color={theme.colors.text.primary} />
         </TouchableOpacity>
         
         <View className="flex-1 flex-row items-center bg-slate-100 rounded-full px-3 h-10">
-          <Icon name="Search" size={18} color="#94A3B8" />
+          <Icon name="Search" size={18} color={theme.colors.text.disabled} />
           <TextInput
             value={searchTerm}
             onChangeText={setSearchTerm}
             placeholder="Search goals..."
             className="flex-1 ml-2 text-text-light dark:text-text-dark font-medium"
-            placeholderTextColor="#94A3B8"
+            placeholderTextColor={theme.colors.text.disabled}
             autoFocus
           />
           {searchTerm.length > 0 && (
             <TouchableOpacity onPress={() => setSearchTerm('')}>
-              <Icon name="X" size={18} color="#94A3B8" />
+              <Icon name="X" size={18} color={theme.colors.text.disabled} />
             </TouchableOpacity>
           )}
         </View>

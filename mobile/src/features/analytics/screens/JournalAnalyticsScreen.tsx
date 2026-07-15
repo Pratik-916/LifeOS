@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useJournalAnalytics } from '../hooks/useJournalAnalytics';
@@ -9,6 +10,8 @@ import { ProductivityChart } from '../components/ProductivityChart';
 
 
 export const JournalAnalyticsScreen = () => {
+  const { theme } = useTheme();
+
   const [range, setRange] = useState('30_days');
   const { data, isLoading, refetch } = useJournalAnalytics({ dateRange: range });
 
@@ -24,8 +27,8 @@ export const JournalAnalyticsScreen = () => {
       <FilterBar selectedRange={range} onSelectRange={setRange} />
       
       <View className="flex-row mb-4">
-        <StatCard title="Writing Streak" value={data.writingStreak} icon="BookOpen" iconColor="#8B5CF6" />
-        <StatCard title="Favorites" value={data.favoriteEntries} icon="Smile" iconColor="#F59E0B" />
+        <StatCard title="Writing Streak" value={data.writingStreak} icon="BookOpen" iconColor={theme.colors.purple[500]} />
+        <StatCard title="Favorites" value={data.favoriteEntries} icon="Smile" iconColor={theme.colors.warning} />
       </View>
 
       <View className="flex-row mb-4">

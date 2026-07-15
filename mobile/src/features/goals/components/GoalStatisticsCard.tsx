@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { HeadingLG, Caption, PrimaryCard, Icon } from '../../../design-system';
@@ -9,6 +10,8 @@ interface GoalStatisticsCardProps {
 }
 
 export const GoalStatisticsCard = ({ stats, isLoading }: GoalStatisticsCardProps) => {
+  const { theme } = useTheme();
+
   if (isLoading || !stats) {
     return (
       <PrimaryCard className="p-4 mb-6">
@@ -25,9 +28,9 @@ export const GoalStatisticsCard = ({ stats, isLoading }: GoalStatisticsCardProps
   }
 
   const statItems = [
-    { label: 'Active Goals', value: stats.active, icon: <Icon name="Target" size={16} color="#6366F1" /> },
-    { label: 'Completed', value: stats.completed, icon: <Icon name="CheckCircle2" size={16} color="#10B981" /> },
-    { label: 'Avg Progress', value: `${Math.round(stats.average_progress)}%`, icon: <Icon name="Zap" size={16} color="#F59E0B" /> },
+    { label: 'Active Goals', value: stats.active, icon: <Icon name="Target" size={16} color={theme.colors.primary[500]} /> },
+    { label: 'Completed', value: stats.completed, icon: <Icon name="CheckCircle2" size={16} color={theme.colors.success} /> },
+    { label: 'Avg Progress', value: `${Math.round(stats.average_progress)}%`, icon: <Icon name="Zap" size={16} color={theme.colors.warning} /> },
     { label: 'Completion Rate', value: `${Math.round(stats.completion_rate)}%`, icon: <Icon name="Trophy" size={16} color="#EC4899" /> },
   ];
 

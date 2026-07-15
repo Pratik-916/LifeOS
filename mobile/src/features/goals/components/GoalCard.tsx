@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, TouchableOpacity, Alert, Animated } from 'react-native';
 import { HeadingMD, Label, Caption, PrimaryCard, StatusBadge, PriorityBadge, CategoryChip, Icon } from '../../../design-system';
@@ -16,6 +17,8 @@ interface GoalCardProps {
 }
 
 export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelete }: GoalCardProps) => {
+  const { theme } = useTheme();
+
   const daysRemaining = goal.targetDate ? differenceInDays(parseISO(goal.targetDate), new Date()) : null;
 
   const handleLongPress = () => {
@@ -40,7 +43,7 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
         {onArchive && (
           <TouchableOpacity onPress={onArchive} className="w-10 h-10 bg-slate-200 rounded-full items-center justify-center mr-2">
             <Animated.View style={{ transform: [{ scale }] }}>
-              <Icon name="Archive" size={20} color="#64748B" />
+              <Icon name="Archive" size={20} color={theme.colors.text.secondary} />
             </Animated.View>
           </TouchableOpacity>
         )}
@@ -63,7 +66,7 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
             <View className="flex-1 mr-2">
               <View className="flex-row items-center mb-1 space-x-2">
                 <CategoryChip label={goal.category} />
-                {goal.favorite && <Icon name="Heart" size={12} color="#E11D48" fill="#E11D48" />}
+                {goal.favorite && <Icon name="Heart" size={12} color={theme.colors.rose[600]} fill="#E11D48" />}
               </View>
               <HeadingMD className="text-text-light dark:text-text-dark" numberOfLines={1}>
                 {goal.title}
@@ -85,7 +88,7 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
 
           <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-slate-100">
             <View className="flex-row items-center">
-              <Icon name="Calendar" size={14} color="#64748B" />
+              <Icon name="Calendar" size={14} color={theme.colors.text.secondary} />
               <Caption className="text-slate-500 ml-1">
                 {goal.targetDate}
               </Caption>

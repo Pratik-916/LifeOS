@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { View, LayoutAnimation } from 'react-native';
 import { Card, HeadingMD, Icon } from '../../../design-system';
@@ -10,6 +11,8 @@ interface ReflectionCardProps {
 }
 
 export const ReflectionCard = ({ title, icon, children, defaultExpanded = false }: ReflectionCardProps) => {
+  const { theme } = useTheme();
+
   const [expanded, setExpanded] = useState(defaultExpanded);
 
   const toggleExpand = () => {
@@ -27,7 +30,7 @@ export const ReflectionCard = ({ title, icon, children, defaultExpanded = false 
           {icon && <View className="mr-3">{icon}</View>}
           <HeadingMD>{title}</HeadingMD>
         </View>
-        {expanded ? <Icon name="ChevronUp" size={20} color="#64748B" /> : <Icon name="ChevronDown" size={20} color="#64748B" />}
+        {expanded ? <Icon name="ChevronUp" size={20} color={theme.colors.text.secondary} /> : <Icon name="ChevronDown" size={20} color={theme.colors.text.secondary} />}
       </View>
       
       {expanded && (

@@ -1,0 +1,1025 @@
+{
+  "hexColors": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\buttons\\Button.tsx",
+      "count": 2,
+      "matches": [
+        "#FFFFFF",
+        "#0F172A"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\feedback\\Banner.tsx",
+      "count": 5,
+      "matches": [
+        "#FFFFFF",
+        "#FFFFFF",
+        "#FFFFFF",
+        "#FFFFFF",
+        "#FFFFFF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\feedback\\EmptyState.tsx",
+      "count": 1,
+      "matches": [
+        "#94A3B8"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\feedback\\GlobalErrorScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#EF4444"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\feedback\\Toast.tsx",
+      "count": 4,
+      "matches": [
+        "#10B981",
+        "#EF4444",
+        "#F59E0B",
+        "#3B82F6"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\icons\\IconProvider.tsx",
+      "count": 1,
+      "matches": [
+        "#94A3B8"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\inputs\\Input.tsx",
+      "count": 8,
+      "matches": [
+        "#6366F1",
+        "#94A3B8",
+        "#94A3B8",
+        "#94A3B8",
+        "#94A3B8",
+        "#6366F1",
+        "#FFFFFF",
+        "#FFFFFF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\loaders\\Loader.tsx",
+      "count": 1,
+      "matches": [
+        "#6366F1"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\modals\\Dialog.tsx",
+      "count": 5,
+      "matches": [
+        "#6366F1",
+        "#10B981",
+        "#EF4444",
+        "#EF4444",
+        "#94A3B8"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\tokens\\colors.ts",
+      "count": 23,
+      "matches": [
+        "#E0E7FF",
+        "#6366F1",
+        "#312E81",
+        "#F1F5F9",
+        "#64748B",
+        "#0F172A",
+        "#FFFFFF",
+        "#0F172A",
+        "#F8FAFC",
+        "#1E293B",
+        "#0F172A",
+        "#F8FAFC",
+        "#94A3B8",
+        "#EF4444",
+        "#10B981",
+        "#F59E0B",
+        "#3B82F6",
+        "#2563EB",
+        "#10B981",
+        "#F59E0B",
+        "#8B5CF6",
+        "#14B8A6",
+        "#4F46E5"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\AnalyticsSummaryCard.tsx",
+      "count": 5,
+      "matches": [
+        "#2563EB",
+        "#4F46E5",
+        "#EAB308",
+        "#10B981",
+        "#8B5CF6"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\InsightCard.tsx",
+      "count": 3,
+      "matches": [
+        "#16A34A",
+        "#DC2626",
+        "#2563EB"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\ProductivityChart.tsx",
+      "count": 5,
+      "matches": [
+        "#9CA3AF",
+        "#2563EB",
+        "#9CA3AF",
+        "#9CA3AF",
+        "#2563EB"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\ProgressRing.tsx",
+      "count": 2,
+      "matches": [
+        "#2563EB",
+        "#F3F4F6"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\StatCard.tsx",
+      "count": 1,
+      "matches": [
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\TrendChart.tsx",
+      "count": 4,
+      "matches": [
+        "#3B82F6",
+        "#10B981",
+        "#9CA3AF",
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\screens\\GoalAnalyticsScreen.tsx",
+      "count": 2,
+      "matches": [
+        "#10B981",
+        "#10B981"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\screens\\HabitAnalyticsScreen.tsx",
+      "count": 2,
+      "matches": [
+        "#2563EB",
+        "#EAB308"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\screens\\JournalAnalyticsScreen.tsx",
+      "count": 2,
+      "matches": [
+        "#8B5CF6",
+        "#F59E0B"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\screens\\JourneyAnalyticsScreen.tsx",
+      "count": 2,
+      "matches": [
+        "#EF4444",
+        "#F59E0B"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\screens\\ProductivityScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#2563EB"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\AgendaCard.tsx",
+      "count": 6,
+      "matches": [
+        "#2563EB",
+        "#10B981",
+        "#F59E0B",
+        "#8B5CF6",
+        "#14B8A6",
+        "#94A3B8"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\DashboardEmptyState.tsx",
+      "count": 1,
+      "matches": [
+        "#94A3B8"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\HeroProductivityCard.tsx",
+      "count": 4,
+      "matches": [
+        "#10B981",
+        "#F59E0B",
+        "#FDE047",
+        "#2563EB"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\OverviewCard.tsx",
+      "count": 10,
+      "matches": [
+        "#2563EB",
+        "#2563EB",
+        "#10B981",
+        "#10B981",
+        "#F59E0B",
+        "#F59E0B",
+        "#8B5CF6",
+        "#8B5CF6",
+        "#14B8A6",
+        "#14B8A6"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\QuickActions.tsx",
+      "count": 10,
+      "matches": [
+        "#DBEAFE",
+        "#2563EB",
+        "#D1FAE5",
+        "#10B981",
+        "#FEF3C7",
+        "#F59E0B",
+        "#EDE9FE",
+        "#8B5CF6",
+        "#CCFBF1",
+        "#14B8A6"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\WeeklyProgressSection.tsx",
+      "count": 2,
+      "matches": [
+        "#2563EB",
+        "#CBD5E1"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\components\\GoalCard.tsx",
+      "count": 9,
+      "matches": [
+        "#64748B",
+        "#E11D48",
+        "#F43F5E",
+        "#E11D48",
+        "#E11D48",
+        "#E11D48",
+        "#64748B",
+        "#E11D48",
+        "#64748B"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\components\\GoalEmptyState.tsx",
+      "count": 1,
+      "matches": [
+        "#6366F1"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\components\\GoalProgressBar.tsx",
+      "count": 1,
+      "matches": [
+        "#6366F1"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\components\\GoalStatisticsCard.tsx",
+      "count": 4,
+      "matches": [
+        "#6366F1",
+        "#10B981",
+        "#F59E0B",
+        "#EC4899"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\components\\MilestoneCard.tsx",
+      "count": 6,
+      "matches": [
+        "#CBD5E1",
+        "#10B981",
+        "#CBD5E1",
+        "#10B981",
+        "#CBD5E1",
+        "#EF4444"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalDetailsScreen.tsx",
+      "count": 11,
+      "matches": [
+        "#0F172A",
+        "#E11D48",
+        "#64748B",
+        "#E11D48",
+        "#4F46E5",
+        "#64748B",
+        "#64748B",
+        "#EF4444",
+        "#6366F1",
+        "#64748B",
+        "#0F172A"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalEditorScreen.tsx",
+      "count": 7,
+      "matches": [
+        "#0F172A",
+        "#6366F1",
+        "#94A3B8",
+        "#94A3B8",
+        "#94A3B8",
+        "#94A3B8",
+        "#FFF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#6366F1"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalSearchScreen.tsx",
+      "count": 4,
+      "matches": [
+        "#0F172A",
+        "#94A3B8",
+        "#94A3B8",
+        "#94A3B8"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitBadges.tsx",
+      "count": 2,
+      "matches": [
+        "#10B981",
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitCard.tsx",
+      "count": 14,
+      "matches": [
+        "#FFFFFF",
+        "#FFFFFF",
+        "#FFFFFF",
+        "#10B981",
+        "#10B981",
+        "#D1D5DB",
+        "#F59E0B",
+        "#F97316",
+        "#FFFFFF",
+        "#F3F4F6",
+        "#F8FAFC",
+        "#FFEDD5",
+        "#9CA3AF",
+        "#10B981"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitProgressRing.tsx",
+      "count": 2,
+      "matches": [
+        "#10B981",
+        "#E5E7EB"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitStatisticsCard.tsx",
+      "count": 2,
+      "matches": [
+        "#10B981",
+        "#F97316"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitDetailsScreen.tsx",
+      "count": 7,
+      "matches": [
+        "#FFFFFF",
+        "#FFFFFF",
+        "#FFFFFF",
+        "#10B981",
+        "#F97316",
+        "#3B82F6",
+        "#10B981"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitEditorScreen.tsx",
+      "count": 6,
+      "matches": [
+        "#FFFFFF",
+        "#FFFFFF",
+        "#D1D5DB",
+        "#34D399",
+        "#10B981",
+        "#F3F4F6"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#F8FAFC"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitSearchScreen.tsx",
+      "count": 3,
+      "matches": [
+        "#F8FAFC",
+        "#9CA3AF",
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\AutosaveIndicator.tsx",
+      "count": 3,
+      "matches": [
+        "#64748B",
+        "#10B981",
+        "#F59E0B"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\ImageGallery.tsx",
+      "count": 1,
+      "matches": [
+        "#F1F5F9"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\JournalCard.tsx",
+      "count": 3,
+      "matches": [
+        "#64748B",
+        "#F43F5E",
+        "#F43F5E"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\JournalEmptyState.tsx",
+      "count": 1,
+      "matches": [
+        "#4F46E5"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\JournalSkeleton.tsx",
+      "count": 4,
+      "matches": [
+        "#E2E8F0",
+        "#E2E8F0",
+        "#E2E8F0",
+        "#E2E8F0"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\JournalStatisticsCard.tsx",
+      "count": 3,
+      "matches": [
+        "#F59E0B",
+        "#60A5FA",
+        "#34D399"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\ReflectionCard.tsx",
+      "count": 2,
+      "matches": [
+        "#64748B",
+        "#64748B"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalDetailsScreen.tsx",
+      "count": 2,
+      "matches": [
+        "#4F46E5",
+        "#6366F1"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalEditorScreen.tsx",
+      "count": 3,
+      "matches": [
+        "#94A3B8",
+        "#94A3B8",
+        "#6366F1"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#4F46E5"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalSearchScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#94A3B8"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\api\\journey.mapper.ts",
+      "count": 2,
+      "matches": [
+        "#4f46e5",
+        "#888888"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\components\\JourneyBadges.tsx",
+      "count": 3,
+      "matches": [
+        "#64748B",
+        "#E11D48",
+        "#D97706"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\components\\LocationChip.tsx",
+      "count": 1,
+      "matches": [
+        "#6B7280"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\components\\MemoryActionsSheet.tsx",
+      "count": 6,
+      "matches": [
+        "#374151",
+        "#EF4444",
+        "#4B5563",
+        "#2563EB",
+        "#4B5563",
+        "#EF4444"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\components\\MemoryImageCarousel.tsx",
+      "count": 1,
+      "matches": [
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\MemoryDetailsScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#EF4444"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\MemoryEditorScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\MemorySearchScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\components\\PlannerStatisticsCard.tsx",
+      "count": 3,
+      "matches": [
+        "#3B82F6",
+        "#10B981",
+        "#EF4444"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\components\\TaskListItem.tsx",
+      "count": 10,
+      "matches": [
+        "#FFFFFF",
+        "#F59E0B",
+        "#10B981",
+        "#FFFFFF",
+        "#FFFFFF",
+        "#10B981",
+        "#D1D5DB",
+        "#FFFFFF",
+        "#F3F4F6",
+        "#EF4444"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\PlannerScreen.tsx",
+      "count": 1,
+      "matches": [
+        "#F8FAFC"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskDetailsScreen.tsx",
+      "count": 3,
+      "matches": [
+        "#FFFFFF",
+        "#FFFFFF",
+        "#FFFFFF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskEditorScreen.tsx",
+      "count": 2,
+      "matches": [
+        "#FFFFFF",
+        "#FFFFFF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskSearchScreen.tsx",
+      "count": 2,
+      "matches": [
+        "#F8FAFC",
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\profile\\screens\\ProfileScreen.tsx",
+      "count": 3,
+      "matches": [
+        "#6366F1",
+        "#9CA3AF",
+        "#9CA3AF"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\navigation\\BottomTabNavigator.tsx",
+      "count": 10,
+      "matches": [
+        "#0F172A",
+        "#94A3B8",
+        "#F1F5F9",
+        "#FFFFFF",
+        "#2563EB",
+        "#2563EB",
+        "#8B5CF6",
+        "#10B981",
+        "#F59E0B",
+        "#14B8A6"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\theme\\colors.ts",
+      "count": 16,
+      "matches": [
+        "#2563EB",
+        "#60A5FA",
+        "#1D4ED8",
+        "#4B5563",
+        "#9CA3AF",
+        "#374151",
+        "#FFFFFF",
+        "#F9FAFB",
+        "#111827",
+        "#111827",
+        "#6B7280",
+        "#FFFFFF",
+        "#EF4444",
+        "#FEE2E2",
+        "#10B981",
+        "#D1FAE5"
+      ]
+    }
+  ],
+  "rgbColors": [],
+  "rgbaColors": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\modals\\BottomSheet.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\modals\\Dialog.tsx"
+    }
+  ],
+  "inlineStyles": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\feedback\\OfflineBanner.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\HeatmapGrid.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\AgendaCard.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\OverviewCard.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\QuickActions.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\components\\GoalCard.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\components\\GoalProgressBar.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitCard.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitProgressRing.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitSkeleton.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitDetailsScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitEditorScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitSearchScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\AutosaveIndicator.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\JournalCard.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\MoodSelector.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalEditorScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\components\\MemoryCard.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\components\\TaskListItem.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\PlannerScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskDetailsScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskEditorScreen.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskSearchScreen.tsx"
+    }
+  ],
+  "styleSheets": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitCard.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\components\\HabitSkeleton.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\ImageGallery.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\JournalSkeleton.tsx"
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\components\\TaskListItem.tsx"
+    }
+  ],
+  "legacyImports": [],
+  "themeProviders": 1,
+  "reactMemo": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\icons\\IconProvider.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\text\\Typography.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\HeatmapGrid.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\ProductivityChart.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\TrendChart.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\AgendaCard.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\DashboardHeader.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\DashboardSectionTitle.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\HeroProductivityCard.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\InsightCarousel.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\OverviewCard.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\QuickActions.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\dashboard\\components\\WeeklyProgressSection.tsx",
+      "count": 1
+    }
+  ],
+  "useCallback": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalEditorScreen.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalScreen.tsx",
+      "count": 4
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalSearchScreen.tsx",
+      "count": 2
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitScreen.tsx",
+      "count": 3
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitSearchScreen.tsx",
+      "count": 2
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalScreen.tsx",
+      "count": 3
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalSearchScreen.tsx",
+      "count": 2
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\JourneyScreen.tsx",
+      "count": 3
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\MemoryDetailsScreen.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\MemorySearchScreen.tsx",
+      "count": 2
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\PlannerScreen.tsx",
+      "count": 7
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskSearchScreen.tsx",
+      "count": 3
+    }
+  ],
+  "useMemo": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\ProductivityChart.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\analytics\\components\\TrendChart.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\AutosaveIndicator.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\components\\JournalSkeleton.tsx",
+      "count": 1
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\JourneyScreen.tsx",
+      "count": 1
+    }
+  ],
+  "flatLists": [
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\goals\\screens\\GoalSearchScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\habits\\screens\\HabitSearchScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journal\\screens\\JournalSearchScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\journey\\screens\\MemorySearchScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\PlannerScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\planner\\screens\\TaskSearchScreen.tsx",
+      "initialNum": true,
+      "windowSize": true,
+      "maxBatch": true,
+      "removeClipped": true,
+      "keyExt": true
+    }
+  ],
+  "interactiveComponentsCount": 90,
+  "interactivesWithLabel": 6,
+  "unusedExportsCount": 167
+}

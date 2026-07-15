@@ -158,7 +158,7 @@ export const HabitEditorScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }} edges={['top']}>
       <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
         <HeadingLG>{isEditing ? 'Edit Habit' : 'New Habit'}</HeadingLG>
-        <IconButton leftIcon="X" onPress={() => navigation.goBack()} className="-mr-2" accessibilityRole="button" />
+        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="X" onPress={() => navigation.goBack()} className="-mr-2" accessibilityRole="button" />
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>

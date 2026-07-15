@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -17,6 +18,8 @@ type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 type RouteProps = RouteProp<MainStackParamList, 'JournalDetails'>;
 
 const getMoodEmoji = (mood: string) => {
+  const { theme } = useTheme();
+
   const map: Record<string, string> = { happy: '😀', good: '🙂', neutral: '😐', sad: '😔', 'very-sad': '😢' };
   return map[mood?.toLowerCase()] || '📝';
 };
@@ -32,7 +35,7 @@ export const JournalDetailsScreen = () => {
   if (isLoading || !entry) {
     return (
       <View className="flex-1 items-center justify-center bg-background-light dark:bg-background-dark">
-        <ActivityIndicator size="large" color="#4F46E5" />
+        <ActivityIndicator size="large" color={theme.colors.primary[600]} />
       </View>
     );
   }
@@ -55,22 +58,22 @@ export const JournalDetailsScreen = () => {
     <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-background-light dark:bg-background-dark">
       <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100">
         <View className="flex-row items-center">
-          <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
+          <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
         </View>
         <View className="flex-row items-center">
-          <IconButton 
+          <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
             leftIcon="Pin" 
             onPress={() => pinJournalEntry(id)} 
             // In a real app we'd pass style or color to icon based on state, but the design system IconButton takes a leftIcon string.
             // Wait, does IconButton support icon color? It inherits Button which forces color based on variant.
             // The original used fill and color props. Let's just use the default.
           />
-          <IconButton 
+          <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
             leftIcon="Heart" 
             onPress={() => favoriteJournalEntry(id)} 
           />
-          <IconButton leftIcon="Edit2" onPress={() => navigation.navigate('JournalEditor', { id })} />
-          <IconButton leftIcon="Trash2" variant="danger" onPress={handleDelete} />
+          <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Edit2" onPress={() => navigation.navigate('JournalEditor', { id })} />
+          <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Trash2" variant="danger" onPress={handleDelete} />
         </View>
       </View>
 
@@ -121,7 +124,7 @@ export const JournalDetailsScreen = () => {
           </ReflectionCard>
         )}
 
-        <ReflectionCard title="AI Insights" icon={<Icon name="Sparkles" size={18} color="#6366F1" />}>
+        <ReflectionCard title="AI Insights" icon={<Icon name="Sparkles" size={18} color={theme.colors.primary[500]} />}>
           <View className="py-2 items-center justify-center">
             <BodyLG className="text-slate-400 italic">
               Coming Soon

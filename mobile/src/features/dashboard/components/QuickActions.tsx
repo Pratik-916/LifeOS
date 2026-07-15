@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, Pressable, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -40,27 +41,27 @@ export const QuickActions = React.memo(() => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 8 }}>
         <ActionButton 
           label="Task" color="#DBEAFE" 
-          icon={<Icon name="CheckSquare" size={24} color="#2563EB" />} 
+          icon={<Icon name="CheckSquare" size={24} color={theme.colors.primary[500]} />} 
           onPress={() => navigation.navigate('TaskEditor', {})} 
         />
         <ActionButton 
           label="Habit" color="#D1FAE5" 
-          icon={<Icon name="Target" size={24} color="#10B981" />} 
+          icon={<Icon name="Target" size={24} color={theme.colors.success} />} 
           onPress={() => navigation.navigate('HabitEditor', {})} 
         />
         <ActionButton 
           label="Goal" color="#FEF3C7" 
-          icon={<Icon name="Trophy" size={24} color="#F59E0B" />} 
+          icon={<Icon name="Trophy" size={24} color={theme.colors.warning} />} 
           onPress={() => navigation.navigate('GoalEditor', {})} 
         />
         <ActionButton 
           label="Journal" color="#EDE9FE" 
-          icon={<Icon name="BookOpen" size={24} color="#8B5CF6" />} 
+          icon={<Icon name="BookOpen" size={24} color={theme.colors.purple[500]} />} 
           onPress={() => navigation.navigate('JournalEditor', {})} 
         />
         <ActionButton 
           label="Memory" color="#CCFBF1" 
-          icon={<Icon name="Compass" size={24} color="#14B8A6" />} 
+          icon={<Icon name="Compass" size={24} color={theme.colors.teal[500]} />} 
           onPress={() => navigation.navigate('MemoryEditor', {})} 
         />
       </ScrollView>

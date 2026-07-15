@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState, useCallback } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +11,8 @@ import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
 
 export const MemorySearchScreen = () => {
+  const { theme } = useTheme();
+
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const [searchQuery, setSearchQuery] = useState('');
   
@@ -62,7 +65,7 @@ export const MemorySearchScreen = () => {
   return (
     <View className="flex-1 bg-background-light dark:bg-background-dark">
       <View className="p-4 border-b border-secondary-100 dark:border-secondary-900 flex-row items-center bg-surface-light dark:bg-surface-dark">
-        <Icon name="Search" size={20} color="#9CA3AF" />
+        <Icon name="Search" size={20} color={theme.colors.gray[400]} />
         <TextInput
           className="flex-1 ml-2 text-base text-text-light dark:text-text-dark py-2"
           placeholder="Search memories, locations, tags..."

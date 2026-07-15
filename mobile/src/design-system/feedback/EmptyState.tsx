@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, ViewProps } from 'react-native';
 import { HeadingMD, BodyMD } from '../text/Typography';
@@ -26,10 +27,12 @@ export const EmptyState = ({
   className = '',
   ...props
 }: EmptyStateProps) => {
+  const { theme } = useTheme();
+
   return (
     <View className={`flex-1 items-center justify-center p-8 ${className}`} {...props}>
       <View className="h-24 w-24 rounded-full bg-secondary-100 dark:bg-secondary-900 items-center justify-center mb-6">
-        <Icon name={icon} size={48} color="#94A3B8" />
+        <Icon name={icon} size={48} color={theme.colors.text.disabled} />
       </View>
       
       <HeadingMD className="text-center mb-2">{title}</HeadingMD>
@@ -42,7 +45,7 @@ export const EmptyState = ({
       
       <View className="w-full space-y-3">
         {actionLabel && onAction && (
-          <PrimaryButton title={actionLabel} onPress={onAction} className="w-full" />
+          <PrimaryButton accessibilityRole="button" accessibilityLabel="Button" title={actionLabel} onPress={onAction} className="w-full" />
         )}
         {secondaryActionLabel && onSecondaryAction && (
           <SecondaryButton title={secondaryActionLabel} onPress={onSecondaryAction} className="w-full" />

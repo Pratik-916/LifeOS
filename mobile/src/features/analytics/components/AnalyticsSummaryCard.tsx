@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { PrimaryCard, HeadingLG, BodyMD } from '../../../design-system';
@@ -11,6 +12,8 @@ interface AnalyticsSummaryCardProps {
 }
 
 export const AnalyticsSummaryCard = ({ summary }: AnalyticsSummaryCardProps) => {
+  const { theme } = useTheme();
+
   return (
     <View className="mb-4">
       <PrimaryCard className="mb-2 bg-blue-50 border-blue-100 border">
@@ -21,7 +24,7 @@ export const AnalyticsSummaryCard = ({ summary }: AnalyticsSummaryCardProps) => 
               You are performing {summary.productivityScore > 80 ? 'excellently' : 'well'} this week.
             </BodyMD>
           </View>
-          <ProgressRing progress={summary.productivityScore} size={80} color="#2563EB" />
+          <ProgressRing progress={summary.productivityScore} size={80} color={theme.colors.primary[500]} />
         </View>
       </PrimaryCard>
 
@@ -31,14 +34,14 @@ export const AnalyticsSummaryCard = ({ summary }: AnalyticsSummaryCardProps) => 
           value={summary.completedTasks} 
           subtitle={`${summary.pendingTasks} pending`}
           icon="CheckSquare"
-          iconColor="#4F46E5"
+          iconColor={theme.colors.primary[600]}
         />
         <StatCard 
           title="Habits" 
           value={summary.completedHabits}
           subtitle={`${summary.currentHabitStreak} day streak`}
           icon="Zap"
-          iconColor="#EAB308"
+          iconColor={theme.colors.yellow[500]}
         />
       </View>
       
@@ -48,14 +51,14 @@ export const AnalyticsSummaryCard = ({ summary }: AnalyticsSummaryCardProps) => 
           value={summary.completedGoals}
           subtitle={`${summary.currentGoals} active`}
           icon="Target"
-          iconColor="#10B981"
+          iconColor={theme.colors.success}
         />
         <StatCard 
           title="Journal" 
           value={summary.journalEntriesThisWeek}
           subtitle="this week"
           icon="BookOpen"
-          iconColor="#8B5CF6"
+          iconColor={theme.colors.purple[500]}
         />
       </View>
     </View>

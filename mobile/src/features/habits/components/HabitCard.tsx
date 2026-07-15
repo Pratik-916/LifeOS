@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -42,7 +43,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
         accessibilityLabel={isArchived ? "Restore habit" : "Archive habit"}
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          {isArchived ? <Icon name="Undo2" color="#FFFFFF" size={24} /> : <Icon name="Archive" color="#FFFFFF" size={24} />}
+          {isArchived ? <Icon name="Undo2" color={theme.colors.background.paper} size={24} /> : <Icon name="Archive" color={theme.colors.background.paper} size={24} />}
         </Animated.View>
       </TouchableOpacity>
     );
@@ -66,7 +67,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
         accessibilityLabel="Complete habit"
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          <Icon name="CheckCircle2" color="#FFFFFF" size={24} />
+          <Icon name="CheckCircle2" color={theme.colors.background.paper} size={24} />
         </Animated.View>
       </TouchableOpacity>
     );
@@ -109,7 +110,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
                 {habit.title}
               </HeadingSM>
               {habit.isFavorite && (
-                <Icon name="Star" size={16} color="#F59E0B" className="ml-1" />
+                <Icon name="Star" size={16} color={theme.colors.warning} className="ml-1" />
               )}
             </View>
             
@@ -120,7 +121,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
               
               {habit.currentStreak > 0 && (
                 <View style={styles.streakBadge}>
-                  <Icon name="Flame" size={12} color="#F97316" />
+                  <Icon name="Flame" size={12} color={theme.colors.orange[500]} />
                   <Caption className="text-orange-600 font-bold ml-1">
                     {habit.currentStreak}
                   </Caption>

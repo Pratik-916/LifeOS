@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { Icon, PrimaryCard, HeadingMD, HeadingXL, BodyMD, Caption } from '../../../design-system';
@@ -44,7 +45,7 @@ export const HeroProductivityCard = React.memo(({ score, trend, completionPercen
             progress={completionPercentage} 
             size={90} 
              
-            color="#2563EB" 
+            color={theme.colors.primary[500]} 
             label="Done" 
           />
         </View>

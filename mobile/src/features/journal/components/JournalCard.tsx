@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, Animated, Alert, TouchableOpacity } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -15,6 +16,8 @@ interface JournalCardProps {
 }
 
 const getMoodEmoji = (mood: string) => {
+  const { theme } = useTheme();
+
   const map: Record<string, string> = {
     happy: '😀',
     good: '🙂',
@@ -73,8 +76,8 @@ export const JournalCard = ({ entry, onPress, onEdit, onFavorite, onDelete, onPi
         <View className="flex-1 mr-3">
           <View className="flex-row items-center mb-1">
             <HeadingMD className="mr-2" numberOfLines={1}>{entry.title || 'Untitled Entry'}</HeadingMD>
-            {entry.isPinned && <Icon name="Pin" size={14} color="#64748B" />}
-            {entry.isFavorite && <Icon name="Heart" size={14} color="#F43F5E" fill="#F43F5E" className="ml-1" />}
+            {entry.isPinned && <Icon name="Pin" size={14} color={theme.colors.text.secondary} />}
+            {entry.isFavorite && <Icon name="Heart" size={14} color={theme.colors.rose[500]} fill="#F43F5E" className="ml-1" />}
           </View>
           
           <BodySM className="text-slate-500 mb-2" numberOfLines={2}>

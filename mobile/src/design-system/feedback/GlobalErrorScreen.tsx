@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Button } from '../buttons/Button';
@@ -12,7 +13,7 @@ interface GlobalErrorScreenProps {
 export const GlobalErrorScreen: React.FC<GlobalErrorScreenProps> = ({ error, onReset }) => {
   return (
     <SafeAreaView className="flex-1 bg-white items-center justify-center px-6">
-      <AlertOctagon size={64} color="#EF4444" />
+      <AlertOctagon size={64} color={theme.colors.danger} />
       <Text className="text-2xl font-bold text-gray-900 mt-6 mb-2 text-center">
         Oops! Something went wrong.
       </Text>

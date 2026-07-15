@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useMemo } from 'react';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
@@ -43,13 +44,13 @@ export const ProductivityChart = React.memo(({ data, title }: ProductivityChartP
             width={screenWidth - 80}
             height={180}
             thickness={3}
-            color="#2563EB"
+            color={theme.colors.primary[500]}
             hideRules
             yAxisTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
             xAxisLabelTextStyle={{ color: '#9CA3AF', fontSize: 10 }}
             isAnimated
             curved
-            dataPointsColor="#2563EB"
+            dataPointsColor={theme.colors.primary[500]}
             dataPointsRadius={4}
             hideDataPoints={false}
             spacing={(screenWidth - 100) / Math.max(1, chartData.length - 1)}

@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useEffect } from 'react';
 import { View, ScrollView, Switch, Pressable } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -27,6 +28,8 @@ type FormData = z.infer<typeof schema>;
 const DRAFT_KEY = '@journey_memory_draft';
 
 export const MemoryEditorScreen = () => {
+  const { theme } = useTheme();
+
   const route = useRoute<RouteProp<MainStackParamList, 'MemoryEditor'>>();
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const { id } = route.params || {};
@@ -209,7 +212,7 @@ export const MemoryEditorScreen = () => {
       <View className="mb-8">
         <HeadingMD className="mb-2">Images</HeadingMD>
         <Pressable className="bg-surface-light dark:bg-surface-dark h-32 rounded-xl items-center justify-center border-2 border-dashed border-secondary-500">
-          <Icon name="Image" size={32} color="#9CA3AF" />
+          <Icon name="Image" size={32} color={theme.colors.gray[400]} />
           <Caption className="mt-2 text-text-muted">Tap to add images (Placeholder)</Caption>
         </Pressable>
       </View>

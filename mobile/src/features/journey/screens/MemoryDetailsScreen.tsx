@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useLayoutEffect } from 'react';
 import { View, ScrollView, Share, Pressable } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -14,6 +15,8 @@ import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
 
 export const MemoryDetailsScreen = () => {
+  const { theme } = useTheme();
+
   const route = useRoute<RouteProp<MainStackParamList, 'MemoryDetails'>>();
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const { id } = route.params;
@@ -43,8 +46,8 @@ export const MemoryDetailsScreen = () => {
         title: 'Memory Details',
         headerRight: () => (
           <View className="flex-row">
-            <IconButton leftIcon="Edit2" onPress={() => navigation.navigate('MemoryEditor', { id: memory.id })} />
-            <IconButton leftIcon="Share" onPress={handleShare} />
+            <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Edit2" onPress={() => navigation.navigate('MemoryEditor', { id: memory.id })} />
+            <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Share" onPress={handleShare} />
           </View>
         ),
       });
@@ -84,7 +87,7 @@ export const MemoryDetailsScreen = () => {
         className="flex-row items-center justify-center p-4 bg-red-50 rounded-xl mt-4 mb-10"
         onPress={handleDelete}
       >
-        <Icon name="Trash2" size={20} color="#EF4444" />
+        <Icon name="Trash2" size={20} color={theme.colors.danger} />
         <BodyMD className="text-red-600 font-medium ml-2">Delete Memory</BodyMD>
       </Pressable>
     </ScrollView>

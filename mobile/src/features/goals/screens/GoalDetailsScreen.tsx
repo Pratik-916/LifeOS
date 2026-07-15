@@ -1,3 +1,4 @@
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useEffect } from 'react';
 import { View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +17,8 @@ type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 type DetailsRouteProp = RouteProp<MainStackParamList, 'GoalDetails'>;
 
 export const GoalDetailsScreen = () => {
+  const { theme } = useTheme();
+
   const route = useRoute<DetailsRouteProp>();
   const navigation = useNavigation<NavigationProp>();
   const { id } = route.params;
@@ -75,7 +78,7 @@ export const GoalDetailsScreen = () => {
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 py-3 border-b border-slate-100">
         <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
-          <Icon name="ArrowLeft" size={24} color="#0F172A" />
+          <Icon name="ArrowLeft" size={24} color={theme.colors.text.primary} />
         </TouchableOpacity>
         <View className="flex-row">
           <TouchableOpacity onPress={() => favoriteGoal({ id: goal.id, isFavorite: !goal.favorite })} className="p-2">
@@ -85,10 +88,10 @@ export const GoalDetailsScreen = () => {
             <Icon name="Archive" size={22} color={goal.status === 'archived' ? '#4F46E5' : '#64748B'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('GoalEditor', { id: goal.id })} className="p-2 ml-1">
-            <Icon name="Edit2" size={22} color="#64748B" />
+            <Icon name="Edit2" size={22} color={theme.colors.text.secondary} />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDelete} className="p-2 ml-1">
-            <Icon name="Trash2" size={22} color="#EF4444" />
+            <Icon name="Trash2" size={22} color={theme.colors.danger} />
           </TouchableOpacity>
         </View>
       </View>
@@ -118,7 +121,7 @@ export const GoalDetailsScreen = () => {
           
           <View className="flex-row justify-between mt-4">
             <View className="flex-row items-center">
-              <Icon name="Calendar" size={16} color="#64748B" />
+              <Icon name="Calendar" size={16} color={theme.colors.text.secondary} />
               <Caption className="text-slate-600 ml-2">
                 Target: {goal.targetDate}
               </Caption>
@@ -134,7 +137,7 @@ export const GoalDetailsScreen = () => {
         {/* Milestones */}
         <View className="mb-6">
           <View className="flex-row items-center mb-4">
-            <Icon name="LayoutList" size={20} color="#0F172A" />
+            <Icon name="LayoutList" size={20} color={theme.colors.text.primary} />
             <HeadingMD className="text-text-light dark:text-text-dark ml-2">Milestones</HeadingMD>
           </View>
           

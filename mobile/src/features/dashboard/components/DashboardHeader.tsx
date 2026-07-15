@@ -36,7 +36,7 @@ export const DashboardHeader = React.memo(({ firstName = 'User' }: DashboardHead
         </BodyMD>
       </View>
       
-      <IconButton 
+      <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
         onPress={() => navigation.navigate('Profile')}
         className="w-12 h-12 bg-indigo-50 rounded-full items-center justify-center border border-indigo-100 ml-4"
         accessibilityLabel="Open Profile"

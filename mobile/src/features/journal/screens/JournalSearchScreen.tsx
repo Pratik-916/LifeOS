@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +17,8 @@ import { BodyLG, IconButton, Icon } from '../../../design-system';
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const JournalSearchScreen = () => {
+  const { theme } = useTheme();
+
   const navigation = useNavigation<NavigationProp>();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState('');
@@ -54,9 +57,9 @@ export const JournalSearchScreen = () => {
   return (
     <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-slate-50">
       <View className="flex-row items-center px-2 py-2 border-b border-slate-200 bg-background-light dark:bg-background-dark">
-        <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
+        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
         <View className="flex-1 flex-row items-center bg-slate-100 rounded-lg px-3 py-2 mr-2">
-          <Icon name="Search" size={20} color="#94A3B8" />
+          <Icon name="Search" size={20} color={theme.colors.text.disabled} />
           <TextInput
             className="flex-1 ml-2 text-base text-slate-800"
             placeholder="Search journals..."
@@ -65,7 +68,7 @@ export const JournalSearchScreen = () => {
             autoFocus
           />
           {searchTerm.length > 0 && (
-            <IconButton 
+            <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
               leftIcon="X" 
               onPress={() => setSearchTerm('')} 
               size="sm"

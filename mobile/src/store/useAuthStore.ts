@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import * as SecureStore from 'expo-secure-store';
+import { monitoringService } from '../services/monitoring';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -24,6 +25,9 @@ export const useAuthStore = create<AuthState>((set) => ({
   clearTokens: async () => {
     await SecureStore.deleteItemAsync('access_token');
     await SecureStore.deleteItemAsync('refresh_token');
+    monitoringService.clearUser();
+    monitoringService.addBreadcrumb('User logged out', 'auth', 'info');
+    monitoringService.flush(2000);
     set({ isAuthenticated: false, accessToken: null });
   },
 

@@ -3,6 +3,7 @@ import { View, ScrollView, RefreshControl } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiClient } from '../../../api/client';
+import { monitoringService } from '../../../services/monitoring';
 
 import { DashboardHeader } from '../components/DashboardHeader';
 import { HeroProductivityCard } from '../components/HeroProductivityCard';
@@ -29,6 +30,9 @@ export const DashboardScreen = () => {
     queryKey: ['user', 'me'],
     queryFn: async () => {
       const response = await apiClient.get('/api/v1/users/me/');
+      if (response.data && response.data.id) {
+        monitoringService.setUser(String(response.data.id), undefined, response.data.username);
+      }
       return response.data;
     }
   });

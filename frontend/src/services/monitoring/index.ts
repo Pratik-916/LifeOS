@@ -20,20 +20,32 @@ class MonitoringService {
 
   public initialize(): void {
     const dsn = import.meta.env.VITE_SENTRY_DSN;
+    const env = import.meta.env.MODE || 'development';
+    
+    let sampleRate = 1.0;
+    if (env === 'staging') sampleRate = 0.5;
+    else if (env === 'production') sampleRate = 0.1;
+    
+    const version = import.meta.env.VITE_APP_VERSION || '1.0.0';
+    const build = import.meta.env.VITE_BUILD_NUMBER || '0';
+    const commit = import.meta.env.VITE_GIT_COMMIT || 'unknown';
+
     if (dsn) {
       Sentry.init({
         dsn,
-        environment: import.meta.env.MODE || 'development',
-        release: import.meta.env.VITE_APP_VERSION,
+        environment: env,
+        release: `lifeos-web@${version}+${build}`,
         integrations: [
           Sentry.browserTracingIntegration(),
         ],
-        tracesSampleRate: 1.0,
+        tracesSampleRate: sampleRate,
         beforeSend: (event) => {
           // Additional privacy filters can be added here
           return event;
         },
       });
+      Sentry.setTag('git_commit', commit);
+      Sentry.setTag('platform', 'web');
       this.provider = new SentryProvider();
     } else {
       this.provider = new NoopProvider();

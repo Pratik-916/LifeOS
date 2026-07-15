@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User, ApiError } from '../types/auth';
 import { tokenManager } from '../auth/tokenManager';
+import { monitoringService } from '../services/monitoring';
 
 interface AuthState {
   user: User | null;
@@ -24,11 +25,21 @@ export const useAuthStore = create<AuthState>()(
       isLoading: true, // Start loading initially until AuthInitializer finishes
       error: null,
       
-      setUser: (user) => set({ user, isAuthenticated: !!user }),
+      setUser: (user) => {
+        if (user) {
+          monitoringService.setUser(user.id, undefined, user.username);
+        } else {
+          monitoringService.clearUser();
+        }
+        set({ user, isAuthenticated: !!user });
+      },
       setLoading: (isLoading) => set({ isLoading }),
       setError: (error) => set({ error }),
       clearAuth: () => {
         tokenManager.clearTokens();
+        monitoringService.clearUser();
+        monitoringService.addBreadcrumb('User logged out', 'auth', 'info');
+        monitoringService.flush(2000);
         set({ user: null, isAuthenticated: false, error: null, isLoading: false });
       },
     }),

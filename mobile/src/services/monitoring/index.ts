@@ -20,17 +20,29 @@ class MonitoringService {
 
   public initialize(): void {
     const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
+    const env = process.env.NODE_ENV || 'development';
+    
+    let sampleRate = 1.0;
+    if (env === 'staging') sampleRate = 0.5;
+    else if (env === 'production') sampleRate = 0.1;
+    
+    const version = process.env.EXPO_PUBLIC_APP_VERSION || '1.0.0';
+    const build = process.env.EXPO_PUBLIC_BUILD_NUMBER || '0';
+    const commit = process.env.EXPO_PUBLIC_GIT_COMMIT || 'unknown';
+
     if (dsn) {
       Sentry.init({
         dsn,
-        environment: process.env.NODE_ENV || 'development',
-        release: process.env.EXPO_PUBLIC_APP_VERSION,
-        tracesSampleRate: 1.0,
+        environment: env,
+        release: `lifeos-mobile@${version}+${build}`,
+        tracesSampleRate: sampleRate,
         beforeSend: (event) => {
           // Additional privacy filters can be added here
           return event;
         },
       });
+      Sentry.setTag('git_commit', commit);
+      Sentry.setTag('platform', 'mobile');
       this.provider = new SentryProvider();
     } else {
       this.provider = new NoopProvider();

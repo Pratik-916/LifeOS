@@ -241,6 +241,19 @@ try:
         return event
 
     dsn = config('SENTRY_DSN', default='')
+    env = config('ENVIRONMENT', default='development')
+    
+    # Environment-based performance sampling
+    sample_rate = 1.0
+    if env == 'staging':
+        sample_rate = 0.5
+    elif env == 'production':
+        sample_rate = 0.1
+        
+    app_version = config('APP_VERSION', default='1.0.0')
+    git_commit = config('GIT_COMMIT', default='unknown')
+    build_number = config('BUILD_NUMBER', default='0')
+        
     if dsn:
         sentry_sdk.init(
             dsn=dsn,
@@ -248,12 +261,19 @@ try:
                 DjangoIntegration(),
                 LoggingIntegration(level=logging.INFO, event_level=logging.ERROR),
             ],
-            traces_sample_rate=1.0,
+            traces_sample_rate=sample_rate,
             send_default_pii=False,
             before_send=before_send,
-            environment=config('ENVIRONMENT', default='development')
+            environment=env,
+            release=f"lifeos-backend@{app_version}+{build_number}"
         )
+        sentry_sdk.set_tag('git_commit', git_commit)
+        sentry_sdk.set_tag('platform', 'backend')
+        
     MonitoringService.initialize()
+    
+    import atexit
+    atexit.register(lambda: MonitoringService.flush(timeout=2.0))
 except ImportError:
     pass
 

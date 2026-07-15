@@ -11,6 +11,6 @@ module.exports = {
     // Map lucide-react-native ESM to CJS to avoid "Unexpected token 'export'"
     '^lucide-react-native$': '<rootDir>/__mocks__/lucide-react-native.js',
   },
-  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', 'setup.ts', 'utils.tsx', 'mocks/'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
 };

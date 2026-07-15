@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useEffect } from 'react';
 import { View, Modal, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
@@ -19,8 +18,6 @@ export interface DialogProps {
 }
 
 export const Dialog = ({ visible, onClose, title, description, children, dismissible = true }: DialogProps) => {
-  const { theme } = useTheme();
-
   const scale = useSharedValue(0.9);
   const opacity = useSharedValue(0);
 
@@ -78,7 +75,7 @@ export const ConfirmationDialog = ({ onConfirm, onClose, confirmText = 'Confirm'
   <Dialog onClose={onClose} {...props}>
     <View className="flex-row items-center justify-end mt-4 space-x-3">
       <SecondaryButton title={cancelText} onPress={onClose} />
-      <PrimaryButton accessibilityRole="button" accessibilityLabel="Button" title={confirmText} onPress={onConfirm} variant={isDestructive ? 'danger' : 'primary'} />
+      <PrimaryButton title={confirmText} onPress={onConfirm} variant={isDestructive ? 'danger' : 'primary'} />
     </View>
   </Dialog>
 );
@@ -86,7 +83,7 @@ export const ConfirmationDialog = ({ onConfirm, onClose, confirmText = 'Confirm'
 export const LoadingDialog = ({ message = 'Loading...', ...props }: Omit<DialogProps, 'title' | 'description' | 'children' | 'dismissible' | 'onClose'> & { message?: string }) => (
   <Dialog dismissible={false} {...props}>
     <View className="items-center justify-center py-4">
-      <ActivityIndicator size="large" color={theme.colors.primary[500]} />
+      <ActivityIndicator size="large" color="#6366F1" />
       <BodyMD className="mt-4">{message}</BodyMD>
     </View>
   </Dialog>
@@ -96,10 +93,10 @@ export const SuccessDialog = ({ message, onClose, ...props }: DialogProps & { me
   <Dialog onClose={onClose} {...props}>
     <View className="items-center justify-center py-4">
       <View className="h-16 w-16 bg-success/20 rounded-full items-center justify-center mb-4">
-        <Icon name="CheckCircle" size={32} color={theme.colors.success} />
+        <Icon name="CheckCircle" size={32} color="#10B981" />
       </View>
       <BodyMD className="text-center mb-6">{message}</BodyMD>
-      <PrimaryButton accessibilityRole="button" accessibilityLabel="Button" title="OK" onPress={onClose} className="w-full" />
+      <PrimaryButton title="OK" onPress={onClose} className="w-full" />
     </View>
   </Dialog>
 );
@@ -108,10 +105,10 @@ export const ErrorDialog = ({ message, onClose, ...props }: DialogProps & { mess
   <Dialog onClose={onClose} {...props}>
     <View className="items-center justify-center py-4">
       <View className="h-16 w-16 bg-danger/20 rounded-full items-center justify-center mb-4">
-        <Icon name="XCircle" size={32} color={theme.colors.danger} />
+        <Icon name="XCircle" size={32} color="#EF4444" />
       </View>
       <BodyMD className="text-center mb-6">{message}</BodyMD>
-      <PrimaryButton accessibilityRole="button" accessibilityLabel="Button" title="Close" onPress={onClose} variant="danger" className="w-full" />
+      <PrimaryButton title="Close" onPress={onClose} variant="danger" className="w-full" />
     </View>
   </Dialog>
 );

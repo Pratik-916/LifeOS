@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useHabitAnalytics } from '../hooks/useHabitAnalytics';
@@ -11,8 +10,6 @@ import { HeatmapGrid } from '../components/HeatmapGrid';
 
 
 export const HabitAnalyticsScreen = () => {
-  const { theme } = useTheme();
-
   const [range, setRange] = useState('30_days');
   const { data, isLoading, refetch } = useHabitAnalytics({ dateRange: range });
 
@@ -32,13 +29,13 @@ export const HabitAnalyticsScreen = () => {
           title="Completion Rate" 
           value={`${Math.round(data.completionRate)}%`} 
           icon="Activity"
-          iconColor={theme.colors.primary[500]}
+          iconColor="#2563EB"
         />
         <StatCard 
           title="Current Streak" 
           value={data.currentStreak} 
           icon="Zap"
-          iconColor={theme.colors.yellow[500]}
+          iconColor="#EAB308"
         />
       </View>
       <View className="flex-row mb-4">

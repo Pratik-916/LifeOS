@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,8 +14,6 @@ import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
 
 export const ProfileScreen = () => {
-  const { theme } = useTheme();
-
   const logout = useAuthStore((state) => state.clearTokens);
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
@@ -37,7 +34,7 @@ export const ProfileScreen = () => {
       <ScrollView className="flex-1 px-4 pt-6">
         <Card className="items-center py-8 mb-6 bg-background-light dark:bg-background-dark rounded-3xl" accessible={true} accessibilityLabel="User Info">
           <View className="w-20 h-20 bg-indigo-100 rounded-full items-center justify-center mb-4">
-            <User size={40} color={theme.colors.primary[500]} />
+            <User size={40} color="#6366F1" />
           </View>
           <HeadingXL className="text-text-primary mb-4">{userData?.first_name} {userData?.last_name}</HeadingXL>
           <BodyMD className="text-text-secondary mb-6">{userData?.email}</BodyMD>
@@ -52,7 +49,7 @@ export const ProfileScreen = () => {
             className="flex-row items-center justify-between p-4 border-b border-gray-50 rounded-none h-14"
             leftIcon=""
           >
-             <ChevronRight size={20} color={theme.colors.gray[400]} />
+             <ChevronRight size={20} color="#9CA3AF" />
           </Button>
 
           <Button
@@ -62,7 +59,7 @@ export const ProfileScreen = () => {
             className="flex-row items-center justify-between p-4 rounded-none h-14"
             leftIcon="Settings"
           >
-            <ChevronRight size={20} color={theme.colors.gray[400]} />
+            <ChevronRight size={20} color="#9CA3AF" />
           </Button>
         </Card>
 

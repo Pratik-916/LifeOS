@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, Pressable } from 'react-native';
 import { BottomSheet, HeadingMD, BodyMD, Icon } from '../../../design-system';
@@ -22,8 +21,6 @@ export const MemoryActionsSheet = ({
   onTogglePin,
   onDelete,
 }: MemoryActionsSheetProps) => {
-  const { theme } = useTheme();
-
   if (!visible) return null;
 
   return (
@@ -31,7 +28,7 @@ export const MemoryActionsSheet = ({
       <View className="flex-row justify-between items-center mb-6">
         <HeadingMD>Memory Actions</HeadingMD>
         <Pressable onPress={onClose} className="p-2 bg-surface-light dark:bg-surface-dark rounded-full">
-          <Icon name="X" size={20} color={theme.colors.gray[700]} />
+          <Icon name="X" size={20} color="#374151" />
         </Pressable>
       </View>
 
@@ -59,7 +56,7 @@ export const MemoryActionsSheet = ({
         className="flex-row items-center p-4 bg-red-50 rounded-xl mt-4"
         onPress={() => { onDelete(); onClose(); }}
       >
-        <Icon name="Trash2" size={24} color={theme.colors.danger} />
+        <Icon name="Trash2" size={24} color="#EF4444" />
         <BodyMD className="ml-3 font-medium text-red-600">Delete Memory</BodyMD>
       </Pressable>
     </BottomSheet>

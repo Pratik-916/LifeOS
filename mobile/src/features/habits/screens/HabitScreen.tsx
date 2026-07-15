@@ -87,7 +87,7 @@ export const HabitScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>
       <View className="px-4 py-3 flex-row justify-between items-center bg-background-light dark:bg-background-dark border-b border-secondary-100 dark:border-secondary-900">
         <HeadingLG>Habits</HeadingLG>
-        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
+        <IconButton 
           leftIcon="Search"
           onPress={() => navigation.navigate('HabitSearch')}
           accessibilityRole="button"

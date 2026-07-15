@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -37,8 +36,6 @@ const journalSchema = z.object({
 type JournalFormData = z.infer<typeof journalSchema>;
 
 export const JournalEditorScreen = () => {
-  const { theme } = useTheme();
-
   const route = useRoute<RouteProps>();
   const navigation = useNavigation<NavigationProp>();
   const id = route.params?.id;
@@ -156,7 +153,7 @@ export const JournalEditorScreen = () => {
       >
         <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100 bg-background-light dark:bg-background-dark z-10">
           <View className="flex-row items-center">
-            <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
+            <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
             <AutosaveIndicator status={saveStatus} />
           </View>
           <Button 
@@ -187,7 +184,7 @@ export const JournalEditorScreen = () => {
                 value={value}
                 onChangeText={onChange}
                 className="text-2xl font-bold text-slate-800 mb-4"
-                placeholderTextColor={theme.colors.text.disabled}
+                placeholderTextColor="#94A3B8"
               />
             )}
           />
@@ -203,14 +200,14 @@ export const JournalEditorScreen = () => {
                 multiline
                 className="text-base text-slate-700 min-h-[200px] mb-8"
                 textAlignVertical="top"
-                placeholderTextColor={theme.colors.text.disabled}
+                placeholderTextColor="#94A3B8"
                 style={{ lineHeight: 28 }}
               />
             )}
           />
 
           <View className="mb-4 flex-row items-center">
-            <Icon name="Sparkles" size={18} color={theme.colors.primary[500]} className="mr-2" />
+            <Icon name="Sparkles" size={18} color="#6366F1" className="mr-2" />
             <HeadingMD className="text-indigo-600">Reflection</HeadingMD>
           </View>
 

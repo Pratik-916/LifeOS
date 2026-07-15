@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useCallback } from 'react';
 import { View, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -20,8 +19,6 @@ import { HeadingXL, IconButton, FloatingActionButton } from '../../../design-sys
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const JournalScreen = () => {
-  const { theme } = useTheme();
-
   const navigation = useNavigation<NavigationProp>();
   const { data: paginatedData, isLoading, refetch, isRefetching } = useJournalEntries();
   const { data: statsData } = useJournalStats();
@@ -41,7 +38,7 @@ export const JournalScreen = () => {
     <View>
       <View className="flex-row items-center justify-between px-4 pt-4 pb-2">
         <HeadingXL>Journal</HeadingXL>
-        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
+        <IconButton 
           leftIcon="Search" 
           onPress={handleSearch} 
         />
@@ -79,7 +76,7 @@ export const JournalScreen = () => {
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: 100 }}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor={theme.colors.primary[600]} />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#4F46E5" />
         }
       />
       <FloatingActionButton

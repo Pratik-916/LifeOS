@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useGoalAnalytics } from '../hooks/useGoalAnalytics';
@@ -11,8 +10,6 @@ import { ProgressRing } from '../components/ProgressRing';
 import { PrimaryCard } from '../../../design-system';
 
 export const GoalAnalyticsScreen = () => {
-  const { theme } = useTheme();
-
   const [range, setRange] = useState('30_days');
   const { data, isLoading, refetch } = useGoalAnalytics({ dateRange: range });
 
@@ -29,10 +26,10 @@ export const GoalAnalyticsScreen = () => {
       
       <PrimaryCard className="mb-4 flex-row justify-between items-center bg-surface-light dark:bg-surface-dark border-0 p-4">
         <View className="flex-1">
-          <StatCard title="Completed" value={data.completedGoals} icon="Target" iconColor={theme.colors.success} />
+          <StatCard title="Completed" value={data.completedGoals} icon="Target" iconColor="#10B981" />
         </View>
         <View className="mx-4">
-          <ProgressRing progress={data.goalProgress} size={100} color={theme.colors.success} label="Progress" />
+          <ProgressRing progress={data.goalProgress} size={100} color="#10B981" label="Progress" />
         </View>
       </PrimaryCard>
 

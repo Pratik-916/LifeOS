@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, TextInput, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -18,8 +17,6 @@ import { useTaskMutations } from '../hooks/useTaskMutations';
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const TaskSearchScreen = () => {
-  const { theme } = useTheme();
-
   const navigation = useNavigation<NavigationProp>();
   
   const [query, setQuery] = useState('');
@@ -61,10 +58,10 @@ export const TaskSearchScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>
       <View className="px-4 py-3 bg-background-light dark:bg-background-dark border-b border-secondary-100 dark:border-secondary-900 flex-row items-center">
-        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" onPress={() => navigation.goBack()} className="mr-3" leftIcon="" />
+        <IconButton onPress={() => navigation.goBack()} className="mr-3" leftIcon="" />
         
         <View className="flex-1 flex-row items-center bg-surface-light dark:bg-surface-dark rounded-lg px-3 py-2">
-          <Search size={20} color={theme.colors.gray[400]} />
+          <Search size={20} color="#9CA3AF" />
           <TextInput
             className="flex-1 ml-2 text-base text-text-light dark:text-text-dark"
             placeholder="Search tasks..."
@@ -73,7 +70,7 @@ export const TaskSearchScreen = () => {
             autoFocus
           />
           {query.length > 0 && (
-            <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" onPress={() => setQuery('')} leftIcon="" />
+            <IconButton onPress={() => setQuery('')} leftIcon="" />
           )}
         </View>
       </View>

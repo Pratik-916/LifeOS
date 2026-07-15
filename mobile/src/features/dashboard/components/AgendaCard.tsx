@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { Icon, BodyMD, Caption, PrimaryCard } from '../../../design-system';
@@ -13,8 +12,6 @@ interface AgendaItemProps {
 }
 
 const AgendaItem = ({ title, type, time }: AgendaItemProps) => {
-  const { theme } = useTheme();
-
   let color = '#2563EB'; // default task
   if (type === 'habit') color = '#10B981';
   if (type === 'goal') color = '#F59E0B';
@@ -32,7 +29,7 @@ const AgendaItem = ({ title, type, time }: AgendaItemProps) => {
       </View>
       {time && (
         <View className="flex-row items-center">
-          <Icon name="Clock" size={14} color={theme.colors.text.disabled} className="mr-1" />
+          <Icon name="Clock" size={14} color="#94A3B8" className="mr-1" />
           <Caption className="text-slate-500">{time}</Caption>
         </View>
       )}

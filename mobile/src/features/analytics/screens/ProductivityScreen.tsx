@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useProductivityStats } from '../hooks/useProductivityStats';
@@ -10,8 +9,6 @@ import { InsightCard } from '../components/InsightCard';
 import { HeadingMD, BodyMD, PrimaryCard } from '../../../design-system';
 
 export const ProductivityScreen = () => {
-  const { theme } = useTheme();
-
   const [range, setRange] = useState('7_days');
   const { data, isLoading, refetch } = useProductivityStats({ dateRange: range });
 
@@ -28,7 +25,7 @@ export const ProductivityScreen = () => {
       
       <PrimaryCard className="mb-4 items-center py-6">
         <HeadingMD className="mb-4">Overall Productivity</HeadingMD>
-        <ProgressRing progress={data.overallScore} size={160} color={theme.colors.primary[500]} />
+        <ProgressRing progress={data.overallScore} size={160} color="#2563EB" />
       </PrimaryCard>
 
       <HeadingMD className="mb-3 mt-2">Analysis</HeadingMD>

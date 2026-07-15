@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useEffect, useState, useCallback } from 'react';
 import { View, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,8 +18,6 @@ type EditorRouteProp = RouteProp<MainStackParamList, 'GoalEditor'>;
 const DRAFT_KEY = '@goal_draft';
 
 export const GoalEditorScreen = () => {
-  const { theme } = useTheme();
-
   const route = useRoute<EditorRouteProp>();
   const navigation = useNavigation<NavigationProp>();
   const { id } = route.params;
@@ -128,13 +125,13 @@ export const GoalEditorScreen = () => {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-slate-100">
           <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
-            <Icon name="ArrowLeft" size={24} color={theme.colors.text.primary} />
+            <Icon name="ArrowLeft" size={24} color="#0F172A" />
           </TouchableOpacity>
           <HeadingMD className="text-text-light dark:text-text-dark">
             {isEditing ? 'Edit Goal' : 'New Goal'}
           </HeadingMD>
           <TouchableOpacity onPress={handleSave} className="p-2 -mr-2 flex-row items-center">
-            <Icon name="Save" size={20} color={theme.colors.primary[500]} />
+            <Icon name="Save" size={20} color="#6366F1" />
             <BodyMD className="text-indigo-600 font-medium ml-1">Save</BodyMD>
           </TouchableOpacity>
         </View>
@@ -146,7 +143,7 @@ export const GoalEditorScreen = () => {
             onChangeText={(v) => { setForm({ ...form, title: v }); saveDraft(); }}
             placeholder="What do you want to achieve?"
             className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-text-light dark:text-text-dark font-medium"
-            placeholderTextColor={theme.colors.text.disabled}
+            placeholderTextColor="#94A3B8"
           />
 
           <Label className="text-slate-700 mb-2">Description</Label>
@@ -158,7 +155,7 @@ export const GoalEditorScreen = () => {
             numberOfLines={4}
             className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-text-light dark:text-text-dark h-24 text-top"
             textAlignVertical="top"
-            placeholderTextColor={theme.colors.text.disabled}
+            placeholderTextColor="#94A3B8"
           />
 
           <Label className="text-slate-700 mb-2">Target Date (YYYY-MM-DD)</Label>
@@ -167,7 +164,7 @@ export const GoalEditorScreen = () => {
             onChangeText={(v) => { setForm({ ...form, targetDate: v }); saveDraft(); }}
             placeholder="YYYY-MM-DD"
             className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-text-light dark:text-text-dark"
-            placeholderTextColor={theme.colors.text.disabled}
+            placeholderTextColor="#94A3B8"
           />
 
           <View className="mb-8">
@@ -188,11 +185,11 @@ export const GoalEditorScreen = () => {
                 onChangeText={setMilestoneInput}
                 placeholder="Add a milestone..."
                 className="flex-1 border border-slate-200 rounded-lg p-3 bg-slate-50 text-text-light dark:text-text-dark mr-2"
-                placeholderTextColor={theme.colors.text.disabled}
+                placeholderTextColor="#94A3B8"
                 onSubmitEditing={addMilestone}
               />
               <TouchableOpacity onPress={addMilestone} className="w-12 h-12 bg-indigo-600 rounded-lg items-center justify-center">
-                <Icon name="Plus" size={24} color={theme.colors.background.paper} />
+                <Icon name="Plus" size={24} color="#FFF" />
               </TouchableOpacity>
             </View>
           </View>

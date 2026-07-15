@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { BodyMD, Caption, Icon } from '../../../design-system';
@@ -15,30 +14,28 @@ interface MilestoneCardProps {
 }
 
 export const MilestoneCard = ({ milestone, onToggle, onEdit, onDelete, drag, isActive, isEditor }: MilestoneCardProps) => {
-  const { theme } = useTheme();
-
   return (
     <View className={`flex-row items-center py-3 border-b border-slate-100 ${isActive ? 'bg-slate-50 opacity-70' : 'bg-background-light dark:bg-background-dark'}`}>
       {drag && (
         <TouchableOpacity onLongPress={drag} className="mr-2">
-          <Icon name="GripVertical" size={20} color={theme.colors.border} />
+          <Icon name="GripVertical" size={20} color="#CBD5E1" />
         </TouchableOpacity>
       )}
 
       {onToggle ? (
         <TouchableOpacity onPress={onToggle} className="mr-3">
           {milestone.completed ? (
-            <Icon name="CheckCircle2" size={24} color={theme.colors.success} />
+            <Icon name="CheckCircle2" size={24} color="#10B981" />
           ) : (
-            <Icon name="Circle" size={24} color={theme.colors.border} />
+            <Icon name="Circle" size={24} color="#CBD5E1" />
           )}
         </TouchableOpacity>
       ) : (
         <View className="mr-3">
           {milestone.completed ? (
-            <Icon name="CheckCircle2" size={24} color={theme.colors.success} />
+            <Icon name="CheckCircle2" size={24} color="#10B981" />
           ) : (
-            <Icon name="Circle" size={24} color={theme.colors.border} />
+            <Icon name="Circle" size={24} color="#CBD5E1" />
           )}
         </View>
       )}
@@ -58,7 +55,7 @@ export const MilestoneCard = ({ milestone, onToggle, onEdit, onDelete, drag, isA
 
       {onDelete && (
         <TouchableOpacity onPress={onDelete} className="ml-2 p-2">
-          <Icon name="Trash2" size={18} color={theme.colors.danger} />
+          <Icon name="Trash2" size={18} color="#EF4444" />
         </TouchableOpacity>
       )}
     </View>

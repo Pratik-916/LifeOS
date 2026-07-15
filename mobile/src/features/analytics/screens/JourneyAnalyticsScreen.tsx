@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useJourneyAnalytics } from '../hooks/useJourneyAnalytics';
@@ -10,8 +9,6 @@ import { MonthlyTrendChart } from '../components/TrendChart';
 
 
 export const JourneyAnalyticsScreen = () => {
-  const { theme } = useTheme();
-
   const [range, setRange] = useState('1_year'); // Custom range for journey
   const { data, isLoading, refetch } = useJourneyAnalytics({ dateRange: range });
 
@@ -27,8 +24,8 @@ export const JourneyAnalyticsScreen = () => {
       <FilterBar selectedRange={range} onSelectRange={setRange} />
       
       <View className="flex-row mb-2">
-        <StatCard title="Milestones" value={data.milestoneCounts} icon="Flag" iconColor={theme.colors.danger} />
-        <StatCard title="Favorites" value={data.favoriteMemories} icon="Star" iconColor={theme.colors.warning} />
+        <StatCard title="Milestones" value={data.milestoneCounts} icon="Flag" iconColor="#EF4444" />
+        <StatCard title="Favorites" value={data.favoriteMemories} icon="Star" iconColor="#F59E0B" />
       </View>
 
       <View className="flex-row mb-4">

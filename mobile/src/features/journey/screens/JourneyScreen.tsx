@@ -25,8 +25,8 @@ export const JourneyScreen = () => {
     navigation.setOptions({
       headerRight: () => (
         <View className="flex-row pr-4">
-          <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="Search" onPress={() => navigation.navigate('MemorySearch')} />
-          <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" leftIcon="BarChart2" onPress={() => navigation.navigate('JourneyStatistics')} />
+          <IconButton leftIcon="Search" onPress={() => navigation.navigate('MemorySearch')} />
+          <IconButton leftIcon="BarChart2" onPress={() => navigation.navigate('JourneyStatistics')} />
         </View>
       ),
     });

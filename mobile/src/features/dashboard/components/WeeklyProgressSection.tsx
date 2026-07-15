@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -20,7 +19,7 @@ export const WeeklyProgressSection = React.memo(({ score }: WeeklyProgressSectio
       <PrimaryCard className="p-5 shadow-sm border border-slate-100">
         <View className="flex-row items-center mb-4">
           <View className="w-12 h-12 rounded-full bg-blue-50 items-center justify-center mr-4">
-            <Icon name="TrendingUp" size={24} color={theme.colors.primary[500]} />
+            <Icon name="TrendingUp" size={24} color="#2563EB" />
           </View>
           <View className="flex-1">
             <HeadingMD className="text-text-light dark:text-text-dark">Steady Growth</HeadingMD>
@@ -29,7 +28,7 @@ export const WeeklyProgressSection = React.memo(({ score }: WeeklyProgressSectio
         </View>
 
         <View className="h-32 bg-slate-50 rounded-xl mb-4 items-center justify-center border border-slate-100 border-dashed">
-            <Icon name="BarChart2" size={32} color={theme.colors.border} className="mb-2" />
+            <Icon name="BarChart2" size={32} color="#CBD5E1" className="mb-2" />
             <Caption className="text-slate-400">Detailed analytics chart available inside</Caption>
         </View>
 

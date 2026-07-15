@@ -1,11 +1,8 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { Caption, Icon } from '../../../design-system';
 
 export const CategoryChip = ({ category }: { category: string }) => {
-  const { theme } = useTheme();
-
   const config: Record<string, { bg: string, text: string }> = {
     achievement: { bg: 'bg-amber-100', text: 'text-amber-800' },
     career: { bg: 'bg-blue-100', text: 'text-blue-800' },
@@ -33,7 +30,7 @@ export const LocationBadge = ({ location }: { location: string }) => {
   if (!location) return null;
   return (
     <View className="flex-row items-center">
-      <Icon name="MapPin" size={12} color={theme.colors.text.secondary} />
+      <Icon name="MapPin" size={12} color="#64748B" />
       <Caption className="text-slate-500 ml-1">
         {location}
       </Caption>
@@ -45,7 +42,7 @@ export const FavoriteBadge = ({ isFavorite }: { isFavorite: boolean }) => {
   if (!isFavorite) return null;
   return (
     <View className="bg-rose-50 p-1 rounded-full ml-1">
-      <Icon name="Heart" size={14} color={theme.colors.rose[600]} />
+      <Icon name="Heart" size={14} color="#E11D48" />
     </View>
   );
 };

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { TextInput, TextInputProps, View, Switch as RNSwitch, Pressable, Platform } from 'react-native';
 import { BodyMD, Label, ErrorText } from '../text/Typography';
@@ -36,8 +35,6 @@ export const TextField = React.forwardRef<TextInput, BaseInputProps>(
     const [isFocused, setIsFocused] = useState(false);
 
     const handleFocus = (e: any) => {
-  const { theme } = useTheme();
-
       setIsFocused(true);
       if (onFocus) onFocus(e);
     };
@@ -70,14 +67,14 @@ export const TextField = React.forwardRef<TextInput, BaseInputProps>(
             ref={ref}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            placeholderTextColor={theme.colors.text.disabled}
+            placeholderTextColor="#94A3B8"
             className={`flex-1 text-text-light dark:text-text-dark text-base ${Platform.OS === 'web' ? 'outline-none' : ''} ${className}`}
             {...props}
           />
 
           {rightIcon && (
             <Pressable onPress={onRightIconPress} disabled={!onRightIconPress}>
-              <Icon name={rightIcon} size={20} className="ml-2" color={theme.colors.text.disabled} />
+              <Icon name={rightIcon} size={20} className="ml-2" color="#94A3B8" />
             </Pressable>
           )}
         </View>
@@ -149,7 +146,7 @@ export const Switch = ({ value, onValueChange, disabled, label, containerClassNa
       onValueChange={onValueChange}
       disabled={disabled}
       trackColor={{ false: '#94A3B8', true: '#6366F1' }}
-      thumbColor={theme.colors.background.paper}
+      thumbColor="#FFFFFF"
     />
   </View>
 );
@@ -169,7 +166,7 @@ export const Checkbox = ({ checked, onChange, label, disabled, containerClassNam
     onPress={() => !disabled && onChange(!checked)}
   >
     <View className={`h-6 w-6 rounded border items-center justify-center mr-3 ${checked ? 'bg-primary-500 border-primary-500' : 'bg-transparent border-secondary-500'}`}>
-      {checked && <Icon name="Check" size={16} color={theme.colors.background.paper} />}
+      {checked && <Icon name="Check" size={16} color="#FFFFFF" />}
     </View>
     {label && <BodyMD>{label}</BodyMD>}
   </Pressable>

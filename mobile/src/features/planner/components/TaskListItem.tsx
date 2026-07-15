@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, Pressable, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -41,7 +40,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
         accessibilityLabel="Delete task"
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          <Trash2 color={theme.colors.background.paper} size={24} />
+          <Trash2 color="#FFFFFF" size={24} />
         </Animated.View>
       </Pressable>
     );
@@ -67,7 +66,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
         accessibilityLabel={isCompleted ? "Mark incomplete" : "Mark complete"}
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          {isCompleted ? <Undo2 color={theme.colors.background.paper} size={24} /> : <CheckCircle2 color={theme.colors.background.paper} size={24} />}
+          {isCompleted ? <Undo2 color="#FFFFFF" size={24} /> : <CheckCircle2 color="#FFFFFF" size={24} />}
         </Animated.View>
       </Pressable>
     );
@@ -88,7 +87,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
             accessibilityState={{ checked: isCompleted }}
           >
             {isCompleted ? (
-              <CheckCircle2 color={theme.colors.success} size={24} />
+              <CheckCircle2 color="#10B981" size={24} />
             ) : (
               <Circle color="#D1D5DB" size={24} />
             )}

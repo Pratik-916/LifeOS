@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useState, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -22,8 +21,6 @@ type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 const TABS = ['Active', 'Completed', 'Favorites', 'Archived'];
 
 export const GoalScreen = () => {
-  const { theme } = useTheme();
-
   const navigation = useNavigation<NavigationProp>();
   const [activeTab, setActiveTab] = useState('Active');
   
@@ -96,7 +93,7 @@ export const GoalScreen = () => {
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark" edges={['top']}>
       <View className="px-4 pt-4 pb-2 flex-row justify-between items-center">
         <HeadingXL className="text-2xl text-text-light dark:text-text-dark">Goals</HeadingXL>
-        <IconButton accessibilityRole="button" accessibilityLabel="Icon Button" 
+        <IconButton 
           onPress={() => navigation.navigate('GoalSearch')}
           className="w-10 h-10 bg-slate-50 rounded-full"
           leftIcon="Search"
@@ -114,7 +111,7 @@ export const GoalScreen = () => {
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: 100 }}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={handleRefresh} tintColor={theme.colors.primary[500]} />
+          <RefreshControl refreshing={isRefetching} onRefresh={handleRefresh} tintColor="#6366F1" />
         }
         ListEmptyComponent={renderEmpty}
       />

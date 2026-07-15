@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { HeadingMD, BodySM, Button, Icon } from '../../../design-system';
@@ -9,12 +8,10 @@ interface JournalEmptyStateProps {
 }
 
 export const JournalEmptyState = ({ onAction, message = "Every great journey begins with a single thought." }: JournalEmptyStateProps) => {
-  const { theme } = useTheme();
-
   return (
     <View className="flex-1 items-center justify-center p-8 min-h-[300px]">
       <View className="w-16 h-16 rounded-full bg-indigo-50 items-center justify-center mb-4">
-        <Icon name="BookOpen" size={32} color={theme.colors.primary[600]} />
+        <Icon name="BookOpen" size={32} color="#4F46E5" />
       </View>
       <HeadingMD className="mb-2 text-center">
         Your Space to Reflect

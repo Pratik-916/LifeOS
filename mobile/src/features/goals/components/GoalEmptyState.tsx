@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View } from 'react-native';
 import { HeadingMD, BodyMD } from '../../../design-system';
@@ -10,12 +9,10 @@ interface GoalEmptyStateProps {
 }
 
 export const GoalEmptyState = ({ onAction, message = "Set a goal to start building your future." }: GoalEmptyStateProps) => {
-  const { theme } = useTheme();
-
   return (
     <View className="flex-1 items-center justify-center p-8 min-h-[300px]">
       <View className="w-16 h-16 rounded-full bg-indigo-50 items-center justify-center mb-4">
-        <Icon name="Target" size={32} color={theme.colors.primary[500]} />
+        <Icon name="Target" size={32} color="#6366F1" />
       </View>
       <HeadingMD className="text-center mb-2">
         No Goals Found
@@ -24,7 +21,7 @@ export const GoalEmptyState = ({ onAction, message = "Set a goal to start buildi
         {message}
       </BodyMD>
       {onAction && (
-        <PrimaryButton accessibilityRole="button" accessibilityLabel="Button" title="Create Your First Goal" onPress={onAction} />
+        <PrimaryButton title="Create Your First Goal" onPress={onAction} />
       )}
     </View>
   );

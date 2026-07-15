@@ -1,4 +1,3 @@
-import { useTheme } from '../../../theme/ThemeProvider';
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -17,8 +16,6 @@ interface OverviewCardProps {
 }
 
 const OverviewCard = ({ title, count, subtitle, color, icon, onPress }: OverviewCardProps) => {
-  const { theme } = useTheme();
-
   return (
     <PrimaryCard 
       onPress={onPress}
@@ -55,28 +52,28 @@ export const TodayOverview = React.memo(({ tasks, habits, goals, journal, journe
       <DashboardSectionTitle title="Today's Overview" />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 4 }}>
         <OverviewCard 
-          title="Tasks" count={tasks} subtitle="Due Today" color={theme.colors.primary[500]} 
-          icon={<Icon name="CheckSquare" size={20} color={theme.colors.primary[500]} />} 
+          title="Tasks" count={tasks} subtitle="Due Today" color="#2563EB" 
+          icon={<Icon name="CheckSquare" size={20} color="#2563EB" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Planner' })} 
         />
         <OverviewCard 
-          title="Habits" count={habits} subtitle="To Complete" color={theme.colors.success} 
-          icon={<Icon name="Target" size={20} color={theme.colors.success} />} 
+          title="Habits" count={habits} subtitle="To Complete" color="#10B981" 
+          icon={<Icon name="Target" size={20} color="#10B981" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Habits' })} 
         />
         <OverviewCard 
-          title="Goals" count={goals} subtitle="Active" color={theme.colors.warning} 
-          icon={<Icon name="Trophy" size={20} color={theme.colors.warning} />} 
+          title="Goals" count={goals} subtitle="Active" color="#F59E0B" 
+          icon={<Icon name="Trophy" size={20} color="#F59E0B" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Goals' })} 
         />
         <OverviewCard 
-          title="Journal" count={journal} subtitle="Entries This Week" color={theme.colors.purple[500]} 
-          icon={<Icon name="BookOpen" size={20} color={theme.colors.purple[500]} />} 
+          title="Journal" count={journal} subtitle="Entries This Week" color="#8B5CF6" 
+          icon={<Icon name="BookOpen" size={20} color="#8B5CF6" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Journal' })} 
         />
         <OverviewCard 
-          title="Journey" count={journey} subtitle="Memories" color={theme.colors.teal[500]} 
-          icon={<Icon name="Compass" size={20} color={theme.colors.teal[500]} />} 
+          title="Journey" count={journey} subtitle="Memories" color="#14B8A6" 
+          icon={<Icon name="Compass" size={20} color="#14B8A6" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Journey' })} 
         />
       </ScrollView>

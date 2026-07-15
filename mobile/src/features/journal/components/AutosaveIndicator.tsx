@@ -1,5 +1,4 @@
 import { ActivityIndicator, Animated } from 'react-native';
-import { useTheme } from '../../../theme/ThemeProvider';
 import React, { useEffect, useMemo } from 'react';
 import { Caption, Icon } from '../../../design-system';
 
@@ -8,8 +7,6 @@ interface AutosaveIndicatorProps {
 }
 
 export const AutosaveIndicator = ({ status }: AutosaveIndicatorProps) => {
-  const { theme } = useTheme();
-
   const opacity = useMemo(() => new Animated.Value(1), []);
 
   useEffect(() => {
@@ -34,21 +31,21 @@ export const AutosaveIndicator = ({ status }: AutosaveIndicatorProps) => {
     <Animated.View style={{ opacity }} className="flex-row items-center px-2 py-1 bg-slate-100 rounded-full">
       {status === 'saving' && (
         <>
-          <ActivityIndicator size="small" color={theme.colors.text.secondary} style={{ transform: [{ scale: 0.6 }] }} />
+          <ActivityIndicator size="small" color="#64748B" style={{ transform: [{ scale: 0.6 }] }} />
           <Caption className="text-slate-500 ml-1">Saving...</Caption>
         </>
       )}
       
       {status === 'saved' && (
         <>
-          <Icon name="CheckCircle2" size={12} color={theme.colors.success} />
+          <Icon name="CheckCircle2" size={12} color="#10B981" />
           <Caption className="text-emerald-600 ml-1">Saved</Caption>
         </>
       )}
       
       {status === 'offline' && (
         <>
-          <Icon name="CloudOff" size={12} color={theme.colors.warning} />
+          <Icon name="CloudOff" size={12} color="#F59E0B" />
           <Caption className="text-amber-600 ml-1">Offline Draft</Caption>
         </>
       )}

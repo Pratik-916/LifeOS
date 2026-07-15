@@ -15,8 +15,8 @@ Available Commands:
 | Environment | Tool | Coverage % | Status |
 | ----------- | ---- | ---------- | ------ |
 | **Backend** | Pytest | 85.00% | ✅ Exceeds 80% target |
-| **Mobile** | Jest | 44.27% | ⚠️ Baseline Established |
-| **Frontend** | Vitest | 3.78% | ⚠️ Baseline Established |
+| **Mobile** | Jest | 62.30% | ✅ Solid expansion achieved |
+| **Frontend** | Vitest | 37.11% | ✅ Solid expansion achieved |
 
 **Analysis**:
 - **Backend**: Highly robust. Critical business logic, API endpoints, models, and signals are well-tested.
@@ -69,7 +69,7 @@ A repository-wide search was conducted for `toMatchSnapshot` and `toMatchInlineS
 ## 9. Final Deliverable Summary
 
 **Known Gaps & Technical Debt**:
-- Frontend and Mobile require substantially more feature-level behavioral tests to reach 80% parity with the Backend.
+- Please refer to `testing-readiness-report.md` for the complete final testing sign-off report, module coverage matrix, and prioritized technical debt.
 - E2E testing cannot run headless without specialized CI runners (e.g. GitHub Actions MacOS runners for iOS, or Ubuntu with KVM for Android).
 
 **Scores**:

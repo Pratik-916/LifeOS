@@ -20,7 +20,12 @@ const queryClient = new QueryClient({
   },
 });
 
-export default function App() {
+import { monitoringService } from './src/services/monitoring';
+
+// Initialize production observability
+monitoringService.initialize();
+
+function App() {
   const [appIsReady, setAppIsReady] = React.useState(false);
 
   useEffect(() => {
@@ -61,3 +66,5 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+
+export default monitoringService.wrapApp(App);

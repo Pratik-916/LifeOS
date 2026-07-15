@@ -10,6 +10,8 @@ interface State {
   error: Error | null;
 }
 
+import { logger } from '../../utils/logger';
+
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
@@ -21,7 +23,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo);
+    logger.error('Uncaught error in ErrorBoundary', error, { errorInfo });
   }
 
   private handleReset = () => {

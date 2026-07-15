@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
+import { logger } from '../../../utils/logger';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { Button } from '../../Button';
 
@@ -24,7 +25,7 @@ export class FeatureErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error(`[FeatureErrorBoundary:${this.props.featureName}] Caught error:`, error, errorInfo);
+    logger.error(`[FeatureErrorBoundary:${this.props.featureName}] Caught error:`, error, { errorInfo });
   }
 
   private handleRetry = () => {

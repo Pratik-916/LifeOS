@@ -1,0 +1,14 @@
+appId: com.lifeos.mobile
+---
+- launchApp
+- tapOn: "Planner"
+- assertVisible: "Planner"
+- tapOn: 
+    id: "add_task_button"
+- tapOn: "Task Title"
+- inputText: "Buy Groceries"
+- tapOn: "Save"
+- assertVisible: "Buy Groceries"
+- tapOn: 
+    id: "complete_task_checkbox"
+- assertVisible: "Completed"

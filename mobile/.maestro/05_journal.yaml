@@ -1,0 +1,11 @@
+appId: com.lifeos.mobile
+---
+- launchApp
+- tapOn: "Journal"
+- assertVisible: "Journal"
+- tapOn: 
+    id: "add_entry_button"
+- tapOn: "Entry Content"
+- inputText: "Today was a great day!"
+- tapOn: "Save"
+- assertVisible: "Today was a great day!"

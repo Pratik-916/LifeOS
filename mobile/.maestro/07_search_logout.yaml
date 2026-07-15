@@ -1,0 +1,12 @@
+appId: com.lifeos.mobile
+---
+- launchApp
+- tapOn: 
+    id: "global_search_button"
+- tapOn: "Search"
+- inputText: "Paris"
+- assertVisible: "Trip to Paris"
+- tapOn: "Profile"
+- assertVisible: "Settings"
+- tapOn: "Logout"
+- assertVisible: "Login"

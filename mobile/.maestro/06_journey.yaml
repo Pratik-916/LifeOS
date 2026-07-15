@@ -1,0 +1,11 @@
+appId: com.lifeos.mobile
+---
+- launchApp
+- tapOn: "Journey"
+- assertVisible: "Journey"
+- tapOn: 
+    id: "add_memory_button"
+- tapOn: "Memory Title"
+- inputText: "Trip to Paris"
+- tapOn: "Save"
+- assertVisible: "Trip to Paris"

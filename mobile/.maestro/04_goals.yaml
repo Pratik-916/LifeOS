@@ -1,0 +1,11 @@
+appId: com.lifeos.mobile
+---
+- launchApp
+- tapOn: "Goals"
+- assertVisible: "Goals"
+- tapOn: 
+    id: "add_goal_button"
+- tapOn: "Goal Title"
+- inputText: "Learn React Native"
+- tapOn: "Save"
+- assertVisible: "Learn React Native"

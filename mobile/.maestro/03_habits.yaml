@@ -1,0 +1,14 @@
+appId: com.lifeos.mobile
+---
+- launchApp
+- tapOn: "Habits"
+- assertVisible: "Habits"
+- tapOn: 
+    id: "add_habit_button"
+- tapOn: "Habit Title"
+- inputText: "Drink Water"
+- tapOn: "Save"
+- assertVisible: "Drink Water"
+- tapOn: 
+    id: "log_habit_button"
+- assertVisible: "1/3" # Example progress assertion

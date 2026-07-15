@@ -65,7 +65,7 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
                 <CategoryChip label={goal.category} />
                 {goal.favorite && <Icon name="Heart" size={12} color="#E11D48" fill="#E11D48" />}
               </View>
-              <HeadingMD className="text-slate-900" numberOfLines={1}>
+              <HeadingMD className="text-text-light dark:text-text-dark" numberOfLines={1}>
                 {goal.title}
               </HeadingMD>
             </View>

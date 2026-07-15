@@ -8,9 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { apiClient } from '../../../api/client';
 import { useAuthStore } from '../../../store/useAuthStore';
-import { Button } from '../../../components/ui/Button';
-import { Input } from '../../../components/ui/Input';
-import { Typography } from '../../../components/ui/Typography';
+import { PrimaryButton as Button } from '../../../design-system/buttons/Button';
+import { TextField as Input } from '../../../design-system/inputs/Input';
+import { HeadingXL, BodyMD,  } from '../../../design-system/text/Typography';
 import { AuthStackParamList } from '../../../navigation/AuthStack';
 
 const registerSchema = z.object({
@@ -60,19 +60,19 @@ export const RegisterScreen = () => {
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-white justify-center px-6"
+      className="flex-1 bg-background-light dark:bg-background-dark justify-center px-6"
     >
       <View className="mb-8">
-        <Typography variant="h1" className="mb-2 text-blue-600">LifeOS</Typography>
-        <Typography variant="body" className="text-gray-500">Create a new account</Typography>
+        <HeadingXL className="text-text-primary mb-2">LifeOS</HeadingXL>
+        <BodyMD className="text-text-secondary mb-6">Create a new account</BodyMD>
       </View>
 
       {mutation.isError && (
         <View className="bg-red-50 p-3 rounded-lg mb-4 border border-red-100">
-          <Typography variant="caption" className="text-red-600">
+          <BodyMD>
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {(mutation.error as unknown as any).response?.data?.email?.[0] || (mutation.error as unknown as any).response?.data?.message || mutation.error.message || 'Registration failed.'}
-          </Typography>
+          </BodyMD>
         </View>
       )}
 
@@ -159,13 +159,13 @@ export const RegisterScreen = () => {
         title="Sign Up" 
         className="mt-4"
         onPress={handleSubmit(onSubmit)} 
-        isLoading={mutation.isPending}
+        loading={mutation.isPending}
       />
 
       <View className="mt-6 flex-row justify-center">
-        <Typography variant="body" className="text-gray-500">Already have an account? </Typography>
+        <BodyMD className="text-text-secondary mb-6">Already have an account? </BodyMD>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Typography variant="body" className="text-blue-600 font-bold">Sign In</Typography>
+          <BodyMD className="text-text-secondary mb-6">Sign In</BodyMD>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

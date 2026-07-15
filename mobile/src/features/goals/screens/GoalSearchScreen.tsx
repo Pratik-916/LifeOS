@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -26,8 +28,23 @@ export const GoalSearchScreen = () => {
   const { data, isLoading } = useGoals(debouncedTerm ? { search: debouncedTerm } : { search: '---none---' });
   const goals = debouncedTerm ? (data?.results || []) : [];
 
+  const renderItem = useCallback(({ item }: any) => (
+    <GoalCard
+      goal={item}
+      onPress={() => navigation.navigate('GoalDetails', { id: item.id })}
+    />
+  ), [navigation]);
+
+  const renderEmpty = useCallback(() => (
+    debouncedTerm.length > 0 && !isLoading ? (
+      <View className="flex-1 items-center justify-center pt-20">
+        <BodyMD className="text-slate-500">No results found for "{debouncedTerm}"</BodyMD>
+      </View>
+    ) : null
+  ), [debouncedTerm, isLoading]);
+
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+    <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark" edges={['top']}>
       <View className="flex-row items-center px-4 py-3 border-b border-slate-100">
         <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2 mr-2">
           <Icon name="ArrowLeft" size={24} color="#0F172A" />
@@ -39,7 +56,7 @@ export const GoalSearchScreen = () => {
             value={searchTerm}
             onChangeText={setSearchTerm}
             placeholder="Search goals..."
-            className="flex-1 ml-2 text-slate-900 font-medium"
+            className="flex-1 ml-2 text-text-light dark:text-text-dark font-medium"
             placeholderTextColor="#94A3B8"
             autoFocus
           />
@@ -54,20 +71,13 @@ export const GoalSearchScreen = () => {
       <FlatList
         data={goals}
         keyExtractor={(item) => item.id}
+        initialNumToRender={10}
+        windowSize={5}
+        maxToRenderPerBatch={5}
+        removeClippedSubviews={true}
         contentContainerStyle={{ padding: 16 }}
-        renderItem={({ item }) => (
-          <GoalCard
-            goal={item}
-            onPress={() => navigation.navigate('GoalDetails', { id: item.id })}
-          />
-        )}
-        ListEmptyComponent={
-          debouncedTerm.length > 0 && !isLoading ? (
-            <View className="flex-1 items-center justify-center pt-20">
-              <BodyMD className="text-slate-500">No results found for "{debouncedTerm}"</BodyMD>
-            </View>
-          ) : null
-        }
+        renderItem={renderItem}
+        ListEmptyComponent={renderEmpty}
       />
     </SafeAreaView>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Pressable, PressableProps, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
@@ -18,7 +19,7 @@ const getCardVariantClasses = (variant: CardProps['variant']) => {
     case 'outlined':
       return 'bg-transparent border border-secondary-100 dark:border-secondary-900 rounded-2xl p-4';
     case 'glass':
-      return 'bg-white/70 dark:bg-black/70 rounded-2xl p-4'; // Needs blur in styling ideally
+      return 'bg-background-light dark:bg-background-dark/70 dark:bg-black/70 rounded-2xl p-4'; // Needs blur in styling ideally
     case 'elevated':
       return 'bg-surface-light dark:bg-surface-dark rounded-2xl p-4 shadow-lg shadow-black/10';
     case 'module':

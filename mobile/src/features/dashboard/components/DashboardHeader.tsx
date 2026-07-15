@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
-import { Icon, Label, HeadingXL, BodyMD, IconButton } from '../../../design-system';
+import {  Label, HeadingXL, BodyMD, IconButton } from '../../../design-system';
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
 
@@ -28,7 +28,7 @@ export const DashboardHeader = React.memo(({ firstName = 'User' }: DashboardHead
         <Label className="text-slate-500 mb-1 font-semibold uppercase tracking-wider">
           {format(new Date(), 'EEEE, MMMM d')}
         </Label>
-        <HeadingXL className="text-slate-900 mb-2">
+        <HeadingXL className="text-text-light dark:text-text-dark mb-2">
           {getGreeting()}, {firstName}
         </HeadingXL>
         <BodyMD className="text-slate-600 italic">

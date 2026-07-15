@@ -16,7 +16,7 @@ export const HeatmapGrid = React.memo(({ data, title = "Activity Heatmap" }: Hea
   const values = (data.datasets[0].data as number[]) || [];
   
   const getColor = (val: number) => {
-    if (val === 0) return 'bg-gray-100';
+    if (val === 0) return 'bg-surface-light dark:bg-surface-dark';
     if (val < 3) return 'bg-green-200';
     if (val < 6) return 'bg-green-400';
     return 'bg-green-600';

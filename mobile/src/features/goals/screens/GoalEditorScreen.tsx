@@ -121,13 +121,13 @@ export const GoalEditorScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+    <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark" edges={['top']}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-slate-100">
           <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
             <Icon name="ArrowLeft" size={24} color="#0F172A" />
           </TouchableOpacity>
-          <HeadingMD className="text-slate-900">
+          <HeadingMD className="text-text-light dark:text-text-dark">
             {isEditing ? 'Edit Goal' : 'New Goal'}
           </HeadingMD>
           <TouchableOpacity onPress={handleSave} className="p-2 -mr-2 flex-row items-center">
@@ -142,7 +142,7 @@ export const GoalEditorScreen = () => {
             value={form.title}
             onChangeText={(v) => { setForm({ ...form, title: v }); saveDraft(); }}
             placeholder="What do you want to achieve?"
-            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-slate-900 font-medium"
+            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-text-light dark:text-text-dark font-medium"
             placeholderTextColor="#94A3B8"
           />
 
@@ -153,7 +153,7 @@ export const GoalEditorScreen = () => {
             placeholder="Why is this important?"
             multiline
             numberOfLines={4}
-            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-slate-900 h-24 text-top"
+            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-text-light dark:text-text-dark h-24 text-top"
             textAlignVertical="top"
             placeholderTextColor="#94A3B8"
           />
@@ -163,12 +163,12 @@ export const GoalEditorScreen = () => {
             value={form.targetDate}
             onChangeText={(v) => { setForm({ ...form, targetDate: v }); saveDraft(); }}
             placeholder="YYYY-MM-DD"
-            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-slate-900"
+            className="border border-slate-200 rounded-lg p-3 mb-6 bg-slate-50 text-text-light dark:text-text-dark"
             placeholderTextColor="#94A3B8"
           />
 
           <View className="mb-8">
-            <HeadingMD className="text-slate-900 mb-4">Milestones</HeadingMD>
+            <HeadingMD className="text-text-light dark:text-text-dark mb-4">Milestones</HeadingMD>
             
             {milestones.map((ms, i) => (
               <MilestoneCard 
@@ -184,7 +184,7 @@ export const GoalEditorScreen = () => {
                 value={milestoneInput}
                 onChangeText={setMilestoneInput}
                 placeholder="Add a milestone..."
-                className="flex-1 border border-slate-200 rounded-lg p-3 bg-slate-50 text-slate-900 mr-2"
+                className="flex-1 border border-slate-200 rounded-lg p-3 bg-slate-50 text-text-light dark:text-text-dark mr-2"
                 placeholderTextColor="#94A3B8"
                 onSubmitEditing={addMilestone}
               />

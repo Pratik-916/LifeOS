@@ -41,7 +41,7 @@ export const MemoryCard = ({ event, onPress, onLongPress }: MemoryCardProps) => 
           </View>
           
           {event.preview ? (
-            <BodyMD className="mb-2 text-gray-600 text-sm" numberOfLines={3}>
+            <BodyMD className="mb-2 text-text-muted text-sm" numberOfLines={3}>
               {event.preview}
             </BodyMD>
           ) : null}

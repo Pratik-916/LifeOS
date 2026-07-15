@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -41,15 +43,32 @@ export const HabitSearchScreen = () => {
     }
   };
 
+  const renderItem = useCallback(({ item }: any) => (
+    <HabitCard
+      habit={item}
+      onPress={() => navigation.navigate('HabitDetails', { habitId: item.id })}
+      onLogCompletion={() => handleLogCompletion(item.id, item.currentCount, item.targetCount)}
+      onArchive={() => archiveHabit.mutate(item.id)}
+    />
+  ), []);
+
+  const renderEmpty = useCallback(() => {
+    if (!debouncedQuery) return null;
+    if (isLoading) {
+      return <View><HabitSkeleton /><HabitSkeleton /></View>;
+    }
+    return <EmptyHabitsState isSearch />;
+  }, [debouncedQuery, isLoading]);
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }} edges={['top']}>
-      <View className="px-4 py-3 bg-white border-b border-gray-200 flex-row items-center">
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>
+      <View className="px-4 py-3 bg-background-light dark:bg-background-dark border-b border-secondary-100 dark:border-secondary-900 flex-row items-center">
         <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} className="mr-3" accessibilityRole="button" />
         
-        <View className="flex-1 flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
+        <View className="flex-1 flex-row items-center bg-surface-light dark:bg-surface-dark rounded-lg px-3 py-2">
           <Icon name="Search" size={20} color="#9CA3AF" />
           <TextInput
-            className="flex-1 ml-2 text-base text-gray-900"
+            className="flex-1 ml-2 text-base text-text-light dark:text-text-dark"
             placeholder="Search habits..."
             value={query}
             onChangeText={setQuery}
@@ -66,22 +85,13 @@ export const HabitSearchScreen = () => {
       <FlatList
         data={debouncedQuery ? (habitsData?.results || []) : []}
         keyExtractor={(item) => item.id}
+        initialNumToRender={10}
+        windowSize={5}
+        maxToRenderPerBatch={5}
+        removeClippedSubviews={true}
         contentContainerStyle={{ padding: 16 }}
-        renderItem={({ item }) => (
-          <HabitCard
-            habit={item}
-            onPress={() => navigation.navigate('HabitDetails', { habitId: item.id })}
-            onLogCompletion={() => handleLogCompletion(item.id, item.currentCount, item.targetCount)}
-            onArchive={() => archiveHabit.mutate(item.id)}
-          />
-        )}
-        ListEmptyComponent={() => {
-          if (!debouncedQuery) return null;
-          if (isLoading) {
-            return <View><HabitSkeleton /><HabitSkeleton /></View>;
-          }
-          return <EmptyHabitsState isSearch />;
-        }}
+        renderItem={renderItem}
+        ListEmptyComponent={renderEmpty}
       />
     </SafeAreaView>
   );

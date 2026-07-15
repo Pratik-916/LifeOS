@@ -17,7 +17,7 @@ export const JournalAnalyticsScreen = () => {
 
   return (
     <ScrollView 
-      className="flex-1 bg-white" 
+      className="flex-1 bg-background-light dark:bg-background-dark" 
       contentContainerStyle={{ padding: 16 }}
       refreshControl={<RefreshControl refreshing={false} onRefresh={refetch} />}
     >

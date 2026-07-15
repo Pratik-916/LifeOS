@@ -7,7 +7,7 @@ export const LocationChip = ({ location }: { location?: string }) => {
   return (
     <View className="flex-row items-center">
       <Icon name="MapPin" size={14} color="#6B7280" />
-      <BodyMD className="text-sm text-gray-500 ml-1">{location}</BodyMD>
+      <BodyMD className="text-sm text-text-muted ml-1">{location}</BodyMD>
     </View>
   );
 };

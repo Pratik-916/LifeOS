@@ -52,12 +52,12 @@ export const MemoryDetailsScreen = () => {
   }, [navigation, memory, handleShare]);
 
   if (isLoading || !memory) {
-    return <View className="flex-1 bg-white" />;
+    return <View className="flex-1 bg-background-light dark:bg-background-dark" />;
   }
 
   return (
-    <ScrollView className="flex-1 bg-white" contentContainerStyle={{ padding: 20 }}>
-      <HeadingXL className="mb-2 text-gray-900">{memory.title}</HeadingXL>
+    <ScrollView className="flex-1 bg-background-light dark:bg-background-dark" contentContainerStyle={{ padding: 20 }}>
+      <HeadingXL className="mb-2 text-text-light dark:text-text-dark">{memory.title}</HeadingXL>
       
       <View className="flex-row items-center flex-wrap mb-4">
         {memory.date && <Caption className="mr-4">{format(new Date(memory.date), 'PPPP')}</Caption>}
@@ -74,8 +74,8 @@ export const MemoryDetailsScreen = () => {
         <MemoryImageCarousel images={memory.images} />
       )}
 
-      <View className="bg-gray-50 p-4 rounded-2xl mb-8">
-        <BodyMD className="text-gray-800 leading-6">
+      <View className="bg-surface-light dark:bg-surface-dark p-4 rounded-2xl mb-8">
+        <BodyMD className="text-text-light dark:text-text-dark leading-6">
           {memory.description}
         </BodyMD>
       </View>

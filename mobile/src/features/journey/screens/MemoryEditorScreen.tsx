@@ -108,7 +108,7 @@ export const MemoryEditorScreen = () => {
   };
 
   return (
-    <ScrollView className="flex-1 bg-white" contentContainerStyle={{ padding: 16 }}>
+    <ScrollView className="flex-1 bg-background-light dark:bg-background-dark" contentContainerStyle={{ padding: 16 }}>
       <Controller
         control={control}
         name="title"
@@ -184,7 +184,7 @@ export const MemoryEditorScreen = () => {
       />
 
       <Card className="mb-6 mt-2">
-        <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
+        <View className="flex-row items-center justify-between py-2 border-b border-secondary-100 dark:border-secondary-900">
           <BodyMD className="font-medium text-gray-700">Favorite</BodyMD>
           <Controller
             control={control}
@@ -208,9 +208,9 @@ export const MemoryEditorScreen = () => {
 
       <View className="mb-8">
         <HeadingMD className="mb-2">Images</HeadingMD>
-        <Pressable className="bg-gray-100 h-32 rounded-xl items-center justify-center border-2 border-dashed border-gray-300">
+        <Pressable className="bg-surface-light dark:bg-surface-dark h-32 rounded-xl items-center justify-center border-2 border-dashed border-secondary-500">
           <Icon name="Image" size={32} color="#9CA3AF" />
-          <Caption className="mt-2 text-gray-500">Tap to add images (Placeholder)</Caption>
+          <Caption className="mt-2 text-text-muted">Tap to add images (Placeholder)</Caption>
         </Pressable>
       </View>
 

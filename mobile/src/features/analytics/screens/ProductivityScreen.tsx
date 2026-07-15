@@ -17,7 +17,7 @@ export const ProductivityScreen = () => {
 
   return (
     <ScrollView 
-      className="flex-1 bg-white" 
+      className="flex-1 bg-background-light dark:bg-background-dark" 
       contentContainerStyle={{ padding: 16 }}
       refreshControl={<RefreshControl refreshing={false} onRefresh={refetch} />}
     >
@@ -35,7 +35,7 @@ export const ProductivityScreen = () => {
 
       <HeadingMD className="mb-3 mt-4">Module Breakdown</HeadingMD>
       {Object.entries(data.individualModuleScores || {}).map(([module, score]) => (
-        <View key={module} className="flex-row justify-between py-3 border-b border-gray-100">
+        <View key={module} className="flex-row justify-between py-3 border-b border-secondary-100 dark:border-secondary-900">
           <BodyMD className="capitalize text-gray-700">{module}</BodyMD>
           <BodyMD className="font-semibold">{String(score)}</BodyMD>
         </View>

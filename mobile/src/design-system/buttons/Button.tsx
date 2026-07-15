@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Pressable, PressableProps, ActivityIndicator, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';

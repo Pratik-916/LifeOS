@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, ScrollView, Pressable, Platform } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { X } from 'lucide-react-native';
+import {  } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -134,9 +134,9 @@ export const TaskEditorScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }} edges={['top']}>
-      <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
+      <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
         <HeadingLG>{isEditing ? 'Edit Task' : 'New Task'}</HeadingLG>
-        <IconButton onPress={() => navigation.goBack()} className="p-2 -mr-2" leftIcon="X" />
+        <IconButton onPress={() => navigation.goBack()} className="p-2 -mr-2" leftIcon="" />
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
@@ -147,7 +147,7 @@ export const TaskEditorScreen = () => {
             name="title"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900"
+                className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
                 placeholder="What needs to be done?"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -165,7 +165,7 @@ export const TaskEditorScreen = () => {
             name="description"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900 min-h-[100px]"
+                className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark min-h-[100px]"
                 placeholder="Add details..."
                 multiline
                 textAlignVertical="top"
@@ -185,7 +185,7 @@ export const TaskEditorScreen = () => {
               name="category"
               render={({ field: { onChange, value } }) => (
                 <TextInput
-                  className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900"
+                  className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
                   placeholder="General"
                   onChangeText={onChange}
                   value={value}
@@ -200,7 +200,7 @@ export const TaskEditorScreen = () => {
               name="estimatedMinutes"
               render={({ field: { onChange, value } }) => (
                 <TextInput
-                  className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900"
+                  className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
                   placeholder="0"
                   keyboardType="numeric"
                   onChangeText={(val) => onChange(parseInt(val, 10) || 0)}
@@ -215,9 +215,9 @@ export const TaskEditorScreen = () => {
           <Caption className="mb-2 text-gray-700 font-medium">Due Date</Caption>
           <Pressable 
             onPress={() => setShowDatePicker(true)}
-            className="bg-gray-50 border border-gray-200 rounded-lg p-3"
+            className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3"
           >
-            <BodyMD className={dueDate ? 'text-gray-900' : 'text-gray-400'}>
+            <BodyMD className={dueDate ? 'text-text-light dark:text-text-dark' : 'text-gray-400'}>
               {dueDate ? format(dueDate, 'PPP') : 'Select a date'}
             </BodyMD>
           </Pressable>

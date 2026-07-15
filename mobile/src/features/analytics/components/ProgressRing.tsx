@@ -31,8 +31,8 @@ export const ProgressRing = ({ progress, size = 120, color = '#2563EB', label }:
         innerRadius={(size / 2) - 12}
         centerLabelComponent={() => (
           <View className="items-center justify-center">
-            <HeadingLG className="text-gray-900">{Math.round(validProgress)}%</HeadingLG>
-            {label && <Caption className="text-gray-500">{label}</Caption>}
+            <HeadingLG className="text-text-light dark:text-text-dark">{Math.round(validProgress)}%</HeadingLG>
+            {label && <Caption className="text-text-muted">{label}</Caption>}
           </View>
         )}
       />

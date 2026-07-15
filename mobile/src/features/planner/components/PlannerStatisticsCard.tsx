@@ -13,7 +13,7 @@ export const PlannerStatisticsCard: React.FC<PlannerStatisticsCardProps> = ({ st
     <Card className="mb-4">
       <View className="flex-row justify-between items-center mb-4">
         <HeadingMD>Overview</HeadingMD>
-        <Caption className="text-gray-500">
+        <Caption className="text-text-muted">
           {stats.completionRate}% Completion
         </Caption>
       </View>
@@ -24,7 +24,7 @@ export const PlannerStatisticsCard: React.FC<PlannerStatisticsCardProps> = ({ st
             <Clock color="#3B82F6" size={20} />
           </View>
           <HeadingMD>{stats.pending}</HeadingMD>
-          <Caption className="text-gray-500 text-center">Pending</Caption>
+          <Caption className="text-text-muted text-center">Pending</Caption>
         </View>
 
         <View className="items-center flex-1">
@@ -32,7 +32,7 @@ export const PlannerStatisticsCard: React.FC<PlannerStatisticsCardProps> = ({ st
             <CheckCircle2 color="#10B981" size={20} />
           </View>
           <HeadingMD>{stats.completed}</HeadingMD>
-          <Caption className="text-gray-500 text-center">Completed</Caption>
+          <Caption className="text-text-muted text-center">Completed</Caption>
         </View>
 
         <View className="items-center flex-1">
@@ -40,7 +40,7 @@ export const PlannerStatisticsCard: React.FC<PlannerStatisticsCardProps> = ({ st
             <AlertCircle color="#EF4444" size={20} />
           </View>
           <HeadingMD>{stats.overdue}</HeadingMD>
-          <Caption className="text-gray-500 text-center">Overdue</Caption>
+          <Caption className="text-text-muted text-center">Overdue</Caption>
         </View>
       </View>
     </Card>

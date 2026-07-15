@@ -30,7 +30,7 @@ export const GoalDetailsScreen = () => {
 
   if (isLoading || !goal) {
     return (
-      <SafeAreaView className="flex-1 bg-white justify-center items-center">
+      <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark justify-center items-center">
         <BodyMD className="text-slate-500">Loading goal...</BodyMD>
       </SafeAreaView>
     );
@@ -71,7 +71,7 @@ export const GoalDetailsScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top', 'bottom']}>
+    <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark" edges={['top', 'bottom']}>
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 py-3 border-b border-slate-100">
         <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
@@ -100,7 +100,7 @@ export const GoalDetailsScreen = () => {
           <PriorityBadge label={goal.priority} />
         </View>
 
-        <HeadingXL className="text-2xl text-slate-900 mb-2">{goal.title}</HeadingXL>
+        <HeadingXL className="text-2xl text-text-light dark:text-text-dark mb-2">{goal.title}</HeadingXL>
         
         {goal.description ? (
           <BodyMD className="text-slate-600 mb-6 leading-6">
@@ -135,7 +135,7 @@ export const GoalDetailsScreen = () => {
         <View className="mb-6">
           <View className="flex-row items-center mb-4">
             <Icon name="LayoutList" size={20} color="#0F172A" />
-            <HeadingMD className="text-slate-900 ml-2">Milestones</HeadingMD>
+            <HeadingMD className="text-text-light dark:text-text-dark ml-2">Milestones</HeadingMD>
           </View>
           
           {goal.milestones.length === 0 ? (

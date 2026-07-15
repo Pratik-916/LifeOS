@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ArrowLeft, Edit2, Trash2, CheckCircle2, Undo2 } from 'lucide-react-native';
+import {      } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
 import { HeadingXL, BodyMD, Caption, Button, Loader, IconButton } from '../../../design-system';
@@ -67,16 +67,16 @@ export const TaskDetailsScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
-        <IconButton onPress={() => navigation.goBack()} className="p-2 -ml-2" leftIcon="ArrowLeft" />
+      <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
+        <IconButton onPress={() => navigation.goBack()} className="p-2 -ml-2" leftIcon="" />
         
         <View className="flex-row space-x-4">
           {task.isArchived ? (
-            <IconButton onPress={handleRestore} className="p-2" leftIcon="Undo2" />
+            <IconButton onPress={handleRestore} className="p-2" leftIcon="" />
           ) : (
             <>
-              <IconButton onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" leftIcon="Edit2" />
-              <IconButton onPress={handleDelete} className="p-2" leftIcon="Trash2" />
+              <IconButton onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" leftIcon="" />
+              <IconButton onPress={handleDelete} className="p-2" leftIcon="" />
             </>
           )}
         </View>
@@ -90,39 +90,39 @@ export const TaskDetailsScreen = () => {
           </View>
         </View>
 
-        <HeadingXL className={`mb-4 ${isCompleted ? 'line-through text-gray-500' : 'text-gray-900'}`}>
+        <HeadingXL className={`mb-4 ${isCompleted ? 'line-through text-text-muted' : 'text-text-light dark:text-text-dark'}`}>
           {task.title}
         </HeadingXL>
 
         {task.description ? (
-          <BodyMD className="text-gray-600 mb-6">
+          <BodyMD className="text-text-muted mb-6">
             {task.description}
           </BodyMD>
         ) : null}
 
-        <View className="bg-gray-50 rounded-xl p-4 mb-6">
+        <View className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 mb-6">
           <View className="flex-row justify-between mb-3">
-            <Caption className="text-gray-500 font-medium">Status</Caption>
-            <Caption className="text-gray-900 font-medium capitalize">
+            <Caption className="text-text-muted font-medium">Status</Caption>
+            <Caption className="text-text-light dark:text-text-dark font-medium capitalize">
               {task.status.replace('_', ' ')}
             </Caption>
           </View>
           
           {task.dueDate && (
             <View className="flex-row justify-between mb-3">
-              <Caption className="text-gray-500 font-medium">Due Date</Caption>
-              <Caption className="text-gray-900 font-medium">{task.dueDate}</Caption>
+              <Caption className="text-text-muted font-medium">Due Date</Caption>
+              <Caption className="text-text-light dark:text-text-dark font-medium">{task.dueDate}</Caption>
             </View>
           )}
           
           <View className="flex-row justify-between mb-3">
-            <Caption className="text-gray-500 font-medium">Estimated Time</Caption>
-            <Caption className="text-gray-900 font-medium">{task.estimatedMinutes} mins</Caption>
+            <Caption className="text-text-muted font-medium">Estimated Time</Caption>
+            <Caption className="text-text-light dark:text-text-dark font-medium">{task.estimatedMinutes} mins</Caption>
           </View>
 
           <View className="flex-row justify-between">
-            <Caption className="text-gray-500 font-medium">Created</Caption>
-            <Caption className="text-gray-900 font-medium">
+            <Caption className="text-text-muted font-medium">Created</Caption>
+            <Caption className="text-text-light dark:text-text-dark font-medium">
               {new Date(task.createdAt).toLocaleDateString()}
             </Caption>
           </View>
@@ -133,7 +133,7 @@ export const TaskDetailsScreen = () => {
             onPress={handleToggleComplete}
             variant={isCompleted ? 'secondary' : 'primary'}
             title={isCompleted ? 'Mark as Incomplete' : 'Complete Task'}
-            leftIcon={isCompleted ? 'Undo2' : 'CheckCircle2'}
+            leftIcon={isCompleted ? '' : ''}
             className="mt-2"
           />
         )}

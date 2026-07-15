@@ -18,13 +18,13 @@ export const GoalAnalyticsScreen = () => {
 
   return (
     <ScrollView 
-      className="flex-1 bg-white" 
+      className="flex-1 bg-background-light dark:bg-background-dark" 
       contentContainerStyle={{ padding: 16 }}
       refreshControl={<RefreshControl refreshing={false} onRefresh={refetch} />}
     >
       <FilterBar selectedRange={range} onSelectRange={setRange} />
       
-      <PrimaryCard className="mb-4 flex-row justify-between items-center bg-gray-50 border-0 p-4">
+      <PrimaryCard className="mb-4 flex-row justify-between items-center bg-surface-light dark:bg-surface-dark border-0 p-4">
         <View className="flex-1">
           <StatCard title="Completed" value={data.completedGoals} icon="Target" iconColor="#10B981" />
         </View>

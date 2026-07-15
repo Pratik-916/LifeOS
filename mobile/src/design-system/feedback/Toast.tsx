@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View,  } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
-  withDelay,
+  
   runOnJS
 } from 'react-native-reanimated';
 import { BodyMD } from '../text/Typography';

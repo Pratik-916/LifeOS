@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from '../../../design-system';
@@ -25,12 +25,46 @@ export const MemorySearchScreen = () => {
 
   const memories = data?.pages.flatMap(page => page.results) || [];
 
+  const renderItem = useCallback(({ item }: { item: Memory }) => (
+    <View className="px-4">
+      <MemoryCard 
+        event={{
+          id: `mem_${item.id}`,
+          entityType: 'memory',
+          entityId: item.id,
+          title: item.title,
+          description: item.description,
+          timestamp: item.date,
+          icon: item.icon,
+          color: item.color,
+          category: item.category,
+          tags: item.tags,
+          sourceModule: 'journey',
+          visibility: item.visibility,
+          favorite: item.favorite,
+          pinned: item.pinned,
+          preview: item.description,
+          image: item.images?.[0]?.image || null,
+          actionUrl: '',
+          entityStatus: 'active'
+        }} 
+        onPress={() => navigation.navigate('MemoryDetails', { id: item.id })} 
+      />
+    </View>
+  ), [navigation]);
+
+  const listEmptyComponent = useCallback(() => (
+    debouncedSearch && !isLoading ? (
+      <JourneyEmptyState isSearch />
+    ) : null
+  ), [debouncedSearch, isLoading]);
+
   return (
-    <View className="flex-1 bg-white">
-      <View className="p-4 border-b border-gray-100 flex-row items-center bg-gray-50">
+    <View className="flex-1 bg-background-light dark:bg-background-dark">
+      <View className="p-4 border-b border-secondary-100 dark:border-secondary-900 flex-row items-center bg-surface-light dark:bg-surface-dark">
         <Icon name="Search" size={20} color="#9CA3AF" />
         <TextInput
-          className="flex-1 ml-2 text-base text-gray-900 py-2"
+          className="flex-1 ml-2 text-base text-text-light dark:text-text-dark py-2"
           placeholder="Search memories, locations, tags..."
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -41,39 +75,13 @@ export const MemorySearchScreen = () => {
       <FlatList
         data={memories}
         keyExtractor={(item: Memory) => item.id}
-        renderItem={({ item }) => (
-          <View className="px-4">
-            <MemoryCard 
-              event={{
-                id: `mem_${item.id}`,
-                entityType: 'memory',
-                entityId: item.id,
-                title: item.title,
-                description: item.description,
-                timestamp: item.date,
-                icon: item.icon,
-                color: item.color,
-                category: item.category,
-                tags: item.tags,
-                sourceModule: 'journey',
-                visibility: item.visibility,
-                favorite: item.favorite,
-                pinned: item.pinned,
-                preview: item.description,
-                image: item.images?.[0]?.image || null,
-                actionUrl: '',
-                entityStatus: 'active'
-              }} 
-              onPress={() => navigation.navigate('MemoryDetails', { id: item.id })} 
-            />
-          </View>
-        )}
-        ListEmptyComponent={
-          debouncedSearch && !isLoading ? (
-            <JourneyEmptyState isSearch />
-          ) : null
-        }
+        renderItem={renderItem}
+        ListEmptyComponent={listEmptyComponent}
         contentContainerStyle={{ paddingVertical: 16 }}
+        initialNumToRender={10}
+        windowSize={5}
+        maxToRenderPerBatch={5}
+        removeClippedSubviews={true}
       />
     </View>
   );

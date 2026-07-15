@@ -1,5 +1,5 @@
 import React from 'react';
-import { EmptyState, Icon } from '../../../design-system';
+import { EmptyState,  } from '../../../design-system';
 
 interface AnalyticsEmptyStateProps {
   onAction?: () => void;

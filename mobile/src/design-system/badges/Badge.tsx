@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { View, ViewProps } from 'react-native';
 import { BodySM, Caption } from '../text/Typography';

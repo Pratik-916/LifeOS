@@ -18,7 +18,7 @@ export const InsightCard = ({ title = "Insight", message, type = 'neutral' }: In
         <Icon name="Lightbulb" size={20} color={iconColor} />
       </View>
       <View className="flex-1">
-        <HeadingMD className="text-gray-900 text-sm mb-1">{title}</HeadingMD>
+        <HeadingMD className="text-text-light dark:text-text-dark text-sm mb-1">{title}</HeadingMD>
         <BodyMD className="text-gray-700 text-sm">{message}</BodyMD>
       </View>
     </PrimaryCard>

@@ -5,7 +5,7 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
-  runOnJS
+  
 } from 'react-native-reanimated';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -45,7 +45,7 @@ export const BottomSheet = ({ visible, onClose, children, height = SCREEN_HEIGHT
     <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
       <View style={StyleSheet.absoluteFill}>
         <Animated.View style={[StyleSheet.absoluteFill, animatedBackdropStyle]}>
-          <Pressable style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.5)' }]} onPress={onClose} />
+          <Pressable style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(15, 23, 42, 0.5)' }]} onPress={onClose} />
         </Animated.View>
         <Animated.View
           style={[

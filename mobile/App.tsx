@@ -4,8 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
 import { RootNavigator } from './src/navigation';
 import { StatusBar } from 'expo-status-bar';
-import { ErrorBoundary } from './src/components/ui/ErrorBoundary';
-import { OfflineBanner } from './src/components/ui/OfflineBanner';
+import { ErrorBoundary } from './src/design-system/feedback/ErrorBoundary';
+import { OfflineBanner } from './src/design-system/feedback/OfflineBanner';
 import { ThemeProvider } from './src/theme/ThemeProvider';
 
 // Keep splash screen visible while we fetch resources

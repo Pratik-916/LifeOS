@@ -4,8 +4,8 @@ import { HeadingLG } from '../../../design-system';
 
 export const TimelineHeader = ({ year }: { year: string }) => {
   return (
-    <View className="bg-gray-50 py-3 px-4 border-b border-gray-200">
-      <HeadingLG className="text-gray-900">{year}</HeadingLG>
+    <View className="bg-surface-light dark:bg-surface-dark py-3 px-4 border-b border-secondary-100 dark:border-secondary-900">
+      <HeadingLG className="text-text-light dark:text-text-dark">{year}</HeadingLG>
     </View>
   );
 };

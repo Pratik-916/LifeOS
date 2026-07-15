@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Button } from './Button';
+import { Button } from '../buttons/Button';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AlertOctagon } from 'lucide-react-native';
 

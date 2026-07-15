@@ -31,7 +31,7 @@ export const JournalDetailsScreen = () => {
 
   if (isLoading || !entry) {
     return (
-      <View className="flex-1 items-center justify-center bg-white">
+      <View className="flex-1 items-center justify-center bg-background-light dark:bg-background-dark">
         <ActivityIndicator size="large" color="#4F46E5" />
       </View>
     );
@@ -52,7 +52,7 @@ export const JournalDetailsScreen = () => {
   };
 
   return (
-    <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-white">
+    <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-background-light dark:bg-background-dark">
       <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100">
         <View className="flex-row items-center">
           <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />

@@ -5,7 +5,7 @@ import { HeadingXL, HeadingMD } from '../../../design-system';
 export const YearHeader = ({ year }: { year: string }) => {
   return (
     <View className="py-4 mt-2">
-      <HeadingXL className="text-3xl text-slate-900 font-extrabold tracking-tight">
+      <HeadingXL className="text-3xl text-text-light dark:text-text-dark font-extrabold tracking-tight">
         {year}
       </HeadingXL>
     </View>

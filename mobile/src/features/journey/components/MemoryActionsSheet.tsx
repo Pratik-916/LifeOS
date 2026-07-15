@@ -27,13 +27,13 @@ export const MemoryActionsSheet = ({
     <BottomSheet visible={visible} onClose={onClose} height={350}>
       <View className="flex-row justify-between items-center mb-6">
         <HeadingMD>Memory Actions</HeadingMD>
-        <Pressable onPress={onClose} className="p-2 bg-gray-100 rounded-full">
+        <Pressable onPress={onClose} className="p-2 bg-surface-light dark:bg-surface-dark rounded-full">
           <Icon name="X" size={20} color="#374151" />
         </Pressable>
       </View>
 
       <Pressable 
-        className="flex-row items-center p-4 mb-2 bg-gray-50 rounded-xl"
+        className="flex-row items-center p-4 mb-2 bg-surface-light dark:bg-surface-dark rounded-xl"
         onPress={() => { onToggleFavorite(); onClose(); }}
       >
         <Icon name="Star" size={24} color={isFavorite ? "#EF4444" : "#4B5563"} />
@@ -43,7 +43,7 @@ export const MemoryActionsSheet = ({
       </Pressable>
 
       <Pressable 
-        className="flex-row items-center p-4 mb-2 bg-gray-50 rounded-xl"
+        className="flex-row items-center p-4 mb-2 bg-surface-light dark:bg-surface-dark rounded-xl"
         onPress={() => { onTogglePin(); onClose(); }}
       >
         <Icon name="Pin" size={24} color={isPinned ? "#2563EB" : "#4B5563"} />

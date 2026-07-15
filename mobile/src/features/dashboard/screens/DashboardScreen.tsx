@@ -34,7 +34,7 @@ export const DashboardScreen = () => {
   });
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-surface-light dark:bg-surface-dark">
       <ScrollView 
         className="flex-1 pt-6 px-4"
         refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}

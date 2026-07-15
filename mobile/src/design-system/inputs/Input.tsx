@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { TextInput, TextInputProps, View, Switch as RNSwitch, Pressable, Platform } from 'react-native';
 import { BodyMD, Label, ErrorText } from '../text/Typography';

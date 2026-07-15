@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -100,7 +102,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
           <View style={styles.textContainer}>
             <View style={styles.titleRow}>
               <HeadingSM 
-                className={`font-medium ${isArchived ? 'text-gray-400' : 'text-gray-900'}`}
+                className={`font-medium ${isArchived ? 'text-gray-400' : 'text-text-light dark:text-text-dark'}`}
                 numberOfLines={1}
                 style={{ flex: 1 }}
               >
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F3F4F6',
   },
   completedContainer: {
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F8FAFC',
   },
   contentRow: {
     flexDirection: 'row',

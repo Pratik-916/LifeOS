@@ -42,7 +42,7 @@ export const GoalStatisticsCard = ({ stats, isLoading }: GoalStatisticsCardProps
                 {item.label}
               </Caption>
             </View>
-            <HeadingLG className="text-slate-900 mt-1">
+            <HeadingLG className="text-text-light dark:text-text-dark mt-1">
               {item.value}
             </HeadingLG>
           </View>

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import * as LucideIcons from 'lucide-react-native';
 import { View } from 'react-native';

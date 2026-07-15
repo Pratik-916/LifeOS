@@ -12,7 +12,7 @@ export const HabitStatisticsCard: React.FC<HabitStatisticsCardProps> = ({ stats 
     <Card className="mb-4">
       <View className="flex-row justify-between items-center mb-4">
         <HeadingSM>Progress</HeadingSM>
-        <Caption className="text-gray-500">
+        <Caption className="text-text-muted">
           {stats.completionRate.toFixed(0)}% Completion
         </Caption>
       </View>
@@ -23,7 +23,7 @@ export const HabitStatisticsCard: React.FC<HabitStatisticsCardProps> = ({ stats 
             <Icon name="CheckCircle2" color="#10B981" size={20} />
           </View>
           <HeadingSM>{stats.completedToday} / {stats.totalHabits}</HeadingSM>
-          <Caption className="text-gray-500 text-center">Today</Caption>
+          <Caption className="text-text-muted text-center">Today</Caption>
         </View>
 
         <View className="items-center flex-1">
@@ -31,7 +31,7 @@ export const HabitStatisticsCard: React.FC<HabitStatisticsCardProps> = ({ stats 
             <Icon name="Flame" color="#F97316" size={20} />
           </View>
           <HeadingSM>{stats.longestActiveStreak}</HeadingSM>
-          <Caption className="text-gray-500 text-center">Best Streak</Caption>
+          <Caption className="text-text-muted text-center">Best Streak</Caption>
         </View>
       </View>
     </Card>

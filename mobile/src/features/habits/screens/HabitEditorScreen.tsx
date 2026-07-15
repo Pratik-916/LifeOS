@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, ScrollView, TouchableOpacity, Switch, Platform } from 'react-native';
+import { View, TextInput, ScrollView,  Switch, Platform } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -13,7 +13,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 
 import { MainStackParamList } from '../../../navigation/types';
-import { HeadingLG, BodyMD, Caption, Button, IconButton, Icon, Loader, SelectableChip } from '../../../design-system';
+import { HeadingLG, BodyMD, Caption, Button, IconButton,  Loader, SelectableChip } from '../../../design-system';
 import { useHabit } from '../hooks/useHabit';
 import { useHabitMutations } from '../hooks/useHabitMutations';
 
@@ -156,7 +156,7 @@ export const HabitEditorScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }} edges={['top']}>
-      <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
+      <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
         <HeadingLG>{isEditing ? 'Edit Habit' : 'New Habit'}</HeadingLG>
         <IconButton leftIcon="X" onPress={() => navigation.goBack()} className="-mr-2" accessibilityRole="button" />
       </View>
@@ -169,7 +169,7 @@ export const HabitEditorScreen = () => {
             name="title"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900"
+                className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
                 placeholder="E.g., Read for 30 minutes"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -187,7 +187,7 @@ export const HabitEditorScreen = () => {
             name="description"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900 min-h-[100px]"
+                className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark min-h-[100px]"
                 placeholder="Why do you want to build this habit?"
                 multiline
                 textAlignVertical="top"
@@ -207,7 +207,7 @@ export const HabitEditorScreen = () => {
               name="category"
               render={({ field: { onChange, value } }) => (
                 <TextInput
-                  className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900"
+                  className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
                   placeholder="Health"
                   onChangeText={onChange}
                   value={value}
@@ -222,7 +222,7 @@ export const HabitEditorScreen = () => {
               name="targetCount"
               render={({ field: { onChange, value } }) => (
                 <TextInput
-                  className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-900"
+                  className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
                   placeholder="1"
                   keyboardType="numeric"
                   onChangeText={(val) => onChange(parseInt(val, 10) || 1)}
@@ -258,9 +258,9 @@ export const HabitEditorScreen = () => {
           />
         </View>
 
-        <View className="mb-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
+        <View className="mb-6 bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-4">
           <View className="flex-row justify-between items-center mb-2">
-            <BodyMD className="font-medium text-gray-900">Enable Reminders</BodyMD>
+            <BodyMD className="font-medium text-text-light dark:text-text-dark">Enable Reminders</BodyMD>
             <Controller
               control={control}
               name="reminderEnabled"
@@ -281,8 +281,8 @@ export const HabitEditorScreen = () => {
                 variant="outline"
                 title={reminderTimeObj ? format(reminderTimeObj, 'hh:mm a') : 'Select a time'}
                 onPress={() => setShowTimePicker(true)}
-                className="bg-white justify-start"
-                textClassName={`font-normal ${reminderTimeObj ? 'text-gray-900' : 'text-gray-400'}`}
+                className="bg-background-light dark:bg-background-dark justify-start"
+                textClassName={`font-normal ${reminderTimeObj ? 'text-text-light dark:text-text-dark' : 'text-gray-400'}`}
               />
               
               {showTimePicker && (

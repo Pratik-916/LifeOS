@@ -15,7 +15,7 @@ interface MilestoneCardProps {
 
 export const MilestoneCard = ({ milestone, onToggle, onEdit, onDelete, drag, isActive, isEditor }: MilestoneCardProps) => {
   return (
-    <View className={`flex-row items-center py-3 border-b border-slate-100 ${isActive ? 'bg-slate-50 opacity-70' : 'bg-white'}`}>
+    <View className={`flex-row items-center py-3 border-b border-slate-100 ${isActive ? 'bg-slate-50 opacity-70' : 'bg-background-light dark:bg-background-dark'}`}>
       {drag && (
         <TouchableOpacity onLongPress={drag} className="mr-2">
           <Icon name="GripVertical" size={20} color="#CBD5E1" />

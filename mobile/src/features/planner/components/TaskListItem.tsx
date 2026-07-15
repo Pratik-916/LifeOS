@@ -95,7 +95,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
 
           <View style={styles.textContainer}>
             <BodyMD 
-              className={`font-medium ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-900'}`}
+              className={`font-medium ${isCompleted ? 'text-gray-400 line-through' : 'text-text-light dark:text-text-dark'}`}
               numberOfLines={1}
             >
               {task.title}
@@ -110,7 +110,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                   </View>
                 )}
                 {task.dueDate && (
-                  <Caption className="text-gray-500 ml-2">
+                  <Caption className="text-text-muted ml-2">
                     {task.dueDate}
                   </Caption>
                 )}

@@ -5,6 +5,9 @@ import { HeadingMD, BodyMD } from '../text/Typography';
 import { PrimaryButton, SecondaryButton } from '../buttons/Button';
 import { Icon } from '../icons/IconProvider';
 
+// Very simple ActionSheet implementation on top of BottomSheet.
+import { BottomSheet } from './BottomSheet';
+
 export interface DialogProps {
   visible: boolean;
   onClose?: () => void;
@@ -44,7 +47,7 @@ export const Dialog = ({ visible, onClose, title, description, children, dismiss
       <View style={StyleSheet.absoluteFill} className="items-center justify-center p-6">
         <Animated.View style={[StyleSheet.absoluteFill, animatedBackdropStyle]}>
           <Pressable
-            style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.5)' }]}
+            style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(15, 23, 42, 0.5)' }]}
             onPress={() => dismissible && onClose?.()}
           />
         </Animated.View>
@@ -109,9 +112,6 @@ export const ErrorDialog = ({ message, onClose, ...props }: DialogProps & { mess
     </View>
   </Dialog>
 );
-
-// Very simple ActionSheet implementation on top of BottomSheet.
-import { BottomSheet } from './BottomSheet';
 
 export interface ActionSheetItem {
   label: string;

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useCallback } from 'react';
 import { View, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Search } from 'lucide-react-native';
+import {  } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
 import { HeadingLG, HeadingMD, IconButton } from '../../../design-system';
@@ -14,13 +16,12 @@ import { EmptyPlannerState } from '../components/EmptyPlannerState';
 import { useTasks } from '../hooks/useTasks';
 import { usePlannerStats } from '../hooks/usePlannerStats';
 import { useTaskMutations } from '../hooks/useTaskMutations';
-import { useTheme } from '../../../theme/ThemeProvider';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const PlannerScreen = () => {
   const navigation = useNavigation<NavigationProp>();
-  const theme = useTheme();
+  
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // We are passing no filters initially to get all active tasks. Pagination would ideally use useInfiniteQuery,
@@ -36,30 +37,30 @@ export const PlannerScreen = () => {
     setIsRefreshing(false);
   };
 
-  const navigateToEditor = (taskId?: string) => {
+  const navigateToEditor = useCallback((taskId?: string) => {
     navigation.navigate('TaskEditor', { taskId });
-  };
+  }, [navigation]);
 
-  const navigateToDetails = (taskId: string) => {
+  const navigateToDetails = useCallback((taskId: string) => {
     navigation.navigate('TaskDetails', { taskId });
-  };
+  }, [navigation]);
 
-  const handleToggleComplete = (id: string, isCompleted: boolean) => {
+  const handleToggleComplete = useCallback((id: string, isCompleted: boolean) => {
     completeTask.mutate({ id, completed: !isCompleted });
-  };
+  }, [completeTask]);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     deleteTask.mutate(id);
-  };
+  }, [deleteTask]);
 
-  const renderHeader = () => (
+  const renderHeader = useCallback(() => (
     <View className="mb-4">
       {statsData && <PlannerStatisticsCard stats={statsData} />}
       <HeadingMD className="mb-2 mt-4">Tasks</HeadingMD>
     </View>
-  );
+  ), [statsData]);
 
-  const renderEmpty = () => {
+  const renderEmpty = useCallback(() => {
     if (isLoading) {
       return (
         <View>
@@ -70,15 +71,24 @@ export const PlannerScreen = () => {
       );
     }
     return <EmptyPlannerState onAdd={() => navigateToEditor()} />;
-  };
+  }, [isLoading, navigateToEditor]);
+
+  const renderItem = useCallback(({ item }: any) => (
+    <TaskListItem
+      task={item}
+      onPress={() => navigateToDetails(item.id)}
+      onToggleComplete={() => handleToggleComplete(item.id, item.status === 'completed')}
+      onDelete={() => handleDelete(item.id)}
+    />
+  ), [navigateToDetails, handleToggleComplete, handleDelete]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }} edges={['top']}>
-      <View className="px-4 py-3 flex-row justify-between items-center bg-white border-b border-gray-200">
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>
+      <View className="px-4 py-3 flex-row justify-between items-center bg-background-light dark:bg-background-dark border-b border-secondary-100 dark:border-secondary-900">
         <HeadingLG>Planner</HeadingLG>
         <IconButton 
           onPress={() => navigation.navigate('TaskSearch')}
-          leftIcon="Search"
+          leftIcon=""
         />
       </View>
 
@@ -86,16 +96,13 @@ export const PlannerScreen = () => {
         data={tasksData?.results || []}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
-        renderItem={({ item }) => (
-          <TaskListItem
-            task={item}
-            onPress={() => navigateToDetails(item.id)}
-            onToggleComplete={() => handleToggleComplete(item.id, item.status === 'completed')}
-            onDelete={() => handleDelete(item.id)}
-          />
-        )}
+        renderItem={renderItem}
         ListHeaderComponent={renderHeader}
         ListEmptyComponent={renderEmpty}
+        initialNumToRender={10}
+        windowSize={5}
+        maxToRenderPerBatch={5}
+        removeClippedSubviews={true}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
         }

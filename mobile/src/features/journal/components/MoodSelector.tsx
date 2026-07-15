@@ -27,7 +27,7 @@ export const MoodSelector = ({ value, onChange }: MoodSelectorProps) => {
               key={mood.value}
               onPress={() => onChange(mood.value)}
               className={`items-center justify-center mr-3 p-3 rounded-2xl border ${
-                isSelected ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 bg-white'
+                isSelected ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 bg-background-light dark:bg-background-dark'
               }`}
               style={{ width: 72 }}
             >

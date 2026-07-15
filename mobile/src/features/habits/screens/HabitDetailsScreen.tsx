@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, ScrollView,  Alert } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
-import { HeadingXL, HeadingLG, HeadingSM, BodyMD, Caption, Button, IconButton, Icon, Loader } from '../../../design-system';
+import { HeadingXL, HeadingLG,  BodyMD, Caption, Button, IconButton, Icon, Loader } from '../../../design-system';
 import { CategoryChip, FrequencyBadge, ReminderIndicator } from '../components/HabitBadges';
 import { useHabit } from '../hooks/useHabit';
 import { useHabitMutations } from '../hooks/useHabitMutations';
@@ -77,7 +77,7 @@ export const HabitDetailsScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
+      <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
         <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} className="-ml-2" accessibilityRole="button" />
         
         <View className="flex-row space-x-2">
@@ -89,7 +89,7 @@ export const HabitDetailsScreen = () => {
                 leftIcon="Star" 
                 onPress={toggleFavorite} 
                 accessibilityRole="button" 
-                // Color customization for IconButton could be limited, fallback to standard Icon inside TouchableOpacity if we need fill, 
+                // Color customization for IconButton could be limited, fallback to standard Icon inside  if we need fill, 
                 // but let's use the standard IconButton for simplicity.
               />
               <IconButton leftIcon="Edit2" onPress={() => navigation.navigate('HabitEditor', { habitId })} accessibilityRole="button" />
@@ -115,13 +115,13 @@ export const HabitDetailsScreen = () => {
               <HeadingLG>{habit.icon}</HeadingLG>
             </View>
           )}
-          <HeadingXL className="text-gray-900 flex-1">
+          <HeadingXL className="text-text-light dark:text-text-dark flex-1">
             {habit.title}
           </HeadingXL>
         </View>
 
         {habit.description ? (
-          <BodyMD className="text-gray-600 mb-6">
+          <BodyMD className="text-text-muted mb-6">
             {habit.description}
           </BodyMD>
         ) : null}
@@ -147,22 +147,22 @@ export const HabitDetailsScreen = () => {
           </View>
         </View>
 
-        <View className="bg-gray-50 rounded-xl p-4 mb-6">
+        <View className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 mb-6">
           <View className="flex-row justify-between mb-3">
-            <Caption className="text-gray-500 font-medium">Target Progress</Caption>
-            <Caption className="text-gray-900 font-medium">
+            <Caption className="text-text-muted font-medium">Target Progress</Caption>
+            <Caption className="text-text-light dark:text-text-dark font-medium">
               {habit.currentCount} / {habit.targetCount}
             </Caption>
           </View>
           <View className="flex-row justify-between mb-3">
-            <Caption className="text-gray-500 font-medium">Status</Caption>
-            <Caption className="text-gray-900 font-medium capitalize">
+            <Caption className="text-text-muted font-medium">Status</Caption>
+            <Caption className="text-text-light dark:text-text-dark font-medium capitalize">
               {habit.status}
             </Caption>
           </View>
           <View className="flex-row justify-between">
-            <Caption className="text-gray-500 font-medium">Created</Caption>
-            <Caption className="text-gray-900 font-medium">
+            <Caption className="text-text-muted font-medium">Created</Caption>
+            <Caption className="text-text-light dark:text-text-dark font-medium">
               {new Date(habit.createdAt).toLocaleDateString()}
             </Caption>
           </View>

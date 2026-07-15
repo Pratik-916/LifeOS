@@ -39,7 +39,7 @@ export const HeroProductivityCard = React.memo(({ score, trend, completionPercen
           </Caption>
         </View>
 
-        <View className="bg-white p-2 rounded-full shadow-sm">
+        <View className="bg-background-light dark:bg-background-dark p-2 rounded-full shadow-sm">
           <ProgressRing 
             progress={completionPercentage} 
             size={90} 

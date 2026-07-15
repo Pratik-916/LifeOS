@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, SectionList, RefreshControl, Pressable } from 'react-native';
+import { View, SectionList, RefreshControl,  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useJourneyTimeline } from '../hooks/useJourneyTimeline';
 import { useJourneyMutations } from '../hooks/useJourneyMutations';
@@ -82,7 +82,7 @@ export const JourneyScreen = () => {
   if (isLoading) return <JourneySkeleton />;
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-background-light dark:bg-background-dark">
       <SectionList
         sections={sections}
         keyExtractor={(item) => item.id}

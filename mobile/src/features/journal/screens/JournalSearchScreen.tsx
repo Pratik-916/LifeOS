@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -30,9 +32,28 @@ export const JournalSearchScreen = () => {
   
   const entries = debouncedTerm ? (data?.results || []) : [];
 
+  const renderItem = useCallback(({ item }: any) => (
+    <JournalCard
+      entry={item}
+      onPress={() => navigation.navigate('JournalDetails', { id: item.id })}
+      onEdit={() => navigation.navigate('JournalEditor', { id: item.id })}
+      onFavorite={() => favoriteJournalEntry(item.id)}
+      onDelete={() => deleteJournalEntry(item.id)}
+      onPin={() => pinJournalEntry(item.id)}
+    />
+  ), [navigation, favoriteJournalEntry, deleteJournalEntry, pinJournalEntry]);
+
+  const listEmptyComponent = useCallback(() => (
+    debouncedTerm ? (
+      <View className="items-center justify-center p-8 mt-10">
+        <BodyLG className="text-slate-500">No entries found for "{debouncedTerm}"</BodyLG>
+      </View>
+    ) : null
+  ), [debouncedTerm]);
+
   return (
     <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-slate-50">
-      <View className="flex-row items-center px-2 py-2 border-b border-slate-200 bg-white">
+      <View className="flex-row items-center px-2 py-2 border-b border-slate-200 bg-background-light dark:bg-background-dark">
         <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
         <View className="flex-1 flex-row items-center bg-slate-100 rounded-lg px-3 py-2 mr-2">
           <Icon name="Search" size={20} color="#94A3B8" />
@@ -60,23 +81,12 @@ export const JournalSearchScreen = () => {
           data={entries}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingVertical: 16 }}
-          renderItem={({ item }) => (
-            <JournalCard
-              entry={item}
-              onPress={() => navigation.navigate('JournalDetails', { id: item.id })}
-              onEdit={() => navigation.navigate('JournalEditor', { id: item.id })}
-              onFavorite={() => favoriteJournalEntry(item.id)}
-              onDelete={() => deleteJournalEntry(item.id)}
-              onPin={() => pinJournalEntry(item.id)}
-            />
-          )}
-          ListEmptyComponent={
-            debouncedTerm ? (
-              <View className="items-center justify-center p-8 mt-10">
-                <BodyLG className="text-slate-500">No entries found for "{debouncedTerm}"</BodyLG>
-              </View>
-            ) : null
-          }
+          renderItem={renderItem}
+          ListEmptyComponent={listEmptyComponent}
+          initialNumToRender={10}
+          windowSize={5}
+          maxToRenderPerBatch={5}
+          removeClippedSubviews={true}
         />
       )}
     </SafeAreaView>

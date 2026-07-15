@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, TextInput, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ArrowLeft, Search, X } from 'lucide-react-native';
+import {  Search,  } from 'lucide-react-native';
 import { IconButton } from '../../../design-system';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
@@ -32,26 +34,43 @@ export const TaskSearchScreen = () => {
   const { data: tasksData, isLoading } = useTasks(debouncedQuery ? { search: debouncedQuery } : undefined);
   const { completeTask, deleteTask } = useTaskMutations();
 
-  const handleToggleComplete = (id: string, isCompleted: boolean) => {
+  const handleToggleComplete = useCallback((id: string, isCompleted: boolean) => {
     completeTask.mutate({ id, completed: !isCompleted });
-  };
+  }, [completeTask]);
+
+  const renderItem = useCallback(({ item }: any) => (
+    <TaskListItem
+      task={item}
+      onPress={() => navigation.navigate('TaskDetails', { taskId: item.id })}
+      onToggleComplete={() => handleToggleComplete(item.id, item.status === 'completed')}
+      onDelete={() => deleteTask.mutate(item.id)}
+    />
+  ), [navigation, handleToggleComplete, deleteTask]);
+
+  const listEmptyComponent = useCallback(() => {
+    if (!debouncedQuery) return null;
+    if (isLoading) {
+      return <View><TaskSkeleton /><TaskSkeleton /></View>;
+    }
+    return <EmptyPlannerState isSearch />;
+  }, [debouncedQuery, isLoading]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }} edges={['top']}>
-      <View className="px-4 py-3 bg-white border-b border-gray-200 flex-row items-center">
-        <IconButton onPress={() => navigation.goBack()} className="mr-3" leftIcon="ArrowLeft" />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>
+      <View className="px-4 py-3 bg-background-light dark:bg-background-dark border-b border-secondary-100 dark:border-secondary-900 flex-row items-center">
+        <IconButton onPress={() => navigation.goBack()} className="mr-3" leftIcon="" />
         
-        <View className="flex-1 flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
+        <View className="flex-1 flex-row items-center bg-surface-light dark:bg-surface-dark rounded-lg px-3 py-2">
           <Search size={20} color="#9CA3AF" />
           <TextInput
-            className="flex-1 ml-2 text-base text-gray-900"
+            className="flex-1 ml-2 text-base text-text-light dark:text-text-dark"
             placeholder="Search tasks..."
             value={query}
             onChangeText={setQuery}
             autoFocus
           />
           {query.length > 0 && (
-            <IconButton onPress={() => setQuery('')} leftIcon="X" />
+            <IconButton onPress={() => setQuery('')} leftIcon="" />
           )}
         </View>
       </View>
@@ -60,21 +79,12 @@ export const TaskSearchScreen = () => {
         data={debouncedQuery ? (tasksData?.results || []) : []}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ padding: 16 }}
-        renderItem={({ item }) => (
-          <TaskListItem
-            task={item}
-            onPress={() => navigation.navigate('TaskDetails', { taskId: item.id })}
-            onToggleComplete={() => handleToggleComplete(item.id, item.status === 'completed')}
-            onDelete={() => deleteTask.mutate(item.id)}
-          />
-        )}
-        ListEmptyComponent={() => {
-          if (!debouncedQuery) return null;
-          if (isLoading) {
-            return <View><TaskSkeleton /><TaskSkeleton /></View>;
-          }
-          return <EmptyPlannerState isSearch />;
-        }}
+        renderItem={renderItem}
+        ListEmptyComponent={listEmptyComponent}
+        initialNumToRender={10}
+        windowSize={5}
+        maxToRenderPerBatch={5}
+        removeClippedSubviews={true}
       />
     </SafeAreaView>
   );

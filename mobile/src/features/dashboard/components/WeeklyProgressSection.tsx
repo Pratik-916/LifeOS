@@ -22,7 +22,7 @@ export const WeeklyProgressSection = React.memo(({ score }: WeeklyProgressSectio
             <Icon name="TrendingUp" size={24} color="#2563EB" />
           </View>
           <View className="flex-1">
-            <HeadingMD className="text-slate-900">Steady Growth</HeadingMD>
+            <HeadingMD className="text-text-light dark:text-text-dark">Steady Growth</HeadingMD>
             <Caption className="text-slate-500">Your average score is {score} this week.</Caption>
           </View>
         </View>

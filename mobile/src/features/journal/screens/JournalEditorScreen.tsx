@@ -146,12 +146,12 @@ export const JournalEditorScreen = () => {
   };
 
   return (
-    <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-white">
+    <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-background-light dark:bg-background-dark">
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
       >
-        <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100 bg-white z-10">
+        <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100 bg-background-light dark:bg-background-dark z-10">
           <View className="flex-row items-center">
             <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
             <AutosaveIndicator status={saveStatus} />

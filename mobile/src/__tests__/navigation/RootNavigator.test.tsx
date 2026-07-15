@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, screen } from '@testing-library/react-native';
 import { RootNavigator } from '../../navigation/index';
 import { useAuthStore } from '../../store/useAuthStore';
 
@@ -28,36 +28,36 @@ jest.mock('@react-navigation/native', () => {
 });
 
 describe('RootNavigator', () => {
-  it('renders Loader while initializing', () => {
+  it('renders Loader while initializing', async () => {
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       isInitializing: true,
       isAuthenticated: false,
       initializeAuth: jest.fn(),
     });
 
-    const { getByTestId, toJSON } = render(<RootNavigator />);
-    expect(toJSON()).toBeTruthy();
+    await render(<RootNavigator />);
+    expect(screen.root).toBeTruthy();
   });
 
-  it('renders AuthStack when not authenticated', () => {
+  it('renders AuthStack when not authenticated', async () => {
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       isInitializing: false,
       isAuthenticated: false,
       initializeAuth: jest.fn(),
     });
 
-    const { getByText } = render(<RootNavigator />);
-    expect(getByText('Auth Stack')).toBeTruthy();
+    await render(<RootNavigator />);
+    expect(screen.getByText('Auth Stack')).toBeTruthy();
   });
 
-  it('renders MainStack when authenticated', () => {
+  it('renders MainStack when authenticated', async () => {
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       isInitializing: false,
       isAuthenticated: true,
       initializeAuth: jest.fn(),
     });
 
-    const { getByText } = render(<RootNavigator />);
-    expect(getByText('Main Stack')).toBeTruthy();
+    await render(<RootNavigator />);
+    expect(screen.getByText('Main Stack')).toBeTruthy();
   });
 });

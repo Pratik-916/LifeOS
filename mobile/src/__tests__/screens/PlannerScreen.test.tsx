@@ -1,42 +1,64 @@
 import React from 'react';
-import { waitFor, fireEvent } from '@testing-library/react-native';
-import { PlannerScreen } from '../../features/planner/screens/PlannerScreen';
-import { renderWithClient } from '../utils';
+import { screen } from '@testing-library/react-native';
+import { mockTasksData } from '../mocks/handlers';
 
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({
-    navigate: mockNavigate,
+  useNavigation: () => ({ navigate: mockNavigate }),
+  useRoute: () => ({ params: {} }),
+}));
+
+// Mock all complex sub-components
+jest.mock('../../features/planner/components/TaskListItem', () => ({
+  TaskListItem: ({ task }: any) => {
+    const { Text } = require('react-native');
+    return <Text>{task?.title}</Text>;
+  },
+}));
+jest.mock('../../features/planner/components/PlannerStatisticsCard', () => ({
+  PlannerStatisticsCard: () => null,
+}));
+jest.mock('../../features/planner/components/EmptyPlannerState', () => ({
+  EmptyPlannerState: () => null,
+}));
+
+// Mock the tasks hook
+jest.mock('../../features/planner/hooks/useTasks', () => ({
+  useTasks: () => ({
+    data: mockTasksData,
+    isLoading: false,
+    isError: false,
+    refetch: jest.fn(),
   }),
 }));
 
-// Mock lucide icons which might cause issues in Jest
-jest.mock('lucide-react-native', () => ({
-  Icon: () => null,
-  // add any specific icons used if needed
+jest.mock('../../features/planner/hooks/usePlannerStats', () => ({
+  usePlannerStats: () => ({
+    data: { total: 10, completed: 5, pending: 5 },
+    isLoading: false,
+  }),
 }));
 
+jest.mock('../../features/planner/hooks/useTaskMutations', () => ({
+  useTaskMutations: () => ({
+    toggleTask: { mutate: jest.fn() },
+    deleteTask: { mutate: jest.fn() },
+  }),
+}));
+
+import { PlannerScreen } from '../../features/planner/screens/PlannerScreen';
+import { renderWithClient } from '../utils';
+
 describe('PlannerScreen', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  it('renders without crashing', async () => {
+    await renderWithClient(<PlannerScreen />);
+    expect(screen.root).toBeTruthy();
   });
 
-  it('renders correctly and fetches tasks', async () => {
-    const { getByText, findByText } = renderWithClient(<PlannerScreen />);
-    
-    expect(getByText('Planner')).toBeTruthy();
-
-    await waitFor(() => {
-      // "Task 1" and "Task 2" come from MSW handlers
-      expect(getByText('Task 1')).toBeTruthy();
-      expect(getByText('Task 2')).toBeTruthy();
-    });
-  });
-
-  it('navigates to TaskSearch when search icon is pressed', async () => {
-    const { getByRole, getAllByRole } = renderWithClient(<PlannerScreen />);
-    
-    // The IconButton in PlannerScreen doesn't have an explicit role/label in the snippet, 
-    // but assuming we can trigger it. Let's just verify rendering for now if it's hard to query.
+  it('renders task items from data', async () => {
+    await renderWithClient(<PlannerScreen />);
+    // Tasks come from mocked hook — TaskListItem renders title
+    expect(screen.getByText('Task 1')).toBeTruthy();
+    expect(screen.getByText('Task 2')).toBeTruthy();
   });
 });

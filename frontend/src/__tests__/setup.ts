@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { beforeAll, afterEach, afterAll, vi } from 'vitest';
 import { setupServer } from 'msw/node';
+import { handlers } from './mocks/handlers';
 
 // Mock matchMedia for jsdom
 Object.defineProperty(window, 'matchMedia', {
@@ -17,7 +18,7 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-export const server = setupServer();
+export const server = setupServer(...handlers);
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => {

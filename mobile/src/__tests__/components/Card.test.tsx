@@ -1,36 +1,44 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import { Card, PrimaryCard } from '../../design-system/cards/Card';
+import { render, screen, fireEvent } from '@testing-library/react-native';
 import { Text } from 'react-native';
+import { Card, PrimaryCard, ElevatedCard } from '../../design-system/cards/Card';
 
 describe('Card Component', () => {
-  it('renders children correctly', () => {
-    const { getByText } = render(
+  it('renders children correctly', async () => {
+    await render(
       <Card>
         <Text>Card Content</Text>
       </Card>
     );
-    expect(getByText('Card Content')).toBeTruthy();
+    expect(screen.getByText('Card Content')).toBeTruthy();
   });
 
-  it('calls onPress when clickable', () => {
+  it('calls onPress when clickable', async () => {
     const onPressMock = jest.fn();
-    const { getByText } = render(
+    await render(
       <Card onPress={onPressMock}>
         <Text>Clickable Card</Text>
       </Card>
     );
-    
-    fireEvent.press(getByText('Clickable Card'));
+    fireEvent.press(screen.getByText('Clickable Card'));
     expect(onPressMock).toHaveBeenCalledTimes(1);
   });
 
-  it('renders primary variant using PrimaryCard', () => {
-    const { getByText } = render(
+  it('renders PrimaryCard variant', async () => {
+    await render(
       <PrimaryCard>
         <Text>Primary Content</Text>
       </PrimaryCard>
     );
-    expect(getByText('Primary Content')).toBeTruthy();
+    expect(screen.getByText('Primary Content')).toBeTruthy();
+  });
+
+  it('renders ElevatedCard variant', async () => {
+    await render(
+      <ElevatedCard>
+        <Text>Elevated Content</Text>
+      </ElevatedCard>
+    );
+    expect(screen.getByText('Elevated Content')).toBeTruthy();
   });
 });

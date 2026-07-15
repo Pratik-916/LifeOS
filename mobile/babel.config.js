@@ -1,9 +1,11 @@
 module.exports = function (api) {
-  api.cache(true);
+  const isTest = api.env('test');
+  api.cache.using(() => isTest);
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      'nativewind/babel',
+      // Skip nativewind Babel transform in Jest — NativeWind is fully mocked
+      ...(isTest ? [] : ['nativewind/babel']),
       'react-native-reanimated/plugin',
     ],
   };

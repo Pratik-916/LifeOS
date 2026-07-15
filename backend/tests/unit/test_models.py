@@ -80,7 +80,7 @@ class TestGoalModel:
 
 class TestHabitModel:
     def test_habit_validation_target_count(self):
-        habit = HabitFactory(target_count=0)
+        habit = HabitFactory.build(target_count=0)
         with pytest.raises(ValidationError) as excinfo:
             habit.clean()
         assert 'Target count must be at least 1' in str(excinfo.value)
@@ -88,7 +88,7 @@ class TestHabitModel:
     def test_habit_validation_end_date(self):
         start = timezone.now().date()
         end = start - timezone.timedelta(days=1)
-        habit = HabitFactory(start_date=start, end_date=end)
+        habit = HabitFactory.build(start_date=start, end_date=end)
         with pytest.raises(ValidationError) as excinfo:
             habit.clean()
         assert 'End date cannot be before start date' in str(excinfo.value)
@@ -96,12 +96,12 @@ class TestHabitModel:
 
 class TestJournalEntryModel:
     def test_journal_validation_levels(self):
-        entry = JournalEntryFactory(energy_level=11)
+        entry = JournalEntryFactory.build(energy_level=11)
         with pytest.raises(ValidationError) as excinfo:
             entry.clean()
         assert 'Energy level must be between 1 and 10' in str(excinfo.value)
         
-        entry = JournalEntryFactory(stress_level=0)
+        entry = JournalEntryFactory.build(stress_level=0)
         with pytest.raises(ValidationError) as excinfo:
             entry.clean()
         assert 'Stress level must be between 1 and 10' in str(excinfo.value)

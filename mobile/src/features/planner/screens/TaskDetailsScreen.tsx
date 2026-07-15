@@ -1,13 +1,11 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ArrowLeft, Edit2, Trash2, CheckCircle2, Undo2 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
-import { Typography } from '../../../components/ui/Typography';
-import { Button } from '../../../components/ui/Button';
-import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
+import { HeadingXL, BodyMD, Caption, Button, Loader, IconButton } from '../../../design-system';
 import { CategoryBadge } from '../components/CategoryBadge';
 import { PriorityPill } from '../components/PriorityPill';
 import { useTask } from '../hooks/useTask';
@@ -51,7 +49,7 @@ export const TaskDetailsScreen = () => {
   if (isLoading) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'center' }}>
-        <LoadingSpinner />
+        <Loader />
       </SafeAreaView>
     );
   }
@@ -59,7 +57,7 @@ export const TaskDetailsScreen = () => {
   if (isError || !task) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center' }}>
-        <Typography variant="body" className="mb-4">Task not found or failed to load.</Typography>
+        <BodyMD className="mb-4">Task not found or failed to load.</BodyMD>
         <Button title="Go Back" onPress={() => navigation.goBack()} />
       </SafeAreaView>
     );
@@ -70,23 +68,15 @@ export const TaskDetailsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
-        <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2" accessibilityRole="button">
-          <ArrowLeft size={24} color="#111827" />
-        </TouchableOpacity>
+        <IconButton onPress={() => navigation.goBack()} className="p-2 -ml-2" leftIcon="ArrowLeft" />
         
         <View className="flex-row space-x-4">
           {task.isArchived ? (
-            <TouchableOpacity onPress={handleRestore} className="p-2" accessibilityRole="button">
-              <Undo2 size={24} color="#3B82F6" />
-            </TouchableOpacity>
+            <IconButton onPress={handleRestore} className="p-2" leftIcon="Undo2" />
           ) : (
             <>
-              <TouchableOpacity onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" accessibilityRole="button">
-                <Edit2 size={24} color="#111827" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleDelete} className="p-2" accessibilityRole="button">
-                <Trash2 size={24} color="#EF4444" />
-              </TouchableOpacity>
+              <IconButton onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" leftIcon="Edit2" />
+              <IconButton onPress={handleDelete} className="p-2" leftIcon="Trash2" />
             </>
           )}
         </View>
@@ -100,55 +90,52 @@ export const TaskDetailsScreen = () => {
           </View>
         </View>
 
-        <Typography variant="h1" className={`mb-4 ${isCompleted ? 'line-through text-gray-500' : 'text-gray-900'}`}>
+        <HeadingXL className={`mb-4 ${isCompleted ? 'line-through text-gray-500' : 'text-gray-900'}`}>
           {task.title}
-        </Typography>
+        </HeadingXL>
 
         {task.description ? (
-          <Typography variant="body" className="text-gray-600 mb-6">
+          <BodyMD className="text-gray-600 mb-6">
             {task.description}
-          </Typography>
+          </BodyMD>
         ) : null}
 
         <View className="bg-gray-50 rounded-xl p-4 mb-6">
           <View className="flex-row justify-between mb-3">
-            <Typography variant="caption" className="text-gray-500 font-medium">Status</Typography>
-            <Typography variant="caption" className="text-gray-900 font-medium capitalize">
+            <Caption className="text-gray-500 font-medium">Status</Caption>
+            <Caption className="text-gray-900 font-medium capitalize">
               {task.status.replace('_', ' ')}
-            </Typography>
+            </Caption>
           </View>
           
           {task.dueDate && (
             <View className="flex-row justify-between mb-3">
-              <Typography variant="caption" className="text-gray-500 font-medium">Due Date</Typography>
-              <Typography variant="caption" className="text-gray-900 font-medium">{task.dueDate}</Typography>
+              <Caption className="text-gray-500 font-medium">Due Date</Caption>
+              <Caption className="text-gray-900 font-medium">{task.dueDate}</Caption>
             </View>
           )}
           
           <View className="flex-row justify-between mb-3">
-            <Typography variant="caption" className="text-gray-500 font-medium">Estimated Time</Typography>
-            <Typography variant="caption" className="text-gray-900 font-medium">{task.estimatedMinutes} mins</Typography>
+            <Caption className="text-gray-500 font-medium">Estimated Time</Caption>
+            <Caption className="text-gray-900 font-medium">{task.estimatedMinutes} mins</Caption>
           </View>
 
           <View className="flex-row justify-between">
-            <Typography variant="caption" className="text-gray-500 font-medium">Created</Typography>
-            <Typography variant="caption" className="text-gray-900 font-medium">
+            <Caption className="text-gray-500 font-medium">Created</Caption>
+            <Caption className="text-gray-900 font-medium">
               {new Date(task.createdAt).toLocaleDateString()}
-            </Typography>
+            </Caption>
           </View>
         </View>
 
         {!task.isArchived && (
-          <TouchableOpacity 
+          <Button 
             onPress={handleToggleComplete}
-            className={`flex-row items-center justify-center p-4 rounded-xl border-2 ${isCompleted ? 'bg-gray-100 border-gray-200' : 'bg-emerald-50 border-emerald-100'}`}
-            accessibilityRole="button"
-          >
-            {isCompleted ? <Undo2 color="#6B7280" size={24} /> : <CheckCircle2 color="#10B981" size={24} />}
-            <Typography variant="body" className={`ml-3 font-medium ${isCompleted ? 'text-gray-600' : 'text-emerald-700'}`}>
-              {isCompleted ? 'Mark as Incomplete' : 'Complete Task'}
-            </Typography>
-          </TouchableOpacity>
+            variant={isCompleted ? 'secondary' : 'primary'}
+            title={isCompleted ? 'Mark as Incomplete' : 'Complete Task'}
+            leftIcon={isCompleted ? 'Undo2' : 'CheckCircle2'}
+            className="mt-2"
+          />
         )}
       </ScrollView>
     </SafeAreaView>

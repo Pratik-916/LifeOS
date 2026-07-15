@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Pressable, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { CheckCircle2, Circle, Trash2, Undo2 } from 'lucide-react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { BodyMD, Caption, ListCard } from '../../../design-system';
 import { CategoryBadge } from './CategoryBadge';
 import { PriorityPill } from './PriorityPill';
 import type { Task } from '../api/planner.types';
@@ -33,7 +33,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
     });
 
     return (
-      <TouchableOpacity 
+      <Pressable 
         style={styles.deleteAction} 
         onPress={onDelete}
         accessibilityRole="button"
@@ -42,7 +42,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
         <Animated.View style={{ transform: [{ scale }] }}>
           <Trash2 color="#FFFFFF" size={24} />
         </Animated.View>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
@@ -59,7 +59,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
     const actionColor = isCompleted ? '#F59E0B' : '#10B981';
 
     return (
-      <TouchableOpacity 
+      <Pressable 
         style={[styles.completeAction, { backgroundColor: actionColor }]} 
         onPress={onToggleComplete}
         accessibilityRole="button"
@@ -68,19 +68,18 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
         <Animated.View style={{ transform: [{ scale }] }}>
           {isCompleted ? <Undo2 color="#FFFFFF" size={24} /> : <CheckCircle2 color="#FFFFFF" size={24} />}
         </Animated.View>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
   return (
     <Swipeable renderRightActions={renderRightActions} renderLeftActions={renderLeftActions}>
-      <TouchableOpacity 
-        activeOpacity={0.7} 
+      <ListCard 
         onPress={onPress} 
         style={styles.container}
       >
         <View style={styles.contentRow}>
-          <TouchableOpacity 
+          <Pressable 
             style={styles.checkbox} 
             onPress={onToggleComplete}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -92,16 +91,15 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
             ) : (
               <Circle color="#D1D5DB" size={24} />
             )}
-          </TouchableOpacity>
+          </Pressable>
 
           <View style={styles.textContainer}>
-            <Typography 
-              variant="body" 
+            <BodyMD 
               className={`font-medium ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-900'}`}
               numberOfLines={1}
             >
               {task.title}
-            </Typography>
+            </BodyMD>
             
             {(task.dueDate || task.category) && (
               <View style={styles.metaRow}>
@@ -112,15 +110,15 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                   </View>
                 )}
                 {task.dueDate && (
-                  <Typography variant="caption" className="text-gray-500 ml-2">
+                  <Caption className="text-gray-500 ml-2">
                     {task.dueDate}
-                  </Typography>
+                  </Caption>
                 )}
               </View>
             )}
           </View>
         </View>
-      </TouchableOpacity>
+      </ListCard>
     </Swipeable>
   );
 };

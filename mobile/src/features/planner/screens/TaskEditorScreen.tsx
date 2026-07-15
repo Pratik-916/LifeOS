@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { View, TextInput, ScrollView, Pressable, Platform } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { X } from 'lucide-react-native';
@@ -12,9 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 
 import { MainStackParamList } from '../../../navigation/types';
-import { Typography } from '../../../components/ui/Typography';
-import { Button } from '../../../components/ui/Button';
-import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
+import { HeadingLG, BodyMD, Caption, Button, Loader, IconButton } from '../../../design-system';
 import { useTask } from '../hooks/useTask';
 import { useTaskMutations } from '../hooks/useTaskMutations';
 
@@ -129,7 +127,7 @@ export const TaskEditorScreen = () => {
   if (isEditing && isLoading) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'center' }}>
-        <LoadingSpinner />
+        <Loader />
       </SafeAreaView>
     );
   }
@@ -137,15 +135,13 @@ export const TaskEditorScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }} edges={['top']}>
       <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
-        <Typography variant="h2">{isEditing ? 'Edit Task' : 'New Task'}</Typography>
-        <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -mr-2" accessibilityRole="button">
-          <X size={24} color="#111827" />
-        </TouchableOpacity>
+        <HeadingLG>{isEditing ? 'Edit Task' : 'New Task'}</HeadingLG>
+        <IconButton onPress={() => navigation.goBack()} className="p-2 -mr-2" leftIcon="X" />
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         <View className="mb-4">
-          <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Title</Typography>
+          <Caption className="mb-2 text-gray-700 font-medium">Title</Caption>
           <Controller
             control={control}
             name="title"
@@ -159,11 +155,11 @@ export const TaskEditorScreen = () => {
               />
             )}
           />
-          {errors.title && <Typography variant="caption" className="text-red-500 mt-1">{errors.title.message}</Typography>}
+          {errors.title && <Caption className="text-red-500 mt-1">{errors.title.message}</Caption>}
         </View>
 
         <View className="mb-4">
-          <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Description</Typography>
+          <Caption className="mb-2 text-gray-700 font-medium">Description</Caption>
           <Controller
             control={control}
             name="description"
@@ -183,7 +179,7 @@ export const TaskEditorScreen = () => {
 
         <View className="flex-row mb-4 space-x-4">
           <View className="flex-1 mr-2">
-            <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Category</Typography>
+            <Caption className="mb-2 text-gray-700 font-medium">Category</Caption>
             <Controller
               control={control}
               name="category"
@@ -198,7 +194,7 @@ export const TaskEditorScreen = () => {
             />
           </View>
           <View className="flex-1 ml-2">
-            <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Est. Minutes</Typography>
+            <Caption className="mb-2 text-gray-700 font-medium">Est. Minutes</Caption>
             <Controller
               control={control}
               name="estimatedMinutes"
@@ -216,19 +212,19 @@ export const TaskEditorScreen = () => {
         </View>
 
         <View className="mb-6">
-          <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Due Date</Typography>
-          <TouchableOpacity 
+          <Caption className="mb-2 text-gray-700 font-medium">Due Date</Caption>
+          <Pressable 
             onPress={() => setShowDatePicker(true)}
             className="bg-gray-50 border border-gray-200 rounded-lg p-3"
           >
-            <Typography variant="body" className={dueDate ? 'text-gray-900' : 'text-gray-400'}>
+            <BodyMD className={dueDate ? 'text-gray-900' : 'text-gray-400'}>
               {dueDate ? format(dueDate, 'PPP') : 'Select a date'}
-            </Typography>
-          </TouchableOpacity>
+            </BodyMD>
+          </Pressable>
           {dueDate && (
-            <TouchableOpacity onPress={() => setDueDate(null)} className="mt-2">
-              <Typography variant="caption" className="text-red-500">Clear date</Typography>
-            </TouchableOpacity>
+            <Pressable onPress={() => setDueDate(null)} className="mt-2">
+              <Caption className="text-red-500">Clear date</Caption>
+            </Pressable>
           )}
 
           {showDatePicker && (
@@ -244,7 +240,7 @@ export const TaskEditorScreen = () => {
         <Button 
           title={isEditing ? 'Save Changes' : 'Create Task'} 
           onPress={handleSubmit(onSubmit)} 
-          isLoading={createTask.isPending || updateTask.isPending}
+          loading={createTask.isPending || updateTask.isPending}
         />
       </ScrollView>
     </SafeAreaView>

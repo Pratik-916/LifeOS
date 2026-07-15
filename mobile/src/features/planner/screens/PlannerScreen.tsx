@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, FlatList, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Search } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
-import { Typography } from '../../../components/ui/Typography';
+import { HeadingLG, HeadingMD, IconButton } from '../../../design-system';
 import { PlannerStatisticsCard } from '../components/PlannerStatisticsCard';
 import { TaskListItem } from '../components/TaskListItem';
 import { FloatingActionButton } from '../components/FloatingActionButton';
@@ -55,7 +55,7 @@ export const PlannerScreen = () => {
   const renderHeader = () => (
     <View className="mb-4">
       {statsData && <PlannerStatisticsCard stats={statsData} />}
-      <Typography variant="h3" className="mb-2 mt-4">Tasks</Typography>
+      <HeadingMD className="mb-2 mt-4">Tasks</HeadingMD>
     </View>
   );
 
@@ -75,15 +75,11 @@ export const PlannerScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }} edges={['top']}>
       <View className="px-4 py-3 flex-row justify-between items-center bg-white border-b border-gray-200">
-        <Typography variant="h2">Planner</Typography>
-        <TouchableOpacity 
+        <HeadingLG>Planner</HeadingLG>
+        <IconButton 
           onPress={() => navigation.navigate('TaskSearch')}
-          accessibilityRole="button"
-          accessibilityLabel="Search tasks"
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        >
-          <Search color={theme.colors.text.DEFAULT} size={24} />
-        </TouchableOpacity>
+          leftIcon="Search"
+        />
       </View>
 
       <FlatList

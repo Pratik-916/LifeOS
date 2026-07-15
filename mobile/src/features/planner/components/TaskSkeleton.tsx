@@ -1,69 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+import { View } from 'react-native';
+import { Skeleton } from '../../../design-system';
 
 export const TaskSkeleton: React.FC = () => {
-  const [animatedValue] = React.useState(() => new Animated.Value(0.3));
-
-  React.useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(animatedValue, {
-          toValue: 0.7,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-        Animated.timing(animatedValue, {
-          toValue: 0.3,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
-  }, [animatedValue]);
-
   return (
-    <Animated.View style={[styles.container, { opacity: animatedValue }]}>
-      <View style={styles.headerRow}>
-        <View style={styles.circle} />
-        <View style={styles.titleLine} />
+    <View className="bg-white p-4 rounded-xl mb-3 border border-gray-100">
+      <View className="flex-row items-center mb-2">
+        <Skeleton variant="circular" width={20} height={20} className="mr-3" />
+        <Skeleton variant="text" width="60%" height={16} />
       </View>
-      <View style={styles.subtitleLine} />
-    </Animated.View>
+      <Skeleton variant="text" width="40%" height={12} className="ml-8" />
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  circle: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: '#E5E7EB',
-    marginRight: 12,
-  },
-  titleLine: {
-    height: 16,
-    width: '60%',
-    backgroundColor: '#E5E7EB',
-    borderRadius: 4,
-  },
-  subtitleLine: {
-    height: 12,
-    width: '40%',
-    backgroundColor: '#E5E7EB',
-    borderRadius: 4,
-    marginLeft: 32,
-  }
-});

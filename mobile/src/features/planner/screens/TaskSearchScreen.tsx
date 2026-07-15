@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, FlatList, TouchableOpacity } from 'react-native';
+import { View, TextInput, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ArrowLeft, Search, X } from 'lucide-react-native';
+import { IconButton } from '../../../design-system';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
 import { TaskListItem } from '../components/TaskListItem';
@@ -38,9 +39,7 @@ export const TaskSearchScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }} edges={['top']}>
       <View className="px-4 py-3 bg-white border-b border-gray-200 flex-row items-center">
-        <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3" accessibilityRole="button">
-          <ArrowLeft size={24} color="#111827" />
-        </TouchableOpacity>
+        <IconButton onPress={() => navigation.goBack()} className="mr-3" leftIcon="ArrowLeft" />
         
         <View className="flex-1 flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
           <Search size={20} color="#9CA3AF" />
@@ -52,9 +51,7 @@ export const TaskSearchScreen = () => {
             autoFocus
           />
           {query.length > 0 && (
-            <TouchableOpacity onPress={() => setQuery('')}>
-              <X size={20} color="#9CA3AF" />
-            </TouchableOpacity>
+            <IconButton onPress={() => setQuery('')} leftIcon="X" />
           )}
         </View>
       </View>

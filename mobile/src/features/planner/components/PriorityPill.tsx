@@ -1,31 +1,21 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { PriorityBadge } from '../../../design-system';
 
 interface PriorityPillProps {
   priority: 'low' | 'medium' | 'high';
 }
 
 export const PriorityPill: React.FC<PriorityPillProps> = ({ priority }) => {
-  let bgColor = 'bg-blue-100';
-  let textColor = 'text-blue-700';
+  let colorType: 'info' | 'warning' | 'danger' = 'info';
   let label = 'Low';
 
   if (priority === 'high') {
-    bgColor = 'bg-red-100';
-    textColor = 'text-red-700';
+    colorType = 'danger';
     label = 'High';
   } else if (priority === 'medium') {
-    bgColor = 'bg-orange-100';
-    textColor = 'text-orange-700';
+    colorType = 'warning';
     label = 'Medium';
   }
 
-  return (
-    <View className={`${bgColor} px-2 py-1 rounded-full`}>
-      <Typography variant="caption" className={`${textColor} font-medium`}>
-        {label}
-      </Typography>
-    </View>
-  );
+  return <PriorityBadge label={label} colorType={colorType} />;
 };

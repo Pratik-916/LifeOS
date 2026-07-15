@@ -1,14 +1,19 @@
 appId: com.lifeos.mobile
 ---
 - launchApp
+- extendedWaitUntil:
+    visible: "Dashboard"
+    timeout: 10000
 - tapOn: "Planner"
 - assertVisible: "Planner"
 - tapOn: 
-    id: "add_task_button"
+    id: "fab-button" # using the FloatingActionButton
 - tapOn: "Task Title"
 - inputText: "Buy Groceries"
-- tapOn: "Save"
+- tapOn: "Description"
+- inputText: "Need milk and eggs"
+- tapOn: "Create Task"
 - assertVisible: "Buy Groceries"
 - tapOn: 
-    id: "complete_task_checkbox"
+    id: "checkbox-Buy Groceries"
 - assertVisible: "Completed"

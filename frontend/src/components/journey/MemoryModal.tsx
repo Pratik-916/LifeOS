@@ -86,6 +86,7 @@ export const MemoryModal: React.FC<MemoryModalProps> = ({ isOpen, onClose, onSav
           />
           
           <motion.div
+            role="dialog"
             variants={modalVariants}
             initial="hidden"
             animate="visible"

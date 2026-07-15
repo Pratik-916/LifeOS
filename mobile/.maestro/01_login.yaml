@@ -1,11 +1,14 @@
 appId: com.lifeos.mobile
 ---
 - launchApp
-- assertVisible: "Email"
+- assertVisible: "LifeOS"
 - tapOn: "Email"
 - inputText: "test@lifeos.com"
 - tapOn: "Password"
 - inputText: "Password123!"
 - tapOn: "Login"
-- assertVisible: "Dashboard"
+- extendedWaitUntil:
+    visible: "Dashboard"
+    timeout: 10000
 - assertVisible: "Today"
+- assertVisible: "Productivity Score"

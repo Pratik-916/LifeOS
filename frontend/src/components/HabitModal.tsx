@@ -73,6 +73,7 @@ export const HabitModal: React.FC<HabitModalProps> = ({ isOpen, onClose, onSave,
         />
         
         <motion.div 
+          role="dialog"
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}

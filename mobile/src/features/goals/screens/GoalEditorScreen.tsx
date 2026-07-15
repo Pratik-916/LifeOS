@@ -4,13 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
-import { ArrowLeft, Save, Plus } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { MainStackParamList } from '../../../navigation/types';
 import { useGoal } from '../hooks/useGoal';
 import { useGoalMutations } from '../hooks/useGoalMutations';
-import { Typography } from '../../../components/ui/Typography';
+import { HeadingMD, BodyMD, Label, Icon } from '../../design-system';
 import { MilestoneCard } from '../components/MilestoneCard';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
@@ -126,19 +125,19 @@ export const GoalEditorScreen = () => {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1">
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-slate-100">
           <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
-            <ArrowLeft size={24} color="#0F172A" />
+            <Icon name="ArrowLeft" size={24} color="#0F172A" />
           </TouchableOpacity>
-          <Typography variant="h3" className="text-slate-900">
+          <HeadingMD className="text-slate-900">
             {isEditing ? 'Edit Goal' : 'New Goal'}
-          </Typography>
+          </HeadingMD>
           <TouchableOpacity onPress={handleSave} className="p-2 -mr-2 flex-row items-center">
-            <Save size={20} color="#6366F1" />
-            <Typography variant="body" className="text-indigo-600 font-medium ml-1">Save</Typography>
+            <Icon name="Save" size={20} color="#6366F1" />
+            <BodyMD className="text-indigo-600 font-medium ml-1">Save</BodyMD>
           </TouchableOpacity>
         </View>
 
         <ScrollView className="flex-1 p-5">
-          <Typography variant="label" className="text-slate-700 mb-2">Title</Typography>
+          <Label className="text-slate-700 mb-2">Title</Label>
           <TextInput
             value={form.title}
             onChangeText={(v) => { setForm({ ...form, title: v }); saveDraft(); }}
@@ -147,7 +146,7 @@ export const GoalEditorScreen = () => {
             placeholderTextColor="#94A3B8"
           />
 
-          <Typography variant="label" className="text-slate-700 mb-2">Description</Typography>
+          <Label className="text-slate-700 mb-2">Description</Label>
           <TextInput
             value={form.description}
             onChangeText={(v) => { setForm({ ...form, description: v }); saveDraft(); }}
@@ -159,7 +158,7 @@ export const GoalEditorScreen = () => {
             placeholderTextColor="#94A3B8"
           />
 
-          <Typography variant="label" className="text-slate-700 mb-2">Target Date (YYYY-MM-DD)</Typography>
+          <Label className="text-slate-700 mb-2">Target Date (YYYY-MM-DD)</Label>
           <TextInput
             value={form.targetDate}
             onChangeText={(v) => { setForm({ ...form, targetDate: v }); saveDraft(); }}
@@ -169,7 +168,7 @@ export const GoalEditorScreen = () => {
           />
 
           <View className="mb-8">
-            <Typography variant="h3" className="text-slate-900 mb-4">Milestones</Typography>
+            <HeadingMD className="text-slate-900 mb-4">Milestones</HeadingMD>
             
             {milestones.map((ms, i) => (
               <MilestoneCard 
@@ -190,7 +189,7 @@ export const GoalEditorScreen = () => {
                 onSubmitEditing={addMilestone}
               />
               <TouchableOpacity onPress={addMilestone} className="w-12 h-12 bg-indigo-600 rounded-lg items-center justify-center">
-                <Plus size={24} color="#FFF" />
+                <Icon name="Plus" size={24} color="#FFF" />
               </TouchableOpacity>
             </View>
           </View>

@@ -7,7 +7,7 @@ import { AnalyticsEmptyState } from '../components/AnalyticsEmptyState';
 import { StatCard } from '../components/StatCard';
 import { WeeklyTrendChart } from '../components/TrendChart';
 import { HeatmapGrid } from '../components/HeatmapGrid';
-import { Zap, Activity } from 'lucide-react-native';
+
 
 export const HabitAnalyticsScreen = () => {
   const [range, setRange] = useState('30_days');
@@ -28,13 +28,13 @@ export const HabitAnalyticsScreen = () => {
         <StatCard 
           title="Completion Rate" 
           value={`${Math.round(data.completionRate)}%`} 
-          icon={Activity}
+          icon="Activity"
           iconColor="#2563EB"
         />
         <StatCard 
           title="Current Streak" 
           value={data.currentStreak} 
-          icon={Zap}
+          icon="Zap"
           iconColor="#EAB308"
         />
       </View>

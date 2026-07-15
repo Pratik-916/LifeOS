@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, TouchableOpacity, ScrollView } from 'react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { View, ScrollView } from 'react-native';
+import { Label, HeadingMD, Caption, Card } from '../../../design-system';
 
 interface MoodSelectorProps {
   value: string;
@@ -18,25 +18,24 @@ const MOODS = [
 export const MoodSelector = ({ value, onChange }: MoodSelectorProps) => {
   return (
     <View className="mb-4">
-      <Typography variant="label" className="mb-2">How are you feeling?</Typography>
+      <Label className="mb-2">How are you feeling?</Label>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
         {MOODS.map((mood) => {
           const isSelected = value === mood.value;
           return (
-            <TouchableOpacity
+            <Card
               key={mood.value}
               onPress={() => onChange(mood.value)}
-              activeOpacity={0.7}
               className={`items-center justify-center mr-3 p-3 rounded-2xl border ${
                 isSelected ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 bg-white'
               }`}
               style={{ width: 72 }}
             >
-              <Typography className="text-2xl mb-1">{mood.emoji}</Typography>
-              <Typography variant="caption" className={`text-center ${isSelected ? 'text-indigo-700' : 'text-slate-500'}`}>
+              <HeadingMD className="text-2xl mb-1">{mood.emoji}</HeadingMD>
+              <Caption className={`text-center ${isSelected ? 'text-indigo-700' : 'text-slate-500'}`}>
                 {mood.label}
-              </Typography>
-            </TouchableOpacity>
+              </Caption>
+            </Card>
           );
         })}
       </ScrollView>

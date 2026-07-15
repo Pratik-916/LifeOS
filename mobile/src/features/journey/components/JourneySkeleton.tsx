@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card } from '../../../components/ui/Card';
+import { Card } from '../../../design-system';
 
 export const JourneySkeleton = () => {
   return (

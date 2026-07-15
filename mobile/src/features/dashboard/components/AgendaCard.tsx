@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Clock, CheckCircle } from 'lucide-react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { Icon, BodyMD, Caption, PrimaryCard } from '../../../design-system';
 import { DashboardSectionTitle } from './DashboardSectionTitle';
 import { DashboardEmptyState } from './DashboardEmptyState';
 import { format } from 'date-fns';
@@ -22,16 +21,16 @@ const AgendaItem = ({ title, type, time }: AgendaItemProps) => {
   return (
     <View className="flex-row items-center mb-4 px-2" accessible={true} accessibilityLabel={`${title}, due ${time || 'today'}`}>
       <View className="w-10 h-10 rounded-full items-center justify-center mr-3" style={{ backgroundColor: `${color}15` }}>
-        <CheckCircle size={20} color={color} />
+        <Icon name="CheckCircle" size={20} color={color} />
       </View>
       <View className="flex-1">
-        <Typography variant="body" className="font-semibold text-slate-800">{title}</Typography>
-        <Typography variant="caption" className="text-slate-500 capitalize">{type}</Typography>
+        <BodyMD className="font-semibold text-slate-800">{title}</BodyMD>
+        <Caption className="text-slate-500 capitalize">{type}</Caption>
       </View>
       {time && (
         <View className="flex-row items-center">
-          <Clock size={14} color="#94A3B8" className="mr-1" />
-          <Typography variant="caption" className="text-slate-500">{time}</Typography>
+          <Icon name="Clock" size={14} color="#94A3B8" className="mr-1" />
+          <Caption className="text-slate-500">{time}</Caption>
         </View>
       )}
     </View>
@@ -69,7 +68,7 @@ export const AgendaCard = React.memo(({ deadlines = [] }: AgendaCardProps) => {
   return (
     <View className="mb-8">
       <DashboardSectionTitle title="Today's Agenda" />
-      <View className="bg-white border border-slate-100 rounded-[24px] p-4 shadow-sm">
+      <PrimaryCard className="p-4 shadow-sm">
         {items.map((item, idx) => (
           <AgendaItem 
             key={item.id || `item-${idx}`}
@@ -78,7 +77,7 @@ export const AgendaCard = React.memo(({ deadlines = [] }: AgendaCardProps) => {
             time={item.due_date ? format(new Date(item.due_date), 'h:mm a') : undefined}
           />
         ))}
-      </View>
+      </PrimaryCard>
     </View>
   );
 });

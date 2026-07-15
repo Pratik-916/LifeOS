@@ -4,13 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RouteProp } from '@react-navigation/native';
-import { Edit2, ArrowLeft, Heart, Archive, Trash2, Calendar, LayoutList } from 'lucide-react-native';
-
 import { MainStackParamList } from '../../../navigation/types';
 import { useGoal } from '../hooks/useGoal';
 import { useGoalMutations } from '../hooks/useGoalMutations';
-import { Typography } from '../../../components/ui/Typography';
-import { StatusBadge, PriorityBadge, CategoryChip } from '../components/GoalBadges';
+import { HeadingXL, HeadingMD, BodyMD, Caption, StatusBadge, PriorityBadge, CategoryChip, Icon } from '../../../design-system';
 import { GoalProgressBar } from '../components/GoalProgressBar';
 import { MilestoneCard } from '../components/MilestoneCard';
 import { differenceInDays, parseISO } from 'date-fns';
@@ -34,7 +31,7 @@ export const GoalDetailsScreen = () => {
   if (isLoading || !goal) {
     return (
       <SafeAreaView className="flex-1 bg-white justify-center items-center">
-        <Typography variant="body" className="text-slate-500">Loading goal...</Typography>
+        <BodyMD className="text-slate-500">Loading goal...</BodyMD>
       </SafeAreaView>
     );
   }
@@ -78,58 +75,58 @@ export const GoalDetailsScreen = () => {
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 py-3 border-b border-slate-100">
         <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2">
-          <ArrowLeft size={24} color="#0F172A" />
+          <Icon name="ArrowLeft" size={24} color="#0F172A" />
         </TouchableOpacity>
         <View className="flex-row">
           <TouchableOpacity onPress={() => favoriteGoal({ id: goal.id, isFavorite: !goal.favorite })} className="p-2">
-            <Heart size={22} color={goal.favorite ? '#E11D48' : '#64748B'} fill={goal.favorite ? '#E11D48' : 'none'} />
+            <Icon name="Heart" size={22} color={goal.favorite ? '#E11D48' : '#64748B'} fill={goal.favorite ? '#E11D48' : 'none'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => archiveGoal(goal.id)} className="p-2 ml-1">
-            <Archive size={22} color={goal.status === 'archived' ? '#4F46E5' : '#64748B'} />
+            <Icon name="Archive" size={22} color={goal.status === 'archived' ? '#4F46E5' : '#64748B'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('GoalEditor', { id: goal.id })} className="p-2 ml-1">
-            <Edit2 size={22} color="#64748B" />
+            <Icon name="Edit2" size={22} color="#64748B" />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDelete} className="p-2 ml-1">
-            <Trash2 size={22} color="#EF4444" />
+            <Icon name="Trash2" size={22} color="#EF4444" />
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView className="flex-1 p-5">
         <View className="flex-row items-center mb-3 space-x-2">
-          <CategoryChip category={goal.category} />
-          <StatusBadge status={goal.status} />
-          <PriorityBadge priority={goal.priority} />
+          <CategoryChip label={goal.category} />
+          <StatusBadge label={goal.status} />
+          <PriorityBadge label={goal.priority} />
         </View>
 
-        <Typography variant="h1" className="text-2xl text-slate-900 mb-2">{goal.title}</Typography>
+        <HeadingXL className="text-2xl text-slate-900 mb-2">{goal.title}</HeadingXL>
         
         {goal.description ? (
-          <Typography variant="body" className="text-slate-600 mb-6 leading-6">
+          <BodyMD className="text-slate-600 mb-6 leading-6">
             {goal.description}
-          </Typography>
+          </BodyMD>
         ) : <View className="mb-6" />}
 
         {/* Progress Card */}
         <View className="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-6">
           <View className="flex-row justify-between items-end mb-2">
-            <Typography variant="body" className="font-medium text-slate-700">Overall Progress</Typography>
-            <Typography variant="h3" className="text-indigo-600">{Math.round(goal.progress)}%</Typography>
+            <BodyMD className="font-medium text-slate-700">Overall Progress</BodyMD>
+            <HeadingMD className="text-indigo-600">{Math.round(goal.progress)}%</HeadingMD>
           </View>
           <GoalProgressBar progress={goal.progress} color={goal.color || '#6366F1'} />
           
           <View className="flex-row justify-between mt-4">
             <View className="flex-row items-center">
-              <Calendar size={16} color="#64748B" />
-              <Typography variant="caption" className="text-slate-600 ml-2">
+              <Icon name="Calendar" size={16} color="#64748B" />
+              <Caption className="text-slate-600 ml-2">
                 Target: {goal.targetDate}
-              </Typography>
+              </Caption>
             </View>
             {daysRemaining !== null && goal.status !== 'completed' && goal.status !== 'archived' && (
-              <Typography variant="caption" className={daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-600 font-medium'}>
+              <Caption className={daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-600 font-medium'}>
                 {daysRemaining < 0 ? `${Math.abs(daysRemaining)} days overdue` : `${daysRemaining} days left`}
-              </Typography>
+              </Caption>
             )}
           </View>
         </View>
@@ -137,13 +134,13 @@ export const GoalDetailsScreen = () => {
         {/* Milestones */}
         <View className="mb-6">
           <View className="flex-row items-center mb-4">
-            <LayoutList size={20} color="#0F172A" />
-            <Typography variant="h3" className="text-slate-900 ml-2">Milestones</Typography>
+            <Icon name="LayoutList" size={20} color="#0F172A" />
+            <HeadingMD className="text-slate-900 ml-2">Milestones</HeadingMD>
           </View>
           
           {goal.milestones.length === 0 ? (
             <View className="py-4 items-center">
-              <Typography variant="body" className="text-slate-400">No milestones attached.</Typography>
+              <BodyMD className="text-slate-400">No milestones attached.</BodyMD>
             </View>
           ) : (
             goal.milestones.map((milestone) => (

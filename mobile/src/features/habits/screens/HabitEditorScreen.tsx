@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, ScrollView, TouchableOpacity, Switch, Platform } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { X, Calendar, CalendarDays } from 'lucide-react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import type { Resolver } from 'react-hook-form';
@@ -13,9 +13,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 
 import { MainStackParamList } from '../../../navigation/types';
-import { Typography } from '../../../components/ui/Typography';
-import { Button } from '../../../components/ui/Button';
-import { LoadingSpinner } from '../../../components/ui/LoadingSpinner';
+import { HeadingLG, BodyMD, Caption, Button, IconButton, Icon, Loader, SelectableChip } from '../../../design-system';
 import { useHabit } from '../hooks/useHabit';
 import { useHabitMutations } from '../hooks/useHabitMutations';
 
@@ -151,7 +149,7 @@ export const HabitEditorScreen = () => {
   if (isEditing && isLoading) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'center' }}>
-        <LoadingSpinner />
+        <Loader />
       </SafeAreaView>
     );
   }
@@ -159,15 +157,13 @@ export const HabitEditorScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }} edges={['top']}>
       <View className="flex-row justify-between items-center p-4 border-b border-gray-100">
-        <Typography variant="h2">{isEditing ? 'Edit Habit' : 'New Habit'}</Typography>
-        <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -mr-2" accessibilityRole="button">
-          <X size={24} color="#111827" />
-        </TouchableOpacity>
+        <HeadingLG>{isEditing ? 'Edit Habit' : 'New Habit'}</HeadingLG>
+        <IconButton leftIcon="X" onPress={() => navigation.goBack()} className="-mr-2" accessibilityRole="button" />
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         <View className="mb-4">
-          <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Title</Typography>
+          <Caption className="mb-2 text-gray-700 font-medium">Title</Caption>
           <Controller
             control={control}
             name="title"
@@ -181,11 +177,11 @@ export const HabitEditorScreen = () => {
               />
             )}
           />
-          {errors.title && <Typography variant="caption" className="text-red-500 mt-1">{errors.title.message}</Typography>}
+          {errors.title && <Caption className="text-red-500 mt-1">{errors.title.message}</Caption>}
         </View>
 
         <View className="mb-4">
-          <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Description</Typography>
+          <Caption className="mb-2 text-gray-700 font-medium">Description</Caption>
           <Controller
             control={control}
             name="description"
@@ -205,7 +201,7 @@ export const HabitEditorScreen = () => {
 
         <View className="flex-row mb-4 space-x-4">
           <View className="flex-1 mr-2">
-            <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Category</Typography>
+            <Caption className="mb-2 text-gray-700 font-medium">Category</Caption>
             <Controller
               control={control}
               name="category"
@@ -220,7 +216,7 @@ export const HabitEditorScreen = () => {
             />
           </View>
           <View className="flex-1 ml-2">
-            <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Target Count</Typography>
+            <Caption className="mb-2 text-gray-700 font-medium">Target Count</Caption>
             <Controller
               control={control}
               name="targetCount"
@@ -238,30 +234,25 @@ export const HabitEditorScreen = () => {
         </View>
 
         <View className="mb-6">
-          <Typography variant="caption" className="mb-2 text-gray-700 font-medium">Frequency</Typography>
+          <Caption className="mb-2 text-gray-700 font-medium">Frequency</Caption>
           <Controller
             control={control}
             name="frequency"
             render={({ field: { onChange, value } }) => (
-              <View className="flex-row bg-gray-100 rounded-lg p-1">
-                <TouchableOpacity
-                  style={{ flex: 1, paddingVertical: 12, alignItems: 'center', borderRadius: 6, backgroundColor: value === 'daily' ? '#FFFFFF' : 'transparent' }}
+              <View className="flex-row items-center space-x-2">
+                <SelectableChip
+                  label="Daily"
+                  icon="Calendar"
+                  selected={value === 'daily'}
                   onPress={() => onChange('daily')}
-                >
-                  <View className="flex-row items-center">
-                    <Calendar size={16} color={value === 'daily' ? '#10B981' : '#6B7280'} className="mr-2" />
-                    <Typography variant="body" className={value === 'daily' ? 'font-medium text-emerald-600' : 'text-gray-500'}>Daily</Typography>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{ flex: 1, paddingVertical: 12, alignItems: 'center', borderRadius: 6, backgroundColor: value === 'weekly' ? '#FFFFFF' : 'transparent' }}
+                />
+                <SelectableChip
+                  label="Weekly"
+                  icon="CalendarDays"
+                  selected={value === 'weekly'}
                   onPress={() => onChange('weekly')}
-                >
-                  <View className="flex-row items-center">
-                    <CalendarDays size={16} color={value === 'weekly' ? '#10B981' : '#6B7280'} className="mr-2" />
-                    <Typography variant="body" className={value === 'weekly' ? 'font-medium text-emerald-600' : 'text-gray-500'}>Weekly</Typography>
-                  </View>
-                </TouchableOpacity>
+                  className="ml-2"
+                />
               </View>
             )}
           />
@@ -269,7 +260,7 @@ export const HabitEditorScreen = () => {
 
         <View className="mb-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
           <View className="flex-row justify-between items-center mb-2">
-            <Typography variant="body" className="font-medium text-gray-900">Enable Reminders</Typography>
+            <BodyMD className="font-medium text-gray-900">Enable Reminders</BodyMD>
             <Controller
               control={control}
               name="reminderEnabled"
@@ -286,14 +277,13 @@ export const HabitEditorScreen = () => {
           
           {formValues.reminderEnabled && (
             <View className="mt-2">
-              <TouchableOpacity 
+              <Button
+                variant="outline"
+                title={reminderTimeObj ? format(reminderTimeObj, 'hh:mm a') : 'Select a time'}
                 onPress={() => setShowTimePicker(true)}
-                className="bg-white border border-gray-200 rounded-lg p-3"
-              >
-                <Typography variant="body" className={reminderTimeObj ? 'text-gray-900' : 'text-gray-400'}>
-                  {reminderTimeObj ? format(reminderTimeObj, 'hh:mm a') : 'Select a time'}
-                </Typography>
-              </TouchableOpacity>
+                className="bg-white justify-start"
+                textClassName={`font-normal ${reminderTimeObj ? 'text-gray-900' : 'text-gray-400'}`}
+              />
               
               {showTimePicker && (
                 <DateTimePicker
@@ -311,7 +301,7 @@ export const HabitEditorScreen = () => {
         <Button 
           title={isEditing ? 'Save Habit' : 'Create Habit'} 
           onPress={handleSubmit(onSubmit)} 
-          isLoading={createHabit.isPending || updateHabit.isPending}
+          loading={createHabit.isPending || updateHabit.isPending}
         />
       </ScrollView>
     </SafeAreaView>

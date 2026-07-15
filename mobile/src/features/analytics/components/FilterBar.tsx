@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { FilterChip } from '../../../design-system';
 
 const RANGES = [
   { label: 'Today', value: 'today' },
@@ -21,15 +22,13 @@ export const FilterBar = ({ selectedRange, onSelectRange }: FilterBarProps) => {
           {RANGES.map((range) => {
             const isSelected = selectedRange === range.value;
             return (
-              <TouchableOpacity
+              <FilterChip
                 key={range.value}
+                label={range.label}
+                selected={isSelected}
                 onPress={() => onSelectRange(range.value)}
-                className={`px-4 py-2 rounded-full mr-2 ${isSelected ? 'bg-blue-600' : 'bg-gray-100'}`}
-              >
-                <Text className={`text-sm font-medium ${isSelected ? 'text-white' : 'text-gray-600'}`}>
-                  {range.label}
-                </Text>
-              </TouchableOpacity>
+                className="mr-2"
+              />
             );
           })}
         </View>

@@ -1,13 +1,11 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { format } from 'date-fns';
-import { Card } from '../../../components/ui/Card';
-import { Typography } from '../../../components/ui/Typography';
+import { Card, HeadingMD, Caption, BodyMD, Icon } from '../../../design-system';
 import { CategoryBadge } from './CategoryBadge';
 import { FavoriteBadge } from './FavoriteBadge';
 import { PinnedBadge } from './PinnedBadge';
 import type { TimelineEvent } from '../api/journey.types';
-import { Activity, Book, Star, Target, CheckCircle } from 'lucide-react-native';
 
 interface MemoryCardProps {
   event: TimelineEvent;
@@ -17,17 +15,17 @@ interface MemoryCardProps {
 
 const getIcon = (iconName: string, color: string) => {
   switch (iconName.toLowerCase()) {
-    case 'book': return <Book size={20} color={color} />;
-    case 'star': return <Star size={20} color={color} />;
-    case 'target': return <Target size={20} color={color} />;
-    case 'check': return <CheckCircle size={20} color={color} />;
-    default: return <Activity size={20} color={color} />;
+    case 'book': return <Icon name="Book" size={20} color={color} />;
+    case 'star': return <Icon name="Star" size={20} color={color} />;
+    case 'target': return <Icon name="Target" size={20} color={color} />;
+    case 'check': return <Icon name="CheckCircle" size={20} color={color} />;
+    default: return <Icon name="Activity" size={20} color={color} />;
   }
 };
 
 export const MemoryCard = ({ event, onPress, onLongPress }: MemoryCardProps) => {
   return (
-    <TouchableOpacity onPress={onPress} onLongPress={onLongPress} activeOpacity={0.7} className="mb-4">
+    <Pressable onPress={onPress} onLongPress={onLongPress} className="mb-4">
       <Card className="flex-row border-l-4" style={{ borderLeftColor: event.color }}>
         <View className="mr-3 mt-1">
           <View className="w-10 h-10 rounded-full items-center justify-center" style={{ backgroundColor: `${event.color}15` }}>
@@ -36,16 +34,16 @@ export const MemoryCard = ({ event, onPress, onLongPress }: MemoryCardProps) => 
         </View>
         <View className="flex-1">
           <View className="flex-row justify-between items-start mb-1">
-            <Typography variant="h3" className="flex-1 mr-2 text-base">{event.title}</Typography>
+            <HeadingMD className="flex-1 mr-2 text-base">{event.title}</HeadingMD>
             {event.timestamp && (
-              <Typography variant="caption" className="text-xs">{format(new Date(event.timestamp), 'MMM d')}</Typography>
+              <Caption className="text-xs">{format(new Date(event.timestamp), 'MMM d')}</Caption>
             )}
           </View>
           
           {event.preview ? (
-            <Typography variant="body" className="mb-2 text-gray-600 text-sm" numberOfLines={3}>
+            <BodyMD className="mb-2 text-gray-600 text-sm" numberOfLines={3}>
               {event.preview}
-            </Typography>
+            </BodyMD>
           ) : null}
 
           <View className="flex-row flex-wrap mt-1">
@@ -55,6 +53,6 @@ export const MemoryCard = ({ event, onPress, onLongPress }: MemoryCardProps) => 
           </View>
         </View>
       </Card>
-    </TouchableOpacity>
+    </Pressable>
   );
 };

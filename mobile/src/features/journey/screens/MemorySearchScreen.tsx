@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Search as SearchIcon } from 'lucide-react-native';
+import { Icon } from '../../../design-system';
 import { useMemories } from '../hooks/useMemories';
 import { MemoryCard } from '../components/MemoryCard';
 import { JourneyEmptyState } from '../components/JourneyEmptyState';
@@ -13,7 +13,6 @@ export const MemorySearchScreen = () => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Simple inline debounce since we can't be sure useDebounce exists globally
   const [debouncedSearch, setDebouncedSearch] = useState('');
   React.useEffect(() => {
     const handler = setTimeout(() => {
@@ -29,7 +28,7 @@ export const MemorySearchScreen = () => {
   return (
     <View className="flex-1 bg-white">
       <View className="p-4 border-b border-gray-100 flex-row items-center bg-gray-50">
-        <SearchIcon size={20} color="#9CA3AF" />
+        <Icon name="Search" size={20} color="#9CA3AF" />
         <TextInput
           className="flex-1 ml-2 text-base text-gray-900 py-2"
           placeholder="Search memories, locations, tags..."

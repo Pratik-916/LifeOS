@@ -6,8 +6,7 @@ import { AnalyticsSummaryCard } from '../components/AnalyticsSummaryCard';
 import { AnalyticsSkeleton } from '../components/AnalyticsSkeleton';
 import { AnalyticsEmptyState } from '../components/AnalyticsEmptyState';
 import { InsightCard } from '../components/InsightCard';
-import { Typography } from '../../../components/ui/Typography';
-import { Button } from '../../../components/ui/Button';
+import { HeadingMD, Button } from '../../../design-system';
 
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
@@ -29,7 +28,7 @@ export const AnalyticsDashboardScreen = () => {
     >
       <AnalyticsSummaryCard summary={summary} />
 
-      <Typography variant="h3" className="mt-4 mb-2">Quick Insights</Typography>
+      <HeadingMD className="mt-4 mb-2">Quick Insights</HeadingMD>
       {summary.weeklyHighlights?.length > 0 ? (
         summary.weeklyHighlights.map((highlight, index) => (
           <InsightCard 
@@ -45,7 +44,7 @@ export const AnalyticsDashboardScreen = () => {
         />
       )}
 
-      <Typography variant="h3" className="mt-4 mb-2">Deep Dives</Typography>
+      <HeadingMD className="mt-4 mb-2">Deep Dives</HeadingMD>
       <View className="flex-row flex-wrap justify-between">
         <Button 
           title="Productivity" 
@@ -85,7 +84,7 @@ export const AnalyticsDashboardScreen = () => {
         />
       </View>
 
-      <Typography variant="h3" className="mt-4 mb-2">Export Data</Typography>
+      <HeadingMD className="mt-4 mb-2">Export Data</HeadingMD>
       <View className="flex-row flex-wrap justify-between mb-8">
         <Button 
           title="Share Report" 

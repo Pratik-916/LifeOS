@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { View, SectionList, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, SectionList, RefreshControl, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Search, BarChart2, Plus } from 'lucide-react-native';
 import { useJourneyTimeline } from '../hooks/useJourneyTimeline';
 import { useJourneyMutations } from '../hooks/useJourneyMutations';
 import { MemoryCard } from '../components/MemoryCard';
@@ -9,7 +8,7 @@ import { TimelineSection } from '../components/TimelineSection';
 import { JourneySkeleton } from '../components/JourneySkeleton';
 import { JourneyEmptyState } from '../components/JourneyEmptyState';
 import { MemoryActionsSheet } from '../components/MemoryActionsSheet';
-import { IconButton } from '../../../components/ui/IconButton';
+import { IconButton, FloatingActionButton } from '../../../design-system';
 import type { TimelineEvent } from '../api/journey.types';
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
@@ -26,8 +25,8 @@ export const JourneyScreen = () => {
     navigation.setOptions({
       headerRight: () => (
         <View className="flex-row pr-4">
-          <IconButton icon={<Search size={24} color="#374151" />} onPress={() => navigation.navigate('MemorySearch')} />
-          <IconButton icon={<BarChart2 size={24} color="#374151" />} onPress={() => navigation.navigate('JourneyStatistics')} />
+          <IconButton leftIcon="Search" onPress={() => navigation.navigate('MemorySearch')} />
+          <IconButton leftIcon="BarChart2" onPress={() => navigation.navigate('JourneyStatistics')} />
         </View>
       ),
     });
@@ -36,8 +35,6 @@ export const JourneyScreen = () => {
   const sections = React.useMemo(() => {
     if (!data?.pages) return [];
     
-    // Grouping by "Year-Month" to avoid duplicate sections across pagination if backend returns same month across pages.
-    // However, backend returns grouped by Year -> Month. We'll flatten to sections.
     const grouped: Record<string, { year: string, month: string, data: TimelineEvent[] }> = {};
     
     data.pages.forEach((page) => {
@@ -100,7 +97,6 @@ export const JourneyScreen = () => {
         )}
         renderSectionHeader={({ section }) => (
           <View>
-            {/* If it's the first month of the year shown, we could show TimelineHeader (year) */}
             <TimelineSection month={section.title} />
           </View>
         )}
@@ -115,12 +111,10 @@ export const JourneyScreen = () => {
         onEndReachedThreshold={0.5}
       />
 
-      <TouchableOpacity
-        className="absolute bottom-6 right-6 w-14 h-14 bg-blue-600 rounded-full items-center justify-center shadow-lg"
+      <FloatingActionButton
+        leftIcon="Plus"
         onPress={() => navigation.navigate('MemoryEditor', {})}
-      >
-        <Plus size={24} color="#fff" />
-      </TouchableOpacity>
+      />
 
       {selectedEvent && (
         <MemoryActionsSheet

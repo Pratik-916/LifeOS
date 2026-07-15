@@ -3,7 +3,6 @@ import { View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Search, Plus } from 'lucide-react-native';
 
 import { MainStackParamList } from '../../../navigation/types';
 import { useGoals } from '../hooks/useGoals';
@@ -13,7 +12,7 @@ import { GoalCard } from '../components/GoalCard';
 import { GoalSkeleton } from '../components/GoalSkeleton';
 import { GoalEmptyState } from '../components/GoalEmptyState';
 import { GoalStatisticsCard } from '../components/GoalStatisticsCard';
-import { Typography } from '../../../components/ui/Typography';
+import { HeadingXL, Caption, IconButton, FloatingActionButton } from '../../../design-system';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
@@ -45,13 +44,12 @@ export const GoalScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       <View className="px-4 pt-4 pb-2 flex-row justify-between items-center">
-        <Typography variant="h1" className="text-2xl text-slate-900">Goals</Typography>
-        <TouchableOpacity 
+        <HeadingXL className="text-2xl text-slate-900">Goals</HeadingXL>
+        <IconButton 
           onPress={() => navigation.navigate('GoalSearch')}
-          className="w-10 h-10 bg-slate-50 rounded-full items-center justify-center"
-        >
-          <Search size={20} color="#64748B" />
-        </TouchableOpacity>
+          className="w-10 h-10 bg-slate-50 rounded-full"
+          leftIcon="Search"
+        />
       </View>
 
       <FlatList
@@ -68,9 +66,9 @@ export const GoalScreen = () => {
                   onPress={() => setActiveTab(tab)}
                   className={`flex-1 py-2 items-center rounded-lg ${activeTab === tab ? 'bg-white shadow-sm' : ''}`}
                 >
-                  <Typography variant="caption" className={`font-medium ${activeTab === tab ? 'text-slate-900' : 'text-slate-500'}`}>
+                  <Caption className={`font-medium ${activeTab === tab ? 'text-slate-900' : 'text-slate-500'}`}>
                     {tab}
-                  </Typography>
+                  </Caption>
                 </TouchableOpacity>
               ))}
             </View>
@@ -106,13 +104,11 @@ export const GoalScreen = () => {
         }
       />
 
-      <TouchableOpacity
-        className="absolute bottom-6 right-6 w-14 h-14 bg-indigo-600 rounded-full items-center justify-center shadow-lg shadow-indigo-600/30"
+      <FloatingActionButton
+        className="absolute bottom-6 right-6"
         onPress={() => navigation.navigate('GoalEditor', { id: undefined })}
-        activeOpacity={0.8}
-      >
-        <Plus size={24} color="#FFF" />
-      </TouchableOpacity>
+        leftIcon="Plus"
+      />
     </SafeAreaView>
   );
 };

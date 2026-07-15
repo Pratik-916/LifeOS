@@ -1,29 +1,28 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card } from '../../../components/ui/Card';
-import { Typography } from '../../../components/ui/Typography';
+import { Card, HeadingMD, HeadingLG, Caption } from '../../../design-system';
 import type { JourneyStatistics } from '../api/journey.types';
 
 export const JourneyStatisticsCard = ({ stats }: { stats: JourneyStatistics }) => {
   return (
     <Card className="mb-4">
-      <Typography variant="h3" className="mb-3">Overview</Typography>
+      <HeadingMD className="mb-3">Overview</HeadingMD>
       <View className="flex-row flex-wrap justify-between">
         <View className="w-[48%] bg-gray-50 p-3 rounded-xl mb-2 items-center">
-          <Typography variant="h2" className="text-blue-600">{stats.totalMemories}</Typography>
-          <Typography variant="caption" className="mt-1">Memories</Typography>
+          <HeadingLG className="text-blue-600">{stats.totalMemories}</HeadingLG>
+          <Caption className="mt-1">Memories</Caption>
         </View>
         <View className="w-[48%] bg-gray-50 p-3 rounded-xl mb-2 items-center">
-          <Typography variant="h2" className="text-green-600">{stats.totalTimelineEvents}</Typography>
-          <Typography variant="caption" className="mt-1">Total Events</Typography>
+          <HeadingLG className="text-green-600">{stats.totalTimelineEvents}</HeadingLG>
+          <Caption className="mt-1">Total Events</Caption>
         </View>
         <View className="w-[48%] bg-gray-50 p-3 rounded-xl mb-2 items-center">
-          <Typography variant="h2" className="text-purple-600">{stats.favoriteMemories}</Typography>
-          <Typography variant="caption" className="mt-1">Favorites</Typography>
+          <HeadingLG className="text-purple-600">{stats.favoriteMemories}</HeadingLG>
+          <Caption className="mt-1">Favorites</Caption>
         </View>
         <View className="w-[48%] bg-gray-50 p-3 rounded-xl mb-2 items-center">
-          <Typography variant="h2" className="text-orange-600">{stats.activeYears}</Typography>
-          <Typography variant="caption" className="mt-1">Active Years</Typography>
+          <HeadingLG className="text-orange-600">{stats.activeYears}</HeadingLG>
+          <Caption className="mt-1">Active Years</Caption>
         </View>
       </View>
     </Card>

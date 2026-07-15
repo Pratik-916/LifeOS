@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity, Animated, Alert } from 'react-native';
+import { View, Animated, Alert, TouchableOpacity } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
-import { Trash2, Heart, Pin } from 'lucide-react-native';
-import { Typography } from '../../../components/ui/Typography';
-import { Card } from '../../../components/ui/Card';
+import { Card, HeadingMD, BodySM, Caption, Icon } from '../../../design-system';
 import type { JournalEntryModel } from '../api/journal.types';
 import { format } from 'date-fns';
 
@@ -41,16 +39,16 @@ export const JournalCard = ({ entry, onPress, onEdit, onFavorite, onDelete, onPi
     return (
       <View className="flex-row items-center justify-end px-4">
         {onFavorite && (
-          <TouchableOpacity onPress={onFavorite} className="w-12 h-12 bg-rose-500 rounded-full items-center justify-center mr-2">
+          <TouchableOpacity onPress={onFavorite} className="w-12 h-12 bg-danger rounded-full items-center justify-center mr-2">
             <Animated.View style={{ transform: [{ scale }] }}>
-              <Heart color="white" size={20} fill={entry.isFavorite ? "white" : "transparent"} />
+              <Icon name="Heart" color="white" size={20} fill={entry.isFavorite ? "white" : "transparent"} />
             </Animated.View>
           </TouchableOpacity>
         )}
         {onDelete && (
-          <TouchableOpacity onPress={onDelete} className="w-12 h-12 bg-red-500 rounded-full items-center justify-center">
+          <TouchableOpacity onPress={onDelete} className="w-12 h-12 bg-danger rounded-full items-center justify-center">
             <Animated.View style={{ transform: [{ scale }] }}>
-              <Trash2 color="white" size={20} />
+              <Icon name="Trash2" color="white" size={20} />
             </Animated.View>
           </TouchableOpacity>
         )}
@@ -71,34 +69,32 @@ export const JournalCard = ({ entry, onPress, onEdit, onFavorite, onDelete, onPi
 
   return (
     <Swipeable renderRightActions={renderRightActions} overshootRight={false}>
-      <TouchableOpacity onPress={onPress} onLongPress={handleLongPress} activeOpacity={0.7} className="mb-3 px-4">
-        <Card className="p-4 flex-row justify-between items-start">
-          <View className="flex-1 mr-3">
-            <View className="flex-row items-center mb-1">
-              <Typography variant="h3" className="mr-2" numberOfLines={1}>{entry.title || 'Untitled Entry'}</Typography>
-              {entry.isPinned && <Pin size={14} color="#64748B" />}
-              {entry.isFavorite && <Heart size={14} color="#F43F5E" fill="#F43F5E" className="ml-1" />}
-            </View>
-            
-            <Typography variant="body" className="text-slate-500 mb-2" numberOfLines={2}>
-              {entry.content || 'No content...'}
-            </Typography>
-            
-            <View className="flex-row items-center mt-1">
-              <Typography variant="caption" className="text-slate-400 mr-3">
-                {format(new Date(entry.createdAt), 'MMM d, yyyy')}
-              </Typography>
-              <Typography variant="caption" className="text-slate-400">
-                {entry.wordCount} words
-              </Typography>
-            </View>
+      <Card onPress={onPress} onLongPress={handleLongPress} className="mx-4 mb-3 p-4 flex-row justify-between items-start">
+        <View className="flex-1 mr-3">
+          <View className="flex-row items-center mb-1">
+            <HeadingMD className="mr-2" numberOfLines={1}>{entry.title || 'Untitled Entry'}</HeadingMD>
+            {entry.isPinned && <Icon name="Pin" size={14} color="#64748B" />}
+            {entry.isFavorite && <Icon name="Heart" size={14} color="#F43F5E" fill="#F43F5E" className="ml-1" />}
           </View>
           
-          <View className="items-center justify-center bg-slate-100 rounded-full w-10 h-10">
-            <Typography className="text-xl">{getMoodEmoji(entry.mood)}</Typography>
+          <BodySM className="text-slate-500 mb-2" numberOfLines={2}>
+            {entry.content || 'No content...'}
+          </BodySM>
+          
+          <View className="flex-row items-center mt-1">
+            <Caption className="text-slate-400 mr-3">
+              {format(new Date(entry.createdAt), 'MMM d, yyyy')}
+            </Caption>
+            <Caption className="text-slate-400">
+              {entry.wordCount} words
+            </Caption>
           </View>
-        </Card>
-      </TouchableOpacity>
+        </View>
+        
+        <View className="items-center justify-center bg-slate-100 rounded-full w-10 h-10">
+          <HeadingMD className="text-xl">{getMoodEmoji(entry.mood)}</HeadingMD>
+        </View>
+      </Card>
     </Swipeable>
   );
 };

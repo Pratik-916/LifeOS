@@ -6,7 +6,7 @@ import { AnalyticsSkeleton } from '../components/AnalyticsSkeleton';
 import { AnalyticsEmptyState } from '../components/AnalyticsEmptyState';
 import { StatCard } from '../components/StatCard';
 import { MonthlyTrendChart } from '../components/TrendChart';
-import { Star, Flag, MapPin } from 'lucide-react-native';
+
 
 export const JourneyAnalyticsScreen = () => {
   const [range, setRange] = useState('1_year'); // Custom range for journey
@@ -24,12 +24,12 @@ export const JourneyAnalyticsScreen = () => {
       <FilterBar selectedRange={range} onSelectRange={setRange} />
       
       <View className="flex-row mb-2">
-        <StatCard title="Milestones" value={data.milestoneCounts} icon={Flag} iconColor="#EF4444" />
-        <StatCard title="Favorites" value={data.favoriteMemories} icon={Star} iconColor="#F59E0B" />
+        <StatCard title="Milestones" value={data.milestoneCounts} icon="Flag" iconColor="#EF4444" />
+        <StatCard title="Favorites" value={data.favoriteMemories} icon="Star" iconColor="#F59E0B" />
       </View>
 
       <View className="flex-row mb-4">
-        <StatCard title="Pinned" value={data.pinnedMemories} icon={MapPin} />
+        <StatCard title="Pinned" value={data.pinnedMemories} icon="MapPin" />
         <StatCard title="Most Active Month" value={data.mostActiveMonth || 'N/A'} />
       </View>
 

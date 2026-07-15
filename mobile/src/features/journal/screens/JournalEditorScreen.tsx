@@ -3,7 +3,6 @@ import { View, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } fr
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
-import { ArrowLeft, Sparkles } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,9 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MainStackParamList } from '../../../navigation/types';
 import { useJournalEntry } from '../hooks/useJournalEntry';
 import { useJournalMutations } from '../hooks/useJournalMutations';
-import { Typography } from '../../../components/ui/Typography';
-import { IconButton } from '../../../components/ui/IconButton';
-import { Button } from '../../../components/ui/Button';
+import { HeadingMD, Icon, IconButton, Button } from '../../../design-system';
 import { MoodSelector } from '../components/MoodSelector';
 import { AutosaveIndicator } from '../components/AutosaveIndicator';
 import { ReflectionCard } from '../components/ReflectionCard';
@@ -156,7 +153,7 @@ export const JournalEditorScreen = () => {
       >
         <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100 bg-white z-10">
           <View className="flex-row items-center">
-            <IconButton icon={<ArrowLeft size={24} color="#1E293B" />} onPress={() => navigation.goBack()} />
+            <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
             <AutosaveIndicator status={saveStatus} />
           </View>
           <Button 
@@ -164,9 +161,8 @@ export const JournalEditorScreen = () => {
             onPress={handleSubmit(onSubmit)} 
             disabled={saveStatus === 'saving' || isFetching || isInitializing}
             className="mr-2 px-4 py-2"
-           title="
-            {id ? 'Done' : 'Publish'}
-          " />
+            title={id ? 'Done' : 'Publish'}
+          />
         </View>
 
         <ScrollView className="flex-1 px-4 pt-4" keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 60 }}>
@@ -211,8 +207,8 @@ export const JournalEditorScreen = () => {
           />
 
           <View className="mb-4 flex-row items-center">
-            <Sparkles size={18} color="#6366F1" className="mr-2" />
-            <Typography variant="h3" className="text-indigo-600">Reflection</Typography>
+            <Icon name="Sparkles" size={18} color="#6366F1" className="mr-2" />
+            <HeadingMD className="text-indigo-600">Reflection</HeadingMD>
           </View>
 
           <ReflectionCard title="Today's Wins">

@@ -1,20 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
+import { Skeleton } from '../../../design-system';
 
 export const DashboardSkeleton = () => {
   return (
     <View className="flex-1 px-4 pt-6">
-      <View className="w-48 h-6 bg-slate-200 rounded mb-2" />
-      <View className="w-64 h-8 bg-slate-200 rounded mb-1" />
-      <View className="w-32 h-4 bg-slate-200 rounded mb-8" />
+      <Skeleton className="w-48 h-6 mb-2" variant="text" />
+      <Skeleton className="w-64 h-8 mb-1" variant="text" />
+      <Skeleton className="w-32 h-4 mb-8" variant="text" />
       
-      <View className="w-full h-40 bg-slate-200 rounded-[24px] mb-8" />
+      <Skeleton className="w-full h-40 mb-8" />
       
-      <View className="w-32 h-6 bg-slate-200 rounded mb-4" />
+      <Skeleton className="w-32 h-6 mb-4" variant="text" />
       <View className="flex-row mb-8">
-        <View className="w-[140px] h-32 bg-slate-200 rounded-[20px] mr-3" />
-        <View className="w-[140px] h-32 bg-slate-200 rounded-[20px] mr-3" />
-        <View className="w-[140px] h-32 bg-slate-200 rounded-[20px]" />
+        <Skeleton className="w-[140px] h-32 mr-3" />
+        <Skeleton className="w-[140px] h-32 mr-3" />
+        <Skeleton className="w-[140px] h-32" />
       </View>
     </View>
   );

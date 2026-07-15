@@ -1,20 +1,20 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card } from '../../../components/ui/Card';
+import { Skeleton } from '../../../design-system';
 
 export const AnalyticsSkeleton = () => {
   return (
     <View className="p-4">
       <View className="flex-row justify-between mb-4">
-        <View className="w-[48%] h-24 bg-gray-200 rounded-2xl opacity-50" />
-        <View className="w-[48%] h-24 bg-gray-200 rounded-2xl opacity-50" />
+        <Skeleton className="w-[48%] h-24" variant="rectangular" />
+        <Skeleton className="w-[48%] h-24" variant="rectangular" />
       </View>
-      <Card className="h-64 mb-4 opacity-50 bg-gray-200" />
-      <Card className="h-48 mb-4 opacity-50 bg-gray-200" />
+      <Skeleton className="h-64 mb-4" variant="rectangular" />
+      <Skeleton className="h-48 mb-4" variant="rectangular" />
       <View className="flex-row justify-between mb-4">
-        <View className="w-[30%] h-20 bg-gray-200 rounded-2xl opacity-50" />
-        <View className="w-[30%] h-20 bg-gray-200 rounded-2xl opacity-50" />
-        <View className="w-[30%] h-20 bg-gray-200 rounded-2xl opacity-50" />
+        <Skeleton className="w-[30%] h-20" variant="rectangular" />
+        <Skeleton className="w-[30%] h-20" variant="rectangular" />
+        <Skeleton className="w-[30%] h-20" variant="rectangular" />
       </View>
     </View>
   );

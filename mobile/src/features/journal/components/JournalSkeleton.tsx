@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { View, Animated, StyleSheet } from 'react-native';
-import { Card } from '../../../components/ui/Card';
+import { Card } from '../../../design-system';
 
 export const JournalSkeleton = () => {
   const animatedValue = useMemo(() => new Animated.Value(0), []);

@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native';
-import { Star, Pin, Trash2, X } from 'lucide-react-native';
+import { View, Pressable } from 'react-native';
+import { BottomSheet, HeadingMD, BodyMD, Icon } from '../../../design-system';
 
 interface MemoryActionsSheetProps {
   visible: boolean;
@@ -24,49 +24,41 @@ export const MemoryActionsSheet = ({
   if (!visible) return null;
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View className="flex-1 bg-black/50 justify-end">
-          <TouchableWithoutFeedback>
-            <View className="bg-white rounded-t-3xl p-6 pb-10">
-              <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-xl font-bold">Memory Actions</Text>
-                <TouchableOpacity onPress={onClose} className="p-2 bg-gray-100 rounded-full">
-                  <X size={20} color="#374151" />
-                </TouchableOpacity>
-              </View>
+    <BottomSheet visible={visible} onClose={onClose} height={350}>
+      <View className="flex-row justify-between items-center mb-6">
+        <HeadingMD>Memory Actions</HeadingMD>
+        <Pressable onPress={onClose} className="p-2 bg-gray-100 rounded-full">
+          <Icon name="X" size={20} color="#374151" />
+        </Pressable>
+      </View>
 
-              <TouchableOpacity 
-                className="flex-row items-center p-4 mb-2 bg-gray-50 rounded-xl"
-                onPress={() => { onToggleFavorite(); onClose(); }}
-              >
-                <Star size={24} color={isFavorite ? "#EF4444" : "#4B5563"} fill={isFavorite ? "#EF4444" : "transparent"} />
-                <Text className="text-base ml-3 font-medium text-gray-700">
-                  {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-                </Text>
-              </TouchableOpacity>
+      <Pressable 
+        className="flex-row items-center p-4 mb-2 bg-gray-50 rounded-xl"
+        onPress={() => { onToggleFavorite(); onClose(); }}
+      >
+        <Icon name="Star" size={24} color={isFavorite ? "#EF4444" : "#4B5563"} />
+        <BodyMD className="ml-3 font-medium text-gray-700">
+          {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+        </BodyMD>
+      </Pressable>
 
-              <TouchableOpacity 
-                className="flex-row items-center p-4 mb-2 bg-gray-50 rounded-xl"
-                onPress={() => { onTogglePin(); onClose(); }}
-              >
-                <Pin size={24} color={isPinned ? "#2563EB" : "#4B5563"} />
-                <Text className="text-base ml-3 font-medium text-gray-700">
-                  {isPinned ? 'Unpin from Top' : 'Pin to Top'}
-                </Text>
-              </TouchableOpacity>
+      <Pressable 
+        className="flex-row items-center p-4 mb-2 bg-gray-50 rounded-xl"
+        onPress={() => { onTogglePin(); onClose(); }}
+      >
+        <Icon name="Pin" size={24} color={isPinned ? "#2563EB" : "#4B5563"} />
+        <BodyMD className="ml-3 font-medium text-gray-700">
+          {isPinned ? 'Unpin from Top' : 'Pin to Top'}
+        </BodyMD>
+      </Pressable>
 
-              <TouchableOpacity 
-                className="flex-row items-center p-4 bg-red-50 rounded-xl mt-4"
-                onPress={() => { onDelete(); onClose(); }}
-              >
-                <Trash2 size={24} color="#EF4444" />
-                <Text className="text-base ml-3 font-medium text-red-600">Delete Memory</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+      <Pressable 
+        className="flex-row items-center p-4 bg-red-50 rounded-xl mt-4"
+        onPress={() => { onDelete(); onClose(); }}
+      >
+        <Icon name="Trash2" size={24} color="#EF4444" />
+        <BodyMD className="ml-3 font-medium text-red-600">Delete Memory</BodyMD>
+      </Pressable>
+    </BottomSheet>
   );
 };

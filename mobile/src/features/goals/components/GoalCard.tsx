@@ -1,12 +1,9 @@
 import React from 'react';
 import { View, TouchableOpacity, Alert, Animated } from 'react-native';
-import { Typography } from '../../../components/ui/Typography';
-import { Card } from '../../../components/ui/Card';
+import { HeadingMD, Label, Caption, PrimaryCard, StatusBadge, PriorityBadge, CategoryChip, Icon } from '../../../design-system';
 import type { Goal } from '../api/goals.types';
-import { StatusBadge, PriorityBadge, CategoryChip } from './GoalBadges';
 import { GoalProgressBar } from './GoalProgressBar';
 import { differenceInDays, parseISO } from 'date-fns';
-import { Heart, Archive, Calendar, Target } from 'lucide-react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 
 interface GoalCardProps {
@@ -43,14 +40,14 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
         {onArchive && (
           <TouchableOpacity onPress={onArchive} className="w-10 h-10 bg-slate-200 rounded-full items-center justify-center mr-2">
             <Animated.View style={{ transform: [{ scale }] }}>
-              <Archive size={20} color="#64748B" />
+              <Icon name="Archive" size={20} color="#64748B" />
             </Animated.View>
           </TouchableOpacity>
         )}
         {onFavorite && (
           <TouchableOpacity onPress={onFavorite} className="w-10 h-10 bg-rose-50 rounded-full items-center justify-center">
             <Animated.View style={{ transform: [{ scale }] }}>
-              <Heart size={20} color={goal.favorite ? '#E11D48' : '#F43F5E'} fill={goal.favorite ? '#E11D48' : 'none'} />
+              <Icon name="Heart" size={20} color={goal.favorite ? '#E11D48' : '#F43F5E'} fill={goal.favorite ? '#E11D48' : 'none'} />
             </Animated.View>
           </TouchableOpacity>
         )}
@@ -61,53 +58,53 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
   return (
     <Swipeable renderRightActions={renderRightActions} overshootRight={false}>
       <TouchableOpacity onPress={onPress} onLongPress={handleLongPress} activeOpacity={0.7} className="mb-3 px-4">
-        <Card className="p-4">
+        <PrimaryCard className="p-4">
           <View className="flex-row justify-between items-start mb-2">
             <View className="flex-1 mr-2">
               <View className="flex-row items-center mb-1 space-x-2">
-                <CategoryChip category={goal.category} />
-                {goal.favorite && <Heart size={12} color="#E11D48" fill="#E11D48" />}
+                <CategoryChip label={goal.category} />
+                {goal.favorite && <Icon name="Heart" size={12} color="#E11D48" fill="#E11D48" />}
               </View>
-              <Typography variant="h3" className="text-slate-900" numberOfLines={1}>
+              <HeadingMD className="text-slate-900" numberOfLines={1}>
                 {goal.title}
-              </Typography>
+              </HeadingMD>
             </View>
             <View className="items-end space-y-1">
-              <StatusBadge status={goal.status} />
-              <PriorityBadge priority={goal.priority} />
+              <StatusBadge label={goal.status} />
+              <PriorityBadge label={goal.priority} />
             </View>
           </View>
           
           <View className="mt-3 mb-2">
             <View className="flex-row justify-between items-end mb-2">
-              <Typography variant="label" className="text-slate-500">Progress</Typography>
-              <Typography variant="label" className="text-slate-700 font-bold">{Math.round(goal.progress)}%</Typography>
+              <Label className="text-slate-500">Progress</Label>
+              <Label className="text-slate-700 font-bold">{Math.round(goal.progress)}%</Label>
             </View>
             <GoalProgressBar progress={goal.progress} color={goal.color} />
           </View>
 
           <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-slate-100">
             <View className="flex-row items-center">
-              <Calendar size={14} color="#64748B" />
-              <Typography variant="caption" className="text-slate-500 ml-1">
+              <Icon name="Calendar" size={14} color="#64748B" />
+              <Caption className="text-slate-500 ml-1">
                 {goal.targetDate}
-              </Typography>
+              </Caption>
             </View>
             
             {daysRemaining !== null && goal.status !== 'completed' && goal.status !== 'archived' && (
               <View className="flex-row items-center">
-                <Target size={14} color={daysRemaining < 0 ? '#E11D48' : '#64748B'} />
-                <Typography variant="caption" className={`ml-1 ${daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-500'}`}>
+                <Icon name="Target" size={14} color={daysRemaining < 0 ? '#E11D48' : '#64748B'} />
+                <Caption className={`ml-1 ${daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-500'}`}>
                   {daysRemaining < 0 ? `${Math.abs(daysRemaining)}d overdue` : `${daysRemaining}d left`}
-                </Typography>
+                </Caption>
               </View>
             )}
             
             {goal.status === 'completed' && (
-              <Typography variant="caption" className="text-emerald-600 font-medium">Completed</Typography>
+              <Caption className="text-emerald-600 font-medium">Completed</Caption>
             )}
           </View>
-        </Card>
+        </PrimaryCard>
       </TouchableOpacity>
     </Swipeable>
   );

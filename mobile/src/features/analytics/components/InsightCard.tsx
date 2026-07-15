@@ -1,8 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card } from '../../../components/ui/Card';
-import { Typography } from '../../../components/ui/Typography';
-import { Lightbulb } from 'lucide-react-native';
+import { PrimaryCard, HeadingMD, BodyMD, Icon } from '../../../design-system';
 
 interface InsightCardProps {
   title?: string;
@@ -15,14 +13,14 @@ export const InsightCard = ({ title = "Insight", message, type = 'neutral' }: In
   const iconColor = type === 'positive' ? '#16A34A' : type === 'negative' ? '#DC2626' : '#2563EB';
 
   return (
-    <Card className={`flex-row items-start p-4 mb-3 border-l-4 ${type === 'positive' ? 'border-green-500' : type === 'negative' ? 'border-red-500' : 'border-blue-500'} ${bgColor}`}>
+    <PrimaryCard className={`flex-row items-start p-4 mb-3 border-l-4 ${type === 'positive' ? 'border-green-500' : type === 'negative' ? 'border-red-500' : 'border-blue-500'} ${bgColor}`}>
       <View className="mr-3 mt-1">
-        <Lightbulb size={20} color={iconColor} />
+        <Icon name="Lightbulb" size={20} color={iconColor} />
       </View>
       <View className="flex-1">
-        <Typography variant="h3" className="text-gray-900 text-sm mb-1">{title}</Typography>
-        <Typography variant="body" className="text-gray-700 text-sm">{message}</Typography>
+        <HeadingMD className="text-gray-900 text-sm mb-1">{title}</HeadingMD>
+        <BodyMD className="text-gray-700 text-sm">{message}</BodyMD>
       </View>
-    </Card>
+    </PrimaryCard>
   );
 };

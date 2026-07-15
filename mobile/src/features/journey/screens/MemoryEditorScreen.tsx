@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, ScrollView, Switch, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Switch, Pressable } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,11 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { format } from 'date-fns';
 import { useJourneyMutations } from '../hooks/useJourneyMutations';
 import { useMemory } from '../hooks/useMemory';
-import { Input } from '../../../components/ui/Input';
-import { Button } from '../../../components/ui/Button';
-import { Typography } from '../../../components/ui/Typography';
-import { Card } from '../../../components/ui/Card';
-import { Image as ImageIcon } from 'lucide-react-native';
+import { TextField, Button, Card, BodyMD, HeadingMD, Caption, Icon } from '../../../design-system';
 import type { NavigationProp, RouteProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
 
@@ -117,7 +113,7 @@ export const MemoryEditorScreen = () => {
         control={control}
         name="title"
         render={({ field: { onChange, value } }) => (
-          <Input
+          <TextField
             label="Title"
             placeholder="A memorable day..."
             value={value}
@@ -131,7 +127,7 @@ export const MemoryEditorScreen = () => {
         control={control}
         name="description"
         render={({ field: { onChange, value } }) => (
-          <Input
+          <TextField
             label="Description"
             placeholder="Write down the details..."
             value={value}
@@ -149,7 +145,7 @@ export const MemoryEditorScreen = () => {
             control={control}
             name="category"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <TextField
                 label="Category"
                 placeholder="E.g., Travel, Work"
                 value={value}
@@ -163,7 +159,7 @@ export const MemoryEditorScreen = () => {
             control={control}
             name="location"
             render={({ field: { onChange, value } }) => (
-              <Input
+              <TextField
                 label="Location"
                 placeholder="E.g., Paris"
                 value={value}
@@ -178,7 +174,7 @@ export const MemoryEditorScreen = () => {
         control={control}
         name="date"
         render={({ field: { onChange, value } }) => (
-          <Input
+          <TextField
             label="Date (YYYY-MM-DD)"
             placeholder="YYYY-MM-DD"
             value={value}
@@ -189,7 +185,7 @@ export const MemoryEditorScreen = () => {
 
       <Card className="mb-6 mt-2">
         <View className="flex-row items-center justify-between py-2 border-b border-gray-100">
-          <Typography variant="body" className="font-medium text-gray-700">Favorite</Typography>
+          <BodyMD className="font-medium text-gray-700">Favorite</BodyMD>
           <Controller
             control={control}
             name="favorite"
@@ -199,7 +195,7 @@ export const MemoryEditorScreen = () => {
           />
         </View>
         <View className="flex-row items-center justify-between py-2">
-          <Typography variant="body" className="font-medium text-gray-700">Pin to Top</Typography>
+          <BodyMD className="font-medium text-gray-700">Pin to Top</BodyMD>
           <Controller
             control={control}
             name="pinned"
@@ -211,11 +207,11 @@ export const MemoryEditorScreen = () => {
       </Card>
 
       <View className="mb-8">
-        <Typography variant="h3" className="mb-2">Images</Typography>
-        <TouchableOpacity className="bg-gray-100 h-32 rounded-xl items-center justify-center border-2 border-dashed border-gray-300">
-          <ImageIcon size={32} color="#9CA3AF" />
-          <Typography variant="caption" className="mt-2 text-gray-500">Tap to add images (Placeholder)</Typography>
-        </TouchableOpacity>
+        <HeadingMD className="mb-2">Images</HeadingMD>
+        <Pressable className="bg-gray-100 h-32 rounded-xl items-center justify-center border-2 border-dashed border-gray-300">
+          <Icon name="Image" size={32} color="#9CA3AF" />
+          <Caption className="mt-2 text-gray-500">Tap to add images (Placeholder)</Caption>
+        </Pressable>
       </View>
 
       <Button

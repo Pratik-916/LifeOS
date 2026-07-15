@@ -1,6 +1,5 @@
 import React from 'react';
-import { EmptyState } from '../../../components/ui/EmptyState';
-import { BarChart2 } from 'lucide-react-native';
+import { EmptyState, Icon } from '../../../design-system';
 
 interface AnalyticsEmptyStateProps {
   onAction?: () => void;
@@ -21,10 +20,10 @@ export const AnalyticsEmptyState = ({ onAction, domain = 'all' }: AnalyticsEmpty
 
   return (
     <EmptyState
-      icon={<BarChart2 size={48} color="#9CA3AF" />}
+      icon="BarChart2"
       title="No data available"
       description={getMessage()}
-      actionTitle={onAction ? "Refresh Analytics" : undefined}
+      actionLabel={onAction ? "Refresh Analytics" : undefined}
       onAction={onAction}
     />
   );

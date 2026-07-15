@@ -1,8 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Flame, TrendingUp } from 'lucide-react-native';
-import { Card } from '../../../components/ui/Card';
-import { Typography } from '../../../components/ui/Typography';
+import { Icon, PrimaryCard, HeadingMD, HeadingXL, BodyMD, Caption } from '../../../design-system';
 import { ProgressRing } from '../../analytics/components/ProgressRing';
 
 interface HeroProductivityCardProps {
@@ -17,28 +15,28 @@ export const HeroProductivityCard = React.memo(({ score, trend, completionPercen
   const trendText = isPositive ? `↑ +${Math.round(completionPercentage / 10)} today` : `Keep pushing`;
 
   return (
-    <Card className="mb-8 bg-blue-600 border-0 p-5 rounded-[24px]" accessible={true} accessibilityLabel={`Productivity Score ${score}`}>
+    <PrimaryCard className="mb-8 bg-blue-600 border-0 p-5 rounded-[24px]" accessible={true} accessibilityLabel={`Productivity Score ${score}`}>
       <View className="flex-row justify-between items-center">
         <View className="flex-1">
           <View className="flex-row items-center mb-2">
-            <Flame size={20} color="#FDE047" className="mr-2" />
-            <Typography variant="h3" className="text-white">Productivity</Typography>
+            <Icon name="Flame" size={20} color="#FDE047" className="mr-2" />
+            <HeadingMD className="text-white">Productivity</HeadingMD>
           </View>
           
-          <Typography variant="h1" className="text-white text-5xl mb-1">
-            {score} <Typography variant="body" className="text-blue-200 text-lg">/ 100</Typography>
-          </Typography>
+          <HeadingXL className="text-white text-5xl mb-1">
+            {score} <BodyMD className="text-blue-200 text-lg">/ 100</BodyMD>
+          </HeadingXL>
           
           <View className="flex-row items-center mt-2">
-            <TrendingUp size={16} color={trendColor} className="mr-1" />
-            <Typography variant="caption" className="text-blue-100 font-medium">
+            <Icon name="TrendingUp" size={16} color={trendColor} className="mr-1" />
+            <Caption className="text-blue-100 font-medium">
               {trendText}
-            </Typography>
+            </Caption>
           </View>
           
-          <Typography variant="caption" className="text-blue-200 mt-3">
+          <Caption className="text-blue-200 mt-3">
             "You're doing great."
-          </Typography>
+          </Caption>
         </View>
 
         <View className="bg-white p-2 rounded-full shadow-sm">
@@ -51,7 +49,7 @@ export const HeroProductivityCard = React.memo(({ score, trend, completionPercen
           />
         </View>
       </View>
-    </Card>
+    </PrimaryCard>
   );
 });
 HeroProductivityCard.displayName = 'HeroProductivityCard';

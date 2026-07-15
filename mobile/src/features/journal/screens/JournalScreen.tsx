@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Plus, Search } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../../navigation/types';
@@ -13,8 +12,7 @@ import { JournalCard } from '../components/JournalCard';
 import { JournalStatisticsCard } from '../components/JournalStatisticsCard';
 import { JournalSkeleton } from '../components/JournalSkeleton';
 import { JournalEmptyState } from '../components/JournalEmptyState';
-import { Typography } from '../../../components/ui/Typography';
-import { IconButton } from '../../../components/ui/IconButton';
+import { HeadingXL, IconButton, FloatingActionButton } from '../../../design-system';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
@@ -37,9 +35,9 @@ export const JournalScreen = () => {
   const renderHeader = () => (
     <View>
       <View className="flex-row items-center justify-between px-4 pt-4 pb-2">
-        <Typography variant="h1">Journal</Typography>
+        <HeadingXL>Journal</HeadingXL>
         <IconButton 
-          icon={<Search size={24} color="#1E293B" />} 
+          leftIcon="Search" 
           onPress={handleSearch} 
         />
       </View>
@@ -71,16 +69,10 @@ export const JournalScreen = () => {
           <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#4F46E5" />
         }
       />
-      <View className="absolute bottom-6 right-6">
-        <IconButton
-          icon={<Plus size={24} color="white" />}
-          onPress={handleCreate}
-          variant="primary"
-          size="lg"
-          className="shadow-lg shadow-indigo-500/50"
-          style={{ width: 60, height: 60, borderRadius: 30 }}
-        />
-      </View>
+      <FloatingActionButton
+        leftIcon="Plus"
+        onPress={handleCreate}
+      />
     </SafeAreaView>
   );
 };

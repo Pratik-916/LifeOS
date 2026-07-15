@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { View, FlatList, RefreshControl, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Search, Plus } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
-import { Typography } from '../../../components/ui/Typography';
+import { HeadingLG, HeadingSM, IconButton, FloatingActionButton } from '../../../design-system';
 import { HabitStatisticsCard } from '../components/HabitStatisticsCard';
 import { HabitCard } from '../components/HabitCard';
 import { HabitSkeleton } from '../components/HabitSkeleton';
@@ -57,7 +56,7 @@ export const HabitScreen = () => {
   const renderHeader = () => (
     <View className="mb-4">
       {statsData && <HabitStatisticsCard stats={statsData} />}
-      <Typography variant="h3" className="mb-2 mt-4">Today's Habits</Typography>
+      <HeadingSM className="mb-2 mt-4">Today's Habits</HeadingSM>
     </View>
   );
 
@@ -77,15 +76,13 @@ export const HabitScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }} edges={['top']}>
       <View className="px-4 py-3 flex-row justify-between items-center bg-white border-b border-gray-200">
-        <Typography variant="h2">Habits</Typography>
-        <TouchableOpacity 
+        <HeadingLG>Habits</HeadingLG>
+        <IconButton 
+          leftIcon="Search"
           onPress={() => navigation.navigate('HabitSearch')}
           accessibilityRole="button"
           accessibilityLabel="Search habits"
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        >
-          <Search color={theme.colors.text.DEFAULT} size={24} />
-        </TouchableOpacity>
+        />
       </View>
 
       <FlatList
@@ -107,29 +104,12 @@ export const HabitScreen = () => {
         }
       />
 
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          bottom: 24,
-          right: 24,
-          width: 56,
-          height: 56,
-          borderRadius: 28,
-          backgroundColor: theme.colors.primary.DEFAULT,
-          alignItems: 'center',
-          justifyContent: 'center',
-          elevation: 4,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-        }}
+      <FloatingActionButton
+        leftIcon="Plus"
         onPress={() => navigateToEditor()}
         accessibilityRole="button"
         accessibilityLabel="Create Habit"
-      >
-        <Plus color="#FFFFFF" size={24} />
-      </TouchableOpacity>
+      />
     </SafeAreaView>
   );
 };

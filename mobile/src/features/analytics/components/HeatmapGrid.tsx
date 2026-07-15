@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { Card } from '../../../components/ui/Card';
-import { Typography } from '../../../components/ui/Typography';
+import { PrimaryCard, HeadingMD } from '../../../design-system';
 import type { ChartDataset } from '../api/analytics.types';
 
 interface HeatmapGridProps {
@@ -24,13 +23,13 @@ export const HeatmapGrid = React.memo(({ data, title = "Activity Heatmap" }: Hea
   };
 
   return (
-    <Card 
+    <PrimaryCard 
       className="mb-4"
       accessible={true}
       accessibilityLabel={title}
       accessibilityHint="A heatmap grid visualizing activity intensity over time."
     >
-      <Typography variant="h3" className="mb-4">{title}</Typography>
+      <HeadingMD className="mb-4">{title}</HeadingMD>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View className="flex-row flex-wrap" style={{ width: 400, height: 100 }}>
           {values.slice(0, 365).map((val, idx) => (
@@ -41,7 +40,7 @@ export const HeatmapGrid = React.memo(({ data, title = "Activity Heatmap" }: Hea
           ))}
         </View>
       </ScrollView>
-    </Card>
+    </PrimaryCard>
   );
 });
 HeatmapGrid.displayName = 'HeatmapGrid';

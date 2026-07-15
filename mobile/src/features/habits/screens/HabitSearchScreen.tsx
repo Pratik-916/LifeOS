@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ArrowLeft, Search, X } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { IconButton, Icon } from '../../../design-system';
 import { MainStackParamList } from '../../../navigation/types';
 import { HabitCard } from '../components/HabitCard';
 import { HabitSkeleton } from '../components/HabitSkeleton';
@@ -44,12 +44,10 @@ export const HabitSearchScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }} edges={['top']}>
       <View className="px-4 py-3 bg-white border-b border-gray-200 flex-row items-center">
-        <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3" accessibilityRole="button">
-          <ArrowLeft size={24} color="#111827" />
-        </TouchableOpacity>
+        <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} className="mr-3" accessibilityRole="button" />
         
         <View className="flex-1 flex-row items-center bg-gray-100 rounded-lg px-3 py-2">
-          <Search size={20} color="#9CA3AF" />
+          <Icon name="Search" size={20} color="#9CA3AF" />
           <TextInput
             className="flex-1 ml-2 text-base text-gray-900"
             placeholder="Search habits..."
@@ -59,7 +57,7 @@ export const HabitSearchScreen = () => {
           />
           {query.length > 0 && (
             <TouchableOpacity onPress={() => setQuery('')}>
-              <X size={20} color="#9CA3AF" />
+              <Icon name="X" size={20} color="#9CA3AF" />
             </TouchableOpacity>
           )}
         </View>

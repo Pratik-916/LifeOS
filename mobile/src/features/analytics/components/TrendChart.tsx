@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Dimensions } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
-import { Card } from '../../../components/ui/Card';
-import { Typography } from '../../../components/ui/Typography';
+import { PrimaryCard, HeadingMD } from '../../../design-system';
 import type { ChartDataset } from '../api/analytics.types';
 import { LazyRender } from './LazyRender';
 
@@ -29,13 +28,13 @@ export const TrendChart = React.memo(({ data, title, type = 'weekly' }: TrendCha
   const screenWidth = Dimensions.get('window').width;
 
   return (
-    <Card 
+    <PrimaryCard 
       className="mb-4"
       accessible={true}
       accessibilityLabel={`${title} Chart`}
       accessibilityHint={`Displays a bar chart for ${title}.`}
     >
-      <Typography variant="h3" className="mb-4">{title}</Typography>
+      <HeadingMD className="mb-4">{title}</HeadingMD>
       <LazyRender>
         <View className="overflow-hidden">
           <BarChart
@@ -55,7 +54,7 @@ export const TrendChart = React.memo(({ data, title, type = 'weekly' }: TrendCha
           />
         </View>
       </LazyRender>
-    </Card>
+    </PrimaryCard>
   );
 });
 TrendChart.displayName = 'TrendChart';

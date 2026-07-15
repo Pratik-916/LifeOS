@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
-import { CheckCircle2, Circle, Flame, Archive, Undo2, Star } from 'lucide-react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { ListCard, HeadingSM, Caption, Icon } from '../../../design-system';
 import { CategoryChip, FrequencyBadge, ReminderIndicator } from './HabitBadges';
 import { HabitProgressRing } from './HabitProgressRing';
 import type { HabitModel } from '../api/habits.types';
@@ -41,7 +40,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
         accessibilityLabel={isArchived ? "Restore habit" : "Archive habit"}
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          {isArchived ? <Undo2 color="#FFFFFF" size={24} /> : <Archive color="#FFFFFF" size={24} />}
+          {isArchived ? <Icon name="Undo2" color="#FFFFFF" size={24} /> : <Icon name="Archive" color="#FFFFFF" size={24} />}
         </Animated.View>
       </TouchableOpacity>
     );
@@ -65,7 +64,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
         accessibilityLabel="Complete habit"
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          <CheckCircle2 color="#FFFFFF" size={24} />
+          <Icon name="CheckCircle2" color="#FFFFFF" size={24} />
         </Animated.View>
       </TouchableOpacity>
     );
@@ -73,10 +72,9 @@ export const HabitCard: React.FC<HabitCardProps> = ({
 
   return (
     <Swipeable renderRightActions={renderRightActions} renderLeftActions={renderLeftActions}>
-      <TouchableOpacity 
-        activeOpacity={0.7} 
+      <ListCard 
         onPress={onPress} 
-        style={[styles.container, isCompleted && styles.completedContainer]}
+        style={[styles.container, isCompleted && styles.completedContainer] as any}
       >
         <View style={styles.contentRow}>
           <TouchableOpacity 
@@ -93,24 +91,23 @@ export const HabitCard: React.FC<HabitCardProps> = ({
                 color={habit.color || '#10B981'}
               />
             ) : isCompleted ? (
-              <CheckCircle2 color={habit.color || '#10B981'} size={32} />
+              <Icon name="CheckCircle2" color={habit.color || '#10B981'} size={32} />
             ) : (
-              <Circle color="#D1D5DB" size={32} />
+              <Icon name="Circle" color="#D1D5DB" size={32} />
             )}
           </TouchableOpacity>
 
           <View style={styles.textContainer}>
             <View style={styles.titleRow}>
-              <Typography 
-                variant="h3" 
+              <HeadingSM 
                 className={`font-medium ${isArchived ? 'text-gray-400' : 'text-gray-900'}`}
                 numberOfLines={1}
                 style={{ flex: 1 }}
               >
                 {habit.title}
-              </Typography>
+              </HeadingSM>
               {habit.isFavorite && (
-                <Star size={16} color="#F59E0B" fill="#F59E0B" style={{ marginLeft: 4 }} />
+                <Icon name="Star" size={16} color="#F59E0B" className="ml-1" />
               )}
             </View>
             
@@ -121,16 +118,16 @@ export const HabitCard: React.FC<HabitCardProps> = ({
               
               {habit.currentStreak > 0 && (
                 <View style={styles.streakBadge}>
-                  <Flame size={12} color="#F97316" />
-                  <Typography variant="caption" className="text-orange-600 font-bold ml-1">
+                  <Icon name="Flame" size={12} color="#F97316" />
+                  <Caption className="text-orange-600 font-bold ml-1">
                     {habit.currentStreak}
-                  </Typography>
+                  </Caption>
                 </View>
               )}
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </ListCard>
     </Swipeable>
   );
 };

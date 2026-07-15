@@ -1,7 +1,6 @@
 import { ActivityIndicator, Animated } from 'react-native';
 import React, { useEffect, useMemo } from 'react';
-import { Typography } from '../../../components/ui/Typography';
-import { CheckCircle2, CloudOff } from 'lucide-react-native';
+import { Caption, Icon } from '../../../design-system';
 
 interface AutosaveIndicatorProps {
   status: 'saved' | 'saving' | 'offline' | 'error' | 'idle';
@@ -33,27 +32,27 @@ export const AutosaveIndicator = ({ status }: AutosaveIndicatorProps) => {
       {status === 'saving' && (
         <>
           <ActivityIndicator size="small" color="#64748B" style={{ transform: [{ scale: 0.6 }] }} />
-          <Typography variant="caption" className="text-slate-500 ml-1">Saving...</Typography>
+          <Caption className="text-slate-500 ml-1">Saving...</Caption>
         </>
       )}
       
       {status === 'saved' && (
         <>
-          <CheckCircle2 size={12} color="#10B981" />
-          <Typography variant="caption" className="text-emerald-600 ml-1">Saved</Typography>
+          <Icon name="CheckCircle2" size={12} color="#10B981" />
+          <Caption className="text-emerald-600 ml-1">Saved</Caption>
         </>
       )}
       
       {status === 'offline' && (
         <>
-          <CloudOff size={12} color="#F59E0B" />
-          <Typography variant="caption" className="text-amber-600 ml-1">Offline Draft</Typography>
+          <Icon name="CloudOff" size={12} color="#F59E0B" />
+          <Caption className="text-amber-600 ml-1">Offline Draft</Caption>
         </>
       )}
 
       {status === 'error' && (
         <>
-          <Typography variant="caption" className="text-rose-600 ml-1">Failed to save</Typography>
+          <Caption className="text-rose-600 ml-1">Failed to save</Caption>
         </>
       )}
     </Animated.View>

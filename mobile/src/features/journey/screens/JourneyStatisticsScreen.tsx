@@ -2,8 +2,7 @@ import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { useJourneyStatistics } from '../hooks/useJourneyStatistics';
 import { JourneyStatisticsCard } from '../components/JourneyStatisticsCard';
-import { Typography } from '../../../components/ui/Typography';
-import { Card } from '../../../components/ui/Card';
+import { HeadingMD, BodyMD, Card } from '../../../design-system';
 
 export const JourneyStatisticsScreen = () => {
   const { data: stats, isLoading } = useJourneyStatistics();
@@ -17,42 +16,42 @@ export const JourneyStatisticsScreen = () => {
       <JourneyStatisticsCard stats={stats} />
       
       <Card className="mb-4">
-        <Typography variant="h3" className="mb-3">Activity Breakdown</Typography>
+        <HeadingMD className="mb-3">Activity Breakdown</HeadingMD>
         <View className="flex-row justify-between border-b border-gray-100 py-2">
-          <Typography variant="body" className="text-gray-600">Completed Goals</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.completedGoals}</Typography>
+          <BodyMD className="text-gray-600">Completed Goals</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.completedGoals}</BodyMD>
         </View>
         <View className="flex-row justify-between border-b border-gray-100 py-2">
-          <Typography variant="body" className="text-gray-600">Completed Tasks</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.completedTasks}</Typography>
+          <BodyMD className="text-gray-600">Completed Tasks</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.completedTasks}</BodyMD>
         </View>
         <View className="flex-row justify-between border-b border-gray-100 py-2">
-          <Typography variant="body" className="text-gray-600">Habit Milestones</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.habitMilestones}</Typography>
+          <BodyMD className="text-gray-600">Habit Milestones</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.habitMilestones}</BodyMD>
         </View>
         <View className="flex-row justify-between py-2">
-          <Typography variant="body" className="text-gray-600">Writing Milestones</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.writingMilestones}</Typography>
+          <BodyMD className="text-gray-600">Writing Milestones</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.writingMilestones}</BodyMD>
         </View>
       </Card>
 
       <Card className="mb-8">
-        <Typography variant="h3" className="mb-3">Highlights</Typography>
+        <HeadingMD className="mb-3">Highlights</HeadingMD>
         <View className="flex-row justify-between border-b border-gray-100 py-2">
-          <Typography variant="body" className="text-gray-600">Longest Habit Streak</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.longestHabitStreak} days</Typography>
+          <BodyMD className="text-gray-600">Longest Habit Streak</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.longestHabitStreak} days</BodyMD>
         </View>
         <View className="flex-row justify-between border-b border-gray-100 py-2">
-          <Typography variant="body" className="text-gray-600">Longest Writing Streak</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.longestWritingStreak} days</Typography>
+          <BodyMD className="text-gray-600">Longest Writing Streak</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.longestWritingStreak} days</BodyMD>
         </View>
         <View className="flex-row justify-between border-b border-gray-100 py-2">
-          <Typography variant="body" className="text-gray-600">Most Active Month</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.mostActiveMonth || 'N/A'}</Typography>
+          <BodyMD className="text-gray-600">Most Active Month</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.mostActiveMonth || 'N/A'}</BodyMD>
         </View>
         <View className="flex-row justify-between py-2">
-          <Typography variant="body" className="text-gray-600">Most Used Category</Typography>
-          <Typography variant="body" className="font-semibold text-gray-900">{stats.mostUsedCategory || 'N/A'}</Typography>
+          <BodyMD className="text-gray-600">Most Used Category</BodyMD>
+          <BodyMD className="font-semibold text-gray-900">{stats.mostUsedCategory || 'N/A'}</BodyMD>
         </View>
       </Card>
     </ScrollView>

@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MainStackParamList } from '../../../navigation/types';
 import { useGoal } from '../hooks/useGoal';
 import { useGoalMutations } from '../hooks/useGoalMutations';
-import { HeadingMD, BodyMD, Label, Icon } from '../../design-system';
+import { HeadingMD, BodyMD, Label, Icon } from '../../../design-system';
 import { MilestoneCard } from '../components/MilestoneCard';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;

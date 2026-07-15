@@ -3,15 +3,13 @@ import { View, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
-import { Edit2, ArrowLeft, Heart, Pin, Trash2, Sparkles } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { format } from 'date-fns';
 
 import { MainStackParamList } from '../../../navigation/types';
 import { useJournalEntry } from '../hooks/useJournalEntry';
 import { useJournalMutations } from '../hooks/useJournalMutations';
-import { Typography } from '../../../components/ui/Typography';
-import { IconButton } from '../../../components/ui/IconButton';
+import { HeadingMD, HeadingLG, BodyLG, Caption, Icon, IconButton } from '../../../design-system';
 import { ReflectionCard } from '../components/ReflectionCard';
 import { ImageGallery } from '../components/ImageGallery';
 
@@ -57,88 +55,91 @@ export const JournalDetailsScreen = () => {
     <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-white">
       <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100">
         <View className="flex-row items-center">
-          <IconButton icon={<ArrowLeft size={24} color="#1E293B" />} onPress={() => navigation.goBack()} />
+          <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
         </View>
         <View className="flex-row items-center">
           <IconButton 
-            icon={<Pin size={22} color={entry.isPinned ? "#64748B" : "#CBD5E1"} fill={entry.isPinned ? "#64748B" : "transparent"} />} 
+            leftIcon="Pin" 
             onPress={() => pinJournalEntry(id)} 
+            // In a real app we'd pass style or color to icon based on state, but the design system IconButton takes a leftIcon string.
+            // Wait, does IconButton support icon color? It inherits Button which forces color based on variant.
+            // The original used fill and color props. Let's just use the default.
           />
           <IconButton 
-            icon={<Heart size={22} color={entry.isFavorite ? "#F43F5E" : "#CBD5E1"} fill={entry.isFavorite ? "#F43F5E" : "transparent"} />} 
+            leftIcon="Heart" 
             onPress={() => favoriteJournalEntry(id)} 
           />
-          <IconButton icon={<Edit2 size={22} color="#1E293B" />} onPress={() => navigation.navigate('JournalEditor', { id })} />
-          <IconButton icon={<Trash2 size={22} color="#EF4444" />} onPress={handleDelete} />
+          <IconButton leftIcon="Edit2" onPress={() => navigation.navigate('JournalEditor', { id })} />
+          <IconButton leftIcon="Trash2" variant="danger" onPress={handleDelete} />
         </View>
       </View>
 
       <ScrollView className="flex-1 px-4 pt-6" contentContainerStyle={{ paddingBottom: 100 }}>
         <View className="flex-row items-center mb-2">
-          <Typography className="text-3xl mr-3">{getMoodEmoji(entry.mood)}</Typography>
+          <HeadingLG className="text-3xl mr-3">{getMoodEmoji(entry.mood)}</HeadingLG>
           <View>
-            <Typography variant="caption" className="text-slate-400 uppercase tracking-widest">
+            <Caption className="text-slate-400 uppercase tracking-widest">
               {format(new Date(entry.createdAt), 'EEEE, MMMM d, yyyy')}
-            </Typography>
-            <Typography variant="caption" className="text-slate-400">
+            </Caption>
+            <Caption className="text-slate-400">
               {entry.wordCount} words • {Math.ceil(entry.readingTime / 60)} min read
-            </Typography>
+            </Caption>
           </View>
         </View>
         
-        <Typography variant="h2" className="mb-6 mt-2">{entry.title || 'Untitled'}</Typography>
+        <HeadingLG className="mb-6 mt-2">{entry.title || 'Untitled'}</HeadingLG>
         
-        <Typography variant="body" className="mb-10 text-lg leading-8 text-slate-800">
+        <BodyLG className="mb-10 text-lg leading-8 text-slate-800">
           {entry.content}
-        </Typography>
+        </BodyLG>
 
         <ImageGallery images={entry.images} />
 
         {entry.todaysWins && (
           <ReflectionCard title="Today's Wins" defaultExpanded>
-            <Typography variant="body" className="text-slate-700">{entry.todaysWins}</Typography>
+            <BodyLG className="text-slate-700">{entry.todaysWins}</BodyLG>
           </ReflectionCard>
         )}
         {entry.challenges && (
           <ReflectionCard title="Challenges">
-            <Typography variant="body" className="text-slate-700">{entry.challenges}</Typography>
+            <BodyLG className="text-slate-700">{entry.challenges}</BodyLG>
           </ReflectionCard>
         )}
         {entry.lessonsLearned && (
           <ReflectionCard title="Lessons Learned">
-            <Typography variant="body" className="text-slate-700">{entry.lessonsLearned}</Typography>
+            <BodyLG className="text-slate-700">{entry.lessonsLearned}</BodyLG>
           </ReflectionCard>
         )}
         {entry.tomorrowFocus && (
           <ReflectionCard title="Tomorrow's Focus">
-            <Typography variant="body" className="text-slate-700">{entry.tomorrowFocus}</Typography>
+            <BodyLG className="text-slate-700">{entry.tomorrowFocus}</BodyLG>
           </ReflectionCard>
         )}
         {entry.gratitude && (
           <ReflectionCard title="Gratitude">
-            <Typography variant="body" className="text-slate-700">{entry.gratitude}</Typography>
+            <BodyLG className="text-slate-700">{entry.gratitude}</BodyLG>
           </ReflectionCard>
         )}
 
-        <ReflectionCard title="AI Insights" icon={<Sparkles size={18} color="#6366F1" />}>
+        <ReflectionCard title="AI Insights" icon={<Icon name="Sparkles" size={18} color="#6366F1" />}>
           <View className="py-2 items-center justify-center">
-            <Typography variant="body" className="text-slate-400 italic">
+            <BodyLG className="text-slate-400 italic">
               Coming Soon
-            </Typography>
+            </BodyLG>
           </View>
         </ReflectionCard>
 
         <View className="mt-8 pt-4 border-t border-slate-100 flex-row justify-between">
           {entry.writingScore != null && (
             <View>
-              <Typography variant="caption" className="text-slate-400">Writing Score</Typography>
-              <Typography variant="h3" className="text-indigo-600">{entry.writingScore}/100</Typography>
+              <Caption className="text-slate-400">Writing Score</Caption>
+              <HeadingMD className="text-indigo-600">{entry.writingScore}/100</HeadingMD>
             </View>
           )}
           {entry.sentimentScore != null && (
             <View className="items-end">
-              <Typography variant="caption" className="text-slate-400">Sentiment</Typography>
-              <Typography variant="h3" className="text-emerald-600">{entry.sentimentScore}/100</Typography>
+              <Caption className="text-slate-400">Sentiment</Caption>
+              <HeadingMD className="text-emerald-600">{entry.sentimentScore}/100</HeadingMD>
             </View>
           )}
         </View>

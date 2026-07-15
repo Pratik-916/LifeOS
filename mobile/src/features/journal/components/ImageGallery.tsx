@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet, ScrollView } from 'react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { Label } from '../../../design-system';
 import type { JournalImageModel } from '../api/journal.types';
 
 interface ImageGalleryProps {
@@ -12,7 +12,7 @@ export const ImageGallery = ({ images }: ImageGalleryProps) => {
 
   return (
     <View className="mb-4">
-      <Typography variant="label" className="mb-2">Photos</Typography>
+      <Label className="mb-2">Photos</Label>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
         {images.map((img) => (
           <Image 

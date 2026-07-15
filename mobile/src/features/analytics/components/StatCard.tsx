@@ -1,46 +1,43 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card } from '../../../components/ui/Card';
-import { Typography } from '../../../components/ui/Typography';
-import { LucideIcon } from 'lucide-react-native';
+import { StatCard as DSStatCard, Caption, HeadingLG, Icon } from '../../../design-system';
 
 interface StatCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
-  icon?: LucideIcon;
+  icon?: string;
   iconColor?: string;
   trend?: 'up' | 'down' | 'neutral';
   trendValue?: string;
 }
 
-export const StatCard = ({ title, value, subtitle, icon: Icon, iconColor, trend, trendValue }: StatCardProps) => {
+export const StatCard = ({ title, value, subtitle, icon, iconColor, trend, trendValue }: StatCardProps) => {
   return (
-    <Card className="flex-1 m-1 p-3">
+    <DSStatCard className="flex-1 m-1 p-3">
       <View className="flex-row justify-between items-start mb-2">
-        <Typography variant="caption" className="text-gray-500 font-medium">
+        <Caption className="text-gray-500 font-medium">
           {title}
-        </Typography>
-        {Icon && <Icon size={16} color={iconColor || "#9CA3AF"} />}
+        </Caption>
+        {icon && <Icon name={icon} size={16} color={iconColor || "#9CA3AF"} />}
       </View>
       <View className="flex-row items-end">
-        <Typography variant="h2" className="text-gray-900">
+        <HeadingLG className="text-gray-900">
           {value}
-        </Typography>
+        </HeadingLG>
         {trend && trendValue && (
-          <Typography 
-            variant="caption" 
+          <Caption 
             className={`ml-2 mb-1 ${trend === 'up' ? 'text-green-600' : trend === 'down' ? 'text-red-600' : 'text-gray-500'}`}
           >
             {trend === 'up' ? '↑' : trend === 'down' ? '↓' : '−'} {trendValue}
-          </Typography>
+          </Caption>
         )}
       </View>
       {subtitle && (
-        <Typography variant="caption" className="text-gray-400 mt-1">
+        <Caption className="text-gray-400 mt-1">
           {subtitle}
-        </Typography>
+        </Caption>
       )}
-    </Card>
+    </DSStatCard>
   );
 };

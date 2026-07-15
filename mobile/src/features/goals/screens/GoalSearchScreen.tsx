@@ -3,12 +3,11 @@ import { View, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ArrowLeft, Search, X } from 'lucide-react-native';
 
 import { MainStackParamList } from '../../../navigation/types';
 import { useGoals } from '../hooks/useGoals';
 import { GoalCard } from '../components/GoalCard';
-import { Typography } from '../../../components/ui/Typography';
+import { BodyMD, Icon } from '../../../design-system';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
@@ -31,11 +30,11 @@ export const GoalSearchScreen = () => {
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       <View className="flex-row items-center px-4 py-3 border-b border-slate-100">
         <TouchableOpacity onPress={() => navigation.goBack()} className="p-2 -ml-2 mr-2">
-          <ArrowLeft size={24} color="#0F172A" />
+          <Icon name="ArrowLeft" size={24} color="#0F172A" />
         </TouchableOpacity>
         
         <View className="flex-1 flex-row items-center bg-slate-100 rounded-full px-3 h-10">
-          <Search size={18} color="#94A3B8" />
+          <Icon name="Search" size={18} color="#94A3B8" />
           <TextInput
             value={searchTerm}
             onChangeText={setSearchTerm}
@@ -46,7 +45,7 @@ export const GoalSearchScreen = () => {
           />
           {searchTerm.length > 0 && (
             <TouchableOpacity onPress={() => setSearchTerm('')}>
-              <X size={18} color="#94A3B8" />
+              <Icon name="X" size={18} color="#94A3B8" />
             </TouchableOpacity>
           )}
         </View>
@@ -65,7 +64,7 @@ export const GoalSearchScreen = () => {
         ListEmptyComponent={
           debouncedTerm.length > 0 && !isLoading ? (
             <View className="flex-1 items-center justify-center pt-20">
-              <Typography variant="body" className="text-slate-500">No results found for "{debouncedTerm}"</Typography>
+              <BodyMD className="text-slate-500">No results found for "{debouncedTerm}"</BodyMD>
             </View>
           ) : null
         }

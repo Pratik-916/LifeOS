@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Pressable, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { CheckSquare, Target, Trophy, BookOpen, Compass } from 'lucide-react-native';
-import { Typography } from '../../../components/ui/Typography';
+import { Icon, Caption } from '../../../design-system';
 import { DashboardSectionTitle } from './DashboardSectionTitle';
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
@@ -28,7 +27,7 @@ const ActionButton = ({ label, color, icon, onPress }: ActionButtonProps) => (
     >
       {icon}
     </View>
-    <Typography variant="caption" className="text-slate-700 font-medium">{label}</Typography>
+    <Caption className="text-slate-700 font-medium">{label}</Caption>
   </Pressable>
 );
 
@@ -41,27 +40,27 @@ export const QuickActions = React.memo(() => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 8 }}>
         <ActionButton 
           label="Task" color="#DBEAFE" 
-          icon={<CheckSquare size={24} color="#2563EB" />} 
+          icon={<Icon name="CheckSquare" size={24} color="#2563EB" />} 
           onPress={() => navigation.navigate('TaskEditor', {})} 
         />
         <ActionButton 
           label="Habit" color="#D1FAE5" 
-          icon={<Target size={24} color="#10B981" />} 
+          icon={<Icon name="Target" size={24} color="#10B981" />} 
           onPress={() => navigation.navigate('HabitEditor', {})} 
         />
         <ActionButton 
           label="Goal" color="#FEF3C7" 
-          icon={<Trophy size={24} color="#F59E0B" />} 
+          icon={<Icon name="Trophy" size={24} color="#F59E0B" />} 
           onPress={() => navigation.navigate('GoalEditor', {})} 
         />
         <ActionButton 
           label="Journal" color="#EDE9FE" 
-          icon={<BookOpen size={24} color="#8B5CF6" />} 
+          icon={<Icon name="BookOpen" size={24} color="#8B5CF6" />} 
           onPress={() => navigation.navigate('JournalEditor', {})} 
         />
         <ActionButton 
           label="Memory" color="#CCFBF1" 
-          icon={<Compass size={24} color="#14B8A6" />} 
+          icon={<Icon name="Compass" size={24} color="#14B8A6" />} 
           onPress={() => navigation.navigate('MemoryEditor', {})} 
         />
       </ScrollView>

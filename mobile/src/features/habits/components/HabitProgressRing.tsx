@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
-import { Typography } from '../../../components/ui/Typography';
+import { Caption } from '../../../design-system';
 
 interface HabitProgressRingProps {
   progress: number;
@@ -52,9 +52,9 @@ export const HabitProgressRing: React.FC<HabitProgressRingProps> = ({
         />
       </Svg>
       {showText && (
-        <Typography variant="caption" className="font-bold text-gray-700" style={{ fontSize: size * 0.3 }}>
+        <Caption className="font-bold text-gray-700" style={{ fontSize: size * 0.3 }}>
           {clampedProgress}
-        </Typography>
+        </Caption>
       )}
     </View>
   );

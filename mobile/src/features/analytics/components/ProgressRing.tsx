@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
-import { Typography } from '../../../components/ui/Typography';
+import { HeadingLG, Caption } from '../../../design-system';
 
 interface ProgressRingProps {
   progress: number; // 0 to 100
@@ -31,8 +31,8 @@ export const ProgressRing = ({ progress, size = 120, color = '#2563EB', label }:
         innerRadius={(size / 2) - 12}
         centerLabelComponent={() => (
           <View className="items-center justify-center">
-            <Typography variant="h2" className="text-gray-900">{Math.round(validProgress)}%</Typography>
-            {label && <Typography variant="caption" className="text-gray-500">{label}</Typography>}
+            <HeadingLG className="text-gray-900">{Math.round(validProgress)}%</HeadingLG>
+            {label && <Caption className="text-gray-500">{label}</Caption>}
           </View>
         )}
       />

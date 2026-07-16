@@ -1,13 +1,16 @@
 name: Backend CI
 
 on:
+  workflow_call:
   push:
     branches: [ "main" ]
+    paths: [ "backend/**" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "backend/**" ]
 
 jobs:
-  check-and-test:
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -16,27 +19,38 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up Python 3.12
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.11'
         cache: 'pip'
         
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        
-    - name: Django Check
-      run: |
-        python manage.py check
+      run: pip install -r requirements.txt
+      
+    - name: Run Ruff Linting
+      run: ruff check .
+      
+    - name: Run Black Formatting Check
+      run: black --check .
+      
+    - name: Run Pytest & Coverage
+      run: pytest --cov=. --cov-report=xml
+      
+    - name: Django Deploy Check
+      run: python manage.py check --deploy
       env:
-        DJANGO_SECRET_KEY: "django-insecure-ci-dummy-key"
-        DEBUG: "True"
+        DJANGO_SECRET_KEY: "dummy-secret-key-for-ci"
+        DEBUG: "False"
         
-    - name: Django Test
-      run: |
-        python manage.py test
+    - name: Collect Static Check
+      run: python manage.py collectstatic --noinput
       env:
-        DJANGO_SECRET_KEY: "django-insecure-ci-dummy-key"
-        DEBUG: "True"
+        DJANGO_SECRET_KEY: "dummy-secret-key-for-ci"
+        DEBUG: "False"
+        
+    - name: Archive Coverage
+      uses: actions/upload-artifact@v4
+      with:
+        name: backend-coverage
+        path: backend/coverage.xml

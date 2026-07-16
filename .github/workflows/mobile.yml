@@ -1,20 +1,20 @@
-name: Frontend CI
+name: Mobile CI
 
 on:
   workflow_call:
   push:
     branches: [ "main" ]
-    paths: [ "frontend/**" ]
+    paths: [ "mobile/**" ]
   pull_request:
     branches: [ "main" ]
-    paths: [ "frontend/**" ]
+    paths: [ "mobile/**" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: ./mobile
 
     steps:
     - uses: actions/checkout@v4
@@ -24,7 +24,13 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
+        cache-dependency-path: mobile/package-lock.json
+        
+    - name: Setup Expo
+      uses: expo/expo-github-action@v8
+      with:
+        expo-version: latest
+        token: ${{ secrets.EXPO_TOKEN }}
         
     - name: Install dependencies
       run: npm ci || npm install
@@ -41,11 +47,8 @@ jobs:
     - name: Run Tests & Coverage
       run: npm run test:coverage
       
-    - name: Production Build
-      run: npm run build
-      
     - name: Archive Coverage
       uses: actions/upload-artifact@v4
       with:
-        name: frontend-coverage
-        path: frontend/coverage/
+        name: mobile-coverage
+        path: mobile/coverage/

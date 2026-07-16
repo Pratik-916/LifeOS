@@ -1,0 +1,30 @@
+name: LifeOS Unified CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  backend-ci:
+    uses: ./.github/workflows/backend.yml
+
+  frontend-ci:
+    uses: ./.github/workflows/frontend.yml
+
+  mobile-ci:
+    uses: ./.github/workflows/mobile.yml
+
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Frontend Audit
+        run: cd frontend && npm audit --audit-level=high || true
+      - name: Mobile Audit
+        run: cd mobile && npm audit --audit-level=high || true

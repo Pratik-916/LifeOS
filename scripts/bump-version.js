@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 
 const version = process.argv[2];
 
-if (!version || !/^\d+\.\d+\.\d+$/.test(version)) {
+if (!version || !/^\d+\.\d+\.\d+(-rc\d+)?$/.test(version)) {
   console.error("Please provide a valid semantic version (e.g., 1.2.3)");
   process.exit(1);
 }
@@ -37,7 +37,8 @@ if (fs.existsSync(appJsonPath)) {
     data.expo.version = version;
     
     // Automatically increment iOS buildNumber and Android versionCode based on semantic version
-    const parts = version.split('.');
+    const semanticPart = version.split('-')[0];
+    const parts = semanticPart.split('.');
     const versionCode = parseInt(parts[0]) * 10000 + parseInt(parts[1]) * 100 + parseInt(parts[2]);
     
     if (data.expo.ios) data.expo.ios.buildNumber = String(versionCode);

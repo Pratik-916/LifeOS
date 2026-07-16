@@ -2,14 +2,14 @@
   "expo": {
     "name": "mobile",
     "slug": "mobile",
-    "version": "1.27.1",
+    "version": "1.29.0-rc1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "bundleIdentifier": "com.lifeos.mobile",
       "supportsTablet": true,
-      "buildNumber": "12701"
+      "buildNumber": "12900"
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +17,7 @@
         "backgroundImage": "./assets/android-icon-background.png"
       },
       "package": "com.lifeos.mobile",
-      "versionCode": 12701
+      "versionCode": 12900
     },
     "web": {
       "favicon": "./assets/favicon.png"

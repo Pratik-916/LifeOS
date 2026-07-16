@@ -1,7 +1,7 @@
 {
   "name": "happy-meitner",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.27.1",
   "type": "module",
   "scripts": {
     "dev": "vite",

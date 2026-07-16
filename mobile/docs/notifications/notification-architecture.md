@@ -9,7 +9,9 @@ The notification engine provides local push notifications, background tasks, and
 4. **Offline Compatible**: Scheduling happens simultaneously with optimistic mutations, even offline.
 
 ## Core Modules
-- `notificationService`: Wrapper over `expo-notifications` for generic delivery.
-- `reminderEngine`: Examines feature entities and delegates to `notificationService`.
+- `notificationService.ts`: Core wrapper around `expo-notifications`. Registers background listeners, handles permission checks (including `AppState` background-to-foreground permission revocation detection), and exports methods like `schedule` and `cancel`.
+- `reminderEngine.ts`: The central business logic unit. All feature hooks (Planner, Habits, etc.) pass their entity states here. The engine computes whether a notification is valid, applies offsets, and calls `notificationService`.
+- `scheduler.ts`: Responsible for final timing adjustments. Resolves Quiet Hours constraints (`MOVE_TO_END`, `SUPPRESS`) and pushes scheduling requests to an internal batched queue to protect the UI thread during bulk operations.
+- `storage.ts`: A lightweight `AsyncStorage` module tracking `<Entity ID> -> [Notification IDs]`.
 - `backgroundTasks`: Handles periodic maintenance via `expo-background-fetch`.
 - `useNotificationStore`: Zustand store for preferences.

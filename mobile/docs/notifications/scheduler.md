@@ -4,6 +4,7 @@ The `scheduler.ts` file acts as the boundary between our app logic and `expo-not
 
 ## Capabilities
 - Schedules exact-date local notifications using deterministic identifiers to prevent duplicates.
+- Uses a **Scheduling Dispatcher** to batch schedule bulk requests, preventing UI thread blockage and OS rate limiting.
 - Resolves conflicts and avoids duplicate triggers.
 - Enforces **Quiet Hours** policies by evaluating the requested trigger date against the user's preferences.
 

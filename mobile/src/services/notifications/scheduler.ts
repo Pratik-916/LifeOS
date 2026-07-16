@@ -5,8 +5,49 @@ import type { ScheduleOptions } from './types';
 import { monitoringService } from '../monitoring';
 import { useNotificationStore } from '../../store/useNotificationStore';
 import { parse, isAfter, isBefore, set, addDays } from 'date-fns';
+import { QUEUE_CONFIG } from './constants';
 
-export const schedule = async (options: ScheduleOptions): Promise<string | null> => {
+interface QueueItem {
+  options: ScheduleOptions;
+  resolve: (value: string | null) => void;
+}
+
+const schedulingQueue: QueueItem[] = [];
+let isProcessingQueue = false;
+
+const processQueue = async () => {
+  if (isProcessingQueue) return;
+  isProcessingQueue = true;
+
+  try {
+    while (schedulingQueue.length > 0) {
+      const batch = schedulingQueue.splice(0, QUEUE_CONFIG.BATCH_SIZE);
+      
+      await Promise.all(
+        batch.map(async ({ options, resolve }) => {
+          const id = await executeSchedule(options);
+          resolve(id);
+        })
+      );
+
+      if (schedulingQueue.length > 0) {
+        // Yield to the event loop
+        await new Promise(r => setTimeout(r, QUEUE_CONFIG.BATCH_DELAY_MS));
+      }
+    }
+  } finally {
+    isProcessingQueue = false;
+  }
+};
+
+export const schedule = (options: ScheduleOptions): Promise<string | null> => {
+  return new Promise((resolve) => {
+    schedulingQueue.push({ options, resolve });
+    processQueue();
+  });
+};
+
+const executeSchedule = async (options: ScheduleOptions): Promise<string | null> => {
   try {
     const state = useNotificationStore.getState();
     if (!state.globalEnabled) return null;

@@ -10,3 +10,8 @@ export const NOTIFICATION_CHANNELS = {
 export const STORAGE_KEYS = {
   MAPPINGS: '@notifications:mappings',
 };
+
+export const QUEUE_CONFIG = {
+  BATCH_SIZE: 10,
+  BATCH_DELAY_MS: 50, // Yields to JS event loop to avoid UI thread blocking
+};

@@ -9,10 +9,11 @@ import { useAuthStore } from '../../../store/useAuthStore';
 import { HeadingXL, BodyMD } from '../../../design-system/text/Typography';
 import { PrimaryCard as Card } from '../../../design-system/cards/Card';
 import { PrimaryButton as Button } from '../../../design-system/buttons/Button';
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
-import { offlineQueue } from '../../../services/offline';
+import { offlineQueue, syncEngine } from '../../../services/offline';
+import { monitoringService } from '../../../services/monitoring';
 
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
@@ -30,8 +31,10 @@ export const ProfileScreen = () => {
   });
 
   const queryClient = useQueryClient();
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   const handleDeleteAccount = () => {
+    if (isDeleting) return;
     Alert.alert(
       "Delete Account",
       "Are you sure you want to permanently delete your account and all cloud data? This cannot be undone.",
@@ -41,13 +44,20 @@ export const ProfileScreen = () => {
           text: "Delete", 
           style: "destructive",
           onPress: async () => {
+            setIsDeleting(true);
+            monitoringService.addBreadcrumb('Account deletion started', 'auth', 'info');
+            syncEngine.pause(); // Stop background sync immediately
             try {
               await apiClient.delete('/api/v1/users/me/');
+              monitoringService.addBreadcrumb('Account deletion success', 'auth', 'info');
               await AsyncStorage.clear();
-              await offlineQueue.clearQueue();
+              syncEngine.cancel();
               queryClient.clear();
               await logout();
             } catch (error: any) {
+              monitoringService.addBreadcrumb('Account deletion failed', 'auth', 'error');
+              syncEngine.resume(); // Resume sync if deletion failed
+              setIsDeleting(false);
               const msg = error?.response?.status === 401 || error?.response?.status === 403
                 ? "Your session has expired. Please log in again to delete your account."
                 : !error?.response
@@ -128,13 +138,15 @@ export const ProfileScreen = () => {
             variant="secondary"
             className="bg-red-50 py-4 rounded-xl"
             leftIcon=""
+            disabled={isDeleting}
           />
           <Button 
-            title="Delete Account" 
+            title={isDeleting ? "Deleting account..." : "Delete Account"}
             onPress={handleDeleteAccount} 
             variant="ghost"
             className="border border-red-500 py-4 rounded-xl"
             leftIcon=""
+            disabled={isDeleting}
           />
         </View>
       </ScrollView>

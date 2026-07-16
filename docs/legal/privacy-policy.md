@@ -20,8 +20,9 @@ LifeOS operates on an **Offline-First** architecture.
 - **Crash Reporting**: We use Sentry to detect application crashes. This collects non-identifiable device information (OS version, device model, stack traces) to help us fix bugs. Sentry is configured to scrub personally identifiable information.
 - **Monitoring**: We do not use third-party marketing trackers (e.g., Facebook Pixel, Google Analytics) inside the mobile application.
 
-## 3. Data Retention & Deletion
+## 3. Data Retention, Backups & Deletion
 - **Retention**: We retain your synced data as long as your account is active.
+- **Backups (Future Capability)**: In our future production deployment, encrypted daily database snapshots will be retained for 14-30 days to prevent catastrophic data loss.
 - **Account Deletion**: You can request complete account deletion at any time via the in-app Settings menu or by contacting support. Upon deletion, all cloud data is permanently destroyed. You must manually uninstall the app to delete local device data.
 
 ## 4. Third-Party Sharing

@@ -6,9 +6,13 @@ import {  Settings as   ChevronRight, User } from 'lucide-react-native';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../../../api/client';
 import { useAuthStore } from '../../../store/useAuthStore';
-import { HeadingXL, BodyMD,  } from '../../../design-system/text/Typography';
+import { HeadingXL, BodyMD } from '../../../design-system/text/Typography';
 import { PrimaryCard as Card } from '../../../design-system/cards/Card';
 import { PrimaryButton as Button } from '../../../design-system/buttons/Button';
+import { Alert, Linking } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useQueryClient } from '@tanstack/react-query';
+import { offlineQueue } from '../../../services/offline';
 
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
@@ -24,6 +28,33 @@ export const ProfileScreen = () => {
       return response.data;
     }
   });
+
+  const queryClient = useQueryClient();
+
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      "Delete Account",
+      "Are you sure you want to permanently delete your account and all cloud data? This cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Delete", 
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await apiClient.delete('/api/v1/users/me/');
+              await AsyncStorage.clear();
+              await offlineQueue.clearQueue();
+              queryClient.clear();
+              await logout();
+            } catch (e) {
+              Alert.alert("Error", "Failed to delete account. Please try again.");
+            }
+          }
+        }
+      ]
+    );
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-surface-light dark:bg-surface-dark">
@@ -43,9 +74,9 @@ export const ProfileScreen = () => {
         <BodyMD>App Settings</BodyMD>
         <Card className="p-0 overflow-hidden mb-6 rounded-2xl bg-background-light dark:bg-background-dark" accessible={true} accessibilityRole="menu">
           <Button
-            title="Analytics Dashboard"
+            title="Privacy Policy"
             variant="ghost"
-            onPress={() => navigation.navigate('AnalyticsDashboard')}
+            onPress={() => Linking.openURL('https://lifeos.io/privacy')}
             className="flex-row items-center justify-between p-4 border-b border-gray-50 rounded-none h-14"
             leftIcon=""
           >
@@ -53,22 +84,51 @@ export const ProfileScreen = () => {
           </Button>
 
           <Button
-            title="Theme Settings"
+            title="Terms of Service"
             variant="ghost"
-            onPress={() => {}}
+            onPress={() => Linking.openURL('https://lifeos.io/terms')}
+            className="flex-row items-center justify-between p-4 border-b border-gray-50 rounded-none h-14"
+            leftIcon=""
+          >
+            <ChevronRight size={20} color="#9CA3AF" />
+          </Button>
+
+          <Button
+            title="Open Source Licenses"
+            variant="ghost"
+            onPress={() => Linking.openURL('https://lifeos.io/licenses')}
+            className="flex-row items-center justify-between p-4 border-b border-gray-50 rounded-none h-14"
+            leftIcon=""
+          >
+            <ChevronRight size={20} color="#9CA3AF" />
+          </Button>
+
+          <Button
+            title="Support"
+            variant="ghost"
+            onPress={() => Linking.openURL('https://lifeos.io/support')}
             className="flex-row items-center justify-between p-4 rounded-none h-14"
-            leftIcon="Settings"
+            leftIcon=""
           >
             <ChevronRight size={20} color="#9CA3AF" />
           </Button>
         </Card>
 
-        <View className="mt-4 mb-10">
+        <BodyMD className="text-text-secondary text-center mb-4">App Version: 1.27.1</BodyMD>
+
+        <View className="mt-4 mb-10 space-y-4">
           <Button 
             title="Log Out" 
             onPress={logout} 
             variant="secondary"
             className="bg-red-50 py-4 rounded-xl"
+            leftIcon=""
+          />
+          <Button 
+            title="Delete Account" 
+            onPress={handleDeleteAccount} 
+            variant="ghost"
+            className="border border-red-500 py-4 rounded-xl"
             leftIcon=""
           />
         </View>

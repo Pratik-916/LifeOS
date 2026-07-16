@@ -3,6 +3,7 @@ import { plannerApi } from '../api/planner';
 import { plannerKeys } from '../api/planner.keys';
 import type { Task } from '../api/planner.types';
 import { offlineQueue, networkService } from '../../../services/offline';
+import { reminderEngine } from '../../../services/notifications/reminderEngine';
 import { mapTaskToDTO } from '../api/planner.mapper';
 import { generateId } from '../../../utils/uuid';
 
@@ -44,6 +45,9 @@ export const useTaskMutations = () => {
         queryClient.setQueryData(plannerKeys.all, context.previousTasks);
       }
     },
+    onSuccess: (task) => {
+      if (task) reminderEngine.processTask(task);
+    },
     onSettled: () => {
       invalidatePlanner();
     },
@@ -82,6 +86,9 @@ export const useTaskMutations = () => {
         queryClient.setQueryData(plannerKeys.task(id), context.previousTask);
       }
     },
+    onSuccess: (task) => {
+      if (task) reminderEngine.processTask(task);
+    },
     onSettled: (_, __, { id }) => {
       queryClient.invalidateQueries({ queryKey: plannerKeys.task(id) });
       invalidatePlanner();
@@ -117,6 +124,9 @@ export const useTaskMutations = () => {
         queryClient.setQueryData(plannerKeys.task(id), context.previousTask);
       }
     },
+    onSuccess: (_, id) => {
+      reminderEngine.processTask({ id, status: 'completed' }); // trick to just cancel
+    },
     onSettled: () => {
       invalidatePlanner();
     },
@@ -140,6 +150,7 @@ export const useTaskMutations = () => {
     },
     onSuccess: (restoredTask) => {
       queryClient.setQueryData(plannerKeys.task(restoredTask.id), restoredTask);
+      reminderEngine.processTask(restoredTask);
       invalidatePlanner();
     },
   });
@@ -176,6 +187,9 @@ export const useTaskMutations = () => {
       if (context?.previousTask) {
         queryClient.setQueryData(plannerKeys.task(id), context.previousTask);
       }
+    },
+    onSuccess: (task) => {
+      if (task) reminderEngine.processTask(task);
     },
     onSettled: (_, __, { id }) => {
       queryClient.invalidateQueries({ queryKey: plannerKeys.task(id) });

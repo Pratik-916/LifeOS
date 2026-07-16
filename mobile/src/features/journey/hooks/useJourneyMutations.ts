@@ -3,6 +3,7 @@ import { journeyApi } from '../api/journey';
 import { journeyKeys } from '../api/journey.keys';
 import type { CreateMemoryPayload, UpdateMemoryPayload, Memory } from '../api/journey.types';
 import { offlineQueue, networkService } from '../../../services/offline';
+import { reminderEngine } from '../../../services/notifications/reminderEngine';
 import { generateId } from '../../../utils/uuid';
 
 export const useJourneyMutations = () => {
@@ -35,9 +36,12 @@ export const useJourneyMutations = () => {
       return journeyApi.createMemory(payload);
     },
     onError: (err, variables, context) => {
-      if (context?.previousData) {
-        queryClient.setQueryData(journeyKeys.all, context.previousData);
+      if (context?.previousMemories) {
+        queryClient.setQueryData(journeyKeys.all, context.previousMemories);
       }
+    },
+    onSuccess: (memory) => {
+      if (memory) reminderEngine.processJourney(memory);
     },
     onSettled: () => {
       invalidateQueries();
@@ -47,11 +51,11 @@ export const useJourneyMutations = () => {
   const updateMemory = useMutation({
     onMutate: async ({ id, payload }) => {
       await queryClient.cancelQueries({ queryKey: journeyKeys.memory(id) });
-      const previousData = queryClient.getQueryData<Memory>(journeyKeys.memory(id));
-      if (previousData) {
-        queryClient.setQueryData(journeyKeys.memory(id), { ...previousData, ...payload });
+      const previousMemory = queryClient.getQueryData<Memory>(journeyKeys.memory(id));
+      if (previousMemory) {
+        queryClient.setQueryData(journeyKeys.memory(id), { ...previousMemory, ...payload });
       }
-      return { previousData };
+      return { previousMemory };
     },
     mutationFn: async ({ id, payload }: { id: string; payload: UpdateMemoryPayload }) => {
       if (!networkService.isOnline) {
@@ -70,9 +74,12 @@ export const useJourneyMutations = () => {
       return journeyApi.updateMemory(id, payload);
     },
     onError: (err, { id }, context) => {
-      if (context?.previousData) {
-        queryClient.setQueryData(journeyKeys.memory(id), context.previousData);
+      if (context?.previousMemory) {
+        queryClient.setQueryData(journeyKeys.detail(id), context.previousMemory);
       }
+    },
+    onSuccess: (memory) => {
+      if (memory) reminderEngine.processJourney(memory);
     },
     onSettled: (_, __, { id }) => {
       queryClient.invalidateQueries({ queryKey: journeyKeys.memory(id) });

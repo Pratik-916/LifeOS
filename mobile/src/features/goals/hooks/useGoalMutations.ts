@@ -3,6 +3,7 @@ import { goalsApi } from '../api/goals';
 import { goalKeys } from '../api/goals.keys';
 import type { CreateGoalPayload, UpdateGoalPayload, Goal } from '../api/goals.types';
 import { offlineQueue, networkService } from '../../../services/offline';
+import { reminderEngine } from '../../../services/notifications/reminderEngine';
 import { generateId } from '../../../utils/uuid';
 
 export const useGoalMutations = () => {
@@ -40,6 +41,9 @@ export const useGoalMutations = () => {
         queryClient.setQueryData(goalKeys.lists(), context.previousData);
       }
     },
+    onSuccess: (goal) => {
+      if (goal) reminderEngine.processGoal(goal);
+    },
     onSettled: () => {
       invalidateQueries();
     },
@@ -75,6 +79,9 @@ export const useGoalMutations = () => {
         queryClient.setQueryData(goalKeys.detail(id), context.previousGoal);
       }
     },
+    onSuccess: (goal) => {
+      if (goal) reminderEngine.processGoal(goal);
+    },
     onSettled: (_, __, { id }) => {
       queryClient.invalidateQueries({ queryKey: goalKeys.detail(id) });
       invalidateQueries();
@@ -106,6 +113,9 @@ export const useGoalMutations = () => {
       if (context?.previousGoal) {
         queryClient.setQueryData(goalKeys.detail(id), context.previousGoal);
       }
+    },
+    onSuccess: (_, id) => {
+      reminderEngine.processGoal({ id, status: 'archived' } as Goal);
     },
     onSettled: () => {
       invalidateQueries();
@@ -200,6 +210,7 @@ export const useGoalMutations = () => {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(goalKeys.detail(data.id), data);
+      reminderEngine.processGoal(data);
       invalidateQueries();
     },
     onError: (_, __, context) => {

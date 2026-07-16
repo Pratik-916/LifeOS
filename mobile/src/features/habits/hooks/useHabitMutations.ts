@@ -3,6 +3,7 @@ import { habitsApi } from '../api/habits';
 import { habitsKeys } from '../api/habits.keys';
 import type { CreateHabitPayload, UpdateHabitPayload, LogHabitPayload, HabitModel } from '../api/habits.types';
 import { offlineQueue, networkService } from '../../../services/offline';
+import { reminderEngine } from '../../../services/notifications/reminderEngine';
 import { generateId } from '../../../utils/uuid';
 
 export const useHabitMutations = () => {
@@ -39,6 +40,9 @@ export const useHabitMutations = () => {
         queryClient.setQueryData(habitsKeys.all, context.previousHabits);
       }
     },
+    onSuccess: (habit) => {
+      if (habit) reminderEngine.processHabit(habit);
+    },
     onSettled: () => {
       invalidateHabits();
     },
@@ -74,6 +78,9 @@ export const useHabitMutations = () => {
         queryClient.setQueryData(habitsKeys.detail(id), context.previousHabit);
       }
     },
+    onSuccess: (habit) => {
+      if (habit) reminderEngine.processHabit(habit);
+    },
     onSettled: (_, __, { id }) => {
       queryClient.invalidateQueries({ queryKey: habitsKeys.detail(id) });
       invalidateHabits();
@@ -106,6 +113,9 @@ export const useHabitMutations = () => {
         queryClient.setQueryData(habitsKeys.detail(id), context.previousHabit);
       }
     },
+    onSuccess: (_, id) => {
+      reminderEngine.processHabit({ id, status: 'archived', reminderEnabled: false });
+    },
     onSettled: () => {
       invalidateHabits();
     },
@@ -129,6 +139,7 @@ export const useHabitMutations = () => {
     },
     onSuccess: (restoredHabit) => {
       queryClient.setQueryData(habitsKeys.detail(restoredHabit.id), restoredHabit);
+      reminderEngine.processHabit(restoredHabit);
       invalidateHabits();
     },
   });

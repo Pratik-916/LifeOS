@@ -21,9 +21,13 @@ const queryClient = new QueryClient({
 });
 
 import { monitoringService } from './src/services/monitoring';
+import { notificationService, registerBackgroundTasks } from './src/services/notifications';
 
 // Initialize production observability
 monitoringService.initialize();
+
+// Setup Background Tasks (must happen early in the lifecycle)
+registerBackgroundTasks();
 
 function App() {
   const [appIsReady, setAppIsReady] = React.useState(false);
@@ -31,6 +35,7 @@ function App() {
   useEffect(() => {
     async function prepare() {
       try {
+        await notificationService.initialize();
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (e) {
         console.warn(e);

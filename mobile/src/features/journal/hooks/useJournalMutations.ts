@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { journalApi } from '../api/journal';
 import { journalKeys } from '../api/journal.keys';
 import { offlineQueue, networkService } from '../../../services/offline';
+import { reminderEngine } from '../../../services/notifications/reminderEngine';
 import { generateId } from '../../../utils/uuid';
 
 export const useJournalMutations = () => {
@@ -35,9 +36,12 @@ export const useJournalMutations = () => {
       return journalApi.createJournalEntry(payload);
     },
     onError: (err, variables, context) => {
-      if (context?.previousData) {
-        queryClient.setQueryData(journalKeys.lists(), context.previousData);
+      if (context?.previousEntries) {
+        queryClient.setQueryData(journalKeys.all, context.previousEntries);
       }
+    },
+    onSuccess: (entry) => {
+      if (entry) reminderEngine.processJournal(entry);
     },
     onSettled: () => {
       invalidateJournalQueries();
@@ -70,9 +74,12 @@ export const useJournalMutations = () => {
       return journalApi.updateJournalEntry(id, payload);
     },
     onError: (err, { id }, context) => {
-      if (context?.previousData) {
-        queryClient.setQueryData(journalKeys.detail(id), context.previousData);
+      if (context?.previousEntry) {
+        queryClient.setQueryData(journalKeys.detail(id), context.previousEntry);
       }
+    },
+    onSuccess: (entry) => {
+      if (entry) reminderEngine.processJournal(entry);
     },
     onSettled: (_, __, { id }) => {
       queryClient.invalidateQueries({ queryKey: journalKeys.detail(id) });

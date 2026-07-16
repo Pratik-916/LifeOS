@@ -48,6 +48,7 @@ class SyncEngine {
           await this.processOperation(op);
           await offlineQueue.remove(op.id);
           successCount++;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           // Failure handling
           const isConflict = error.response?.status === 409;

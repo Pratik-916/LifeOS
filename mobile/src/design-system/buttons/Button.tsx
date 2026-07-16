@@ -96,11 +96,13 @@ export const Button = React.forwardRef<View, ButtonProps>(
       };
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handlePressIn = (e: any) => {
       scale.value = withSpring(0.95);
       if (onPressIn) onPressIn(e);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handlePressOut = (e: any) => {
       scale.value = withSpring(1);
       if (onPressOut) onPressOut(e);

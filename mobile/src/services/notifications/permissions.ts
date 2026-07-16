@@ -1,5 +1,5 @@
 import * as Notifications from 'expo-notifications';
-import { Platform } from 'react-native';
+
 import { monitoringService } from '../monitoring';
 import type { PermissionStatus } from './types';
 
@@ -21,14 +21,14 @@ export const requestPermission = async (): Promise<PermissionStatus> => {
         allowAlert: true,
         allowBadge: true,
         allowSound: true,
-        allowAnnouncements: true,
-      },
+              },
     });
 
     monitoringService.captureMessage(`Notification permission requested: ${status}`, 'info');
     
     return status as PermissionStatus;
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     monitoringService.captureException(error, { context: 'notification_permission_request' });
     return 'undetermined';
   }

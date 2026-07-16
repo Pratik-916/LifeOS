@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+
 import {  Settings as   ChevronRight, User } from 'lucide-react-native';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../../../api/client';
@@ -9,18 +9,18 @@ import { useAuthStore } from '../../../store/useAuthStore';
 import { HeadingXL, BodyMD } from '../../../design-system/text/Typography';
 import { PrimaryCard as Card } from '../../../design-system/cards/Card';
 import { PrimaryButton as Button } from '../../../design-system/buttons/Button';
-import { Alert, Linking, ActivityIndicator } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
-import { offlineQueue, syncEngine } from '../../../services/offline';
+import { syncEngine } from '../../../services/offline';
 import { monitoringService } from '../../../services/monitoring';
 
-import type { NavigationProp } from '@react-navigation/native';
-import type { MainStackParamList } from '../../../navigation/types';
+
+
 
 export const ProfileScreen = () => {
   const logout = useAuthStore((state) => state.clearTokens);
-  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
+  // unused navigation removed
 
   const { data: userData } = useQuery({
     queryKey: ['user', 'me'],
@@ -54,13 +54,14 @@ export const ProfileScreen = () => {
               syncEngine.cancel();
               queryClient.clear();
               await logout();
-            } catch (error: any) {
+            } catch (error: unknown) {
               monitoringService.addBreadcrumb('Account deletion failed', 'auth', 'error');
               syncEngine.resume(); // Resume sync if deletion failed
               setIsDeleting(false);
-              const msg = error?.response?.status === 401 || error?.response?.status === 403
+              const err = error as import('axios').AxiosError<{message?: string}>;
+              const msg = err.response?.status === 401 || err.response?.status === 403
                 ? "Your session has expired. Please log in again to delete your account."
-                : !error?.response
+                : !err.response
                 ? "Network error. Please check your internet connection."
                 : "Failed to delete account due to a server error. Please try again later.";
               Alert.alert("Error", msg);

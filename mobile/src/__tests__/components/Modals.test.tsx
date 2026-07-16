@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import { render, screen } from '@testing-library/react-native';
 import { BottomSheet } from '../../design-system/modals/BottomSheet';
-import { Dialog } from '../../design-system/modals/Dialog';
+import { ConfirmationDialog } from '../../design-system/modals/Dialog';
 import { Text } from 'react-native';
 
 describe('Modal Components', () => {
@@ -18,12 +18,12 @@ describe('Modal Components', () => {
     const onConfirm = jest.fn();
     const onCancel = jest.fn();
     await render(
-      <Dialog 
+      <ConfirmationDialog 
         visible={true} 
         title="Dialog Title" 
-        message="Dialog message"
+        description="Dialog message"
         onConfirm={onConfirm}
-        onCancel={onCancel}
+        onClose={onCancel}
         confirmText="Yes"
         cancelText="No"
       />

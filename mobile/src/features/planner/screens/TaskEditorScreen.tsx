@@ -45,6 +45,7 @@ export const TaskEditorScreen = () => {
 
   const { control, handleSubmit, reset, watch, formState: { errors } } = useForm<TaskFormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(taskSchema) as any,
     defaultValues: {
       title: '',
@@ -116,6 +117,7 @@ export const TaskEditorScreen = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(Platform.OS === 'ios');

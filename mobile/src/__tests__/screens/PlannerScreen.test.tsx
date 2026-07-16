@@ -12,6 +12,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('../../features/planner/components/TaskListItem', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TaskListItem: ({ task, onPress, onToggleComplete, onDelete }: any) => {
     const { View, Text, TouchableOpacity } = require('react-native');
     return (
@@ -31,6 +32,7 @@ jest.mock('../../features/planner/components/EmptyPlannerState', () => ({
   EmptyPlannerState: () => null,
 }));
 jest.mock('../../features/planner/components/FloatingActionButton', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   FloatingActionButton: ({ onPress }: any) => {
     const { TouchableOpacity } = require('react-native');
     return <TouchableOpacity testID="fab" onPress={onPress} />;

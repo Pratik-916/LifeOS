@@ -49,15 +49,15 @@ class MonitoringService {
     }
   }
 
-  public captureException(exception: Error, extras?: Record<string, any>): void {
+  public captureException(exception: Error, extras?: Record<string, unknown>): void {
     this.provider.captureException(exception, extras);
   }
 
-  public captureMessage(message: string, level: 'info' | 'warning' | 'error' = 'info', extras?: Record<string, any>): void {
+  public captureMessage(message: string, level: 'info' | 'warning' | 'error' = 'info', extras?: Record<string, unknown>): void {
     this.provider.captureMessage(message, level, extras);
   }
 
-  public addBreadcrumb(message: string, category: string = 'default', level: 'info' | 'warning' | 'error' = 'info', data?: Record<string, any>): void {
+  public addBreadcrumb(message: string, category: string = 'default', level: 'info' | 'warning' | 'error' = 'info', data?: Record<string, unknown>): void {
     this.provider.addBreadcrumb(message, category, level, data);
   }
 
@@ -73,7 +73,7 @@ class MonitoringService {
     this.provider.setTag(key, value);
   }
 
-  public setContext(name: string, context: Record<string, any>): void {
+  public setContext(name: string, context: Record<string, unknown>): void {
     this.provider.setContext(name, context);
   }
 

@@ -5,7 +5,9 @@ export const lastWriteWinsStrategy: ConflictStrategy = {
   name: 'LastWriteWins',
   resolve: async (
     operation: SyncOperation,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     serverState: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     localState: any
   ): Promise<ConflictResolutionResult> => {
     
@@ -47,7 +49,9 @@ class ConflictResolver {
 
   public async resolve(
     operation: SyncOperation,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     serverState: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     localState: any,
     strategyName?: string
   ): Promise<ConflictResolutionResult> {

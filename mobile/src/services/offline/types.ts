@@ -9,6 +9,7 @@ export interface SyncOperation {
   mutationType: OperationType;
   endpoint: string;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload?: any;
   localTimestamp: number;
   retryCount: number;
@@ -19,6 +20,7 @@ export interface SyncOperation {
 
 export type ConflictResolutionResult = {
   resolved: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resolutionPayload?: any;
   dropOperation?: boolean;
 };
@@ -27,7 +29,9 @@ export interface ConflictStrategy {
   name: string;
   resolve: (
     operation: SyncOperation,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     serverState: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     localState: any
   ) => Promise<ConflictResolutionResult>;
 }

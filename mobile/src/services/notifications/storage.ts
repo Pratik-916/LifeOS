@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from './constants';
-import type { StoredNotificationMapping } from './types';
+
 
 export class NotificationStorage {
   private mappings: Record<string, string[]> = {};

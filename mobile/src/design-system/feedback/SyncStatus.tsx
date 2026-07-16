@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { getQueueStatus, networkService } from '../../services/offline';
 import type { OfflineQueueStatus } from '../../services/offline/types';
-import { Cloud, CloudOff, CloudDrizzle, AlertCircle, RefreshCw } from 'lucide-react-native';
+import { CloudOff, CloudDrizzle, AlertCircle, RefreshCw } from 'lucide-react-native';
 
 export const SyncStatus = () => {
   const [status, setStatus] = useState<OfflineQueueStatus>({

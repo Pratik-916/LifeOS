@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, fireEvent, waitFor } from '@testing-library/react-native';
+import { screen, fireEvent } from '@testing-library/react-native';
 import { LoginScreen } from '../../features/auth/screens/LoginScreen';
 import { renderWithClient } from '../utils';
 
@@ -11,12 +11,14 @@ jest.mock('@react-navigation/native', () => ({
 
 const mockSetTokens = jest.fn();
 jest.mock('../../store/useAuthStore', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useAuthStore: (selector: any) => selector({ setTokens: mockSetTokens }),
 }));
 
 const mockPost = jest.fn();
 jest.mock('../../api/client', () => ({
   apiClient: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     post: (...args: any) => mockPost(...args),
   },
 }));

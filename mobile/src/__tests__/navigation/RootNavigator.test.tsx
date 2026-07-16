@@ -23,6 +23,7 @@ jest.mock('../../navigation/MainStack', () => ({
 
 jest.mock('@react-navigation/native', () => {
   return {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     NavigationContainer: ({ children }: any) => children,
     createNavigationContainerRef: jest.fn(() => ({
       navigate: jest.fn(),

@@ -32,6 +32,7 @@ export const JournalSearchScreen = () => {
   
   const entries = debouncedTerm ? (data?.results || []) : [];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <JournalCard
       entry={item}

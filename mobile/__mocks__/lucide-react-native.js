@@ -3,7 +3,7 @@
 const React = require('react');
 const { View } = require('react-native');
 
-const MockIcon = ({ testID, size, color, ...props }) =>
+const MockIcon = ({ testID, ...props }) =>
   React.createElement(View, { testID: testID || 'icon', ...props });
 
 // Export commonly used icon names as named exports

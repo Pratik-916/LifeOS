@@ -10,6 +10,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('../../features/journal/components/JournalCard', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   JournalCard: ({ entry, onPress, onEdit, onFavorite, onDelete, onPin }: any) => {
     const { View, Text, TouchableOpacity } = require('react-native');
     return (

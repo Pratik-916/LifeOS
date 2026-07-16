@@ -13,12 +13,12 @@ jest.mock('@react-navigation/native', () => ({
 
 describe('Dashboard Components', () => {
   it('renders DashboardHeader correctly', async () => {
-    await renderWithClient(<DashboardHeader username="User" onProfilePress={jest.fn()} />);
+    await renderWithClient(<DashboardHeader firstName="User" />);
     expect(true).toBe(true);
   });
 
   it('renders DashboardSectionTitle correctly', async () => {
-    await renderWithClient(<DashboardSectionTitle title="Section Title" actionLabel="See All" onActionPress={jest.fn()} />);
+    await renderWithClient(<DashboardSectionTitle title="Section Title" />);
     expect(true).toBe(true);
   });
 

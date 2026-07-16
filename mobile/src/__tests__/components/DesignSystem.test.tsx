@@ -13,12 +13,12 @@ describe('Design System Components', () => {
   });
 
   it('renders Toast correctly', async () => {
-    await render(<Toast message="Toast message" type="success" visible={true} onHide={() => {}} />);
+    await render(<Toast id="test-toast" message="Toast message" type="success" onHide={() => {}} />);
     expect(screen.getByText('Toast message')).toBeTruthy();
   });
 
   it('renders EmptyState correctly', async () => {
-    await render(<EmptyState title="Empty Title" message="Empty message" icon="Inbox" />);
+    await render(<EmptyState title="Empty Title" description="Empty message" icon="Inbox" />);
     expect(screen.getByText('Empty Title')).toBeTruthy();
     expect(true).toBe(true);
   });

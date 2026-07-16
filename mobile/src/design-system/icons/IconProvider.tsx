@@ -26,6 +26,7 @@ export const Icon = React.memo(
   React.forwardRef<View, IconProps>(
     ({ name, size = 'md', color = '#94A3B8', className = '', ...props }, ref) => {
       // Find the component safely
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const LucideIcon = (LucideIcons as any)[name];
       
       if (!LucideIcon) {

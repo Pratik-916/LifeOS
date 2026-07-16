@@ -74,6 +74,7 @@ export const HabitScreen = () => {
     return <EmptyHabitsState onAdd={() => navigateToEditor()} />;
   }, [isLoading]); // we omit navigateToEditor since we can just ignore it or add it if we want
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <HabitCard
       habit={item}

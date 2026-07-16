@@ -11,6 +11,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('../../features/journey/components/MemoryCard', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   MemoryCard: ({ event, onPress, onLongPress }: any) => {
     const { View, Text, TouchableOpacity } = require('react-native');
     return (
@@ -23,6 +24,7 @@ jest.mock('../../features/journey/components/MemoryCard', () => ({
 }));
 
 jest.mock('../../features/journey/components/TimelineSection', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TimelineSection: ({ month }: any) => {
     const { Text } = require('react-native');
     return <Text>{month}</Text>;
@@ -38,6 +40,7 @@ jest.mock('../../features/journey/components/JourneyEmptyState', () => ({
 }));
 
 jest.mock('../../features/journey/components/MemoryActionsSheet', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   MemoryActionsSheet: ({ visible, onToggleFavorite, onTogglePin, onDelete }: any) => {
     if (!visible) return null;
     const { View, TouchableOpacity } = require('react-native');

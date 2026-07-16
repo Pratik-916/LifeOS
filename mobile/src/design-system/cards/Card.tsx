@@ -57,6 +57,7 @@ export const Card = React.forwardRef<View, CardProps>(
       };
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handlePressIn = (e: any) => {
       if (onPress) {
         scale.value = withSpring(0.98);
@@ -64,6 +65,7 @@ export const Card = React.forwardRef<View, CardProps>(
       if (onPressIn) onPressIn(e);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handlePressOut = (e: any) => {
       if (onPress) {
         scale.value = withSpring(1);
@@ -77,6 +79,7 @@ export const Card = React.forwardRef<View, CardProps>(
     // If there's no onPress, we might not want it to be a Pressable, but keeping the API simple:
     if (!onPress) {
       return (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         <View ref={ref} className={`${variantClasses} ${disabledClasses} ${className}`} {...(props as any)}>
           {children}
         </View>
@@ -85,6 +88,7 @@ export const Card = React.forwardRef<View, CardProps>(
 
     return (
       <AnimatedPressable
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ref={ref as any}
         onPress={onPress}
         onPressIn={handlePressIn}

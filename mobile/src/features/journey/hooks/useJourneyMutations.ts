@@ -36,8 +36,8 @@ export const useJourneyMutations = () => {
       return journeyApi.createMemory(payload);
     },
     onError: (err, variables, context) => {
-      if (context?.previousMemories) {
-        queryClient.setQueryData(journeyKeys.all, context.previousMemories);
+      if (context?.previousData) {
+        queryClient.setQueryData(journeyKeys.all, context.previousData);
       }
     },
     onSuccess: (memory) => {
@@ -75,7 +75,7 @@ export const useJourneyMutations = () => {
     },
     onError: (err, { id }, context) => {
       if (context?.previousMemory) {
-        queryClient.setQueryData(journeyKeys.detail(id), context.previousMemory);
+        queryClient.setQueryData(journeyKeys.memory(id), context.previousMemory);
       }
     },
     onSuccess: (memory) => {

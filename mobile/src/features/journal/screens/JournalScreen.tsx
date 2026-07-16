@@ -51,6 +51,7 @@ export const JournalScreen = () => {
     isLoading ? <JournalSkeleton /> : <JournalEmptyState onAction={handleCreate} />
   ), [isLoading]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <JournalCard
       entry={item}

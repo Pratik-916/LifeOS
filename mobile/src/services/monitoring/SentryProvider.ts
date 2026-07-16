@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/react-native';
 import { MonitoringProvider } from './types';
 
 export class SentryProvider implements MonitoringProvider {
-  captureException(exception: Error, extras?: Record<string, any>): void {
+  captureException(exception: Error, extras?: Record<string, unknown>): void {
     if (extras) {
       Sentry.withScope((scope) => {
         Object.entries(extras).forEach(([key, value]) => {
@@ -15,7 +15,7 @@ export class SentryProvider implements MonitoringProvider {
     }
   }
 
-  captureMessage(message: string, level: 'info' | 'warning' | 'error' = 'info', extras?: Record<string, any>): void {
+  captureMessage(message: string, level: 'info' | 'warning' | 'error' = 'info', extras?: Record<string, unknown>): void {
     if (extras) {
       Sentry.withScope((scope) => {
         Object.entries(extras).forEach(([key, value]) => {
@@ -28,7 +28,7 @@ export class SentryProvider implements MonitoringProvider {
     }
   }
 
-  addBreadcrumb(message: string, category: string = 'default', level: 'info' | 'warning' | 'error' = 'info', data?: Record<string, any>): void {
+  addBreadcrumb(message: string, category: string = 'default', level: 'info' | 'warning' | 'error' = 'info', data?: Record<string, unknown>): void {
     Sentry.addBreadcrumb({
       message,
       category,
@@ -49,7 +49,7 @@ export class SentryProvider implements MonitoringProvider {
     Sentry.setTag(key, value);
   }
 
-  setContext(name: string, context: Record<string, any>): void {
+  setContext(name: string, context: Record<string, unknown>): void {
     Sentry.setContext(name, context);
   }
 
@@ -59,6 +59,7 @@ export class SentryProvider implements MonitoringProvider {
 
   wrapApp<T>(component: T): T {
     // Sentry.wrap requires a ComponentType
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return Sentry.wrap(component as any) as unknown as T;
   }
 }

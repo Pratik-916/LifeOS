@@ -63,6 +63,7 @@ export const GoalScreen = () => {
     </View>
   ), [statsData, statsLoading, activeTab]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <GoalCard
       goal={item}

@@ -2,7 +2,6 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react-native';
 import { HabitScreen } from '../../features/habits/screens/HabitScreen';
 import { renderWithClient } from '../utils';
-import { mockHabitsData } from '../mocks/handlers';
 
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
@@ -11,6 +10,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('../../features/habits/components/HabitCard', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   HabitCard: ({ habit, onPress, onLogCompletion, onArchive }: any) => {
     const { View, Text, TouchableOpacity } = require('react-native');
     return (

@@ -34,11 +34,13 @@ export const TextField = React.forwardRef<TextInput, BaseInputProps>(
   ) => {
     const [isFocused, setIsFocused] = useState(false);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleFocus = (e: any) => {
       setIsFocused(true);
       if (onFocus) onFocus(e);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleBlur = (e: any) => {
       setIsFocused(false);
       if (onBlur) onBlur(e);

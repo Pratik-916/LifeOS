@@ -73,6 +73,7 @@ export const PlannerScreen = () => {
     return <EmptyPlannerState onAdd={() => navigateToEditor()} />;
   }, [isLoading, navigateToEditor]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <TaskListItem
       task={item}

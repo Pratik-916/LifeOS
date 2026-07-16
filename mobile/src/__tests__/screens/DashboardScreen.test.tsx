@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react-native';
+import { waitFor } from '@testing-library/react-native';
 
 import { mockDashboardData, mockUserData } from '../mocks/handlers';
 

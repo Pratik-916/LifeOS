@@ -8,7 +8,7 @@ export const setupHandlers = () => {
     handleNotification: async () => ({
       shouldShowAlert: true,
       shouldPlaySound: true,
-      shouldSetBadge: false,
+      shouldSetBadge: false, shouldShowBanner: true, shouldShowList: true,
     }),
   });
 
@@ -21,23 +21,24 @@ export const setupHandlers = () => {
       if (data?.entityType && data?.entityId) {
         switch (data.entityType) {
           case 'task':
-            navigateSafely('Planner', { screen: 'TaskDetails', params: { id: data.entityId } });
+            navigateSafely('Tabs', { screen: 'Planner' } as never);
             break;
           case 'habit':
-            navigateSafely('Habits', { screen: 'HabitDetails', params: { id: data.entityId } });
+            navigateSafely('Tabs', { screen: 'Habits' } as never);
             break;
           case 'goal':
-            navigateSafely('Goals', { screen: 'GoalDetails', params: { id: data.entityId } });
+            navigateSafely('Tabs', { screen: 'Goals' } as never);
             break;
           case 'journal':
-            navigateSafely('Journal', { screen: 'JournalEditor', params: { id: data.entityId } });
+            navigateSafely('Tabs', { screen: 'Journal' } as never);
             break;
           case 'journey':
-            navigateSafely('Journey', { screen: 'MemoryDetails', params: { id: data.entityId } });
+            navigateSafely('Tabs', { screen: 'Journey' } as never);
             break;
         }
       }
-    } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       monitoringService.captureException(error, { context: 'notification_response_handler' });
     }
   });

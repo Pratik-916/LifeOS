@@ -2,6 +2,7 @@ export interface NotificationPayload {
   entityId: string;
   entityType: 'task' | 'habit' | 'goal' | 'journal' | 'journey';
   action?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

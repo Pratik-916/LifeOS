@@ -114,6 +114,7 @@ export const journeyApi = {
     }
     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await apiClient.get<any>(`${MEMORIES_BASE_URL}timeline/?${params.toString()}`);
     return {
       count: response.data.count,

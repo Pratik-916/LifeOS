@@ -1,23 +1,21 @@
 import { monitoringService } from '../services/monitoring';
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'critical';
-
 export const logger = {
-  debug: (message: string, context?: Record<string, any>) => {
+  debug: (message: string, context?: Record<string, unknown>) => {
     if (__DEV__) {
       console.debug(`[DEBUG] ${message}`, context || '');
     }
     monitoringService.addBreadcrumb(message, 'debug', 'info', context);
   },
   
-  info: (message: string, context?: Record<string, any>) => {
+  info: (message: string, context?: Record<string, unknown>) => {
     if (__DEV__) {
       console.info(`[INFO] ${message}`, context || '');
     }
     monitoringService.addBreadcrumb(message, 'info', 'info', context);
   },
   
-  warn: (message: string, context?: Record<string, any>) => {
+  warn: (message: string, context?: Record<string, unknown>) => {
     if (__DEV__) {
       console.warn(`[WARN] ${message}`, context || '');
     }
@@ -25,7 +23,7 @@ export const logger = {
     monitoringService.captureMessage(message, 'warning', context);
   },
   
-  error: (message: string, error?: Error, context?: Record<string, any>) => {
+  error: (message: string, error?: Error, context?: Record<string, unknown>) => {
     if (__DEV__) {
       console.error(`[ERROR] ${message}`, error || '', context || '');
     }
@@ -37,7 +35,7 @@ export const logger = {
     }
   },
   
-  critical: (message: string, error?: Error, context?: Record<string, any>) => {
+  critical: (message: string, error?: Error, context?: Record<string, unknown>) => {
     if (__DEV__) {
       console.error(`[CRITICAL] ${message}`, error || '', context || '');
     }

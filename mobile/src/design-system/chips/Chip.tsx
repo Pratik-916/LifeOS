@@ -92,6 +92,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
     if (isInteractive) {
       return (
         <AnimatedPressable
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ref={ref as any}
           onPress={onPress}
           onPressIn={handlePressIn}
@@ -106,6 +107,7 @@ export const Chip = React.forwardRef<View, ChipProps>(
     }
 
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <View ref={ref} className={containerClasses} {...(props as any)}>
         {content}
       </View>

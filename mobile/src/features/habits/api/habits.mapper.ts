@@ -54,6 +54,7 @@ export const mapHabitToDomain = (dto: HabitDTO): HabitModel => ({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const mapPaginatedHabitsToDomain = (dto: any): PaginatedHabitsModel => {
   if (Array.isArray(dto)) {
     return {

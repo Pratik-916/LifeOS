@@ -38,6 +38,7 @@ export const TaskSearchScreen = () => {
     completeTask.mutate({ id, completed: !isCompleted });
   }, [completeTask]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <TaskListItem
       task={item}

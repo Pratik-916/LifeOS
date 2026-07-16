@@ -4,7 +4,7 @@ import { NOTIFICATION_CHANNELS } from './constants';
 import type { ScheduleOptions } from './types';
 import { monitoringService } from '../monitoring';
 import { useNotificationStore } from '../../store/useNotificationStore';
-import { parse, isAfter, isBefore, set, addDays } from 'date-fns';
+import { set, addDays } from 'date-fns';
 import { QUEUE_CONFIG } from './constants';
 
 interface QueueItem {
@@ -113,7 +113,8 @@ const executeSchedule = async (options: ScheduleOptions): Promise<string | null>
     
     monitoringService.captureMessage(`Scheduled notification for ${options.payload.entityId}`, 'info');
     return identifier;
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     monitoringService.captureException(error, { 
       context: 'schedule_notification', 
       entityId: options.payload.entityId 
@@ -130,7 +131,8 @@ export const cancel = async (entityId: string): Promise<void> => {
       await notificationStorage.removeMapping(entityId, id);
     }
     monitoringService.captureMessage(`Cancelled notifications for ${entityId}`, 'info');
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     monitoringService.captureException(error, { context: 'cancel_notification', entityId });
   }
 };
@@ -139,7 +141,8 @@ export const cancelAll = async (): Promise<void> => {
   try {
     await Notifications.cancelAllScheduledNotificationsAsync();
     await notificationStorage.clearAll();
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     monitoringService.captureException(error, { context: 'cancel_all_notifications' });
   }
 };

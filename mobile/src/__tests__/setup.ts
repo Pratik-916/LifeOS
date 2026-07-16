@@ -4,6 +4,7 @@
 // Mock React Native Reanimated v4 (manual mock — /mock path breaks with worklets)
 jest.mock('react-native-reanimated', () => {
   const { View, Text } = require('react-native');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createAnimatedComponent = (Component: any) => Component;
 
   const Reanimated = {
@@ -16,15 +17,24 @@ jest.mock('react-native-reanimated', () => {
       FlatList: require('react-native').FlatList,
       ScrollView: require('react-native').ScrollView,
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useSharedValue: (init: any) => ({ value: init }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useAnimatedStyle: (fn: any) => ({}),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     withSpring: (val: any) => val,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     withTiming: (val: any) => val,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     withDelay: (delay: any, anim: any) => anim,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     withSequence: (...anims: any[]) => anims[anims.length - 1],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     withRepeat: (anim: any) => anim,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     interpolate: (v: any) => v,
     Extrapolation: { CLAMP: 'clamp' },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     runOnJS: (fn: any) => fn,
     createAnimatedComponent,
     Animated: {
@@ -40,6 +50,7 @@ jest.mock('react-native-reanimated', () => {
 
 // Mock NativeWind / Tailwind
 jest.mock('nativewind', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   styled: (Component: any) => Component,
   useTailwind: () => ({}),
 }));
@@ -49,8 +60,10 @@ jest.mock('react-native-safe-area-context', () => {
   const React = require('react');
   const { View } = require('react-native');
   return {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SafeAreaView: ({ children, ...props }: any) => React.createElement(View, props, children),
     useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     SafeAreaProvider: ({ children }: any) => children,
   };
 });

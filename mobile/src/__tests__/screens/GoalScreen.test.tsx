@@ -11,6 +11,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('../../features/goals/components/GoalCard', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   GoalCard: ({ goal, onPress, onEdit, onFavorite, onArchive, onDelete }: any) => {
     const { View, Text, TouchableOpacity } = require('react-native');
     return (

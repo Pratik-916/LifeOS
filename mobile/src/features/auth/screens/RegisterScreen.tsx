@@ -70,8 +70,7 @@ export const RegisterScreen = () => {
       {mutation.isError && (
         <View className="bg-red-50 p-3 rounded-lg mb-4 border border-red-100">
           <BodyMD>
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {(mutation.error as unknown as any).response?.data?.email?.[0] || (mutation.error as unknown as any).response?.data?.message || mutation.error.message || 'Registration failed.'}
+            {(mutation.error as import('axios').AxiosError<{email?: string[], message?: string}>)?.response?.data?.email?.[0] || (mutation.error as import('axios').AxiosError<{message?: string}>)?.response?.data?.message || mutation.error.message || 'Registration failed.'}
           </BodyMD>
         </View>
       )}

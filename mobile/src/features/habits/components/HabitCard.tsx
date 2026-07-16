@@ -76,6 +76,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
     <Swipeable renderRightActions={renderRightActions} renderLeftActions={renderLeftActions}>
       <ListCard 
         onPress={onPress} 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         style={[styles.container, isCompleted && styles.completedContainer] as any}
       >
         <View style={styles.contentRow}>

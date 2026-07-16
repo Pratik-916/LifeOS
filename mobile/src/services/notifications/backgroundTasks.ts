@@ -18,7 +18,8 @@ TaskManager.defineTask(NOTIFICATION_MAINTENANCE_TASK, async () => {
 
     monitoringService.captureMessage('Background notification maintenance completed', 'info');
     return BackgroundFetch.BackgroundFetchResult.NewData;
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     monitoringService.captureException(error, { context: 'background_notification_maintenance' });
     return BackgroundFetch.BackgroundFetchResult.Failed;
   }
@@ -35,7 +36,8 @@ export const registerBackgroundTasks = async () => {
       });
       monitoringService.captureMessage('Background task registered', 'info');
     }
-  } catch (err) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     monitoringService.captureException(err, { context: 'register_background_tasks' });
   }
 };

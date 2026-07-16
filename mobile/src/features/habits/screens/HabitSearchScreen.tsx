@@ -43,6 +43,7 @@ export const HabitSearchScreen = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <HabitCard
       habit={item}

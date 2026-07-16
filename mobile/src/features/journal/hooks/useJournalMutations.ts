@@ -31,13 +31,14 @@ export const useJournalMutations = () => {
           payload,
           priority: 1,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return { id: tempId, ...payload } as any;
       }
       return journalApi.createJournalEntry(payload);
     },
     onError: (err, variables, context) => {
-      if (context?.previousEntries) {
-        queryClient.setQueryData(journalKeys.all, context.previousEntries);
+      if (context?.previousData) {
+        queryClient.setQueryData(journalKeys.all, context.previousData);
       }
     },
     onSuccess: (entry) => {
@@ -53,6 +54,7 @@ export const useJournalMutations = () => {
       await queryClient.cancelQueries({ queryKey: journalKeys.detail(id) });
       const previousData = queryClient.getQueryData(journalKeys.detail(id));
       if (previousData) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         queryClient.setQueryData(journalKeys.detail(id), { ...(previousData as any), ...payload });
       }
       return { previousData };
@@ -69,13 +71,14 @@ export const useJournalMutations = () => {
           priority: 1,
         });
         const prev = queryClient.getQueryData(journalKeys.detail(id));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return { ...(prev as any), ...payload, id } as any;
       }
       return journalApi.updateJournalEntry(id, payload);
     },
     onError: (err, { id }, context) => {
-      if (context?.previousEntry) {
-        queryClient.setQueryData(journalKeys.detail(id), context.previousEntry);
+      if (context?.previousData) {
+        queryClient.setQueryData(journalKeys.detail(id), context.previousData);
       }
     },
     onSuccess: (entry) => {
@@ -130,6 +133,7 @@ export const useJournalMutations = () => {
           priority: 1,
         });
         const prev = queryClient.getQueryData(journalKeys.detail(id));
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return { ...(prev as any), is_archived: false } as any;
       }
       return journalApi.restoreJournalEntry(id);
@@ -145,7 +149,9 @@ export const useJournalMutations = () => {
       await queryClient.cancelQueries({ queryKey: journalKeys.detail(id) });
       const previousData = queryClient.getQueryData(journalKeys.detail(id));
       if (previousData) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const isFav = (previousData as any).is_favorite;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         queryClient.setQueryData(journalKeys.detail(id), { ...(previousData as any), is_favorite: !isFav });
       }
       return { previousData };
@@ -180,7 +186,9 @@ export const useJournalMutations = () => {
       await queryClient.cancelQueries({ queryKey: journalKeys.detail(id) });
       const previousData = queryClient.getQueryData(journalKeys.detail(id));
       if (previousData) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const isPinned = (previousData as any).is_pinned;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         queryClient.setQueryData(journalKeys.detail(id), { ...(previousData as any), is_pinned: !isPinned });
       }
       return { previousData };

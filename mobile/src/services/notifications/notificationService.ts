@@ -26,13 +26,14 @@ class NotificationService {
         const store = useNotificationStore.getState();
         if (status !== 'granted' && store.globalEnabled) {
           monitoringService.captureMessage('Notification permission revoked by user in settings', 'warning');
-          store.setGlobalEnabled(false);
+          store.toggleGlobal(false);
         } else if (status === 'granted' && !store.globalEnabled) {
           // If the user restored permissions natively, we might not want to auto-enable everything,
           // but logging it is useful. Or we can auto-enable if we choose.
           monitoringService.captureMessage('Notification permission restored by user in settings', 'info');
         }
-      } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
         monitoringService.captureException(error, { context: 'app_state_permission_check' });
       }
     }

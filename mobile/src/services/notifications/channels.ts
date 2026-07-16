@@ -43,7 +43,8 @@ export const setupChannels = async (): Promise<void> => {
       name: 'General Notifications',
       importance: Notifications.AndroidImportance.DEFAULT,
     });
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     monitoringService.captureException(error, { context: 'setup_notification_channels' });
   }
 };

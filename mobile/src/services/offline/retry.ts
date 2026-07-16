@@ -1,9 +1,11 @@
 export interface RetryStrategy {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   shouldRetry(error: any, retryCount: number): boolean;
   getDelay(retryCount: number): number;
 }
 
 export const defaultRetryStrategy: RetryStrategy = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   shouldRetry(error: any, retryCount: number): boolean {
     const maxRetries = 5;
     if (retryCount >= maxRetries) {

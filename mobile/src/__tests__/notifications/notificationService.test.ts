@@ -1,5 +1,5 @@
 import { notificationService } from '../../services/notifications/notificationService';
-import * as Notifications from 'expo-notifications';
+
 
 jest.mock('expo-notifications', () => ({
   scheduleNotificationAsync: jest.fn().mockResolvedValue('test-notification-id'),
@@ -34,7 +34,7 @@ describe('NotificationService', () => {
   it('should schedule a notification and return id', async () => {
     // Note: requires store state to be enabled, but since this is a unit test of the scheduler wrapper,
     // we would ideally mock the store. For now, this is a basic sanity check.
-    const id = await notificationService.schedule({
+    await notificationService.schedule({
       id: 'test-id',
       title: 'Title',
       body: 'Body',

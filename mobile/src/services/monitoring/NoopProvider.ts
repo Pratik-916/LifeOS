@@ -1,15 +1,15 @@
 import { MonitoringProvider } from './types';
 
 export class NoopProvider implements MonitoringProvider {
-  captureException(exception: Error, extras?: Record<string, any>): void {
+  captureException(exception: Error, extras?: Record<string, unknown>): void {
     // Noop
   }
   
-  captureMessage(message: string, level?: 'info' | 'warning' | 'error', extras?: Record<string, any>): void {
+  captureMessage(message: string, level?: 'info' | 'warning' | 'error', extras?: Record<string, unknown>): void {
     // Noop
   }
   
-  addBreadcrumb(message: string, category?: string, level?: 'info' | 'warning' | 'error', data?: Record<string, any>): void {
+  addBreadcrumb(message: string, category?: string, level?: 'info' | 'warning' | 'error', data?: Record<string, unknown>): void {
     // Noop
   }
   
@@ -25,7 +25,7 @@ export class NoopProvider implements MonitoringProvider {
     // Noop
   }
   
-  setContext(name: string, context: Record<string, any>): void {
+  setContext(name: string, context: Record<string, unknown>): void {
     // Noop
   }
   

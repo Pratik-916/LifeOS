@@ -2,7 +2,6 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react-native';
 import { AnalyticsDashboardScreen } from '../../features/analytics/screens/AnalyticsDashboardScreen';
 import { renderWithClient } from '../utils';
-import { Alert } from 'react-native';
 
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
@@ -20,6 +19,7 @@ jest.mock('../../features/analytics/components/AnalyticsEmptyState', () => ({
   AnalyticsEmptyState: () => null,
 }));
 jest.mock('../../features/analytics/components/InsightCard', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   InsightCard: ({ title, message }: any) => {
     const { View, Text } = require('react-native');
     return (

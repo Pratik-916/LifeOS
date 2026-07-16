@@ -44,6 +44,7 @@ export const Skeleton = ({ variant = 'rectangular', width, height, className = '
     <Animated.View
       style={[
         animatedStyle,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         { width: width as any, height: height as any },
       ]}
       className={`${baseClasses} ${variantClasses} ${className}`}

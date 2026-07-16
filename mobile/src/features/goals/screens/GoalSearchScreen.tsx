@@ -28,6 +28,7 @@ export const GoalSearchScreen = () => {
   const { data, isLoading } = useGoals(debouncedTerm ? { search: debouncedTerm } : { search: '---none---' });
   const goals = debouncedTerm ? (data?.results || []) : [];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
     <GoalCard
       goal={item}

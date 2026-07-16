@@ -4,7 +4,7 @@ import React, { useState, useCallback } from 'react';
 import { View, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {  } from 'lucide-react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
 import { HeadingLG, HeadingMD, IconButton } from '../../../design-system';
@@ -88,8 +88,10 @@ export const PlannerScreen = () => {
       <View className="px-4 py-3 flex-row justify-between items-center bg-background-light dark:bg-background-dark border-b border-secondary-100 dark:border-secondary-900">
         <HeadingLG>Planner</HeadingLG>
         <IconButton 
+          leftIcon="Search"
           onPress={() => navigation.navigate('TaskSearch')}
-          leftIcon=""
+          accessibilityRole="button"
+          accessibilityLabel="Search tasks"
         />
       </View>
 

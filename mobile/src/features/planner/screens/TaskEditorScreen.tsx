@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, ScrollView, Pressable, Platform } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {  } from 'lucide-react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -138,7 +138,7 @@ export const TaskEditorScreen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }} edges={['top']}>
       <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
         <HeadingLG>{isEditing ? 'Edit Task' : 'New Task'}</HeadingLG>
-        <IconButton onPress={() => navigation.goBack()} className="p-2 -mr-2" leftIcon="" />
+        <IconButton onPress={() => navigation.goBack()} className="p-2 -mr-2" leftIcon="X" />
       </View>
 
       <ScrollView contentContainerStyle={{ padding: 16 }}>

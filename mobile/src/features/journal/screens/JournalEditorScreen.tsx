@@ -95,10 +95,10 @@ export const JournalEditorScreen = () => {
       }
     };
     
-    if (!isFetching) {
+    if (!isFetching && isInitializing) {
       initializeForm();
     }
-  }, [id, existingEntry, isFetching, reset]);
+  }, [id, existingEntry, isFetching, reset, isInitializing]);
 
   // 2. Draft Persistence & Autosave (Debounced)
   useEffect(() => {

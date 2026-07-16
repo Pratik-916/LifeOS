@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, TextInput, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {  Search,  } from 'lucide-react-native';
+import { Search } from 'lucide-react-native';
 import { IconButton } from '../../../design-system';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
@@ -59,7 +59,7 @@ export const TaskSearchScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>
       <View className="px-4 py-3 bg-background-light dark:bg-background-dark border-b border-secondary-100 dark:border-secondary-900 flex-row items-center">
-        <IconButton onPress={() => navigation.goBack()} className="mr-3" leftIcon="" />
+        <IconButton onPress={() => navigation.goBack()} className="mr-3" leftIcon="ArrowLeft" />
         
         <View className="flex-1 flex-row items-center bg-surface-light dark:bg-surface-dark rounded-lg px-3 py-2">
           <Search size={20} color="#9CA3AF" />
@@ -71,7 +71,7 @@ export const TaskSearchScreen = () => {
             autoFocus
           />
           {query.length > 0 && (
-            <IconButton onPress={() => setQuery('')} leftIcon="" />
+            <IconButton onPress={() => setQuery('')} leftIcon="X" />
           )}
         </View>
       </View>

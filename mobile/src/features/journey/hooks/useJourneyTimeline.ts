@@ -15,8 +15,8 @@ export const useJourneyTimeline = (filters?: GetTimelineFilters) => {
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (lastPage.next) {
-        const url = new URL(lastPage.next);
-        return Number(url.searchParams.get('offset')) || 0;
+        const match = lastPage.next.match(/[\?&]offset=(\d+)/);
+        return match ? Number(match[1]) : undefined;
       }
       return undefined;
     },

@@ -20,7 +20,7 @@ const DRAFT_KEY = '@goal_draft';
 export const GoalEditorScreen = () => {
   const route = useRoute<EditorRouteProp>();
   const navigation = useNavigation<NavigationProp>();
-  const { id } = route.params;
+  const id = route.params?.id;
   const isEditing = !!id;
 
   const { data: goal } = useGoal(id as string, isEditing);

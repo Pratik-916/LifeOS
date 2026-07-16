@@ -26,6 +26,9 @@ const queryClient = new QueryClient({
 // Initialize production observability
 monitoringService.initialize();
 
+import { syncEngine } from './src/services/offline';
+syncEngine.setQueryClient(queryClient);
+
 // Setup Background Tasks (must happen early in the lifecycle)
 registerBackgroundTasks();
 

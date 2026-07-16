@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import {      } from 'lucide-react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MainStackParamList } from '../../../navigation/types';
 import { HeadingXL, BodyMD, Caption, Button, Loader, IconButton } from '../../../design-system';
@@ -68,15 +68,15 @@ export const TaskDetailsScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       <View className="flex-row justify-between items-center p-4 border-b border-secondary-100 dark:border-secondary-900">
-        <IconButton onPress={() => navigation.goBack()} className="p-2 -ml-2" leftIcon="" />
+        <IconButton onPress={() => navigation.goBack()} className="p-2 -ml-2" leftIcon="ArrowLeft" />
         
         <View className="flex-row space-x-4">
           {task.isArchived ? (
-            <IconButton onPress={handleRestore} className="p-2" leftIcon="" />
+            <IconButton onPress={handleRestore} className="p-2" leftIcon="Undo2" />
           ) : (
             <>
-              <IconButton onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" leftIcon="" />
-              <IconButton onPress={handleDelete} className="p-2" leftIcon="" />
+              <IconButton onPress={() => navigation.navigate('TaskEditor', { taskId })} className="p-2" leftIcon="Edit2" />
+              <IconButton onPress={handleDelete} className="p-2" leftIcon="Trash2" />
             </>
           )}
         </View>
@@ -133,7 +133,7 @@ export const TaskDetailsScreen = () => {
             onPress={handleToggleComplete}
             variant={isCompleted ? 'secondary' : 'primary'}
             title={isCompleted ? 'Mark as Incomplete' : 'Complete Task'}
-            leftIcon={isCompleted ? '' : ''}
+            leftIcon={isCompleted ? "CheckCircle2" : "Circle"}
             className="mt-2"
           />
         )}

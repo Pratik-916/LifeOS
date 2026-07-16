@@ -31,14 +31,21 @@ export const useJournalMutations = () => {
           payload,
           priority: 1,
         });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return { id: tempId, ...payload } as any;
+        return { 
+          id: tempId, 
+          ...payload,
+          todaysWins: payload.todays_wins,
+          lessonsLearned: payload.lessons_learned,
+          tomorrowFocus: payload.tomorrow_focus,
+          energyLevel: payload.energy_level,
+          stressLevel: payload.stress_level,
+        } as any;
       }
       return journalApi.createJournalEntry(payload);
     },
     onError: (err, variables, context) => {
       if (context?.previousData) {
-        queryClient.setQueryData(journalKeys.all, context.previousData);
+        queryClient.setQueryData(journalKeys.lists(), context.previousData);
       }
     },
     onSuccess: (entry) => {
@@ -55,7 +62,16 @@ export const useJournalMutations = () => {
       const previousData = queryClient.getQueryData(journalKeys.detail(id));
       if (previousData) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        queryClient.setQueryData(journalKeys.detail(id), { ...(previousData as any), ...payload });
+        const prev = previousData as any;
+        queryClient.setQueryData(journalKeys.detail(id), { 
+          ...prev, 
+          ...payload,
+          todaysWins: payload.todays_wins !== undefined ? payload.todays_wins : prev.todaysWins,
+          lessonsLearned: payload.lessons_learned !== undefined ? payload.lessons_learned : prev.lessonsLearned,
+          tomorrowFocus: payload.tomorrow_focus !== undefined ? payload.tomorrow_focus : prev.tomorrowFocus,
+          energyLevel: payload.energy_level !== undefined ? payload.energy_level : prev.energyLevel,
+          stressLevel: payload.stress_level !== undefined ? payload.stress_level : prev.stressLevel,
+        });
       }
       return { previousData };
     },
@@ -70,9 +86,17 @@ export const useJournalMutations = () => {
           payload,
           priority: 1,
         });
-        const prev = queryClient.getQueryData(journalKeys.detail(id));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return { ...(prev as any), ...payload, id } as any;
+        const prev = queryClient.getQueryData(journalKeys.detail(id)) as any;
+        return { 
+          ...prev, 
+          ...payload, 
+          id,
+          todaysWins: payload.todays_wins !== undefined ? payload.todays_wins : prev?.todaysWins,
+          lessonsLearned: payload.lessons_learned !== undefined ? payload.lessons_learned : prev?.lessonsLearned,
+          tomorrowFocus: payload.tomorrow_focus !== undefined ? payload.tomorrow_focus : prev?.tomorrowFocus,
+          energyLevel: payload.energy_level !== undefined ? payload.energy_level : prev?.energyLevel,
+          stressLevel: payload.stress_level !== undefined ? payload.stress_level : prev?.stressLevel,
+        } as any;
       }
       return journalApi.updateJournalEntry(id, payload);
     },

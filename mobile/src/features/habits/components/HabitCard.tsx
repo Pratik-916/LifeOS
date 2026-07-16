@@ -86,6 +86,7 @@ export const HabitCard: React.FC<HabitCardProps> = ({
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             accessibilityRole="button"
             accessibilityLabel="Log habit"
+            testID="log_habit_button"
           >
             {habit.targetCount > 1 ? (
               <HabitProgressRing 

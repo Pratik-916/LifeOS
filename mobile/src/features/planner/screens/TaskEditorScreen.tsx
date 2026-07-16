@@ -150,7 +150,7 @@ export const TaskEditorScreen = () => {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
-                placeholder="What needs to be done?"
+                placeholder="Task Title"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}

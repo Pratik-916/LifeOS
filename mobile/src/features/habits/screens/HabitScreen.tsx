@@ -117,6 +117,7 @@ export const HabitScreen = () => {
         onPress={() => navigateToEditor()}
         accessibilityRole="button"
         accessibilityLabel="Create Habit"
+        testID="add_habit_button"
       />
     </SafeAreaView>
   );

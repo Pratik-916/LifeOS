@@ -85,6 +85,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             accessibilityRole="checkbox"
             accessibilityState={{ checked: isCompleted }}
+            testID={`checkbox-${task.title}`}
           >
             {isCompleted ? (
               <CheckCircle2 color="#10B981" size={24} />

@@ -111,7 +111,7 @@ export const PlannerScreen = () => {
         }
       />
 
-      <FloatingActionButton onPress={() => navigateToEditor()} />
+      <FloatingActionButton onPress={() => navigateToEditor()} testID="fab-button" />
     </SafeAreaView>
   );
 };

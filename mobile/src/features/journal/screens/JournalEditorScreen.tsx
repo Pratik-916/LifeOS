@@ -161,7 +161,7 @@ export const JournalEditorScreen = () => {
             onPress={handleSubmit(onSubmit)} 
             disabled={saveStatus === 'saving' || isFetching || isInitializing}
             className="mr-2 px-4 py-2"
-            title={id ? 'Done' : 'Publish'}
+            title="Save"
           />
         </View>
 
@@ -194,7 +194,7 @@ export const JournalEditorScreen = () => {
             name="content"
             render={({ field: { onChange, value } }) => (
               <TextInput
-                placeholder="What's on your mind?..."
+                placeholder="Entry Content"
                 value={value}
                 onChangeText={onChange}
                 multiline
@@ -202,6 +202,7 @@ export const JournalEditorScreen = () => {
                 textAlignVertical="top"
                 placeholderTextColor="#94A3B8"
                 style={{ lineHeight: 28 }}
+                accessibilityLabel="Entry Content"
               />
             )}
           />

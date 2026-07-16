@@ -83,6 +83,7 @@ export const JournalScreen = () => {
       <FloatingActionButton
         leftIcon="Plus"
         onPress={handleCreate}
+        testID="add_entry_button"
       />
     </SafeAreaView>
   );

@@ -14,6 +14,7 @@ export interface NotificationState {
   quietHoursEnabled: boolean;
   quietHoursStart: string; // HH:mm
   quietHoursEnd: string; // HH:mm
+  quietHoursStrategy: 'MOVE_TO_END' | 'SUPPRESS' | 'ALLOW_CRITICAL';
   
   // Actions
   toggleGlobal: (enabled: boolean) => void;
@@ -25,6 +26,7 @@ export interface NotificationState {
   toggleSound: (enabled: boolean) => void;
   toggleVibration: (enabled: boolean) => void;
   setQuietHours: (enabled: boolean, start: string, end: string) => void;
+  setQuietHoursStrategy: (strategy: 'MOVE_TO_END' | 'SUPPRESS' | 'ALLOW_CRITICAL') => void;
 }
 
 export const useNotificationStore = create<NotificationState>()(
@@ -41,6 +43,7 @@ export const useNotificationStore = create<NotificationState>()(
       quietHoursEnabled: false,
       quietHoursStart: '22:00',
       quietHoursEnd: '08:00',
+      quietHoursStrategy: 'MOVE_TO_END',
 
       toggleGlobal: (enabled) => set({ globalEnabled: enabled }),
       togglePlanner: (enabled) => set({ plannerEnabled: enabled }),
@@ -51,6 +54,7 @@ export const useNotificationStore = create<NotificationState>()(
       toggleSound: (enabled) => set({ soundEnabled: enabled }),
       toggleVibration: (enabled) => set({ vibrationEnabled: enabled }),
       setQuietHours: (enabled, start, end) => set({ quietHoursEnabled: enabled, quietHoursStart: start, quietHoursEnd: end }),
+      setQuietHoursStrategy: (strategy) => set({ quietHoursStrategy: strategy }),
     }),
     {
       name: 'notification-storage',

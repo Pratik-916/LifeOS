@@ -4,6 +4,7 @@ import { NOTIFICATION_CHANNELS } from './constants';
 import type { ScheduleOptions } from './types';
 import { monitoringService } from '../monitoring';
 import { useNotificationStore } from '../../store/useNotificationStore';
+import { parse, isAfter, isBefore, set, addDays } from 'date-fns';
 
 export const schedule = async (options: ScheduleOptions): Promise<string | null> => {
   try {
@@ -18,10 +19,42 @@ export const schedule = async (options: ScheduleOptions): Promise<string | null>
     if (entityType === 'journal' && !state.journalEnabled) return null;
     if (entityType === 'journey' && !state.journeyEnabled) return null;
 
-    // Adjust for quiet hours (basic implementation: if triggered during quiet hours, we could skip or delay. For now, we schedule as requested).
+    let finalTriggerDate = new Date(options.triggerDate);
+
+    // Adjust for quiet hours
+    if (state.quietHoursEnabled) {
+      const startSplit = state.quietHoursStart.split(':').map(Number);
+      const endSplit = state.quietHoursEnd.split(':').map(Number);
+      
+      const startMinutes = startSplit[0] * 60 + startSplit[1];
+      const endMinutes = endSplit[0] * 60 + endSplit[1];
+      const currentMinutes = finalTriggerDate.getHours() * 60 + finalTriggerDate.getMinutes();
+
+      let inQuietHours = false;
+      if (startMinutes < endMinutes) {
+        inQuietHours = currentMinutes >= startMinutes && currentMinutes < endMinutes;
+      } else {
+        inQuietHours = currentMinutes >= startMinutes || currentMinutes < endMinutes;
+      }
+
+      if (inQuietHours && state.quietHoursStrategy !== 'ALLOW_CRITICAL') {
+        if (state.quietHoursStrategy === 'SUPPRESS') {
+          return null; // Skip scheduling
+        }
+        if (state.quietHoursStrategy === 'MOVE_TO_END') {
+          // Move to the exact end time
+          finalTriggerDate = set(finalTriggerDate, { hours: endSplit[0], minutes: endSplit[1], seconds: 0, milliseconds: 0 });
+          // If we rolled over midnight (e.g. current is 23:00, end is 08:00), we must add 1 day so it doesn't move to the PAST 08:00
+          if (startMinutes > endMinutes && currentMinutes >= startMinutes) {
+             finalTriggerDate = addDays(finalTriggerDate, 1);
+          }
+        }
+      }
+    }
     
     // In React Native Expo, local notifications have a `date` trigger for exact times
     const identifier = await Notifications.scheduleNotificationAsync({
+      identifier: options.id, // Explicitly pass stable ID so expo overwrites existing
       content: {
         title: options.title,
         body: options.body,
@@ -30,7 +63,7 @@ export const schedule = async (options: ScheduleOptions): Promise<string | null>
         badge: options.badge,
       },
       trigger: {
-        date: options.triggerDate,
+        date: finalTriggerDate,
         channelId: options.channelId || NOTIFICATION_CHANNELS.DEFAULT,
       } as Notifications.NotificationTriggerInput,
     });
@@ -40,7 +73,10 @@ export const schedule = async (options: ScheduleOptions): Promise<string | null>
     monitoringService.captureMessage(`Scheduled notification for ${options.payload.entityId}`, 'info');
     return identifier;
   } catch (error) {
-    monitoringService.captureException(error, { context: 'schedule_notification', payload: options.payload });
+    monitoringService.captureException(error, { 
+      context: 'schedule_notification', 
+      entityId: options.payload.entityId 
+    });
     return null;
   }
 };

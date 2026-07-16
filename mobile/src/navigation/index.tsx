@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { AuthStack } from './AuthStack';
 import { MainStack } from './MainStack';
 import { Loader } from '../design-system/loaders/Loader';
+import { navigationRef, processNavigationQueue } from './navigationRef';
 
 export const RootNavigator = () => {
   const { isAuthenticated, isInitializing, initializeAuth } = useAuthStore();
@@ -17,7 +18,10 @@ export const RootNavigator = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer 
+      ref={navigationRef}
+      onReady={processNavigationQueue}
+    >
       {isAuthenticated ? <MainStack /> : <AuthStack />}
     </NavigationContainer>
   );

@@ -2,7 +2,6 @@ import { notificationService } from './notificationService';
 import { NOTIFICATION_CHANNELS } from './constants';
 import type { Task, Goal, JournalEntry } from '../../features/planner/api/planner.types'; // wait, Need to adjust imports
 import type { HabitModel } from '../../features/habits/api/habits.types';
-import { generateId } from '../../utils/uuid';
 import { parseISO, isPast, isToday, addDays, startOfDay } from 'date-fns';
 import { useNotificationStore } from '../../store/useNotificationStore';
 
@@ -26,7 +25,7 @@ class ReminderEngine {
 
       if (!isPast(triggerDate)) {
         await notificationService.schedule({
-          id: generateId(),
+          id: `planner-task-${task.id}-due`,
           title: 'Task Due',
           body: `"${task.title}" is due soon.`,
           triggerDate,
@@ -61,7 +60,7 @@ class ReminderEngine {
       }
 
       await notificationService.schedule({
-        id: generateId(),
+        id: `habit-${habit.id}-daily`,
         title: 'Habit Reminder',
         body: `Time to complete: ${habit.title}`,
         triggerDate,
@@ -77,7 +76,7 @@ class ReminderEngine {
       }
       
       await notificationService.schedule({
-        id: generateId(),
+        id: `habit-${habit.id}-streak`,
         title: 'Streak at risk!',
         body: `You haven't completed "${habit.title}" today. Keep your streak alive!`,
         triggerDate: missedDate,
@@ -108,7 +107,7 @@ class ReminderEngine {
 
       if (!isPast(triggerDate)) {
         await notificationService.schedule({
-          id: generateId(),
+          id: `goal-${goal.id}-deadline`,
           title: 'Goal Deadline Approaching',
           body: `Your goal "${goal.title}" is due tomorrow!`,
           triggerDate,

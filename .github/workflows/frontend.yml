@@ -56,3 +56,4 @@ jobs:
       with:
         name: frontend-coverage
         path: frontend/coverage/
+        retention-days: 30

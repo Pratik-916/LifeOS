@@ -41,6 +41,7 @@ jobs:
         with:
           name: frontend-dist
           path: frontend/dist/
+          retention-days: 90
 
   release-mobile:
     needs: validate

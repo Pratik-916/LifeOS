@@ -59,3 +59,4 @@ jobs:
       with:
         name: mobile-coverage
         path: mobile/coverage/
+        retention-days: 30

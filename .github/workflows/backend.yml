@@ -61,3 +61,4 @@ jobs:
       with:
         name: backend-coverage
         path: backend/coverage.xml
+        retention-days: 30

@@ -20,7 +20,7 @@ class MonitoringService {
 
   public initialize(): void {
     const dsn = process.env.EXPO_PUBLIC_SENTRY_DSN;
-    const env = process.env.NODE_ENV || 'development';
+    const env = (process.env.NODE_ENV as string) || 'development';
     
     let sampleRate = 1.0;
     if (env === 'staging') sampleRate = 0.5;

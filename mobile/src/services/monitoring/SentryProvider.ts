@@ -54,7 +54,7 @@ export class SentryProvider implements MonitoringProvider {
   }
 
   async flush(timeout?: number): Promise<boolean> {
-    return Sentry.flush(timeout);
+    return Sentry.flush();
   }
 
   wrapApp<T>(component: T): T {

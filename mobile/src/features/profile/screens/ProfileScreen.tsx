@@ -47,8 +47,13 @@ export const ProfileScreen = () => {
               await offlineQueue.clearQueue();
               queryClient.clear();
               await logout();
-            } catch (e) {
-              Alert.alert("Error", "Failed to delete account. Please try again.");
+            } catch (error: any) {
+              const msg = error?.response?.status === 401 || error?.response?.status === 403
+                ? "Your session has expired. Please log in again to delete your account."
+                : !error?.response
+                ? "Network error. Please check your internet connection."
+                : "Failed to delete account due to a server error. Please try again later.";
+              Alert.alert("Error", msg);
             }
           }
         }

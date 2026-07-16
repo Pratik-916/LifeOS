@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-import { MonitoringProvider } from './types';
+import type { MonitoringProvider } from './types';
 
 export class SentryProvider implements MonitoringProvider {
   captureException(exception: Error, extras?: Record<string, any>): void {

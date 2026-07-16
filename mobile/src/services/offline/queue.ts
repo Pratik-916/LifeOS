@@ -13,9 +13,48 @@ class OfflineQueue {
     }
   }
 
-  public async enqueue(operation: Omit<SyncOperation, 'id' | 'localTimestamp' | 'retryCount' | 'status' | 'version'>): Promise<SyncOperation> {
+  public async enqueue(operation: Omit<SyncOperation, 'id' | 'localTimestamp' | 'retryCount' | 'status' | 'version'>): Promise<SyncOperation | null> {
     await this.init();
     
+    // Queue Compaction Logic
+    if (operation.entityId && operation.entityType) {
+      const existingOps = this.queue.filter(
+        op => op.entityId === operation.entityId && op.entityType === operation.entityType && op.status === 'pending'
+      );
+
+      if (existingOps.length > 0) {
+        const lastOp = existingOps[existingOps.length - 1];
+
+        // UPDATE + UPDATE -> merge payloads
+        if (operation.mutationType === 'UPDATE' && lastOp.mutationType === 'UPDATE' && operation.method === lastOp.method && operation.endpoint === lastOp.endpoint) {
+          lastOp.payload = { ...lastOp.payload, ...operation.payload };
+          await this.persist();
+          return lastOp;
+        }
+
+        // CREATE + UPDATE -> merge payloads into CREATE
+        if (operation.mutationType === 'UPDATE' && lastOp.mutationType === 'CREATE') {
+          lastOp.payload = { ...lastOp.payload, ...operation.payload };
+          await this.persist();
+          return lastOp;
+        }
+
+        // ANY + DELETE -> remove previous ops. If CREATE + DELETE, remove all, return null.
+        if (operation.mutationType === 'DELETE') {
+          if (lastOp.mutationType === 'CREATE') {
+            // It was created and deleted entirely offline, drop it.
+            this.queue = this.queue.filter(op => !(op.entityId === operation.entityId && op.entityType === operation.entityType));
+            await this.persist();
+            return null;
+          } else if (lastOp.mutationType === 'UPDATE') {
+            // Replace UPDATE with DELETE
+            this.queue = this.queue.filter(op => !(op.entityId === operation.entityId && op.entityType === operation.entityType));
+            // Will continue to enqueue the DELETE below
+          }
+        }
+      }
+    }
+
     const newOp: SyncOperation = {
       ...operation,
       id: generateId(),

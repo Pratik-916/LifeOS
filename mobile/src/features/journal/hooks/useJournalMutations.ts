@@ -20,15 +20,17 @@ export const useJournalMutations = () => {
     },
     mutationFn: async (payload: Parameters<typeof journalApi.createJournalEntry>[0]) => {
       if (!networkService.isOnline) {
+        const tempId = generateId();
         await offlineQueue.enqueue({
           entityType: 'journal',
+          entityId: tempId,
           mutationType: 'CREATE',
           endpoint: '/api/v1/journal/entries/',
           method: 'POST',
           payload,
           priority: 1,
         });
-        return { id: generateId(), ...payload } as any;
+        return { id: tempId, ...payload } as any;
       }
       return journalApi.createJournalEntry(payload);
     },

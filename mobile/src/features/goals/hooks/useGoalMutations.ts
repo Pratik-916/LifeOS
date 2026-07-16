@@ -21,15 +21,17 @@ export const useGoalMutations = () => {
     },
     mutationFn: async (payload: CreateGoalPayload) => {
       if (!networkService.isOnline) {
+        const tempId = generateId();
         await offlineQueue.enqueue({
           entityType: 'goal',
+          entityId: tempId,
           mutationType: 'CREATE',
           endpoint: '/api/v1/goals/goals/',
           method: 'POST',
           payload,
           priority: 1,
         });
-        return { id: generateId(), ...payload } as unknown as Goal;
+        return { id: tempId, ...payload } as unknown as Goal;
       }
       return goalsApi.createGoal(payload);
     },

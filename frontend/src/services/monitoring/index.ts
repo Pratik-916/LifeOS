@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-import { MonitoringProvider } from './types';
+import type { MonitoringProvider } from './types';
 import { NoopProvider } from './NoopProvider';
 import { SentryProvider } from './SentryProvider';
 

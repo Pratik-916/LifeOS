@@ -20,15 +20,17 @@ export const useHabitMutations = () => {
     },
     mutationFn: async (payload: CreateHabitPayload) => {
       if (!networkService.isOnline) {
+        const tempId = generateId();
         await offlineQueue.enqueue({
           entityType: 'habit',
+          entityId: tempId,
           mutationType: 'CREATE',
           endpoint: '/api/v1/habits/habits/',
           method: 'POST',
           payload,
           priority: 1,
         });
-        return { id: generateId(), ...payload } as unknown as HabitModel;
+        return { id: tempId, ...payload } as unknown as HabitModel;
       }
       return habitsApi.createHabit(payload);
     },

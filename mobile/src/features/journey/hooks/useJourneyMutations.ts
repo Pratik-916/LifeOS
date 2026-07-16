@@ -20,15 +20,17 @@ export const useJourneyMutations = () => {
     },
     mutationFn: async (payload: CreateMemoryPayload) => {
       if (!networkService.isOnline) {
+        const tempId = generateId();
         await offlineQueue.enqueue({
           entityType: 'journey',
+          entityId: tempId,
           mutationType: 'CREATE',
           endpoint: '/api/v1/journey/memories/',
           method: 'POST',
           payload,
           priority: 1,
         });
-        return { id: generateId(), ...payload } as unknown as Memory;
+        return { id: tempId, ...payload } as unknown as Memory;
       }
       return journeyApi.createMemory(payload);
     },

@@ -25,15 +25,17 @@ export const useTaskMutations = () => {
     mutationFn: async (payload: Partial<Task>) => {
       if (!networkService.isOnline) {
         const dtoPayload = mapTaskToDTO(payload);
+        const tempId = generateId();
         await offlineQueue.enqueue({
           entityType: 'task',
+          entityId: tempId,
           mutationType: 'CREATE',
           endpoint: '/api/v1/planner/tasks/',
           method: 'POST',
           payload: dtoPayload,
           priority: 1,
         });
-        return { id: generateId(), ...payload, status: 'todo' } as Task;
+        return { id: tempId, ...payload, status: 'todo' } as Task;
       }
       return plannerApi.createTask(payload);
     },

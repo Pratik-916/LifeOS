@@ -1,4 +1,4 @@
-import { MonitoringProvider } from './types';
+import type { MonitoringProvider } from './types';
 
 export class NoopProvider implements MonitoringProvider {
   captureException(exception: Error, extras?: Record<string, any>): void {

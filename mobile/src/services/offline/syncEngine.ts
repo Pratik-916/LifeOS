@@ -66,6 +66,11 @@ class SyncEngine {
                 // We'll retry this on the next flush
               }
             }
+          } else if (error.response?.status === 401) {
+            // Authentication Recovery Validation (Part 3)
+            this.pause();
+            monitoringService.captureMessage('sync_paused_due_to_auth', 'warning');
+            break; // Stop syncing. Let the external auth listener resume() later.
           } else if (defaultRetryStrategy.shouldRetry(error, op.retryCount)) {
             // Temporary failure
             const newRetryCount = op.retryCount + 1;
@@ -74,14 +79,25 @@ class SyncEngine {
               status: 'retrying'
             });
             failureCount++;
-            // We do NOT stop the whole queue, or maybe we do? 
-            // Sequential processing means if one fails we might block others of the same entity.
-            // For now, continue to next operation.
           } else {
             // Permanent failure
             await offlineQueue.update(op.id, { status: 'failed' });
             monitoringService.captureException(error, { context: 'sync_permanent_failure', operationId: op.id });
             failureCount++;
+
+            // Partial Failure Validation (Part 5)
+            // If a root operation (e.g. CREATE) permanently fails, subsequent operations on the same entity will also fail (e.g. 404).
+            // We implement cascading failure here:
+            if (op.entityId && op.entityType) {
+              const remainingOps = await offlineQueue.getPendingOperations();
+              const dependentOps = remainingOps.filter(
+                (depOp) => depOp.entityId === op.entityId && depOp.entityType === op.entityType && depOp.id !== op.id
+              );
+              for (const depOp of dependentOps) {
+                await offlineQueue.update(depOp.id, { status: 'failed' });
+                monitoringService.captureMessage(`cascading_failure: operationId=${depOp.id} due to parent operation=${op.id}`, 'warning');
+              }
+            }
           }
         }
       }

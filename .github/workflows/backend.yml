@@ -9,6 +9,13 @@ on:
     branches: [ "main" ]
     paths: [ "backend/**" ]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest

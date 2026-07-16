@@ -2,6 +2,9 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react-native';
 import { mockTasksData } from '../mocks/handlers';
 
+import { PlannerScreen } from '../../features/planner/screens/PlannerScreen';
+import { renderWithClient } from '../utils';
+
 const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockNavigate }),
@@ -61,9 +64,6 @@ jest.mock('../../features/planner/hooks/useTaskMutations', () => ({
     deleteTask: { mutate: mockDeleteTask },
   }),
 }));
-
-import { PlannerScreen } from '../../features/planner/screens/PlannerScreen';
-import { renderWithClient } from '../utils';
 
 describe('PlannerScreen', () => {
   beforeEach(() => {

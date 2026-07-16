@@ -8,6 +8,9 @@ import { ErrorBoundary } from './src/design-system/feedback/ErrorBoundary';
 import { OfflineBanner } from './src/design-system/feedback/OfflineBanner';
 import { ThemeProvider } from './src/theme/ThemeProvider';
 
+import { monitoringService } from './src/services/monitoring';
+import { notificationService, registerBackgroundTasks } from './src/services/notifications';
+
 // Keep splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -19,9 +22,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-import { monitoringService } from './src/services/monitoring';
-import { notificationService, registerBackgroundTasks } from './src/services/notifications';
 
 // Initialize production observability
 monitoringService.initialize();

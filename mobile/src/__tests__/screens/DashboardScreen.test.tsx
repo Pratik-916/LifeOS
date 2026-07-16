@@ -1,6 +1,13 @@
 import React from 'react';
 import { screen, waitFor } from '@testing-library/react-native';
 
+import { mockDashboardData, mockUserData } from '../mocks/handlers';
+
+import { apiClient } from '../../api/client';
+
+import { DashboardScreen } from '../../features/dashboard/screens/DashboardScreen';
+import { renderWithClient } from '../utils';
+
 jest.mock('../../features/dashboard/components/InsightCarousel', () => ({ InsightCarousel: () => null }));
 jest.mock('../../features/dashboard/components/HeroProductivityCard', () => ({ HeroProductivityCard: () => null }));
 jest.mock('../../features/dashboard/components/AgendaCard', () => ({ AgendaCard: () => null }));
@@ -13,18 +20,11 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({ navigate: mockNavigate }),
   useRoute: () => ({ params: {} }),
 }));
-
-import { mockDashboardData, mockUserData } from '../mocks/handlers';
-
-import { apiClient } from '../../api/client';
 jest.mock('../../api/client', () => ({
   apiClient: {
     get: jest.fn(),
   },
 }));
-
-import { DashboardScreen } from '../../features/dashboard/screens/DashboardScreen';
-import { renderWithClient } from '../utils';
 
 describe('DashboardScreen', () => {
   it('renders and fetches dashboard data', async () => {

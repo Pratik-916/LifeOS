@@ -24,6 +24,10 @@ jest.mock('../../navigation/MainStack', () => ({
 jest.mock('@react-navigation/native', () => {
   return {
     NavigationContainer: ({ children }: any) => children,
+    createNavigationContainerRef: jest.fn(() => ({
+      navigate: jest.fn(),
+      isReady: jest.fn(() => true),
+    })),
   };
 });
 

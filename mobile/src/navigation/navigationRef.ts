@@ -3,7 +3,7 @@ import { RootStackParamList } from './types'; // assume it exists, but might nee
 
 export const navigationRef = createNavigationContainerRef<any>();
 
-let navigationQueue: { route: string; params: any }[] = [];
+const navigationQueue: { route: string; params: any }[] = [];
 
 export const navigateSafely = (route: string, params?: any) => {
   if (navigationRef.isReady()) {

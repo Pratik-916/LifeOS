@@ -4,14 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiClient } from '../../../api/client';
 import { monitoringService } from '../../../services/monitoring';
-
 import { DashboardHeader } from '../components/DashboardHeader';
+
 import { HeroProductivityCard } from '../components/HeroProductivityCard';
 import { TodayOverview } from '../components/OverviewCard';
-import { QuickActions } from '../components/QuickActions';
 import { AgendaCard } from '../components/AgendaCard';
-import { InsightCarousel } from '../components/InsightCarousel';
-import { WeeklyProgressSection } from '../components/WeeklyProgressSection';
+// Removed: QuickActions, InsightCarousel, WeeklyProgressSection
 import { DashboardSkeleton } from '../components/DashboardSkeleton';
 
 import type { DashboardSummaryDTO, DashboardSummary } from '../../analytics/api/analytics.types';
@@ -50,13 +48,13 @@ export const DashboardScreen = () => {
           <DashboardSkeleton />
         ) : isError && !dashboardData ? (
           <View className="items-center justify-center py-20">
-            <Text className="text-red-500 font-medium text-center mb-4">Could not connect to the server.</Text>
+            <Text className="text-red-500 font-medium text-center mb-4">Something didn't go as expected.</Text>
             <Pressable onPress={() => refetch()} className="bg-indigo-600 px-6 py-2 rounded-full">
               <Text className="text-white font-medium">Retry</Text>
             </Pressable>
           </View>
         ) : (
-          <View className="pb-20">
+          <View className="pb-24">
             {dashboardData && (
               <>
                 <HeroProductivityCard 
@@ -65,6 +63,8 @@ export const DashboardScreen = () => {
                   completionPercentage={dashboardData.completionPercentage || 0}
                 />
                 
+                <AgendaCard deadlines={dashboardData.upcomingDeadlines || []} />
+                
                 <TodayOverview 
                   tasks={dashboardData.todaysTasks || 0}
                   habits={dashboardData.todaysHabits || 0}
@@ -72,14 +72,6 @@ export const DashboardScreen = () => {
                   journal={dashboardData.journalEntriesThisWeek || 0}
                   journey={dashboardData.journeyEventsThisMonth || 0}
                 />
-
-                <QuickActions />
-
-                <AgendaCard deadlines={dashboardData.upcomingDeadlines || []} />
-
-                <InsightCarousel summary={dashboardData} />
-
-                <WeeklyProgressSection score={dashboardData.weeklyProductivity || 0} />
               </>
             )}
           </View>

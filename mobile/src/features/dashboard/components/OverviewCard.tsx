@@ -1,37 +1,35 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Icon, PrimaryCard, BodyMD, HeadingXL, Caption } from '../../../design-system';
+import { Icon, PrimaryCard, BodyMD, HeadingMD } from '../../../design-system';
 import { DashboardSectionTitle } from './DashboardSectionTitle';
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
 
 interface OverviewCardProps {
   title: string;
-  count: number;
-  subtitle: string;
+  status: string;
   color: string;
   icon: React.ReactNode;
   onPress: () => void;
 }
 
-const OverviewCard = ({ title, count, subtitle, color, icon, onPress }: OverviewCardProps) => {
+const OverviewCard = ({ title, status, color, icon, onPress }: OverviewCardProps) => {
   return (
     <PrimaryCard 
       onPress={onPress}
-      className="p-4 mr-3 w-[140px] shadow-sm border border-slate-100"
+      className="p-4 mr-3 w-[150px] shadow-sm border border-slate-100"
       accessible={true}
       accessibilityRole="button"
-      accessibilityLabel={`${count} ${title}. ${subtitle}`}
+      accessibilityLabel={`${title}. ${status}`}
     >
       <View className="flex-row items-center mb-3">
-        <View className="w-10 h-10 rounded-full items-center justify-center mr-2" style={{ backgroundColor: `${color}15` }}>
+        <View className="w-10 h-10 rounded-xl items-center justify-center mr-2" style={{ backgroundColor: `${color}15` }}>
           {icon}
         </View>
         <BodyMD className="font-semibold text-slate-700">{title}</BodyMD>
       </View>
-      <HeadingXL className="text-4xl mb-1" style={{ color }}>{count}</HeadingXL>
-      <Caption className="text-slate-500 font-medium">{subtitle}</Caption>
+      <HeadingMD className="mt-1" style={{ color }}>{status}</HeadingMD>
     </PrimaryCard>
   );
 };
@@ -48,31 +46,41 @@ export const TodayOverview = React.memo(({ tasks, habits, goals, journal, journe
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   return (
-    <View className="mb-8">
+    <View className="mb-6">
       <DashboardSectionTitle title="Today's Overview" />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 4 }}>
         <OverviewCard 
-          title="Tasks" count={tasks} subtitle="Due Today" color="#2563EB" 
+          title="Tasks" 
+          status={tasks === 0 ? "Nothing planned" : `${tasks} Due Today`}
+          color="#2563EB" 
           icon={<Icon name="CheckSquare" size={20} color="#2563EB" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Planner' })} 
         />
         <OverviewCard 
-          title="Habits" count={habits} subtitle="To Complete" color="#10B981" 
+          title="Habits" 
+          status={habits === 0 ? "All Complete" : `${habits} Remaining`}
+          color="#10B981" 
           icon={<Icon name="Target" size={20} color="#10B981" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />
         <OverviewCard 
-          title="Goals" count={goals} subtitle="Active" color="#F59E0B" 
+          title="Goals" 
+          status={goals === 0 ? "No active goals" : `${goals} Active`}
+          color="#F59E0B" 
           icon={<Icon name="Trophy" size={20} color="#F59E0B" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />
         <OverviewCard 
-          title="Journal" count={journal} subtitle="Entries This Week" color="#8B5CF6" 
+          title="Journal" 
+          status={journal === 0 ? "No entries yet" : `${journal} This Week`}
+          color="#8B5CF6" 
           icon={<Icon name="BookOpen" size={20} color="#8B5CF6" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Journal' })} 
         />
         <OverviewCard 
-          title="Journey" count={journey} subtitle="Memories" color="#14B8A6" 
+          title="Journey" 
+          status={journey === 0 ? "Ready to reflect" : `${journey} Memories`}
+          color="#14B8A6" 
           icon={<Icon name="Compass" size={20} color="#14B8A6" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />

@@ -20,7 +20,7 @@ const AgendaItem = ({ title, type, time }: AgendaItemProps) => {
 
   return (
     <View className="flex-row items-center mb-4 px-2" accessible={true} accessibilityLabel={`${title}, due ${time || 'today'}`}>
-      <View className="w-10 h-10 rounded-full items-center justify-center mr-3" style={{ backgroundColor: `${color}15` }}>
+      <View className="w-10 h-10 rounded-xl items-center justify-center mr-3" style={{ backgroundColor: `${color}15` }}>
         <Icon name="CheckCircle" size={20} color={color} />
       </View>
       <View className="flex-1">
@@ -55,8 +55,8 @@ export const AgendaCard = React.memo(({ deadlines = [] }: AgendaCardProps) => {
       <View className="mb-8">
         <DashboardSectionTitle title="Today's Agenda" />
         <DashboardEmptyState 
-          title="All caught up!"
-          description="Enjoy your free time. There are no immediate deadlines."
+          title="Nothing planned today."
+          description="Enjoy your free time or add a new task."
         />
       </View>
     );

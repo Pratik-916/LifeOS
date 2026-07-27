@@ -60,7 +60,7 @@ export const Card = React.forwardRef<View, CardProps>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handlePressIn = (e: any) => {
       if (onPress) {
-        scale.value = withSpring(0.98);
+        scale.value = withSpring(0.985);
       }
       if (onPressIn) onPressIn(e);
     };

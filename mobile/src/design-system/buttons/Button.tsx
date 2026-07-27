@@ -98,7 +98,7 @@ export const Button = React.forwardRef<View, ButtonProps>(
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handlePressIn = (e: any) => {
-      scale.value = withSpring(0.95);
+      scale.value = withSpring(0.96);
       if (onPressIn) onPressIn(e);
     };
 

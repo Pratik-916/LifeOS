@@ -45,11 +45,11 @@ export const TodayOverview = React.memo(({ tasks, habits, goals, journal, journe
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   return (
-    <View className="mb-6">
-      <View className="flex-row items-center justify-between mb-4">
+    <View className="mb-6 -mx-6">
+      <View className="flex-row items-center justify-between mb-4 px-6">
         <HeadingMD className="text-slate-800 dark:text-slate-200">Supporting Overview</HeadingMD>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 4 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 8 }}>
         <OverviewCard 
           title="Tasks" 
           status={tasks === 0 ? "Completed" : `${tasks} Remaining`}

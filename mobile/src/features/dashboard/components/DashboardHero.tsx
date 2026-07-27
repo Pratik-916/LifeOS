@@ -44,7 +44,7 @@ export const DashboardHero = React.memo(({
   };
 
   return (
-    <View className="mb-6 px-1 flex-row justify-between items-start" accessible={true} accessibilityRole="header">
+    <View className="mb-6 flex-row justify-between items-start" accessible={true} accessibilityRole="header">
       <View className="flex-1 pr-4">
         {/* Date */}
         <Caption className="text-slate-500 mb-1 font-semibold uppercase tracking-wider">

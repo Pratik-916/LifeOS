@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Pressable, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { CheckCircle2, Circle, Trash2 } from 'lucide-react-native';
@@ -10,6 +10,8 @@ interface TaskListItemProps {
   onPress: () => void;
   onToggleComplete: () => void;
   onDelete: () => void;
+  onReschedule?: () => void;
+  rescheduleLabel?: string;
 }
 
 export const TaskListItem: React.FC<TaskListItemProps> = ({
@@ -17,9 +19,11 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
   onPress,
   onToggleComplete,
   onDelete,
+  onReschedule,
+  rescheduleLabel,
 }) => {
   const isCompleted = task.status === 'completed';
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [scaleAnim] = useState(() => new Animated.Value(1));
 
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
@@ -65,8 +69,34 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
     );
   };
 
+  const renderLeftActions = (
+    progress: import('react-native').Animated.AnimatedInterpolation<string | number>, 
+    dragX: import('react-native').Animated.AnimatedInterpolation<string | number>
+  ) => {
+    if (isCompleted || !onReschedule || !rescheduleLabel) return null;
+
+    const scale = dragX.interpolate({
+      inputRange: [0, 80],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
+
+    return (
+      <Pressable 
+        style={styles.rescheduleAction} 
+        onPress={onReschedule}
+        accessibilityRole="button"
+        accessibilityLabel={`Reschedule to ${rescheduleLabel}`}
+      >
+        <Animated.View style={{ transform: [{ scale }] }}>
+          <BodyMD className="text-white font-medium">{rescheduleLabel}</BodyMD>
+        </Animated.View>
+      </Pressable>
+    );
+  };
+
   return (
-    <Swipeable renderRightActions={renderRightActions}>
+    <Swipeable renderRightActions={renderRightActions} renderLeftActions={renderLeftActions}>
       <ListCard 
         onPress={onPress} 
         style={[styles.container, isCompleted && styles.completedContainer]}
@@ -123,9 +153,10 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    padding: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#F8FAFC', // Much softer border
+    borderBottomColor: '#F8FAFC',
   },
   completedContainer: {
     opacity: 0.6,
@@ -151,6 +182,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingRight: 24,
+    width: 100,
+  },
+  rescheduleAction: {
+    backgroundColor: '#3B82F6',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingLeft: 24,
     width: 100,
   }
 });

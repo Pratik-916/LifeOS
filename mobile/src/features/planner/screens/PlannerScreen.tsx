@@ -5,11 +5,11 @@ import { View, SectionList, RefreshControl, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { isPast, isToday, startOfDay } from 'date-fns';
+import { isPast, isToday, startOfDay, addDays, formatISO } from 'date-fns';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 
 import { MainStackParamList } from '../../../navigation/types';
-import { HeadingLG, HeadingMD, BodyMD, IconButton, Icon } from '../../../design-system';
+import { HeadingLG, HeadingMD, BodyMD, IconButton } from '../../../design-system';
 import { TaskListItem } from '../components/TaskListItem';
 import { FloatingActionButton } from '../components/FloatingActionButton';
 import { TaskSkeleton } from '../components/TaskSkeleton';
@@ -26,7 +26,7 @@ export const PlannerScreen = () => {
   const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(true);
 
   const { data: tasksData, isLoading, refetch } = useTasks();
-  const { completeTask, deleteTask } = useTaskMutations();
+  const { completeTask, deleteTask, updateTask } = useTaskMutations();
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -50,6 +50,11 @@ export const PlannerScreen = () => {
     deleteTask.mutate(id);
   }, [deleteTask]);
 
+  const handleReschedule = useCallback((id: string, target: 'today' | 'tomorrow') => {
+    const targetDate = target === 'today' ? new Date() : addDays(new Date(), 1);
+    updateTask.mutate({ id, payload: { dueDate: formatISO(targetDate, { representation: 'date' }) } });
+  }, [updateTask]);
+
   // Grouping logic
   const sections = useMemo(() => {
     if (!tasksData?.results) return [];
@@ -58,8 +63,6 @@ export const PlannerScreen = () => {
     const today: Task[] = [];
     const upcoming: Task[] = [];
     const completed: Task[] = [];
-
-    const now = startOfDay(new Date());
 
     tasksData.results.forEach(task => {
       if (task.status === 'completed') {
@@ -105,14 +108,15 @@ export const PlannerScreen = () => {
     }
 
     return result;
-  }, [tasksData?.results, isCompletedCollapsed]);
+  }, [tasksData, isCompletedCollapsed]);
 
   const renderSectionHeader = ({ section }: any) => {
     if (section.title === 'Completed') {
       return (
         <Pressable 
-          className="flex-row items-center justify-between py-3 px-1 mt-4 border-b border-slate-100 dark:border-slate-800"
+          className="flex-row items-center justify-between py-4 px-2 mt-6 border-b border-slate-100 dark:border-slate-800"
           onPress={() => setIsCompletedCollapsed(!isCompletedCollapsed)}
+          hitSlop={{ top: 10, bottom: 10 }}
         >
           <View className="flex-row items-center">
             <HeadingMD className="text-slate-500">{section.title}</HeadingMD>
@@ -130,7 +134,7 @@ export const PlannerScreen = () => {
     }
 
     return (
-      <View className="flex-row items-center py-3 px-1 mt-4 border-b border-slate-100 dark:border-slate-800">
+      <View className="flex-row items-center py-3 px-2 mt-6 border-b border-slate-100 dark:border-slate-800">
         <HeadingMD style={{ color: section.color }}>{section.title}</HeadingMD>
         <BodyMD className="text-slate-400 ml-2 font-medium">({section.data.length})</BodyMD>
       </View>
@@ -157,15 +161,20 @@ export const PlannerScreen = () => {
   const renderItem = useCallback(({ item, section }: any) => {
     if (section.title === 'Completed' && isCompletedCollapsed) return null;
     
+    const rescheduleTarget = section.title === 'Today' ? 'tomorrow' : 'today';
+    const rescheduleLabel = section.title === 'Today' ? 'Tomorrow' : 'Today';
+
     return (
       <TaskListItem
         task={item}
         onPress={() => navigateToDetails(item.id)}
         onToggleComplete={() => handleToggleComplete(item.id, item.status === 'completed')}
         onDelete={() => handleDelete(item.id)}
+        rescheduleLabel={rescheduleLabel}
+        onReschedule={() => handleReschedule(item.id, rescheduleTarget)}
       />
     );
-  }, [navigateToDetails, handleToggleComplete, handleDelete, isCompletedCollapsed]);
+  }, [navigateToDetails, handleToggleComplete, handleDelete, handleReschedule, isCompletedCollapsed]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>

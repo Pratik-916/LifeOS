@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Icon, PrimaryCard, BodyMD, HeadingMD } from '../../../design-system';
-import { DashboardSectionTitle } from './DashboardSectionTitle';
+import { Icon, PrimaryCard, HeadingMD, Caption } from '../../../design-system';
 import type { NavigationProp } from '@react-navigation/native';
 import type { MainStackParamList } from '../../../navigation/types';
 
@@ -18,7 +17,7 @@ const OverviewCard = ({ title, status, color, icon, onPress }: OverviewCardProps
   return (
     <PrimaryCard 
       onPress={onPress}
-      className="p-4 mr-3 w-[150px] shadow-sm border border-slate-100"
+      className="p-4 mr-3 w-[150px] shadow-sm border border-slate-100 dark:border-slate-800"
       accessible={true}
       accessibilityRole="button"
       accessibilityLabel={`${title}. ${status}`}
@@ -27,9 +26,9 @@ const OverviewCard = ({ title, status, color, icon, onPress }: OverviewCardProps
         <View className="w-10 h-10 rounded-xl items-center justify-center mr-2" style={{ backgroundColor: `${color}15` }}>
           {icon}
         </View>
-        <BodyMD className="font-semibold text-slate-700">{title}</BodyMD>
+        <Caption className="text-slate-500 font-semibold uppercase tracking-wider">{title}</Caption>
       </View>
-      <HeadingMD className="mt-1" style={{ color }}>{status}</HeadingMD>
+      <HeadingMD className="mt-1 text-slate-800 dark:text-slate-100 leading-tight">{status}</HeadingMD>
     </PrimaryCard>
   );
 };
@@ -47,39 +46,41 @@ export const TodayOverview = React.memo(({ tasks, habits, goals, journal, journe
 
   return (
     <View className="mb-6">
-      <DashboardSectionTitle title="Today's Overview" />
+      <View className="flex-row items-center justify-between mb-4">
+        <HeadingMD className="text-slate-800 dark:text-slate-200">Supporting Overview</HeadingMD>
+      </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 4 }}>
         <OverviewCard 
           title="Tasks" 
-          status={tasks === 0 ? "Nothing planned" : `${tasks} Due Today`}
+          status={tasks === 0 ? "Completed" : `${tasks} Remaining`}
           color="#2563EB" 
           icon={<Icon name="CheckSquare" size={20} color="#2563EB" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Planner' })} 
         />
         <OverviewCard 
           title="Habits" 
-          status={habits === 0 ? "All Complete" : `${habits} Remaining`}
+          status={habits === 0 ? "Completed" : "On Track"}
           color="#10B981" 
           icon={<Icon name="Target" size={20} color="#10B981" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />
         <OverviewCard 
           title="Goals" 
-          status={goals === 0 ? "No active goals" : `${goals} Active`}
+          status={goals === 0 ? "Active" : "Milestone Today"}
           color="#F59E0B" 
           icon={<Icon name="Trophy" size={20} color="#F59E0B" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />
         <OverviewCard 
           title="Journal" 
-          status={journal === 0 ? "No entries yet" : `${journal} This Week`}
+          status={journal === 0 ? "Ready to write" : "Reflected"}
           color="#8B5CF6" 
           icon={<Icon name="BookOpen" size={20} color="#8B5CF6" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Journal' })} 
         />
         <OverviewCard 
           title="Journey" 
-          status={journey === 0 ? "Ready to reflect" : `${journey} Memories`}
+          status={journey === 0 ? "Capture a moment" : "Memories"}
           color="#14B8A6" 
           icon={<Icon name="Compass" size={20} color="#14B8A6" />} 
           onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 

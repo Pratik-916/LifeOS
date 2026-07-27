@@ -4,9 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiClient } from '../../../api/client';
 import { monitoringService } from '../../../services/monitoring';
-import { DashboardHeader } from '../components/DashboardHeader';
-
-import { HeroProductivityCard } from '../components/HeroProductivityCard';
+import { DashboardHero } from '../components/DashboardHero';
 import { TodayOverview } from '../components/OverviewCard';
 import { AgendaCard } from '../components/AgendaCard';
 // Removed: QuickActions, InsightCarousel, WeeklyProgressSection
@@ -42,8 +40,6 @@ export const DashboardScreen = () => {
         refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
         showsVerticalScrollIndicator={false}
       >
-        <DashboardHeader firstName={userData?.first_name} />
-
         {isLoading && !dashboardData ? (
           <DashboardSkeleton />
         ) : isError && !dashboardData ? (
@@ -57,13 +53,19 @@ export const DashboardScreen = () => {
           <View className="pb-24">
             {dashboardData && (
               <>
-                <HeroProductivityCard 
-                  score={dashboardData.productivityScore || 0}
-                  trend={dashboardData.productivityScore >= (dashboardData.weeklyProductivity || 0) ? 'up' : 'down'}
-                  completionPercentage={dashboardData.completionPercentage || 0}
+                <DashboardHero 
+                  firstName={userData?.first_name}
+                  pendingTasks={dashboardData.pendingTasks || 0}
+                  completedTasks={dashboardData.completedTasks || 0}
+                  overdueTasks={dashboardData.overdueTasks || 0}
+                  productivityScore={dashboardData.productivityScore || 0}
                 />
                 
-                <AgendaCard deadlines={dashboardData.upcomingDeadlines || []} />
+                <AgendaCard 
+                  deadlines={dashboardData.upcomingDeadlines || []} 
+                  completedTasks={dashboardData.completedTasks || 0}
+                  pendingTasks={dashboardData.pendingTasks || 0}
+                />
                 
                 <TodayOverview 
                   tasks={dashboardData.todaysTasks || 0}

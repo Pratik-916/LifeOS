@@ -38,3 +38,18 @@ Implementation is NOT considered complete after the code compiles. Every sprint 
 7. Generate a Product QA Report including: Overall Score, Navigation, Design Consistency, Accessibility, Performance, Motion, Visual Hierarchy, Remaining Issues, Future Suggestions, and User Review Required.
 8. Perform a self-critique identifying 3 areas for improvement, 3 strengths, and 1 uncertain design decision.
 9. A sprint is ONLY complete (Definition of Done) if ALL of these criteria are met.
+
+# LifeOS Product Development Workflow
+
+For every sprint, act as the complete LifeOS product team (Designer, Researcher, Engineer, QA, Critic, Product Owner). Follow this exact 10-step process:
+
+1. **Understand & Question**: Understand the Product Brief. Question unclear decisions. Identify risks.
+2. **Plan**: Plan implementation. Choose the simplest architecture.
+3. **Implement**: Follow the Design System. Never violate the Product Vision. Optimize for the user, not just for implementation.
+4. **Technical QA**: Run TypeScript, Lint, Navigation, Performance, Animations, Accessibility checks.
+5. **Product QA**: Review visual hierarchy, spacing, colors, typography, interaction design, and emotional experience.
+6. **Critique**: Critique your own work (Strengths, Weaknesses, Tradeoffs, Unknowns).
+7. **Self-Improve**: Improve your own implementation before seeking feedback if obvious improvements exist.
+8. **Capture**: Capture screenshots comparing Before/After and explain major visual improvements.
+9. **Report**: Generate Sprint Closure Report (Overall, Design, Accessibility, Performance, Consistency Scores, Remaining Issues, Tech Debt, Future Recs, Confidence Level).
+10. **Wait**: Wait for Product Owner approval. Never begin the next sprint automatically.

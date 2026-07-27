@@ -79,36 +79,36 @@ export const QuickAddBottomSheet = ({ visible, onClose }: QuickAddBottomSheetPro
           
           <HeadingLG className="mb-6 mt-2 text-center text-text-light dark:text-text-dark">Quick Add</HeadingLG>
 
-          <View style={styles.grid}>
+          <View className="grid">
             <QuickAddOption 
               title="Task" 
               icon="CheckSquare" 
               color={colors.modules.planner} 
-              onPress={() => handleNavigate('Planner')} 
+              onPress={() => handleNavigate('Tabs', 'Planner')} 
             />
             <QuickAddOption 
               title="Habit" 
               icon="Target" 
               color={colors.modules.habits} 
-              onPress={() => handleNavigate('Today')} 
+              onPress={() => handleNavigate('Tabs', 'Today')} 
             />
             <QuickAddOption 
               title="Goal" 
               icon="Trophy" 
               color={colors.modules.goals} 
-              onPress={() => handleNavigate('Today')} 
+              onPress={() => handleNavigate('Tabs', 'Today')} 
             />
             <QuickAddOption 
               title="Entry" 
               icon="BookOpen" 
               color={colors.modules.journal} 
-              onPress={() => handleNavigate('Journal')} 
+              onPress={() => handleNavigate('Tabs', 'Journal')} 
             />
             <QuickAddOption 
               title="Memory" 
               icon="Camera" 
               color={colors.modules.memory} 
-              onPress={() => handleNavigate('Journal')} 
+              onPress={() => handleNavigate('Tabs', 'Journal')} 
             />
           </View>
         </View>

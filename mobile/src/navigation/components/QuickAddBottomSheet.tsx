@@ -5,6 +5,8 @@ import { Icon } from '../../design-system/icons/IconProvider';
 import { HeadingLG, HeadingMD } from '../../design-system/text/Typography';
 import { colors } from '../../design-system/tokens/colors';
 import { useNavigation } from '@react-navigation/native';
+import type { NavigationProp } from '@react-navigation/native';
+import type { MainStackParamList } from '../types';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -46,16 +48,18 @@ const QuickAddOption = ({ title, icon, color, onPress }: QuickAddOptionProps) =>
 };
 
 export const QuickAddBottomSheet = ({ visible, onClose }: QuickAddBottomSheetProps) => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
-  const handleNavigate = (route: string, screen?: string) => {
+  const handleNavigate = (route: keyof MainStackParamList, screen?: string) => {
     onClose();
     // Use setTimeout to allow the modal to close smoothly before navigating
     setTimeout(() => {
       if (screen) {
-        navigation.navigate(route, { screen });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        navigation.navigate(route as any, { screen } as any);
       } else {
-        navigation.navigate(route);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        navigation.navigate(route as any);
       }
     }, 150);
   };
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   backdrop: {
-    ...StyleSheet.absoluteFill as any,
+    ...(StyleSheet.absoluteFill as object),
     backgroundColor: 'rgba(15, 23, 42, 0.4)',
   },
   sheetContent: {

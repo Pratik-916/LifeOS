@@ -25,3 +25,16 @@
 8. If a phase is only partially complete, do NOT commit it unless explicitly asked.
 9. Never rewrite Git history, force push, or squash commits unless specifically requested.
 10. Follow this workflow for every future phase until the project is complete.
+
+# Mandatory QA Process
+
+Implementation is NOT considered complete after the code compiles. Every sprint MUST go through the following QA cycle:
+1. Run `npm run typecheck` and `npm run lint`. Fix every issue.
+2. Launch the application on the Android emulator and verify it starts correctly.
+3. Perform a complete Product QA: review visual hierarchy, typography, spacing, alignment, colors, corner radius, shadows, touch targets, accessibility, navigation, empty states, loading/error states, micro interactions, and overall emotional experience.
+4. Compare the UI against the Product Vision. Simplify, remove, or improve anything that doesn't align.
+5. Perform an Implementation Review listing improvements, intentional keeps, compromises, tech debt, and future recommendations.
+6. Capture screenshots (Today, Planner, Journal, Quick Add, Me, Navigation, Dark Mode).
+7. Generate a Product QA Report including: Overall Score, Navigation, Design Consistency, Accessibility, Performance, Motion, Visual Hierarchy, Remaining Issues, Future Suggestions, and User Review Required.
+8. Perform a self-critique identifying 3 areas for improvement, 3 strengths, and 1 uncertain design decision.
+9. A sprint is ONLY complete (Definition of Done) if ALL of these criteria are met.

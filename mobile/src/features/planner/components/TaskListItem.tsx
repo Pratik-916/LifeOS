@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { View, Pressable, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
-import { CheckCircle2, Circle, Trash2, Undo2 } from 'lucide-react-native';
+import { CheckCircle2, Circle, Trash2 } from 'lucide-react-native';
 import { BodyMD, Caption, ListCard } from '../../../design-system';
-import { CategoryBadge } from './CategoryBadge';
-import { PriorityPill } from './PriorityPill';
 import type { Task } from '../api/planner.types';
 
 interface TaskListItemProps {
@@ -21,6 +19,27 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
   onDelete,
 }) => {
   const isCompleted = task.status === 'completed';
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.9,
+      useNativeDriver: true,
+      speed: 50,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 50,
+    }).start();
+  };
+
+  const handleToggle = () => {
+    onToggleComplete();
+  };
 
   const renderRightActions = (
     progress: import('react-native').Animated.AnimatedInterpolation<string | number>, 
@@ -46,73 +65,50 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
     );
   };
 
-  const renderLeftActions = (
-    progress: import('react-native').Animated.AnimatedInterpolation<string | number>, 
-    dragX: import('react-native').Animated.AnimatedInterpolation<string | number>
-  ) => {
-    const scale = dragX.interpolate({
-      inputRange: [0, 80],
-      outputRange: [0, 1],
-      extrapolate: 'clamp',
-    });
-
-    const actionColor = isCompleted ? '#F59E0B' : '#10B981';
-
-    return (
-      <Pressable 
-        style={[styles.completeAction, { backgroundColor: actionColor }]} 
-        onPress={onToggleComplete}
-        accessibilityRole="button"
-        accessibilityLabel={isCompleted ? "Mark incomplete" : "Mark complete"}
-      >
-        <Animated.View style={{ transform: [{ scale }] }}>
-          {isCompleted ? <Undo2 color="#FFFFFF" size={24} /> : <CheckCircle2 color="#FFFFFF" size={24} />}
-        </Animated.View>
-      </Pressable>
-    );
-  };
-
   return (
-    <Swipeable renderRightActions={renderRightActions} renderLeftActions={renderLeftActions}>
+    <Swipeable renderRightActions={renderRightActions}>
       <ListCard 
         onPress={onPress} 
-        style={styles.container}
+        style={[styles.container, isCompleted && styles.completedContainer]}
       >
         <View style={styles.contentRow}>
-          <Pressable 
-            style={styles.checkbox} 
-            onPress={onToggleComplete}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            accessibilityRole="checkbox"
-            accessibilityState={{ checked: isCompleted }}
-            testID={`checkbox-${task.title}`}
-          >
-            {isCompleted ? (
-              <CheckCircle2 color="#10B981" size={24} />
-            ) : (
-              <Circle color="#D1D5DB" size={24} />
-            )}
-          </Pressable>
+          <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+            <Pressable 
+              style={styles.checkbox} 
+              onPress={handleToggle}
+              onPressIn={handlePressIn}
+              onPressOut={handlePressOut}
+              hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: isCompleted }}
+              testID={`checkbox-${task.title}`}
+            >
+              {isCompleted ? (
+                <CheckCircle2 color="#9CA3AF" size={24} />
+              ) : (
+                <Circle color="#D1D5DB" size={24} />
+              )}
+            </Pressable>
+          </Animated.View>
 
           <View style={styles.textContainer}>
             <BodyMD 
-              className={`font-medium ${isCompleted ? 'text-gray-400 line-through' : 'text-text-light dark:text-text-dark'}`}
+              className={`font-medium ${isCompleted ? 'text-slate-400 line-through' : 'text-slate-800 dark:text-slate-200'}`}
               numberOfLines={1}
             >
               {task.title}
             </BodyMD>
             
-            {(task.dueDate || task.category) && (
+            {(!isCompleted && (task.dueTime || task.category !== 'General')) && (
               <View style={styles.metaRow}>
-                {task.category && <CategoryBadge category={task.category} />}
-                {task.priority !== 'low' && (
-                  <View style={{ marginLeft: 6 }}>
-                    <PriorityPill priority={task.priority} />
-                  </View>
+                {task.dueTime && (
+                  <Caption className="text-slate-400 mr-2">
+                    {task.dueTime}
+                  </Caption>
                 )}
-                {task.dueDate && (
-                  <Caption className="text-text-muted ml-2">
-                    {task.dueDate}
+                {task.category && task.category !== 'General' && (
+                  <Caption className="text-slate-400">
+                    • {task.category}
                   </Caption>
                 )}
               </View>
@@ -129,7 +125,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
+    borderBottomColor: '#F8FAFC', // Much softer border
+  },
+  completedContainer: {
+    opacity: 0.6,
   },
   contentRow: {
     flexDirection: 'row',
@@ -140,24 +139,18 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
+    justifyContent: 'center',
   },
   metaRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 6,
-    flexWrap: 'wrap',
+    marginTop: 2,
   },
   deleteAction: {
     backgroundColor: '#EF4444',
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingRight: 24,
-    width: 100,
-  },
-  completeAction: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 24,
     width: 100,
   }
 });

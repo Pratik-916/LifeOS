@@ -53,7 +53,7 @@ export const TaskSearchScreen = () => {
     if (isLoading) {
       return <View><TaskSkeleton /><TaskSkeleton /></View>;
     }
-    return <EmptyPlannerState isSearch />;
+    return <EmptyPlannerState type="search" />;
   }, [debouncedQuery, isLoading]);
 
   return (

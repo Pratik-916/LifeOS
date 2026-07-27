@@ -40,7 +40,7 @@ export const TaskEditorScreen = () => {
   const { data: existingTask, isLoading } = useTask(taskId || '', { enabled: isEditing });
   const { createTask, updateTask } = useTaskMutations();
 
-  const [dueDate, setDueDate] = useState<Date | null>(null);
+  const [dueDate, setDueDate] = useState<Date | null>(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const { control, handleSubmit, reset, watch, formState: { errors } } = useForm<TaskFormData>({
@@ -151,6 +151,7 @@ export const TaskEditorScreen = () => {
               <TextInput
                 className="bg-surface-light dark:bg-surface-dark border border-secondary-100 dark:border-secondary-900 rounded-lg p-3 text-text-light dark:text-text-dark"
                 placeholder="Task Title"
+                autoFocus={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}

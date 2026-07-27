@@ -1,39 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useCallback } from 'react';
-import { View, FlatList, RefreshControl } from 'react-native';
+import React, { useState, useCallback, useMemo } from 'react';
+import { View, SectionList, RefreshControl, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { isPast, isToday, startOfDay } from 'date-fns';
+import { ChevronDown, ChevronUp } from 'lucide-react-native';
+
 import { MainStackParamList } from '../../../navigation/types';
-import { HeadingLG, HeadingMD, IconButton } from '../../../design-system';
-import { PlannerStatisticsCard } from '../components/PlannerStatisticsCard';
+import { HeadingLG, HeadingMD, BodyMD, IconButton, Icon } from '../../../design-system';
 import { TaskListItem } from '../components/TaskListItem';
 import { FloatingActionButton } from '../components/FloatingActionButton';
 import { TaskSkeleton } from '../components/TaskSkeleton';
 import { EmptyPlannerState } from '../components/EmptyPlannerState';
 import { useTasks } from '../hooks/useTasks';
-import { usePlannerStats } from '../hooks/usePlannerStats';
 import { useTaskMutations } from '../hooks/useTaskMutations';
+import type { Task } from '../api/planner.types';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const PlannerScreen = () => {
   const navigation = useNavigation<NavigationProp>();
-  
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(true);
 
-  // We are passing no filters initially to get all active tasks. Pagination would ideally use useInfiniteQuery,
-  // but since our backend is standard DRF with a generic paginated response, we can fetch page 1 for now 
-  // or use the standard query.
   const { data: tasksData, isLoading, refetch } = useTasks();
-  const { data: statsData, refetch: refetchStats } = usePlannerStats();
   const { completeTask, deleteTask } = useTaskMutations();
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await Promise.all([refetch(), refetchStats()]);
+    await refetch();
     setIsRefreshing(false);
   };
 
@@ -53,35 +50,122 @@ export const PlannerScreen = () => {
     deleteTask.mutate(id);
   }, [deleteTask]);
 
-  const renderHeader = useCallback(() => (
-    <View className="mb-4">
-      {statsData && <PlannerStatisticsCard stats={statsData} />}
-      <HeadingMD className="mb-2 mt-4">Tasks</HeadingMD>
-    </View>
-  ), [statsData]);
+  // Grouping logic
+  const sections = useMemo(() => {
+    if (!tasksData?.results) return [];
+
+    const overdue: Task[] = [];
+    const today: Task[] = [];
+    const upcoming: Task[] = [];
+    const completed: Task[] = [];
+
+    const now = startOfDay(new Date());
+
+    tasksData.results.forEach(task => {
+      if (task.status === 'completed') {
+        completed.push(task);
+        return;
+      }
+
+      if (!task.dueDate) {
+        upcoming.push(task);
+        return;
+      }
+
+      const taskDate = startOfDay(new Date(task.dueDate));
+      
+      if (isToday(taskDate)) {
+        today.push(task);
+      } else if (isPast(taskDate)) {
+        overdue.push(task);
+      } else {
+        upcoming.push(task);
+      }
+    });
+
+    const result = [];
+    
+    if (overdue.length > 0) {
+      result.push({ title: 'Overdue', data: overdue, color: '#EF4444' });
+    }
+    if (today.length > 0 || result.length === 0) {
+      // Always show Today section, even if empty, to give context
+      result.push({ title: 'Today', data: today, color: '#10B981' });
+    }
+    if (upcoming.length > 0) {
+      result.push({ title: 'Upcoming', data: upcoming, color: '#3B82F6' });
+    }
+    if (completed.length > 0) {
+      result.push({ 
+        title: 'Completed', 
+        data: isCompletedCollapsed ? [] : completed, 
+        color: '#9CA3AF',
+        count: completed.length
+      });
+    }
+
+    return result;
+  }, [tasksData?.results, isCompletedCollapsed]);
+
+  const renderSectionHeader = ({ section }: any) => {
+    if (section.title === 'Completed') {
+      return (
+        <Pressable 
+          className="flex-row items-center justify-between py-3 px-1 mt-4 border-b border-slate-100 dark:border-slate-800"
+          onPress={() => setIsCompletedCollapsed(!isCompletedCollapsed)}
+        >
+          <View className="flex-row items-center">
+            <HeadingMD className="text-slate-500">{section.title}</HeadingMD>
+            <View className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full ml-3">
+              <BodyMD className="text-slate-500 font-medium text-xs">{section.count}</BodyMD>
+            </View>
+          </View>
+          {isCompletedCollapsed ? (
+            <ChevronDown color="#9CA3AF" size={20} />
+          ) : (
+            <ChevronUp color="#9CA3AF" size={20} />
+          )}
+        </Pressable>
+      );
+    }
+
+    return (
+      <View className="flex-row items-center py-3 px-1 mt-4 border-b border-slate-100 dark:border-slate-800">
+        <HeadingMD style={{ color: section.color }}>{section.title}</HeadingMD>
+        <BodyMD className="text-slate-400 ml-2 font-medium">({section.data.length})</BodyMD>
+      </View>
+    );
+  };
 
   const renderEmpty = useCallback(() => {
     if (isLoading) {
       return (
-        <View>
+        <View className="p-4">
           <TaskSkeleton />
           <TaskSkeleton />
           <TaskSkeleton />
         </View>
       );
     }
-    return <EmptyPlannerState onAdd={() => navigateToEditor()} />;
-  }, [isLoading, navigateToEditor]);
+    // If we only have the "Today" section and it's empty, and no completed tasks
+    if (sections.length === 1 && sections[0].title === 'Today' && sections[0].data.length === 0) {
+      return <EmptyPlannerState type="today" onAdd={() => navigateToEditor()} />;
+    }
+    return <EmptyPlannerState type="empty" onAdd={() => navigateToEditor()} />;
+  }, [isLoading, sections, navigateToEditor]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderItem = useCallback(({ item }: any) => (
-    <TaskListItem
-      task={item}
-      onPress={() => navigateToDetails(item.id)}
-      onToggleComplete={() => handleToggleComplete(item.id, item.status === 'completed')}
-      onDelete={() => handleDelete(item.id)}
-    />
-  ), [navigateToDetails, handleToggleComplete, handleDelete]);
+  const renderItem = useCallback(({ item, section }: any) => {
+    if (section.title === 'Completed' && isCompletedCollapsed) return null;
+    
+    return (
+      <TaskListItem
+        task={item}
+        onPress={() => navigateToDetails(item.id)}
+        onToggleComplete={() => handleToggleComplete(item.id, item.status === 'completed')}
+        onDelete={() => handleDelete(item.id)}
+      />
+    );
+  }, [navigateToDetails, handleToggleComplete, handleDelete, isCompletedCollapsed]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>
@@ -95,17 +179,17 @@ export const PlannerScreen = () => {
         />
       </View>
 
-      <FlatList
-        data={tasksData?.results || []}
+      <SectionList
+        sections={sections}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 100 }}
         renderItem={renderItem}
-        ListHeaderComponent={renderHeader}
+        renderSectionHeader={renderSectionHeader}
         ListEmptyComponent={renderEmpty}
         initialNumToRender={10}
         windowSize={5}
         maxToRenderPerBatch={5}
-        removeClippedSubviews={true}
+        stickySectionHeadersEnabled={false}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
         }

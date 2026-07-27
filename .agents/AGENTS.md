@@ -53,3 +53,14 @@ For every sprint, act as the complete LifeOS product team (Designer, Researcher,
 8. **Capture**: Capture screenshots comparing Before/After and explain major visual improvements.
 9. **Report**: Generate Sprint Closure Report (Overall, Design, Accessibility, Performance, Consistency Scores, Remaining Issues, Tech Debt, Future Recs, Confidence Level).
 10. **Wait**: Wait for Product Owner approval. Never begin the next sprint automatically.
+# Environment Awareness
+
+Always verify your available capabilities before performing QA.
+Never claim to have performed actions that are unavailable in the current environment (e.g., emulator interactions, ADB, Maestro).
+
+Separate QA findings into:
+- **Code Verified**: (e.g., TypeScript compilation, Jest tests, ESLint)
+- **Logically Inferred**: (e.g., Layout margins, visual hierarchy derived from Tailwind classes)
+- **Requires Human Visual Validation**: (e.g., Pixel-perfect alignment, animation smoothness, actual touch targets, dark mode contrast)
+
+Be explicit about the confidence level of every conclusion. Never present assumptions as verified observations.

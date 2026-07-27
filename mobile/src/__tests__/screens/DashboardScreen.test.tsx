@@ -9,10 +9,9 @@ import { DashboardScreen } from '../../features/dashboard/screens/DashboardScree
 import { renderWithClient } from '../utils';
 
 jest.mock('../../features/dashboard/components/InsightCarousel', () => ({ InsightCarousel: () => null }));
-jest.mock('../../features/dashboard/components/HeroProductivityCard', () => ({ HeroProductivityCard: () => null }));
+jest.mock('../../features/dashboard/components/DashboardHero', () => ({ DashboardHero: () => null }));
 jest.mock('../../features/dashboard/components/AgendaCard', () => ({ AgendaCard: () => null }));
 jest.mock('../../features/dashboard/components/WeeklyProgressSection', () => ({ WeeklyProgressSection: () => null }));
-jest.mock('../../features/dashboard/components/QuickActions', () => ({ QuickActions: () => null }));
 jest.mock('../../features/dashboard/components/OverviewCard', () => ({ TodayOverview: () => null }));
 
 const mockNavigate = jest.fn();

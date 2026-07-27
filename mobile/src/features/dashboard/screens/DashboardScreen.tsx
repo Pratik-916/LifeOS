@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, RefreshControl } from 'react-native';
+import { View, ScrollView, RefreshControl, Text, Pressable } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiClient } from '../../../api/client';
@@ -18,7 +18,7 @@ import type { DashboardSummaryDTO, DashboardSummary } from '../../analytics/api/
 import { mapDashboardSummary } from '../../analytics/api/analytics.mapper';
 
 export const DashboardScreen = () => {
-  const { data: dashboardData, isLoading, refetch, isRefetching } = useQuery<DashboardSummary>({
+  const { data: dashboardData, isLoading, isError, refetch, isRefetching } = useQuery<DashboardSummary>({
     queryKey: ['dashboard', 'summary'],
     queryFn: async () => {
       const response = await apiClient.get<DashboardSummaryDTO>('/api/v1/analytics/dashboard/');
@@ -48,6 +48,13 @@ export const DashboardScreen = () => {
 
         {isLoading && !dashboardData ? (
           <DashboardSkeleton />
+        ) : isError && !dashboardData ? (
+          <View className="items-center justify-center py-20">
+            <Text className="text-red-500 font-medium text-center mb-4">Could not connect to the server.</Text>
+            <Pressable onPress={() => refetch()} className="bg-indigo-600 px-6 py-2 rounded-full">
+              <Text className="text-white font-medium">Retry</Text>
+            </Pressable>
+          </View>
         ) : (
           <View className="pb-20">
             {dashboardData && (

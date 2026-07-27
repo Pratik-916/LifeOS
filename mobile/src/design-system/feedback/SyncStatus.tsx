@@ -18,7 +18,7 @@ export const SyncStatus = () => {
     const interval = setInterval(async () => {
       const qStatus = await getQueueStatus();
       setStatus(qStatus);
-    }, 1500);
+    }, 10000);
 
     return () => {
       unsubscribe();

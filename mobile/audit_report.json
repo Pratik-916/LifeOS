@@ -34,6 +34,16 @@
       ]
     },
     {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\feedback\\SyncStatus.tsx",
+      "count": 4,
+      "matches": [
+        "#ef4444",
+        "#3b82f6",
+        "#f59e0b",
+        "#8b5cf6"
+      ]
+    },
+    {
       "file": "d:\\Projects\\LifeOS\\mobile\\src\\design-system\\feedback\\Toast.tsx",
       "count": 4,
       "matches": [
@@ -671,9 +681,11 @@
     },
     {
       "file": "d:\\Projects\\LifeOS\\mobile\\src\\features\\profile\\screens\\ProfileScreen.tsx",
-      "count": 3,
+      "count": 5,
       "matches": [
         "#6366F1",
+        "#9CA3AF",
+        "#9CA3AF",
         "#9CA3AF",
         "#9CA3AF"
       ]
@@ -714,6 +726,13 @@
         "#FEE2E2",
         "#10B981",
         "#D1FAE5"
+      ]
+    },
+    {
+      "file": "d:\\Projects\\LifeOS\\mobile\\src\\__tests__\\components\\Loader.test.tsx",
+      "count": 1,
+      "matches": [
+        "#FF0000"
       ]
     }
   ],
@@ -1019,7 +1038,7 @@
       "keyExt": true
     }
   ],
-  "interactiveComponentsCount": 90,
+  "interactiveComponentsCount": 112,
   "interactivesWithLabel": 6,
-  "unusedExportsCount": 167
+  "unusedExportsCount": 172
 }

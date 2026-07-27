@@ -67,7 +67,7 @@ export interface GoalDTO {
   icon?: string;
   is_favorite: boolean;
   is_archived: boolean;
-  tags?: number[];
+  tags?: string[];
   tags_detail?: unknown[];
   milestones?: MilestoneDTO[];
   created_at: string;

@@ -1,18 +1,18 @@
 export interface SubtaskDTO {
-  id: number;
+  id: string;
   title: string;
   is_completed: boolean;
   order: number;
 }
 
 export interface TagDTO {
-  id: number;
+  id: string;
   name: string;
   color: string;
 }
 
 export interface TaskDTO {
-  id: number;
+  id: string;
   title: string;
   description: string;
   status: 'todo' | 'in_progress' | 'completed';
@@ -25,7 +25,7 @@ export interface TaskDTO {
   reminder_datetime: string | null;
   is_recurring: boolean;
   recurring_type: 'daily' | 'weekly' | 'monthly' | 'yearly' | '';
-  tags: number[]; // Array of tag IDs
+  tags: string[]; // Array of tag IDs
   tags_detail?: TagDTO[];
   notes: string;
   is_archived: boolean;

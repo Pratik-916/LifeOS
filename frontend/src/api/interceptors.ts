@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
     // Unwrap the LifeOS custom backend API response structure if present
     if (response.data && typeof response.data === 'object' && 'success' in response.data && 'data' in response.data) {
       response.data = response.data.data;
-    }
+    } 
     return response;
   },
   async (error) => {

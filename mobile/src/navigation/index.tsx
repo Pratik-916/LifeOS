@@ -7,7 +7,9 @@ import { Loader } from '../design-system/loaders/Loader';
 import { navigationRef, processNavigationQueue } from './navigationRef';
 
 export const RootNavigator = () => {
-  const { isAuthenticated, isInitializing, initializeAuth } = useAuthStore();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isInitializing = useAuthStore((state) => state.isInitializing);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
 
   useEffect(() => {
     initializeAuth();

@@ -19,9 +19,22 @@ import { monitoringService } from '../../../services/monitoring';
 
 
 export const ProfileScreen = () => {
-  const logout = useAuthStore((state) => state.clearTokens);
-  // unused navigation removed
-
+  const clearTokens = useAuthStore((state) => state.clearTokens);
+  
+  const handleLogout = async () => {
+    try {
+      const refreshToken = await AsyncStorage.getItem('refresh_token') || await import('expo-secure-store').then(m => m.getItemAsync('refresh_token'));
+      if (refreshToken) {
+        await apiClient.post('/api/v1/auth/logout/', { refresh: refreshToken });
+      }
+    } catch {
+      // Ignore network errors during logout
+    } finally {
+      await clearTokens();
+    }
+  };
+  const queryClient = useQueryClient();
+  
   const { data: userData } = useQuery({
     queryKey: ['user', 'me'],
     queryFn: async () => {
@@ -30,7 +43,6 @@ export const ProfileScreen = () => {
     }
   });
 
-  const queryClient = useQueryClient();
   const [isDeleting, setIsDeleting] = React.useState(false);
 
   const handleDeleteAccount = () => {
@@ -53,7 +65,7 @@ export const ProfileScreen = () => {
               await AsyncStorage.clear();
               syncEngine.cancel();
               queryClient.clear();
-              await logout();
+              await clearTokens();
             } catch (error: unknown) {
               monitoringService.addBreadcrumb('Account deletion failed', 'auth', 'error');
               syncEngine.resume(); // Resume sync if deletion failed
@@ -135,7 +147,7 @@ export const ProfileScreen = () => {
         <View className="mt-4 mb-10 space-y-4">
           <Button 
             title="Log Out" 
-            onPress={logout} 
+            onPress={handleLogout} 
             variant="secondary"
             className="bg-red-50 py-4 rounded-xl"
             leftIcon=""

@@ -156,8 +156,9 @@ export const useGoalMutations = () => {
           entityType: 'goal',
           entityId: id,
           mutationType: 'UPDATE',
-          endpoint: `/api/v1/goals/goals/${id}/archive/`,
-          method: 'POST',
+          endpoint: `/api/v1/goals/goals/${id}/`,
+          method: 'PATCH',
+          payload: { is_archived: true },
           priority: 1,
         });
         const prev = queryClient.getQueryData<Goal>(goalKeys.detail(id));

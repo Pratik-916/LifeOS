@@ -1,11 +1,11 @@
 export interface TagDTO {
-  id: number;
+  id: string;
   name: string;
   color: string;
 }
 
 export interface MemoryImageDTO {
-  id: number;
+  id: string;
   image: string;
   caption: string;
   alt_text: string;
@@ -14,7 +14,7 @@ export interface MemoryImageDTO {
 }
 
 export interface MemoryDTO {
-  id: number;
+  id: string;
   title: string;
   description: string;
   date: string | null;
@@ -25,7 +25,7 @@ export interface MemoryDTO {
   pinned: boolean;
   color: string;
   icon: string;
-  tags: number[];
+  tags: string[];
   tags_detail?: TagDTO[];
   images?: MemoryImageDTO[];
   created_at: string;

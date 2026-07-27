@@ -1,6 +1,6 @@
 // Backend DTOs (Snake Case)
 export interface HabitReminderDTO {
-  id: number;
+  id: string;
   reminder_time: string;
   days_of_week: number[];
   is_enabled: boolean;
@@ -76,7 +76,7 @@ export interface HabitLog {
 }
 
 export interface HabitReminder {
-  id: number;
+  id: string;
   reminderTime: string;
   daysOfWeek: number[];
   isEnabled: boolean;

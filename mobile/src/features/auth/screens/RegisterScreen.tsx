@@ -38,15 +38,13 @@ export const RegisterScreen = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: RegisterFormData) => {
-      // First register
-      await apiClient.post('/api/v1/auth/register/', data);
+      // Register and get tokens directly from response
+      const response = await apiClient.post('/api/v1/auth/register/', data);
       
-      // Then login to get tokens
-      const loginResponse = await apiClient.post('/api/v1/auth/login/', {
-        email: data.email,
-        password: data.password
-      });
-      return loginResponse.data;
+      return {
+        access: response.data.tokens.access,
+        refresh: response.data.tokens.refresh,
+      };
     },
     onSuccess: (data) => {
       setTokens(data.access, data.refresh);

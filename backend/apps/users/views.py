@@ -6,11 +6,12 @@ from .permissions import IsOwner
 
 User = get_user_model()
 
-class UserMeView(generics.RetrieveUpdateAPIView):
+class UserMeView(generics.RetrieveUpdateDestroyAPIView):
     """
     GET /api/v1/users/me/
     PATCH /api/v1/users/me/
-    Returns and updates the currently authenticated user's profile and settings.
+    DELETE /api/v1/users/me/
+    Returns, updates, or deletes the currently authenticated user's profile and settings.
     """
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, IsOwner]

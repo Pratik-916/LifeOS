@@ -67,7 +67,7 @@ export const mapTaskToDTO = (task: Partial<Task>): Partial<TaskDTO> => {
   if (task.estimatedMinutes !== undefined) dto.estimated_minutes = task.estimatedMinutes;
   if (task.actualMinutes !== undefined) dto.actual_minutes = task.actualMinutes;
   if (task.notes !== undefined) dto.notes = task.notes;
-  if (task.tags !== undefined) dto.tags = task.tags.map(Number).filter(n => !isNaN(n));
+  if (task.tags !== undefined) dto.tags = task.tags;
   if (task.recurring !== undefined) dto.is_recurring = task.recurring;
   if (task.recurringType !== undefined) dto.recurring_type = task.recurringType || '';
   if (task.isArchived !== undefined) dto.is_archived = task.isArchived;

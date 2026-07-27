@@ -101,7 +101,7 @@ export const mapJourneyStatisticsDTO = (dto: JourneyStatisticsDTO): JourneyStati
 export const mapCreateMemoryPayload = (payload: CreateMemoryPayload): Partial<MemoryDTO> => {
   const dto: Record<string, unknown> = { ...payload };
   if (payload.tags) {
-    dto.tags = payload.tags.map(Number).filter(n => !isNaN(n));
+    dto.tags = payload.tags;
   }
   return dto as Partial<MemoryDTO>;
 };
@@ -109,7 +109,7 @@ export const mapCreateMemoryPayload = (payload: CreateMemoryPayload): Partial<Me
 export const mapUpdateMemoryPayload = (payload: UpdateMemoryPayload): Partial<MemoryDTO> => {
   const dto: Record<string, unknown> = { ...payload };
   if (payload.tags) {
-    dto.tags = payload.tags.map(Number).filter(n => !isNaN(n));
+    dto.tags = payload.tags;
   }
   return dto as Partial<MemoryDTO>;
 };

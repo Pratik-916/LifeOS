@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { monitoringService } from '../services/monitoring';
 import { useAuthStore } from '../store/useAuthStore';
 import { config } from '../config/config';
 import { endpoints } from './endpoints';
@@ -53,6 +54,9 @@ apiClient.interceptors.response.use(
       } else {
         await useAuthStore.getState().clearTokens();
       }
+    } else if (!error.response) {
+      monitoringService.captureMessage(`Network error connecting to backend: ${error.message}`, 'error');
+      console.warn(`[API Client] Network Error: Could not connect to ${originalRequest.url}. Is the backend running?`);
     }
     return Promise.reject(error);
   }

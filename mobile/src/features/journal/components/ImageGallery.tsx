@@ -14,15 +14,18 @@ export const ImageGallery = ({ images }: ImageGalleryProps) => {
     <View className="mb-4">
       <Label className="mb-2">Photos</Label>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-        {images.map((img) => (
-          <Image 
-            key={img.id}
-            source={{ uri: img.image }}
-            style={styles.image}
-            accessible={true}
-            accessibilityLabel={img.altText || img.caption || "Journal Entry Image"}
-          />
-        ))}
+        {images.map((img) => {
+          if (!img.image) return null;
+          return (
+            <Image 
+              key={img.id}
+              source={{ uri: img.image }}
+              style={styles.image}
+              accessible={true}
+              accessibilityLabel={img.altText || img.caption || "Journal Entry Image"}
+            />
+          );
+        })}
       </ScrollView>
     </View>
   );

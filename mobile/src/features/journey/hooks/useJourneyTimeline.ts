@@ -15,7 +15,7 @@ export const useJourneyTimeline = (filters?: GetTimelineFilters) => {
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (lastPage.next) {
-        const match = lastPage.next.match(/[\?&]offset=(\d+)/);
+        const match = lastPage.next.match(/[?&]offset=(\d+)/);
         return match ? Number(match[1]) : undefined;
       }
       return undefined;

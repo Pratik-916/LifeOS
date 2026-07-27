@@ -12,6 +12,7 @@
       "buildNumber": "12900"
     },
     "android": {
+      "backgroundColor": "#FFFFFF",
       "adaptiveIcon": {
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png"

@@ -1,4 +1,6 @@
+import 'react-native-gesture-handler';
 import React, { useEffect, useCallback } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
@@ -10,6 +12,7 @@ import { ThemeProvider } from './src/theme/ThemeProvider';
 
 import { monitoringService } from './src/services/monitoring';
 import { notificationService, registerBackgroundTasks } from './src/services/notifications';
+import { syncEngine } from './src/services/offline';
 
 // Keep splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -26,7 +29,6 @@ const queryClient = new QueryClient({
 // Initialize production observability
 monitoringService.initialize();
 
-import { syncEngine } from './src/services/offline';
 syncEngine.setQueryClient(queryClient);
 
 // Setup Background Tasks (must happen early in the lifecycle)
@@ -61,17 +63,19 @@ function App() {
   }
 
   return (
-    <ErrorBoundary>
-      <ThemeProvider>
-        <SafeAreaProvider onLayout={onLayoutRootView}>
-          <QueryClientProvider client={queryClient}>
-            <StatusBar style="auto" />
-            <OfflineBanner />
-            <RootNavigator />
-          </QueryClientProvider>
-        </SafeAreaProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ErrorBoundary>
+        <ThemeProvider>
+          <SafeAreaProvider onLayout={onLayoutRootView}>
+            <QueryClientProvider client={queryClient}>
+              <StatusBar style="auto" />
+              <OfflineBanner />
+              <RootNavigator />
+            </QueryClientProvider>
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
+    </GestureHandlerRootView>
   );
 }
 

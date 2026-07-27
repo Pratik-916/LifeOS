@@ -34,10 +34,13 @@ jest.mock('@react-navigation/native', () => {
 
 describe('RootNavigator', () => {
   it('renders Loader while initializing', async () => {
-    (useAuthStore as unknown as jest.Mock).mockReturnValue({
-      isInitializing: true,
-      isAuthenticated: false,
-      initializeAuth: jest.fn(),
+    (useAuthStore as unknown as jest.Mock).mockImplementation((selector) => {
+      const state = {
+        isInitializing: true,
+        isAuthenticated: false,
+        initializeAuth: jest.fn(),
+      };
+      return selector(state);
     });
 
     await render(<RootNavigator />);
@@ -45,10 +48,13 @@ describe('RootNavigator', () => {
   });
 
   it('renders AuthStack when not authenticated', async () => {
-    (useAuthStore as unknown as jest.Mock).mockReturnValue({
-      isInitializing: false,
-      isAuthenticated: false,
-      initializeAuth: jest.fn(),
+    (useAuthStore as unknown as jest.Mock).mockImplementation((selector) => {
+      const state = {
+        isInitializing: false,
+        isAuthenticated: false,
+        initializeAuth: jest.fn(),
+      };
+      return selector(state);
     });
 
     await render(<RootNavigator />);
@@ -56,10 +62,13 @@ describe('RootNavigator', () => {
   });
 
   it('renders MainStack when authenticated', async () => {
-    (useAuthStore as unknown as jest.Mock).mockReturnValue({
-      isInitializing: false,
-      isAuthenticated: true,
-      initializeAuth: jest.fn(),
+    (useAuthStore as unknown as jest.Mock).mockImplementation((selector) => {
+      const state = {
+        isInitializing: false,
+        isAuthenticated: true,
+        initializeAuth: jest.fn(),
+      };
+      return selector(state);
     });
 
     await render(<RootNavigator />);

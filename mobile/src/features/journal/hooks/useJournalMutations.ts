@@ -39,6 +39,7 @@ export const useJournalMutations = () => {
           tomorrowFocus: payload.tomorrow_focus,
           energyLevel: payload.energy_level,
           stressLevel: payload.stress_level,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any;
       }
       return journalApi.createJournalEntry(payload);
@@ -86,6 +87,7 @@ export const useJournalMutations = () => {
           payload,
           priority: 1,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const prev = queryClient.getQueryData(journalKeys.detail(id)) as any;
         return { 
           ...prev, 
@@ -96,6 +98,7 @@ export const useJournalMutations = () => {
           tomorrowFocus: payload.tomorrow_focus !== undefined ? payload.tomorrow_focus : prev?.tomorrowFocus,
           energyLevel: payload.energy_level !== undefined ? payload.energy_level : prev?.energyLevel,
           stressLevel: payload.stress_level !== undefined ? payload.stress_level : prev?.stressLevel,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any;
       }
       return journalApi.updateJournalEntry(id, payload);

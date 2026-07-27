@@ -59,12 +59,12 @@ export const TodayOverview = React.memo(({ tasks, habits, goals, journal, journe
         <OverviewCard 
           title="Habits" count={habits} subtitle="To Complete" color="#10B981" 
           icon={<Icon name="Target" size={20} color="#10B981" />} 
-          onPress={() => navigation.navigate('Tabs', { screen: 'Habits' })} 
+          onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />
         <OverviewCard 
           title="Goals" count={goals} subtitle="Active" color="#F59E0B" 
           icon={<Icon name="Trophy" size={20} color="#F59E0B" />} 
-          onPress={() => navigation.navigate('Tabs', { screen: 'Goals' })} 
+          onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />
         <OverviewCard 
           title="Journal" count={journal} subtitle="Entries This Week" color="#8B5CF6" 
@@ -74,7 +74,7 @@ export const TodayOverview = React.memo(({ tasks, habits, goals, journal, journe
         <OverviewCard 
           title="Journey" count={journey} subtitle="Memories" color="#14B8A6" 
           icon={<Icon name="Compass" size={20} color="#14B8A6" />} 
-          onPress={() => navigation.navigate('Tabs', { screen: 'Journey' })} 
+          onPress={() => navigation.navigate('Tabs', { screen: 'Today' })} 
         />
       </ScrollView>
     </View>

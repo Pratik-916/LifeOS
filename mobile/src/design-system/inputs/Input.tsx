@@ -59,7 +59,7 @@ export const TextField = React.forwardRef<TextInput, BaseInputProps>(
         {label && <Label className="mb-2">{label}</Label>}
         
         <View
-          className={`flex-row items-center border rounded-xl px-3 h-12 ${bgClass} ${borderClass}`}
+          className={`flex-row items-center border rounded-xl px-4 h-14 ${bgClass} ${borderClass}`} // 56px height
         >
           {leftIcon && (
             <Icon name={leftIcon} size={20} className="mr-2" color={isFocused ? '#6366F1' : '#94A3B8'} />

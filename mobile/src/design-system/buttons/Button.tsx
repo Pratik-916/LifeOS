@@ -55,16 +55,16 @@ const getTextClasses = (variant: ButtonProps['variant']) => {
 const getSizeClasses = (size: ButtonProps['size'], isIconButton?: boolean) => {
   if (isIconButton) {
     switch (size) {
-      case 'sm': return 'h-8 w-8';
-      case 'lg': return 'h-14 w-14';
-      default: return 'h-12 w-12';
+      case 'sm': return 'h-10 w-10'; // 40px
+      case 'lg': return 'h-16 w-16'; // 64px
+      default: return 'h-14 w-14'; // 56px (Large tap target)
     }
   }
   
   switch (size) {
-    case 'sm': return 'px-3 py-1.5 h-8';
-    case 'lg': return 'px-6 py-4 h-14';
-    default: return 'px-4 py-3 h-12';
+    case 'sm': return 'px-4 py-2 h-10';
+    case 'lg': return 'px-8 py-4 h-16';
+    default: return 'px-6 py-3 h-14'; // 56px standard
   }
 };
 
@@ -110,11 +110,11 @@ export const Button = React.forwardRef<View, ButtonProps>(
 
     const isDisabled = disabled || loading;
 
-    const baseClasses = 'flex-row items-center justify-center rounded-full';
+    const baseClasses = 'flex-row items-center justify-center rounded-xl'; // 12px radius
     const variantClasses = getVariantClasses(variant);
     const sizeClasses = getSizeClasses(size, isIconButton || isFloating);
     const disabledClasses = isDisabled ? 'opacity-50' : 'opacity-100';
-    const floatingClasses = isFloating ? 'absolute bottom-6 right-6 shadow-lg shadow-black/20' : '';
+    const floatingClasses = isFloating ? 'absolute bottom-6 right-6 shadow-xl shadow-black/20 rounded-full' : ''; // Floating keeps full round
 
     const iconSize = size === 'sm' ? 16 : size === 'lg' ? 24 : 20;
     const textColor = getTextClasses(variant).includes('text-white') ? '#FFFFFF' : '#0F172A'; // Ideally from token but fixed for now.

@@ -15,23 +15,23 @@ export interface CardProps extends PressableProps {
 const getCardVariantClasses = (variant: CardProps['variant']) => {
   switch (variant) {
     case 'primary':
-      return 'bg-surface-light dark:bg-surface-dark rounded-2xl p-4';
+      return 'bg-surface-light dark:bg-surface-dark rounded-3xl p-5'; // 24px radius
     case 'outlined':
-      return 'bg-transparent border border-secondary-100 dark:border-secondary-900 rounded-2xl p-4';
+      return 'bg-transparent border border-secondary-100 dark:border-secondary-900 rounded-3xl p-5';
     case 'glass':
-      return 'bg-background-light dark:bg-background-dark/70 dark:bg-black/70 rounded-2xl p-4'; // Needs blur in styling ideally
+      return 'bg-background-light dark:bg-background-dark/70 dark:bg-black/70 rounded-3xl p-5';
     case 'elevated':
-      return 'bg-surface-light dark:bg-surface-dark rounded-2xl p-4 shadow-lg shadow-black/10';
+      return 'bg-surface-light dark:bg-surface-dark rounded-3xl p-5 shadow-lg shadow-black/5'; // Calm shadow
     case 'module':
-      return 'bg-surface-light dark:bg-surface-dark rounded-3xl p-5';
+      return 'bg-surface-light dark:bg-surface-dark rounded-[32px] p-6'; // Even larger for main modules
     case 'stat':
-      return 'bg-surface-light dark:bg-surface-dark rounded-xl p-3 flex-1';
+      return 'bg-surface-light dark:bg-surface-dark rounded-2xl p-4 flex-1'; // 16px radius for smaller cards
     case 'list':
-      return 'bg-surface-light dark:bg-surface-dark rounded-xl p-3 flex-row items-center';
+      return 'bg-surface-light dark:bg-surface-dark rounded-2xl p-4 flex-row items-center';
     case 'settings':
-      return 'bg-surface-light dark:bg-surface-dark rounded-xl p-4 flex-row items-center justify-between';
+      return 'bg-surface-light dark:bg-surface-dark rounded-2xl p-4 flex-row items-center justify-between';
     default:
-      return 'bg-surface-light dark:bg-surface-dark rounded-2xl p-4';
+      return 'bg-surface-light dark:bg-surface-dark rounded-3xl p-5';
   }
 };
 

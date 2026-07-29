@@ -1,10 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
-import { ListCard, HeadingSM, Caption, Icon } from '../../../design-system';
-import { CategoryChip, FrequencyBadge, ReminderIndicator } from './HabitBadges';
+import { HeadingSM, Caption, Icon, BodySM } from '../../../design-system';
 import { HabitProgressRing } from './HabitProgressRing';
 import type { HabitModel } from '../api/habits.types';
 
@@ -12,17 +9,28 @@ interface HabitCardProps {
   habit: HabitModel;
   onPress: () => void;
   onLogCompletion: () => void;
-  onArchive: () => void;
+  onSkip: () => void;
 }
 
 export const HabitCard: React.FC<HabitCardProps> = ({
   habit,
   onPress,
   onLogCompletion,
-  onArchive,
+  onSkip,
 }) => {
   const isCompleted = habit.currentCount >= habit.targetCount;
-  const isArchived = habit.status === 'archived';
+  
+  // Opacity animation for completion
+  // Opacity animation for completion
+  const [opacityAnim] = React.useState(() => new Animated.Value(isCompleted ? 0.5 : 1));
+
+  useEffect(() => {
+    Animated.timing(opacityAnim, {
+      toValue: isCompleted ? 0.5 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [isCompleted, opacityAnim]);
 
   const renderRightActions = (
     progress: import('react-native').Animated.AnimatedInterpolation<string | number>, 
@@ -36,57 +44,35 @@ export const HabitCard: React.FC<HabitCardProps> = ({
 
     return (
       <TouchableOpacity 
-        style={styles.archiveAction} 
-        onPress={onArchive}
+        style={styles.skipAction} 
+        onPress={onSkip}
         accessibilityRole="button"
-        accessibilityLabel={isArchived ? "Restore habit" : "Archive habit"}
+        accessibilityLabel="Skip habit today"
       >
         <Animated.View style={{ transform: [{ scale }] }}>
-          {isArchived ? <Icon name="Undo2" color="#FFFFFF" size={24} /> : <Icon name="Archive" color="#FFFFFF" size={24} />}
+           <BodySM className="text-slate-600 font-medium">Skip Today</BodySM>
         </Animated.View>
       </TouchableOpacity>
     );
   };
 
-  const renderLeftActions = (
-    progress: import('react-native').Animated.AnimatedInterpolation<string | number>, 
-    dragX: import('react-native').Animated.AnimatedInterpolation<string | number>
-  ) => {
-    const scale = dragX.interpolate({
-      inputRange: [0, 80],
-      outputRange: [0, 1],
-      extrapolate: 'clamp',
-    });
-
-    return (
-      <TouchableOpacity 
-        style={styles.completeAction} 
-        onPress={onLogCompletion}
-        accessibilityRole="button"
-        accessibilityLabel="Complete habit"
-      >
-        <Animated.View style={{ transform: [{ scale }] }}>
-          <Icon name="CheckCircle2" color="#FFFFFF" size={24} />
-        </Animated.View>
-      </TouchableOpacity>
-    );
-  };
+  const formattedTime = habit.reminderTime ? habit.reminderTime.substring(0, 5) : ''; // Simplify time format if needed, assuming "HH:MM" or similar
+  const scheduleText = `${habit.frequency === 'daily' ? 'Daily' : 'Weekly'}${formattedTime ? ` • ${formattedTime}` : ''}`;
 
   return (
-    <Swipeable renderRightActions={renderRightActions} renderLeftActions={renderLeftActions}>
-      <ListCard 
-        onPress={onPress} 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        style={[styles.container, isCompleted && styles.completedContainer] as any}
-      >
-        <View style={styles.contentRow}>
+    <Swipeable renderRightActions={renderRightActions} friction={2}>
+      <Animated.View style={[styles.container, { opacity: opacityAnim }]}>
+        <TouchableOpacity 
+          style={styles.contentRow}
+          onPress={onPress}
+          activeOpacity={0.7}
+        >
           <TouchableOpacity 
             style={styles.checkbox} 
             onPress={onLogCompletion}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             accessibilityRole="button"
-            accessibilityLabel="Log habit"
-            testID="log_habit_button"
+            accessibilityLabel={isCompleted ? "Habit completed" : "Complete habit"}
           >
             {habit.targetCount > 1 ? (
               <HabitProgressRing 
@@ -95,56 +81,45 @@ export const HabitCard: React.FC<HabitCardProps> = ({
                 color={habit.color || '#10B981'}
               />
             ) : isCompleted ? (
-              <Icon name="CheckCircle2" color={habit.color || '#10B981'} size={32} />
+              <Icon name="CheckCircle2" color={habit.color || '#10B981'} size={28} />
             ) : (
-              <Icon name="Circle" color="#D1D5DB" size={32} />
+              <Icon name="Circle" color="#CBD5E1" size={28} />
             )}
           </TouchableOpacity>
 
           <View style={styles.textContainer}>
-            <View style={styles.titleRow}>
-              <HeadingSM 
-                className={`font-medium ${isArchived ? 'text-gray-400' : 'text-text-light dark:text-text-dark'}`}
-                numberOfLines={1}
-                style={{ flex: 1 }}
-              >
-                {habit.title}
-              </HeadingSM>
-              {habit.isFavorite && (
-                <Icon name="Star" size={16} color="#F59E0B" className="ml-1" />
-              )}
-            </View>
+            <HeadingSM 
+              className={`font-medium mb-1 ${isCompleted ? 'text-slate-500 line-through' : 'text-slate-800'}`}
+              numberOfLines={1}
+            >
+              {habit.title}
+            </HeadingSM>
             
             <View style={styles.metaRow}>
-              <CategoryChip category={habit.category} />
-              <FrequencyBadge frequency={habit.frequency} />
-              <ReminderIndicator enabled={habit.reminderEnabled} />
+              <Caption className="text-slate-500">
+                {scheduleText}
+              </Caption>
               
-              {habit.currentStreak > 0 && (
-                <View style={styles.streakBadge}>
-                  <Icon name="Flame" size={12} color="#F97316" />
-                  <Caption className="text-orange-600 font-bold ml-1">
-                    {habit.currentStreak}
-                  </Caption>
-                </View>
+              {!isCompleted && habit.currentStreak >= 3 && (
+                <Caption className="text-indigo-500 ml-3">
+                  You've shown up for {habit.currentStreak} days.
+                </Caption>
               )}
             </View>
           </View>
-        </View>
-      </ListCard>
+        </TouchableOpacity>
+      </Animated.View>
     </Swipeable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
-    padding: 16,
+    backgroundColor: 'transparent',
+    paddingVertical: 14,
+    paddingHorizontal: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
-  },
-  completedContainer: {
-    backgroundColor: '#F8FAFC',
+    borderBottomColor: '#F1F5F9', // Very subtle separator
   },
   contentRow: {
     flexDirection: 'row',
@@ -154,43 +129,25 @@ const styles = StyleSheet.create({
     marginRight: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
   },
   textContainer: {
     flex: 1,
-  },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
+    justifyContent: 'center',
   },
   metaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
   },
-  streakBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFEDD5', // Orange 50
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-    marginBottom: 8,
-  },
-  archiveAction: {
-    backgroundColor: '#9CA3AF',
+  skipAction: {
+    backgroundColor: '#F1F5F9',
     justifyContent: 'center',
     alignItems: 'flex-end',
     paddingRight: 24,
-    width: 100,
-  },
-  completeAction: {
-    backgroundColor: '#10B981',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 24,
-    width: 100,
+    width: 120,
+    marginVertical: 4,
+    borderRadius: 8,
   }
 });

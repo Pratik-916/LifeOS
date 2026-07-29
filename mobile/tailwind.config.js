@@ -20,7 +20,11 @@ module.exports = {
         },
         surface: {
           light: '#F8FAFC',
-          dark: '#1E293B'
+          dark: '#1E293B',
+          default: '#FFFFFF',
+          subtle: '#F8FAFC',
+          morning: '#FFFBEB',
+          evening: '#F1F5F9'
         },
         text: {
           light: '#0F172A',

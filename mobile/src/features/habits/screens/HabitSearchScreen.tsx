@@ -32,7 +32,7 @@ export const HabitSearchScreen = () => {
 
   // We only fetch when there is a search query
   const { data: habitsData, isLoading } = useHabits(debouncedQuery ? { search: debouncedQuery } : undefined);
-  const { logHabit, archiveHabit } = useHabitMutations();
+  const { logHabit } = useHabitMutations();
 
   const handleLogCompletion = (id: string, currentCount: number, targetCount: number) => {
     if (currentCount < targetCount) {
@@ -49,7 +49,7 @@ export const HabitSearchScreen = () => {
       habit={item}
       onPress={() => navigation.navigate('HabitDetails', { habitId: item.id })}
       onLogCompletion={() => handleLogCompletion(item.id, item.currentCount, item.targetCount)}
-      onArchive={() => archiveHabit.mutate(item.id)}
+      onSkip={() => {}}
     />
   ), []);
 

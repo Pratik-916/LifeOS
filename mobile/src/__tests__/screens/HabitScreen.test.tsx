@@ -11,14 +11,14 @@ jest.mock('@react-navigation/native', () => ({
 
 jest.mock('../../features/habits/components/HabitCard', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  HabitCard: ({ habit, onPress, onLogCompletion, onArchive }: any) => {
+  HabitCard: ({ habit, onPress, onLogCompletion, onSkip }: any) => {
     const { View, Text, TouchableOpacity } = require('react-native');
     return (
       <View>
         <Text>{habit.name}</Text>
         <TouchableOpacity onPress={onPress} testID={`habit-press-${habit.id}`} />
         <TouchableOpacity onPress={onLogCompletion} testID={`habit-log-${habit.id}`} />
-        <TouchableOpacity onPress={onArchive} testID={`habit-archive-${habit.id}`} />
+        <TouchableOpacity onPress={onSkip} testID={`habit-skip-${habit.id}`} />
       </View>
     );
   },
@@ -96,8 +96,11 @@ describe('HabitScreen', () => {
     fireEvent.press(screen.getByTestId('habit-log-1'));
     expect(mockLogHabit).toHaveBeenCalled();
 
-    // Archive
-    fireEvent.press(screen.getByTestId('habit-archive-1'));
-    expect(mockArchiveHabit).toHaveBeenCalledWith('1');
+    // Skip
+    fireEvent.press(screen.getByTestId('habit-skip-1'));
+    expect(mockLogHabit).toHaveBeenCalledWith(expect.objectContaining({
+      id: '1',
+      payload: expect.objectContaining({ count: 0, notes: 'skipped' })
+    }));
   });
 });

@@ -10,8 +10,8 @@ export const EmptyHabitsState: React.FC<EmptyHabitsStateProps> = ({ onAdd, isSea
   return (
     <EmptyState
       icon="Target"
-      title={isSearch ? "No habits found" : "Build your first habit"}
-      description={isSearch ? "Try adjusting your search or filters." : "Small actions every day lead to big changes."}
+      title={isSearch ? "No habits found" : "Small steps matter."}
+      description={isSearch ? "Try adjusting your search or filters." : "Start with one."}
       actionLabel={onAdd ? "Create Habit" : undefined}
       onAction={onAdd}
     />

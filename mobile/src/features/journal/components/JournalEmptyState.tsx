@@ -14,13 +14,13 @@ export const JournalEmptyState = ({ onAction, message = "Every great journey beg
         <Icon name="BookOpen" size={32} color="#4F46E5" />
       </View>
       <HeadingMD className="mb-2 text-center">
-        Your Space to Reflect
+        Evening Reflection
       </HeadingMD>
       <BodySM className="text-slate-500 text-center mb-6">
-        {message}
+        {message !== "Every great journey begins with a single thought." ? message : "Take a moment to close out your day."}
       </BodySM>
       {onAction && (
-        <Button variant="primary" title="Create Your First Journal Entry" onPress={onAction} />
+        <Button variant="primary" title="Start your evening reflection" onPress={onAction} />
       )}
     </View>
   );

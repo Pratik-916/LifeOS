@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
-import { Label, HeadingMD, Caption, Card } from '../../../design-system';
+import { View, ScrollView, Pressable } from 'react-native';
+import { BodyMD } from '../../../design-system';
 
 interface MoodSelectorProps {
   value: string;
@@ -8,34 +8,37 @@ interface MoodSelectorProps {
 }
 
 const MOODS = [
-  { label: 'Happy', value: 'happy', emoji: '😀' },
+  { label: 'Great', value: 'great', emoji: '😊' },
   { label: 'Good', value: 'good', emoji: '🙂' },
-  { label: 'Neutral', value: 'neutral', emoji: '😐' },
-  { label: 'Sad', value: 'sad', emoji: '😔' },
-  { label: 'Very Sad', value: 'very-sad', emoji: '😢' },
+  { label: 'Okay', value: 'okay', emoji: '😐' },
+  { label: 'Difficult', value: 'difficult', emoji: '😔' },
+  { label: 'Exhausted', value: 'exhausted', emoji: '😴' },
 ];
 
 export const MoodSelector = ({ value, onChange }: MoodSelectorProps) => {
   return (
-    <View className="mb-4">
-      <Label className="mb-2">How are you feeling?</Label>
+    <View className="mb-8 px-2">
+      <BodyMD className="text-slate-800 font-bold mb-4">How did today feel?</BodyMD>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
         {MOODS.map((mood) => {
           const isSelected = value === mood.value;
           return (
-            <Card
+            <Pressable
               key={mood.value}
               onPress={() => onChange(mood.value)}
-              className={`items-center justify-center mr-3 p-3 rounded-2xl border ${
-                isSelected ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 bg-background-light dark:bg-background-dark'
+              accessibilityRole="button"
+              accessibilityState={{ selected: isSelected }}
+              className={`flex-row items-center justify-center mr-2 px-4 py-3 rounded-full border ${
+                isSelected 
+                  ? 'border-indigo-200 bg-indigo-50' 
+                  : 'border-slate-200 bg-white'
               }`}
-              style={{ width: 72 }}
             >
-              <HeadingMD className="text-2xl mb-1">{mood.emoji}</HeadingMD>
-              <Caption className={`text-center ${isSelected ? 'text-indigo-700' : 'text-slate-500'}`}>
+              <BodyMD className="mr-2 text-lg">{mood.emoji}</BodyMD>
+              <BodyMD className={`${isSelected ? 'text-indigo-900 font-medium' : 'text-slate-600'}`}>
                 {mood.label}
-              </Caption>
-            </Card>
+              </BodyMD>
+            </Pressable>
           );
         })}
       </ScrollView>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, Animated } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
@@ -12,84 +12,79 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MainStackParamList } from '../../../navigation/types';
 import { useJournalEntry } from '../hooks/useJournalEntry';
 import { useJournalMutations } from '../hooks/useJournalMutations';
-import { HeadingMD, Icon, IconButton, Button } from '../../../design-system';
+import { HeadingXL, HeadingMD, BodyMD, IconButton, Button } from '../../../design-system';
 import { MoodSelector } from '../components/MoodSelector';
-import { AutosaveIndicator } from '../components/AutosaveIndicator';
-import { ReflectionCard } from '../components/ReflectionCard';
+import { ReflectionSummary } from '../components/ReflectionSummary';
+import { ReflectionStreak } from '../components/ReflectionStreak';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 type RouteProps = RouteProp<MainStackParamList, 'JournalEditor'>;
 
-const DRAFT_STORAGE_KEY = '@journal_draft';
+const DRAFT_STORAGE_KEY = '@reflection_draft';
 
-const journalSchema = z.object({
-  title: z.string().optional(),
-  content: z.string().min(1, 'Entry content is required'),
+const reflectionSchema = z.object({
   mood: z.string().optional(),
   todays_wins: z.string().optional(),
-  challenges: z.string().optional(),
-  lessons_learned: z.string().optional(),
-  tomorrow_focus: z.string().optional(),
   gratitude: z.string().optional(),
+  tomorrow_focus: z.string().optional(),
 });
 
-type JournalFormData = z.infer<typeof journalSchema>;
+type ReflectionFormData = z.infer<typeof reflectionSchema>;
 
 export const JournalEditorScreen = () => {
   const route = useRoute<RouteProps>();
   const navigation = useNavigation<NavigationProp>();
   const id = route.params?.id;
 
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error' | 'offline'>('idle');
   const [isInitializing, setIsInitializing] = useState(true);
+  const [isCompleting, setIsCompleting] = useState(false);
+  const [fadeAnim] = useState(() => new Animated.Value(0)); // For screen mount
+  const [completionAnim] = useState(() => new Animated.Value(0)); // For completion moment
 
   const { data: existingEntry, isLoading: isFetching } = useJournalEntry(id as string, !!id);
   const { createJournalEntry, updateJournalEntry } = useJournalMutations();
 
-  const { control, handleSubmit, reset, watch, formState: { isDirty } } = useForm<JournalFormData>({
-    resolver: zodResolver(journalSchema),
+  const { control, handleSubmit, reset, watch, formState: { isDirty } } = useForm<ReflectionFormData>({
+    resolver: zodResolver(reflectionSchema),
     defaultValues: {
-      title: '',
-      content: '',
-      mood: 'neutral',
+      mood: 'good',
       todays_wins: '',
-      challenges: '',
-      lessons_learned: '',
-      tomorrow_focus: '',
       gratitude: '',
+      tomorrow_focus: '',
     },
   });
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = watch();
 
-  // 1. Initialize Form
+  useEffect(() => {
+    // Gentle screen fade in
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 600,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
   useEffect(() => {
     const initializeForm = async () => {
       try {
         if (id && existingEntry) {
-          // Editing existing
           reset({
-            title: existingEntry.title || '',
-            content: existingEntry.content || '',
-            mood: existingEntry.mood || 'neutral',
+            mood: existingEntry.mood || 'good',
             todays_wins: existingEntry.todaysWins || '',
-            challenges: existingEntry.challenges || '',
-            lessons_learned: existingEntry.lessonsLearned || '',
-            tomorrow_focus: existingEntry.tomorrowFocus || '',
             gratitude: existingEntry.gratitude || '',
+            tomorrow_focus: existingEntry.tomorrowFocus || '',
           });
         } else if (!id) {
-          // Creating new - check for drafts
           const savedDraft = await AsyncStorage.getItem(DRAFT_STORAGE_KEY);
           if (savedDraft) {
             const parsed = JSON.parse(savedDraft);
             reset(parsed);
-            setSaveStatus('offline');
           }
         }
-      } catch (e) {
-        console.error("Draft load error", e);
+      } catch {
+        console.error("Draft load error");
       } finally {
         setIsInitializing(false);
       }
@@ -100,205 +95,170 @@ export const JournalEditorScreen = () => {
     }
   }, [id, existingEntry, isFetching, reset, isInitializing]);
 
-  // 2. Draft Persistence & Autosave (Debounced)
   useEffect(() => {
-    if (isInitializing || !isDirty) return;
-
+    if (isInitializing || !isDirty || isCompleting) return;
     const timer = setTimeout(async () => {
       try {
         if (!id) {
-          // Local Draft Persistence
           await AsyncStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(formValues));
-          setSaveStatus('offline');
-        } else if (formValues.content) {
-          // Server Autosave
-          setSaveStatus('saving');
-          await updateJournalEntry({ 
-            id, 
-            payload: formValues 
-          });
-          setSaveStatus('saved');
         }
       } catch {
-        setSaveStatus('error');
+        // Ignore
       }
     }, 800);
-
     return () => clearTimeout(timer);
-  }, [formValues, id, isInitializing, isDirty, updateJournalEntry]);
+  }, [formValues, id, isInitializing, isDirty, isCompleting]);
 
-  // 3. Final Submit
-  const onSubmit = async (data: JournalFormData) => {
+  const onSubmit = async (data: ReflectionFormData) => {
     try {
-      setSaveStatus('saving');
+      // Full payload mapped to JournalEntry requirements. Hidden fields are empty strings.
+      const payload = {
+        title: 'Evening Reflection',
+        content: '',
+        challenges: '',
+        lessons_learned: '',
+        ...data,
+      };
+
       if (id) {
-        await updateJournalEntry({ id, payload: data });
+        await updateJournalEntry({ id, payload });
       } else {
-        await createJournalEntry(data);
-        await AsyncStorage.removeItem(DRAFT_STORAGE_KEY); // Clear draft on successful creation
+        await createJournalEntry(payload);
+        await AsyncStorage.removeItem(DRAFT_STORAGE_KEY);
       }
-      setSaveStatus('saved');
-      navigation.goBack();
+
+      // Trigger completion moment
+      setIsCompleting(true);
+      Animated.timing(completionAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        setTimeout(() => {
+          navigation.goBack();
+        }, 2000);
+      });
     } catch {
-      setSaveStatus('error');
-      Alert.alert('Error', 'Failed to save entry. It has been saved as a draft locally.');
+      Alert.alert('Error', 'Failed to save reflection.');
     }
   };
 
+  if (isCompleting) {
+    return (
+      <View className="flex-1 bg-surface-evening items-center justify-center">
+        <Animated.View style={{ opacity: completionAnim, alignItems: 'center' }}>
+          <HeadingXL className="mb-4">🌙</HeadingXL>
+          <HeadingMD className="text-slate-800 mb-2">Reflection Complete</HeadingMD>
+          <BodyMD className="text-slate-600 mb-1">Great work today.</BodyMD>
+          <BodyMD className="text-slate-600">See you tomorrow.</BodyMD>
+        </Animated.View>
+      </View>
+    );
+  }
+
   return (
-    <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-background-light dark:bg-background-dark">
+    <SafeAreaView edges={['top', 'bottom']} className="flex-1 bg-surface-evening">
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
       >
-        <View className="flex-row items-center justify-between px-2 py-2 border-b border-slate-100 bg-background-light dark:bg-background-dark z-10">
-          <View className="flex-row items-center">
-            <IconButton leftIcon="ArrowLeft" onPress={() => navigation.goBack()} />
-            <AutosaveIndicator status={saveStatus} />
-          </View>
-          <Button 
-            variant="primary" 
-            onPress={handleSubmit(onSubmit)} 
-            disabled={saveStatus === 'saving' || isFetching || isInitializing}
-            className="mr-2 px-4 py-2"
-            title="Save"
-          />
-        </View>
-
-        <ScrollView className="flex-1 px-4 pt-4" keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 60 }}>
-          
-          <Controller
-            control={control}
-            name="mood"
-            render={({ field: { onChange, value } }) => (
-              <MoodSelector value={value || 'neutral'} onChange={onChange} />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="title"
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                placeholder="Entry Title (Optional)"
-                value={value}
-                onChangeText={onChange}
-                className="text-2xl font-bold text-slate-800 mb-4"
-                placeholderTextColor="#94A3B8"
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="content"
-            render={({ field: { onChange, value } }) => (
-              <TextInput
-                placeholder="Entry Content"
-                value={value}
-                onChangeText={onChange}
-                multiline
-                className="text-base text-slate-700 min-h-[200px] mb-8"
-                textAlignVertical="top"
-                placeholderTextColor="#94A3B8"
-                style={{ lineHeight: 28 }}
-                accessibilityLabel="Entry Content"
-              />
-            )}
-          />
-
-          <View className="mb-4 flex-row items-center">
-            <Icon name="Sparkles" size={18} color="#6366F1" className="mr-2" />
-            <HeadingMD className="text-indigo-600">Reflection</HeadingMD>
+        <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
+          <View className="flex-row items-center justify-between px-4 py-2 z-10">
+            <IconButton leftIcon="X" onPress={() => navigation.goBack()} />
+            <Button 
+              variant="ghost" 
+              onPress={handleSubmit(onSubmit)} 
+              disabled={isFetching || isInitializing}
+              title="Save"
+            />
           </View>
 
-          <ReflectionCard title="Today's Wins">
+          <ScrollView 
+            className="flex-1 px-4 pt-2" 
+            keyboardShouldPersistTaps="handled" 
+            contentContainerStyle={{ paddingBottom: 100 }}
+          >
+            <ReflectionSummary />
+            <ReflectionStreak />
+
             <Controller
               control={control}
-              name="todays_wins"
+              name="mood"
               render={({ field: { onChange, value } }) => (
-                <TextInput
-                  placeholder="What went well today?"
-                  value={value}
-                  onChangeText={onChange}
-                  multiline
-                  className="text-sm text-slate-700 min-h-[60px]"
-                  textAlignVertical="top"
-                />
+                <MoodSelector value={value || 'good'} onChange={onChange} />
               )}
             />
-          </ReflectionCard>
 
-          <ReflectionCard title="Challenges">
-            <Controller
-              control={control}
-              name="challenges"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  placeholder="What was difficult?"
-                  value={value}
-                  onChangeText={onChange}
-                  multiline
-                  className="text-sm text-slate-700 min-h-[60px]"
-                  textAlignVertical="top"
-                />
-              )}
-            />
-          </ReflectionCard>
+            <View className="mb-8 px-2">
+              <BodyMD className="text-slate-800 font-bold mb-3">What did I accomplish today?</BodyMD>
+              <Controller
+                control={control}
+                name="todays_wins"
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    placeholder="Type a few words..."
+                    value={value}
+                    onChangeText={onChange}
+                    multiline
+                    className="text-base text-slate-700 min-h-[60px]"
+                    textAlignVertical="top"
+                    placeholderTextColor="#94A3B8"
+                  />
+                )}
+              />
+            </View>
 
-          <ReflectionCard title="Lessons Learned">
-            <Controller
-              control={control}
-              name="lessons_learned"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  placeholder="What did you learn?"
-                  value={value}
-                  onChangeText={onChange}
-                  multiline
-                  className="text-sm text-slate-700 min-h-[60px]"
-                  textAlignVertical="top"
-                />
-              )}
-            />
-          </ReflectionCard>
+            <View className="mb-8 px-2">
+              <BodyMD className="text-slate-800 font-bold mb-3">What made me smile today?</BodyMD>
+              <Controller
+                control={control}
+                name="gratitude"
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    placeholder="Type a few words..."
+                    value={value}
+                    onChangeText={onChange}
+                    multiline
+                    className="text-base text-slate-700 min-h-[60px]"
+                    textAlignVertical="top"
+                    placeholderTextColor="#94A3B8"
+                  />
+                )}
+              />
+            </View>
 
-          <ReflectionCard title="Tomorrow's Focus">
-            <Controller
-              control={control}
-              name="tomorrow_focus"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  placeholder="What will you focus on?"
-                  value={value}
-                  onChangeText={onChange}
-                  multiline
-                  className="text-sm text-slate-700 min-h-[60px]"
-                  textAlignVertical="top"
-                />
-              )}
-            />
-          </ReflectionCard>
+            <View className="mb-10 px-2">
+              <BodyMD className="text-slate-800 font-bold mb-3">What is the one priority for tomorrow?</BodyMD>
+              <Controller
+                control={control}
+                name="tomorrow_focus"
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    placeholder="Type a few words..."
+                    value={value}
+                    onChangeText={onChange}
+                    multiline
+                    className="text-base text-slate-700 min-h-[60px]"
+                    textAlignVertical="top"
+                    placeholderTextColor="#94A3B8"
+                  />
+                )}
+              />
+            </View>
 
-          <ReflectionCard title="Gratitude">
-            <Controller
-              control={control}
-              name="gratitude"
-              render={({ field: { onChange, value } }) => (
-                <TextInput
-                  placeholder="What are you grateful for?"
-                  value={value}
-                  onChangeText={onChange}
-                  multiline
-                  className="text-sm text-slate-700 min-h-[60px]"
-                  textAlignVertical="top"
-                />
-              )}
-            />
-          </ReflectionCard>
+            <View className="px-2">
+              <Button 
+                variant="primary" 
+                size="lg"
+                onPress={handleSubmit(onSubmit)} 
+                title="Complete Reflection"
+              />
+            </View>
 
-        </ScrollView>
+          </ScrollView>
+        </Animated.View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
+

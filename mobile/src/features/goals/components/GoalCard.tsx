@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Alert, Animated } from 'react-native';
-import { HeadingMD, Label, Caption, PrimaryCard, StatusBadge, PriorityBadge, CategoryChip, Icon } from '../../../design-system';
+import { HeadingMD, Caption, StatusBadge, Icon } from '../../../design-system';
 import type { Goal } from '../api/goals.types';
-import { GoalProgressBar } from './GoalProgressBar';
 import { differenceInDays, parseISO } from 'date-fns';
 import { Swipeable } from 'react-native-gesture-handler';
 
@@ -36,16 +35,16 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
     });
 
     return (
-      <View className="flex-row items-center justify-center bg-slate-100 mb-3 mr-4 rounded-xl px-4">
+      <View className="flex-row items-center justify-center mb-4 mr-4 px-2">
         {onArchive && (
-          <TouchableOpacity onPress={onArchive} className="w-10 h-10 bg-slate-200 rounded-full items-center justify-center mr-2">
+          <TouchableOpacity onPress={onArchive} className="w-12 h-12 bg-slate-100 rounded-xl items-center justify-center mr-2">
             <Animated.View style={{ transform: [{ scale }] }}>
               <Icon name="Archive" size={20} color="#64748B" />
             </Animated.View>
           </TouchableOpacity>
         )}
         {onFavorite && (
-          <TouchableOpacity onPress={onFavorite} className="w-10 h-10 bg-rose-50 rounded-full items-center justify-center">
+          <TouchableOpacity onPress={onFavorite} className="w-12 h-12 bg-rose-50 rounded-xl items-center justify-center">
             <Animated.View style={{ transform: [{ scale }] }}>
               <Icon name="Heart" size={20} color={goal.favorite ? '#E11D48' : '#F43F5E'} fill={goal.favorite ? '#E11D48' : 'none'} />
             </Animated.View>
@@ -55,56 +54,55 @@ export const GoalCard = ({ goal, onPress, onEdit, onFavorite, onArchive, onDelet
     );
   };
 
+  const completedMilestones = goal.milestones?.filter(m => m.completed).length || 0;
+  const totalMilestones = goal.milestones?.length || 0;
+
   return (
     <Swipeable renderRightActions={renderRightActions} overshootRight={false}>
-      <TouchableOpacity onPress={onPress} onLongPress={handleLongPress} activeOpacity={0.7} className="mb-3 px-4">
-        <PrimaryCard className="p-4">
-          <View className="flex-row justify-between items-start mb-2">
-            <View className="flex-1 mr-2">
+      <TouchableOpacity onPress={onPress} onLongPress={handleLongPress} activeOpacity={0.7} className="mb-4 px-4">
+        <View className="bg-white dark:bg-surface-dark p-5 rounded-2xl">
+          <View className="flex-row justify-between items-start mb-1">
+            <View className="flex-1 mr-3">
               <View className="flex-row items-center mb-1 space-x-2">
-                <CategoryChip label={goal.category} />
-                {goal.favorite && <Icon name="Heart" size={12} color="#E11D48" fill="#E11D48" />}
+                <HeadingMD className="text-slate-900 dark:text-text-dark" numberOfLines={1}>
+                  {goal.title}
+                </HeadingMD>
+                {goal.favorite && <Icon name="Heart" size={14} color="#E11D48" fill="#E11D48" />}
               </View>
-              <HeadingMD className="text-text-light dark:text-text-dark" numberOfLines={1}>
-                {goal.title}
-              </HeadingMD>
+              {!!goal.description && (
+                <Caption className="text-slate-500 mb-3" numberOfLines={2}>
+                  {goal.description}
+                </Caption>
+              )}
             </View>
-            <View className="items-end space-y-1">
-              <StatusBadge label={goal.status} />
-              <PriorityBadge label={goal.priority} />
-            </View>
+            <StatusBadge label={goal.status} />
           </View>
           
-          <View className="mt-3 mb-2">
-            <View className="flex-row justify-between items-end mb-2">
-              <Label className="text-slate-500">Progress</Label>
-              <Label className="text-slate-700 font-bold">{Math.round(goal.progress)}%</Label>
-            </View>
-            <GoalProgressBar progress={goal.progress} color={goal.color} />
-          </View>
-
-          <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-slate-100">
+          <View className="flex-row justify-between items-center mt-2">
             <View className="flex-row items-center">
-              <Icon name="Calendar" size={14} color="#64748B" />
-              <Caption className="text-slate-500 ml-1">
-                {goal.targetDate}
-              </Caption>
+              {totalMilestones > 0 ? (
+                <Caption className="text-slate-600 font-medium">
+                  {completedMilestones} of {totalMilestones} milestones completed
+                </Caption>
+              ) : (
+                <Caption className="text-slate-400">
+                  No milestones set
+                </Caption>
+              )}
             </View>
             
-            {daysRemaining !== null && goal.status !== 'completed' && goal.status !== 'archived' && (
-              <View className="flex-row items-center">
-                <Icon name="Target" size={14} color={daysRemaining < 0 ? '#E11D48' : '#64748B'} />
-                <Caption className={`ml-1 ${daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-500'}`}>
+            <View className="flex-row items-center">
+              {daysRemaining !== null && goal.status !== 'completed' && goal.status !== 'archived' && (
+                <Caption className={`ml-2 ${daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-500'}`}>
                   {daysRemaining < 0 ? `${Math.abs(daysRemaining)}d overdue` : `${daysRemaining}d left`}
                 </Caption>
-              </View>
-            )}
-            
-            {goal.status === 'completed' && (
-              <Caption className="text-emerald-600 font-medium">Completed</Caption>
-            )}
+              )}
+              {goal.status === 'completed' && (
+                <Caption className="text-emerald-600 font-medium ml-2">Completed</Caption>
+              )}
+            </View>
           </View>
-        </PrimaryCard>
+        </View>
       </TouchableOpacity>
     </Swipeable>
   );

@@ -7,8 +7,7 @@ import type { RouteProp } from '@react-navigation/native';
 import { MainStackParamList } from '../../../navigation/types';
 import { useGoal } from '../hooks/useGoal';
 import { useGoalMutations } from '../hooks/useGoalMutations';
-import { HeadingXL, HeadingMD, BodyMD, Caption, StatusBadge, PriorityBadge, CategoryChip, Icon } from '../../../design-system';
-import { GoalProgressBar } from '../components/GoalProgressBar';
+import { HeadingXL, HeadingMD, BodyMD, Caption, StatusBadge, Icon } from '../../../design-system';
 import { MilestoneCard } from '../components/MilestoneCard';
 import { differenceInDays, parseISO } from 'date-fns';
 
@@ -94,54 +93,42 @@ export const GoalDetailsScreen = () => {
       </View>
 
       <ScrollView className="flex-1 p-5">
-        <View className="flex-row items-center mb-3 space-x-2">
-          <CategoryChip label={goal.category} />
+        <View className="flex-row items-center justify-between mb-4">
           <StatusBadge label={goal.status} />
-          <PriorityBadge label={goal.priority} />
+          {daysRemaining !== null && goal.status !== 'completed' && goal.status !== 'archived' && (
+            <Caption className={daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-500'}>
+              {daysRemaining < 0 ? `${Math.abs(daysRemaining)} days overdue` : `${daysRemaining} days left`}
+            </Caption>
+          )}
         </View>
 
-        <HeadingXL className="text-2xl text-text-light dark:text-text-dark mb-2">{goal.title}</HeadingXL>
+        <HeadingXL className="text-2xl text-slate-900 dark:text-text-dark mb-8 leading-8">{goal.title}</HeadingXL>
         
-        {goal.description ? (
-          <BodyMD className="text-slate-600 mb-6 leading-6">
-            {goal.description}
-          </BodyMD>
-        ) : <View className="mb-6" />}
-
-        {/* Progress Card */}
-        <View className="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-6">
-          <View className="flex-row justify-between items-end mb-2">
-            <BodyMD className="font-medium text-slate-700">Overall Progress</BodyMD>
-            <HeadingMD className="text-indigo-600">{Math.round(goal.progress)}%</HeadingMD>
-          </View>
-          <GoalProgressBar progress={goal.progress} color={goal.color || '#6366F1'} />
-          
-          <View className="flex-row justify-between mt-4">
-            <View className="flex-row items-center">
-              <Icon name="Calendar" size={16} color="#64748B" />
-              <Caption className="text-slate-600 ml-2">
-                Target: {goal.targetDate}
-              </Caption>
-            </View>
-            {daysRemaining !== null && goal.status !== 'completed' && goal.status !== 'archived' && (
-              <Caption className={daysRemaining < 0 ? 'text-rose-600 font-medium' : 'text-slate-600 font-medium'}>
-                {daysRemaining < 0 ? `${Math.abs(daysRemaining)} days overdue` : `${daysRemaining} days left`}
-              </Caption>
-            )}
-          </View>
+        {/* Q1: Why is this important? */}
+        <View className="mb-8">
+          <HeadingMD className="text-slate-800 mb-2">Why is this important?</HeadingMD>
+          {goal.description ? (
+            <BodyMD className="text-slate-600 leading-6">{goal.description}</BodyMD>
+          ) : (
+            <BodyMD className="text-slate-400 italic">No purpose defined yet.</BodyMD>
+          )}
         </View>
 
-        {/* Milestones */}
-        <View className="mb-6">
-          <View className="flex-row items-center mb-4">
-            <Icon name="LayoutList" size={20} color="#0F172A" />
-            <HeadingMD className="text-text-light dark:text-text-dark ml-2">Milestones</HeadingMD>
-          </View>
-          
+        {/* Q2: What does success look like? */}
+        <View className="mb-8">
+          <HeadingMD className="text-slate-800 mb-2">What does success look like?</HeadingMD>
+          {goal.notes ? (
+            <BodyMD className="text-slate-600 leading-6">{goal.notes}</BodyMD>
+          ) : (
+            <BodyMD className="text-slate-400 italic">No success criteria defined yet.</BodyMD>
+          )}
+        </View>
+
+        {/* Q3: What is the next milestone? */}
+        <View className="mb-8">
+          <HeadingMD className="text-slate-800 mb-4">What is the next milestone?</HeadingMD>
           {goal.milestones.length === 0 ? (
-            <View className="py-4 items-center">
-              <BodyMD className="text-slate-400">No milestones attached.</BodyMD>
-            </View>
+            <BodyMD className="text-slate-400 italic">No milestones set.</BodyMD>
           ) : (
             goal.milestones.map((milestone) => (
               <MilestoneCard
@@ -151,6 +138,15 @@ export const GoalDetailsScreen = () => {
               />
             ))
           )}
+        </View>
+
+        {/* Q4: What is the next small action? */}
+        <View className="mb-12">
+          <HeadingMD className="text-slate-800 mb-2">What is the next small action?</HeadingMD>
+          <View className="bg-slate-50 p-4 rounded-xl border border-slate-100 border-dashed">
+            <BodyMD className="text-slate-500 mb-1">Task integration coming soon.</BodyMD>
+            <Caption className="text-slate-400">Soon you'll be able to link daily tasks directly to this goal.</Caption>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -9,12 +9,10 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../../../navigation/types';
 import { useGoals } from '../hooks/useGoals';
 import { useGoalMutations } from '../hooks/useGoalMutations';
-import { useGoalStatistics } from '../hooks/useGoalStatistics';
 import { GoalCard } from '../components/GoalCard';
 import { GoalSkeleton } from '../components/GoalSkeleton';
 import { GoalEmptyState } from '../components/GoalEmptyState';
-import { GoalStatisticsCard } from '../components/GoalStatisticsCard';
-import { HeadingXL, Caption, IconButton, FloatingActionButton } from '../../../design-system';
+import { HeadingXL, HeadingMD, Caption, IconButton, FloatingActionButton } from '../../../design-system';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
@@ -34,7 +32,6 @@ export const GoalScreen = () => {
   };
 
   const { data: paginatedData, isLoading, refetch, isRefetching } = useGoals(getFilters());
-  const { data: statsData, isLoading: statsLoading } = useGoalStatistics();
   const { favoriteGoal, deleteGoal, archiveGoal } = useGoalMutations();
 
   const goals = paginatedData?.results || [];
@@ -45,23 +42,22 @@ export const GoalScreen = () => {
 
   const renderHeader = useCallback(() => (
     <View className="px-4">
-      <GoalStatisticsCard stats={statsData} isLoading={statsLoading} />
-      
-      <View className="flex-row mb-4 bg-slate-50 p-1 rounded-xl">
+      <HeadingMD className="text-slate-800 mt-2 mb-6">What matters most</HeadingMD>
+      <View className="flex-row mb-4">
         {TABS.map((tab) => (
           <TouchableOpacity
             key={tab}
             onPress={() => setActiveTab(tab)}
-            className={`flex-1 py-2 items-center rounded-lg ${activeTab === tab ? 'bg-background-light dark:bg-background-dark shadow-sm' : ''}`}
+            className={`mr-4 pb-2 border-b-2 ${activeTab === tab ? 'border-slate-800' : 'border-transparent'}`}
           >
-            <Caption className={`font-medium ${activeTab === tab ? 'text-text-light dark:text-text-dark' : 'text-slate-500'}`}>
+            <Caption className={`font-medium ${activeTab === tab ? 'text-slate-900' : 'text-slate-400'}`}>
               {tab}
             </Caption>
           </TouchableOpacity>
         ))}
       </View>
     </View>
-  ), [statsData, statsLoading, activeTab]);
+  ), [activeTab]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderItem = useCallback(({ item }: any) => (
@@ -85,7 +81,7 @@ export const GoalScreen = () => {
     ) : (
       <GoalEmptyState 
         onAction={() => navigation.navigate('GoalEditor', { id: undefined })} 
-        message={activeTab === 'Active' ? "Set a goal to start building your future." : `No ${activeTab.toLowerCase()} goals found.`}
+        message={activeTab === 'Active' ? "Start with something meaningful." : activeTab === 'Completed' ? "You've come a long way. What's next?" : "No goals found."}
       />
     )
   ), [isLoading, activeTab, navigation]);

@@ -140,13 +140,10 @@ export const GoalDetailsScreen = () => {
           )}
         </View>
 
-        {/* Q4: What is the next small action? */}
+        {/* Q4: What is the next meaningful action? */}
         <View className="mb-12">
-          <HeadingMD className="text-slate-800 mb-2">What is the next small action?</HeadingMD>
-          <View className="bg-slate-50 p-4 rounded-xl border border-slate-100 border-dashed">
-            <BodyMD className="text-slate-500 mb-1">Task integration coming soon.</BodyMD>
-            <Caption className="text-slate-400">Soon you'll be able to link daily tasks directly to this goal.</Caption>
-          </View>
+          <HeadingMD className="text-slate-800 mb-2">What is the next meaningful action?</HeadingMD>
+          <BodyMD className="text-slate-400 italic">No next action yet.</BodyMD>
         </View>
       </ScrollView>
     </SafeAreaView>

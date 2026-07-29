@@ -48,6 +48,7 @@ export const GoalScreen = () => {
           <TouchableOpacity
             key={tab}
             onPress={() => setActiveTab(tab)}
+            hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
             className={`mr-4 pb-2 border-b-2 ${activeTab === tab ? 'border-slate-800' : 'border-transparent'}`}
           >
             <Caption className={`font-medium ${activeTab === tab ? 'text-slate-900' : 'text-slate-400'}`}>

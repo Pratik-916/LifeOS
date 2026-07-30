@@ -9,7 +9,19 @@ import { useGoal } from '../hooks/useGoal';
 import { useGoalMutations } from '../hooks/useGoalMutations';
 import { HeadingXL, HeadingMD, BodyMD, Caption, StatusBadge, Icon } from '../../../design-system';
 import { MilestoneCard } from '../components/MilestoneCard';
-import { differenceInDays, parseISO } from 'date-fns';
+import { differenceInDays, parseISO, format } from 'date-fns';
+
+import { useTasks } from '../../planner/hooks/useTasks';
+import { useTaskMutations } from '../../planner/hooks/useTaskMutations';
+import { TaskListItem } from '../../planner/components/TaskListItem';
+
+import { useHabits } from '../../habits/hooks/useHabits';
+import { useHabitMutations } from '../../habits/hooks/useHabitMutations';
+import { HabitCard } from '../../habits/components/HabitCard';
+
+import { useJournalEntries } from '../../journal/hooks/useJournalEntries';
+import { useJournalMutations } from '../../journal/hooks/useJournalMutations';
+import { JournalCard } from '../../journal/components/JournalCard';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 type DetailsRouteProp = RouteProp<MainStackParamList, 'GoalDetails'>;
@@ -21,6 +33,21 @@ export const GoalDetailsScreen = () => {
 
   const { data: goal, isLoading } = useGoal(id);
   const { favoriteGoal, archiveGoal, deleteGoal, updateGoal } = useGoalMutations();
+
+  // Related data
+  const { data: tasksData } = useTasks({ goal_id: id });
+  const { completeTask, deleteTask } = useTaskMutations();
+
+  const { data: habitsData } = useHabits({ goal_id: id });
+  const { logHabit } = useHabitMutations();
+
+  const { data: journalData } = useJournalEntries({ goal_id: id });
+  const { favoriteJournalEntry, deleteJournalEntry, pinJournalEntry } = useJournalMutations();
+
+  const hasTasks = tasksData?.results && tasksData.results.length > 0;
+  const hasHabits = habitsData?.results && habitsData.results.length > 0;
+  const hasJournal = journalData?.results && journalData.results.length > 0;
+  const hasRelatedData = hasTasks || hasHabits || hasJournal;
 
   useEffect(() => {
     // Basic celebration if goal just reached 100
@@ -140,11 +167,65 @@ export const GoalDetailsScreen = () => {
           )}
         </View>
 
-        {/* Q4: What is the next meaningful action? */}
-        <View className="mb-12">
-          <HeadingMD className="text-slate-800 mb-2">What is the next meaningful action?</HeadingMD>
-          <BodyMD className="text-slate-400 italic">No next action yet.</BodyMD>
-        </View>
+        {/* Moving this goal forward */}
+        {hasRelatedData && (
+          <View className="mb-12 mt-4">
+            <HeadingMD className="text-slate-800 mb-6">Moving this goal forward</HeadingMD>
+            
+            {hasTasks && (
+              <View className="mb-6">
+                <Caption className="text-slate-400 font-semibold uppercase tracking-wider mb-2 ml-1">Tasks</Caption>
+                {tasksData.results.map(task => (
+                  <TaskListItem
+                    key={task.id}
+                    task={task}
+                    onPress={() => navigation.navigate('TaskDetails', { taskId: task.id })}
+                    onToggleComplete={() => completeTask.mutate({ id: task.id, completed: task.status !== 'completed' })}
+                    onDelete={() => deleteTask.mutate(task.id)}
+                  />
+                ))}
+              </View>
+            )}
+
+            {hasHabits && (
+              <View className="mb-6">
+                <Caption className="text-slate-400 font-semibold uppercase tracking-wider mb-2 ml-1">Habits</Caption>
+                {habitsData.results.map(habit => (
+                  <HabitCard
+                    key={habit.id}
+                    habit={habit}
+                    onPress={() => navigation.navigate('HabitDetails', { habitId: habit.id })}
+                    onLogCompletion={() => {
+                      if (habit.currentCount < habit.targetCount) {
+                        logHabit.mutate({ id: habit.id, payload: { completion_date: format(new Date(), 'yyyy-MM-dd'), count: 1 }});
+                      }
+                    }}
+                    onSkip={() => {
+                      logHabit.mutate({ id: habit.id, payload: { completion_date: format(new Date(), 'yyyy-MM-dd'), count: 0, notes: 'skipped' }});
+                    }}
+                  />
+                ))}
+              </View>
+            )}
+
+            {hasJournal && (
+              <View className="mb-6">
+                <Caption className="text-slate-400 font-semibold uppercase tracking-wider mb-2 ml-1">Reflections</Caption>
+                {journalData.results.map(entry => (
+                  <JournalCard
+                    key={entry.id}
+                    entry={entry}
+                    onPress={() => navigation.navigate('JournalDetails', { id: entry.id })}
+                    onEdit={() => navigation.navigate('JournalEditor', { id: entry.id })}
+                    onFavorite={() => favoriteJournalEntry(entry.id)}
+                    onDelete={() => deleteJournalEntry(entry.id)}
+                    onPin={() => pinJournalEntry(entry.id)}
+                  />
+                ))}
+              </View>
+            )}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

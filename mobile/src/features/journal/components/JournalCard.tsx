@@ -12,6 +12,8 @@ interface JournalCardProps {
   onFavorite?: () => void;
   onDelete?: () => void;
   onPin?: () => void;
+  linkedGoalTitle?: string;
+  onGoalPress?: () => void;
 }
 
 const getMoodEmoji = (mood: string) => {
@@ -25,7 +27,7 @@ const getMoodEmoji = (mood: string) => {
   return map[mood?.toLowerCase()] || '📝';
 };
 
-export const JournalCard = ({ entry, onPress, onEdit, onFavorite, onDelete, onPin }: JournalCardProps) => {
+export const JournalCard = ({ entry, onPress, onEdit, onFavorite, onDelete, onPin, linkedGoalTitle, onGoalPress }: JournalCardProps) => {
   const renderRightActions = (
     progress: Animated.AnimatedInterpolation<number>,
     dragX: Animated.AnimatedInterpolation<number>
@@ -89,6 +91,20 @@ export const JournalCard = ({ entry, onPress, onEdit, onFavorite, onDelete, onPi
               {entry.wordCount} words
             </Caption>
           </View>
+          
+          {linkedGoalTitle && (
+            <TouchableOpacity 
+              onPress={onGoalPress}
+              hitSlop={{ top: 8, bottom: 8, left: 0, right: 8 }}
+              className="mt-2"
+              accessibilityRole="button"
+              accessibilityLabel={`Goal: ${linkedGoalTitle}`}
+            >
+              <Caption className="text-slate-400 font-medium">
+                Progress toward {linkedGoalTitle}
+              </Caption>
+            </TouchableOpacity>
+          )}
         </View>
         
         <View className="items-center justify-center bg-slate-100 rounded-full w-10 h-10">

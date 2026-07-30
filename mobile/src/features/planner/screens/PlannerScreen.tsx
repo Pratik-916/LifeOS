@@ -17,6 +17,7 @@ import { EmptyPlannerState } from '../components/EmptyPlannerState';
 import { useTasks } from '../hooks/useTasks';
 import { useTaskMutations } from '../hooks/useTaskMutations';
 import type { Task } from '../api/planner.types';
+import { useGoals } from '../../goals/hooks/useGoals';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
@@ -27,6 +28,18 @@ export const PlannerScreen = () => {
 
   const { data: tasksData, isLoading, refetch } = useTasks();
   const { completeTask, deleteTask, updateTask } = useTaskMutations();
+  
+  // Fetch active goals to resolve linkedGoalIds
+  const { data: goalsData } = useGoals({ status: 'in_progress' });
+  const goalsMap = useMemo(() => {
+    const map = new Map<string, string>();
+    if (goalsData?.results) {
+      goalsData.results.forEach(goal => {
+        map.set(goal.id, goal.title);
+      });
+    }
+    return map;
+  }, [goalsData]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -164,6 +177,8 @@ export const PlannerScreen = () => {
     const rescheduleTarget = section.title === 'Today' ? 'tomorrow' : 'today';
     const rescheduleLabel = section.title === 'Today' ? 'Tomorrow' : 'Today';
 
+    const linkedGoalTitle = item.linkedGoalId ? goalsMap.get(item.linkedGoalId) : undefined;
+
     return (
       <TaskListItem
         task={item}
@@ -172,9 +187,11 @@ export const PlannerScreen = () => {
         onDelete={() => handleDelete(item.id)}
         rescheduleLabel={rescheduleLabel}
         onReschedule={() => handleReschedule(item.id, rescheduleTarget)}
+        linkedGoalTitle={linkedGoalTitle}
+        onGoalPress={() => item.linkedGoalId && navigation.navigate('GoalDetails', { id: item.linkedGoalId })}
       />
     );
-  }, [navigateToDetails, handleToggleComplete, handleDelete, handleReschedule, isCompletedCollapsed]);
+  }, [navigateToDetails, handleToggleComplete, handleDelete, handleReschedule, isCompletedCollapsed, goalsMap, navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FAFC' }} edges={['top']}>

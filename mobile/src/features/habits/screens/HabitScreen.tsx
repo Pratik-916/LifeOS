@@ -12,6 +12,7 @@ import { HabitSkeleton } from '../components/HabitSkeleton';
 import { EmptyHabitsState } from '../components/EmptyHabitsState';
 import { useHabits } from '../hooks/useHabits';
 import { useHabitMutations } from '../hooks/useHabitMutations';
+import { useGoals } from '../../goals/hooks/useGoals';
 import { format } from 'date-fns';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -28,6 +29,17 @@ export const HabitScreen = () => {
 
   const { data: habitsData, isLoading, refetch } = useHabits({ status: 'active' });
   const { logHabit } = useHabitMutations();
+  
+  const { data: goalsData } = useGoals({ status: 'in_progress' });
+  const goalsMap = useMemo(() => {
+    const map = new Map<string, string>();
+    if (goalsData?.results) {
+      goalsData.results.forEach(goal => {
+        map.set(goal.id, goal.title);
+      });
+    }
+    return map;
+  }, [goalsData]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -67,7 +79,7 @@ export const HabitScreen = () => {
     });
   };
 
-  const allCompleted = habitsData?.results && habitsData.results.length > 0 && habitsData.results.every(h => h.currentCount >= h.targetCount || skippedIds.has(h.id));
+  const allCompleted = habitsData?.results && habitsData.results.length > 0 && habitsData.results.every((h: any) => h.currentCount >= h.targetCount || skippedIds.has(h.id));
 
   const renderHeader = useCallback(() => (
     <View className="mb-6 mt-2">
@@ -114,15 +126,18 @@ export const HabitScreen = () => {
   const renderItem = useCallback(({ item }: any) => {
     const isEffectivelyCompleted = item.currentCount >= item.targetCount || skippedIds.has(item.id);
     const mockItem = { ...item, currentCount: isEffectivelyCompleted ? item.targetCount : item.currentCount };
+    const linkedGoalTitle = item.linkedGoalId ? goalsMap.get(item.linkedGoalId) : undefined;
     return (
       <HabitCard
         habit={mockItem}
         onPress={() => navigateToDetails(item.id)}
         onLogCompletion={() => handleLogCompletion(item.id, item.currentCount, item.targetCount)}
         onSkip={() => handleSkip(item.id)}
+        linkedGoalTitle={linkedGoalTitle}
+        onGoalPress={() => item.linkedGoalId && navigation.navigate('GoalDetails', { id: item.linkedGoalId })}
       />
     );
-  }, [skippedIds]);
+  }, [skippedIds, goalsMap, navigation]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }} edges={['top']}>

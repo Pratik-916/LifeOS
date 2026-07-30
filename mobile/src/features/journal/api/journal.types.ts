@@ -60,6 +60,7 @@ export interface JournalEntryDTO {
   updated_at: string;
   deleted_at: string | null;
   last_updated_at?: string;
+  linked_goal_id?: string;
 }
 
 export interface JournalEntryModel {
@@ -95,6 +96,7 @@ export interface JournalEntryModel {
   deletedAt: string | null;
   lastUpdatedAt?: string;
   date?: string;
+  linkedGoalId?: string;
 }
 
 export interface JournalStatsDTO {
@@ -145,6 +147,7 @@ export interface JournalFilters {
   page?: number;
   page_size?: number;
   ordering?: string;
+  goal_id?: string;
 }
 
 export interface CreateJournalEntryPayload {
@@ -161,10 +164,12 @@ export interface CreateJournalEntryPayload {
   status?: 'draft' | 'published' | 'archived';
   visibility?: 'private' | 'public';
   tags?: string[];
+  linkedGoalId?: string;
 }
 
 export interface UpdateJournalEntryPayload extends Partial<CreateJournalEntryPayload> {
   is_favorite?: boolean;
   is_pinned?: boolean;
   deleted_at?: string | null;
+  linkedGoalId?: string;
 }

@@ -11,13 +11,13 @@ The mobile implementation rigorously adheres to the feature-first architecture, 
 
 ## Key Screens
 - **JourneyScreen**: The main entry point featuring a `SectionList` derived from the backend's `TimelineYearDTO` paginated response. Displays `MemoryCards` organized under `YearHeader` and `MonthHeader`.
-- **MemoryDetailsScreen**: A rich, distraction-free reading experience displaying a full memory with full-bleed imagery, tags, metadata, and description.
-- **MemoryEditorScreen**: A functional form built using `react-hook-form` to construct memory payloads, complete with automatic Draft persistence in `AsyncStorage`.
-- **MemorySearchScreen**: An isolated search environment featuring a 500ms debounced backend search query for instantaneous lookups.
+    - **MemoryDetailsScreen**: A rich, distraction-free reading experience displaying a full memory with full-bleed imagery, tags, metadata, and description.
+    - **MemoryEditorScreen**: A functional form built using `react-hook-form` to construct memory payloads, complete with automatic Draft persistence in `AsyncStorage`.
+    - **MemorySearchScreen**: An isolated search environment featuring a 500ms debounced backend search query for instantaneous lookups.
 
-## Draft Persistence
+    ## Draft Persistence
 
-The `MemoryEditorScreen` automatically serializes form state into `AsyncStorage` under a unique key based on the memory ID (or "new"). When the screen mounts, it prioritizes loading this draft. The draft is only cleared upon successful mutation (creation/update).
+    The `MemoryEditorScreen` automatically serializes form state into `AsyncStorage` under a unique key based on the memory ID (or "new"). When the screen mounts, it prioritizes loading this draft. The draft is only cleared upon successful mutation (creation/update).
 
 ## Future Roadmap
 

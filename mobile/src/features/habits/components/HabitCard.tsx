@@ -10,6 +10,8 @@ interface HabitCardProps {
   onPress: () => void;
   onLogCompletion: () => void;
   onSkip: () => void;
+  linkedGoalTitle?: string;
+  onGoalPress?: () => void;
 }
 
 export const HabitCard: React.FC<HabitCardProps> = ({
@@ -17,6 +19,8 @@ export const HabitCard: React.FC<HabitCardProps> = ({
   onPress,
   onLogCompletion,
   onSkip,
+  linkedGoalTitle,
+  onGoalPress,
 }) => {
   const isCompleted = habit.currentCount >= habit.targetCount;
   
@@ -106,6 +110,20 @@ export const HabitCard: React.FC<HabitCardProps> = ({
                 </Caption>
               )}
             </View>
+            
+            {linkedGoalTitle && (
+              <TouchableOpacity 
+                onPress={onGoalPress}
+                hitSlop={{ top: 8, bottom: 8, left: 0, right: 8 }}
+                className="mt-1"
+                accessibilityRole="button"
+                accessibilityLabel={`Goal: ${linkedGoalTitle}`}
+              >
+                <Caption className="text-slate-400 font-medium">
+                  Supports {linkedGoalTitle}
+                </Caption>
+              </TouchableOpacity>
+            )}
           </View>
         </TouchableOpacity>
       </Animated.View>

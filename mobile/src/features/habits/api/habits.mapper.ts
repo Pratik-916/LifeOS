@@ -51,6 +51,7 @@ export const mapHabitToDomain = (dto: HabitDTO): HabitModel => ({
   createdAt: dto.created_at,
   updatedAt: dto.updated_at,
   deletedAt: dto.deleted_at,
+  linkedGoalId: dto.linked_goal_id,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

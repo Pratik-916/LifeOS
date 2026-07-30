@@ -2,8 +2,12 @@ import React from 'react';
 import { View, ScrollView, RefreshControl, Text, Pressable } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { MainStackParamList } from '../../../navigation/types';
 import { apiClient } from '../../../api/client';
 import { monitoringService } from '../../../services/monitoring';
+import { useGoals } from '../../goals/hooks/useGoals';
 import { DashboardHero } from '../components/DashboardHero';
 import { TodayOverview } from '../components/OverviewCard';
 import { AgendaCard } from '../components/AgendaCard';
@@ -13,7 +17,10 @@ import { DashboardSkeleton } from '../components/DashboardSkeleton';
 import type { DashboardSummaryDTO, DashboardSummary } from '../../analytics/api/analytics.types';
 import { mapDashboardSummary } from '../../analytics/api/analytics.mapper';
 
+type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
+
 export const DashboardScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
   const { data: dashboardData, isLoading, isError, refetch, isRefetching } = useQuery<DashboardSummary>({
     queryKey: ['dashboard', 'summary'],
     queryFn: async () => {
@@ -32,6 +39,9 @@ export const DashboardScreen = () => {
       return response.data;
     }
   });
+
+  const { data: goalsData } = useGoals({ status: 'in_progress', page_size: 1, sort_by: 'priority' });
+  const primaryGoal = goalsData?.results?.[0];
 
   return (
     <SafeAreaView className="flex-1 bg-surface-light dark:bg-surface-dark">
@@ -59,6 +69,8 @@ export const DashboardScreen = () => {
                   completedTasks={dashboardData.completedTasks || 0}
                   overdueTasks={dashboardData.overdueTasks || 0}
                   productivityScore={dashboardData.productivityScore || 0}
+                  primaryGoalTitle={primaryGoal?.title}
+                  onPrimaryGoalPress={() => primaryGoal?.id && navigation.navigate('GoalDetails', { id: primaryGoal.id })}
                 />
                 
                 <AgendaCard 

@@ -12,6 +12,8 @@ interface DashboardHeroProps {
   completedTasks?: number;
   overdueTasks?: number;
   productivityScore?: number;
+  primaryGoalTitle?: string;
+  onPrimaryGoalPress?: () => void;
 }
 
 export const DashboardHero = React.memo(({ 
@@ -19,7 +21,9 @@ export const DashboardHero = React.memo(({
   pendingTasks = 0,
   completedTasks = 0,
   overdueTasks = 0,
-  productivityScore = 0
+  productivityScore = 0,
+  primaryGoalTitle,
+  onPrimaryGoalPress
 }: DashboardHeroProps) => {
   const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
@@ -32,14 +36,18 @@ export const DashboardHero = React.memo(({
 
   const getFocusMessage = () => {
     if (overdueTasks > 0) {
+      if (primaryGoalTitle) return `Let's catch up and move ${primaryGoalTitle} forward.`;
       return `Let's catch up on a few overdue tasks.`;
     }
     if (completedTasks > 0 && pendingTasks === 0) {
+      if (primaryGoalTitle) return `Everything is finished. You're one step closer to ${primaryGoalTitle}.`;
       return `Everything is finished. Enjoy the rest of your day.`;
     }
     if (pendingTasks > 0) {
+      if (primaryGoalTitle) return `Today's focus contributes to ${primaryGoalTitle}.`;
       return `You have ${pendingTasks} task${pendingTasks > 1 ? 's' : ''} to focus on today.`;
     }
+    if (primaryGoalTitle) return `A clear day. How can you move ${primaryGoalTitle} forward?`;
     return `Your day is clear. Take a breath.`;
   };
 
@@ -57,9 +65,20 @@ export const DashboardHero = React.memo(({
         </HeadingXL>
         
         {/* Focus Today */}
-        <BodyMD className="text-slate-600 dark:text-slate-400">
-          {getFocusMessage()}
-        </BodyMD>
+        {primaryGoalTitle ? (
+          <BodyMD 
+            className="text-indigo-600 dark:text-indigo-400 font-medium" 
+            onPress={onPrimaryGoalPress}
+            accessibilityRole="button"
+            accessibilityLabel={`Goal: ${primaryGoalTitle}`}
+          >
+            {getFocusMessage()}
+          </BodyMD>
+        ) : (
+          <BodyMD className="text-slate-600 dark:text-slate-400">
+            {getFocusMessage()}
+          </BodyMD>
+        )}
       </View>
       
       <View className="items-end">

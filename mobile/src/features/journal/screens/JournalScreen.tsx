@@ -11,9 +11,10 @@ import { useJournalEntries } from '../hooks/useJournalEntries';
 import { useJournalStats } from '../hooks/useJournalStats';
 import { useJournalMutations } from '../hooks/useJournalMutations';
 import { JournalCard } from '../components/JournalCard';
-import { JournalStatisticsCard } from '../components/JournalStatisticsCard';
 import { JournalSkeleton } from '../components/JournalSkeleton';
 import { JournalEmptyState } from '../components/JournalEmptyState';
+import { JournalStatisticsCard } from '../components/JournalStatisticsCard';
+import { useGoals } from '../../goals/hooks/useGoals';
 import { HeadingXL, IconButton, FloatingActionButton } from '../../../design-system';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
@@ -23,6 +24,17 @@ export const JournalScreen = () => {
   const { data: paginatedData, isLoading, refetch, isRefetching } = useJournalEntries();
   const { data: statsData } = useJournalStats();
   const { favoriteJournalEntry, deleteJournalEntry, pinJournalEntry } = useJournalMutations();
+
+  const { data: goalsData } = useGoals({ status: 'in_progress' });
+  const goalsMap = React.useMemo(() => {
+    const map = new Map<string, string>();
+    if (goalsData?.results) {
+      goalsData.results.forEach(goal => {
+        map.set(goal.id, goal.title);
+      });
+    }
+    return map;
+  }, [goalsData]);
 
   const entries = paginatedData?.results || [];
   
@@ -52,16 +64,21 @@ export const JournalScreen = () => {
   ), [isLoading]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderItem = useCallback(({ item }: any) => (
-    <JournalCard
-      entry={item}
-      onPress={() => navigation.navigate('JournalDetails', { id: item.id })}
-      onEdit={() => navigation.navigate('JournalEditor', { id: item.id })}
-      onFavorite={() => favoriteJournalEntry(item.id)}
-      onDelete={() => deleteJournalEntry(item.id)}
-      onPin={() => pinJournalEntry(item.id)}
-    />
-  ), []);
+  const renderItem = useCallback(({ item }: any) => {
+    const linkedGoalTitle = item.linkedGoalId ? goalsMap.get(item.linkedGoalId) : undefined;
+    return (
+      <JournalCard
+        entry={item}
+        onPress={() => navigation.navigate('JournalDetails', { id: item.id })}
+        onEdit={() => navigation.navigate('JournalEditor', { id: item.id })}
+        onFavorite={() => favoriteJournalEntry(item.id)}
+        onDelete={() => deleteJournalEntry(item.id)}
+        onPin={() => pinJournalEntry(item.id)}
+        linkedGoalTitle={linkedGoalTitle}
+        onGoalPress={() => item.linkedGoalId && navigation.navigate('GoalDetails', { id: item.linkedGoalId })}
+      />
+    );
+  }, [goalsMap, navigation]);
 
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-slate-50">

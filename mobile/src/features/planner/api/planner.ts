@@ -15,6 +15,7 @@ export interface GetTasksFilters {
   sort_by?: string;
   sort_order?: 'asc' | 'desc';
   page?: number;
+  goal_id?: string;
 }
 
 export const plannerApi = {

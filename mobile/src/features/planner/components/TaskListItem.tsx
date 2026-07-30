@@ -12,6 +12,8 @@ interface TaskListItemProps {
   onDelete: () => void;
   onReschedule?: () => void;
   rescheduleLabel?: string;
+  linkedGoalTitle?: string;
+  onGoalPress?: () => void;
 }
 
 export const TaskListItem: React.FC<TaskListItemProps> = ({
@@ -21,6 +23,8 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
   onDelete,
   onReschedule,
   rescheduleLabel,
+  linkedGoalTitle,
+  onGoalPress,
 }) => {
   const isCompleted = task.status === 'completed';
   const [scaleAnim] = useState(() => new Animated.Value(1));
@@ -142,6 +146,20 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
                   </Caption>
                 )}
               </View>
+            )}
+            
+            {linkedGoalTitle && (
+              <Pressable 
+                onPress={onGoalPress} 
+                hitSlop={{ top: 8, bottom: 8, left: 0, right: 8 }}
+                className="mt-1"
+                accessibilityRole="button"
+                accessibilityLabel={`Goal: ${linkedGoalTitle}`}
+              >
+                <Caption className="text-slate-400 font-medium">
+                  Supports {linkedGoalTitle}
+                </Caption>
+              </Pressable>
             )}
           </View>
         </View>

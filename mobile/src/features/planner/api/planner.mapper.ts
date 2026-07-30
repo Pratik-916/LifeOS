@@ -35,6 +35,7 @@ export const mapTaskDTO = (dto: TaskDTO): Task => ({
   isArchived: dto.is_archived || false,
   isPinned: dto.is_pinned || false,
   subtasks: dto.subtasks ? dto.subtasks.map(mapSubtaskDTO) : [],
+  linkedGoalId: dto.linked_goal_id,
 });
 
 export const mapPlannerStatsDTO = (dto: PlannerStatsDTO): PlannerStats => ({
@@ -72,6 +73,7 @@ export const mapTaskToDTO = (task: Partial<Task>): Partial<TaskDTO> => {
   if (task.recurringType !== undefined) dto.recurring_type = task.recurringType || '';
   if (task.isArchived !== undefined) dto.is_archived = task.isArchived;
   if (task.isPinned !== undefined) dto.is_pinned = task.isPinned;
+  if (task.linkedGoalId !== undefined) dto.linked_goal_id = task.linkedGoalId;
   
   return dto;
 };

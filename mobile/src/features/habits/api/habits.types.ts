@@ -46,6 +46,7 @@ export interface HabitDTO {
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
+  linked_goal_id?: string;
 }
 
 export interface HabitStatsDTO {
@@ -112,6 +113,7 @@ export interface HabitModel {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
+  linkedGoalId?: string;
 }
 
 export interface HabitStatsModel {
@@ -139,6 +141,7 @@ export interface HabitFilters {
   ordering?: string;
   page?: number;
   page_size?: number;
+  goal_id?: string;
 }
 
 export interface CreateHabitPayload {
@@ -152,12 +155,14 @@ export interface CreateHabitPayload {
   reminder_time?: string;
   reminder_enabled?: boolean;
   priority?: 'low' | 'medium' | 'high';
+  linkedGoalId?: string;
 }
 
 export interface UpdateHabitPayload extends Partial<CreateHabitPayload> {
   status?: 'active' | 'paused' | 'archived';
   is_favorite?: boolean;
   is_archived?: boolean;
+  linkedGoalId?: string;
 }
 
 export interface LogHabitPayload {

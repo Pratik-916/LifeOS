@@ -59,6 +59,7 @@ export const mapJournalEntryToDomain = (dto: JournalEntryDTO): JournalEntryModel
   deletedAt: dto.deleted_at,
   lastUpdatedAt: dto.last_updated_at,
   date: dto.created_at ? new Date(dto.created_at).toISOString().split('T')[0] : undefined,
+  linkedGoalId: dto.linked_goal_id,
 });
 
 export const mapPaginatedJournalToDomain = (dto: PaginatedJournalDTO): PaginatedJournalModel => ({

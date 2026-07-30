@@ -35,6 +35,7 @@ export interface TaskDTO {
   updated_at: string;
   deleted_at: string | null;
   subtasks?: SubtaskDTO[];
+  linked_goal_id?: string;
 }
 
 export interface PlannerStatsDTO {
@@ -90,6 +91,7 @@ export interface Task {
   isArchived: boolean;
   isPinned: boolean;
   subtasks: Subtask[];
+  linkedGoalId?: string;
 }
 
 export interface PlannerStats {
@@ -120,6 +122,7 @@ export interface CreateTaskPayload {
   tags?: string[];
   recurring?: boolean;
   recurringType?: 'daily' | 'weekly' | 'monthly' | 'yearly' | null;
+  linkedGoalId?: string;
 }
 
 export interface UpdateTaskPayload extends Partial<CreateTaskPayload> {
@@ -128,6 +131,7 @@ export interface UpdateTaskPayload extends Partial<CreateTaskPayload> {
   actualMinutes?: number;
   isArchived?: boolean;
   isPinned?: boolean;
+  linkedGoalId?: string;
 }
 
 export interface PaginatedResponse<T> {

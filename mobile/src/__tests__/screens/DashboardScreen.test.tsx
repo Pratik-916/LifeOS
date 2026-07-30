@@ -8,10 +8,9 @@ import { apiClient } from '../../api/client';
 import { DashboardScreen } from '../../features/dashboard/screens/DashboardScreen';
 import { renderWithClient } from '../utils';
 
-jest.mock('../../features/dashboard/components/InsightCarousel', () => ({ InsightCarousel: () => null }));
 jest.mock('../../features/dashboard/components/DashboardHero', () => ({ DashboardHero: () => null }));
 jest.mock('../../features/dashboard/components/AgendaCard', () => ({ AgendaCard: () => null }));
-jest.mock('../../features/dashboard/components/WeeklyProgressSection', () => ({ WeeklyProgressSection: () => null }));
+jest.mock('../../features/dashboard/components/WeeklyInsightsSection', () => ({ WeeklyInsightsSection: () => null }));
 jest.mock('../../features/dashboard/components/OverviewCard', () => ({ TodayOverview: () => null }));
 
 const mockNavigate = jest.fn();
@@ -35,7 +34,7 @@ describe('DashboardScreen', () => {
 
     await renderWithClient(<DashboardScreen />);
     await waitFor(() => {
-      expect(apiClient.get).toHaveBeenCalledWith('/api/v1/analytics/dashboard/');
+      expect(apiClient.get).toHaveBeenCalledWith('/api/v1/users/me/');
     });
   });
 });

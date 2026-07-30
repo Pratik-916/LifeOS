@@ -23,14 +23,8 @@ import { MemoryEditorScreen } from '../features/journey/screens/MemoryEditorScre
 import { MemorySearchScreen } from '../features/journey/screens/MemorySearchScreen';
 import { JourneyStatisticsScreen } from '../features/journey/screens/JourneyStatisticsScreen';
 
-// Analytics Module
-import { AnalyticsDashboardScreen } from '../features/analytics/screens/AnalyticsDashboardScreen';
-import { ProductivityScreen } from '../features/analytics/screens/ProductivityScreen';
-import { HabitAnalyticsScreen } from '../features/analytics/screens/HabitAnalyticsScreen';
-import { GoalAnalyticsScreen } from '../features/analytics/screens/GoalAnalyticsScreen';
-import { JournalAnalyticsScreen } from '../features/analytics/screens/JournalAnalyticsScreen';
-import { JourneyAnalyticsScreen } from '../features/analytics/screens/JourneyAnalyticsScreen';
-import { HeatmapScreen } from '../features/analytics/screens/HeatmapScreen';
+// Insights Module
+import { InsightsDashboardScreen } from '../features/insights/screens/InsightsDashboardScreen';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -113,14 +107,8 @@ export const MainStack = () => {
         component={JourneyStatisticsScreen}
       />
       
-      {/* Analytics Module */}
-      <Stack.Screen name="AnalyticsDashboard" component={AnalyticsDashboardScreen} />
-      <Stack.Screen name="Productivity" component={ProductivityScreen} />
-      <Stack.Screen name="HabitAnalytics" component={HabitAnalyticsScreen} />
-      <Stack.Screen name="GoalAnalytics" component={GoalAnalyticsScreen} />
-      <Stack.Screen name="JournalAnalytics" component={JournalAnalyticsScreen} />
-      <Stack.Screen name="JourneyAnalytics" component={JourneyAnalyticsScreen} />
-      <Stack.Screen name="Heatmap" component={HeatmapScreen} />
+      {/* Insights Module */}
+      <Stack.Screen name="InsightsDashboard" component={InsightsDashboardScreen} />
     </Stack.Navigator>
   );
 };

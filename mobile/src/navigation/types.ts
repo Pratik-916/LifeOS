@@ -23,14 +23,8 @@ export type MainStackParamList = {
   MemorySearch: undefined;
   JourneyStatistics: undefined;
   
-  // Analytics Module
-  AnalyticsDashboard: undefined;
-  Productivity: undefined;
-  HabitAnalytics: undefined;
-  GoalAnalytics: undefined;
-  JournalAnalytics: undefined;
-  JourneyAnalytics: undefined;
-  Heatmap: undefined;
+  // Insights Module
+  InsightsDashboard: undefined;
 };
 
 export type MemoryDetailsRouteProp = RouteProp<MainStackParamList, 'MemoryDetails'>;

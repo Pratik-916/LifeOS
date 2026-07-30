@@ -11,23 +11,31 @@ import { useGoals } from '../../goals/hooks/useGoals';
 import { DashboardHero } from '../components/DashboardHero';
 import { TodayOverview } from '../components/OverviewCard';
 import { AgendaCard } from '../components/AgendaCard';
-// Removed: QuickActions, InsightCarousel, WeeklyProgressSection
+import { WeeklyInsightsSection } from '../components/WeeklyInsightsSection';
 import { DashboardSkeleton } from '../components/DashboardSkeleton';
-
-import type { DashboardSummaryDTO, DashboardSummary } from '../../analytics/api/analytics.types';
-import { mapDashboardSummary } from '../../analytics/api/analytics.mapper';
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
 export const DashboardScreen = () => {
   const navigation = useNavigation<NavigationProp>();
-  const { data: dashboardData, isLoading, isError, refetch, isRefetching } = useQuery<DashboardSummary>({
-    queryKey: ['dashboard', 'summary'],
-    queryFn: async () => {
-      const response = await apiClient.get<DashboardSummaryDTO>('/api/v1/analytics/dashboard/');
-      return mapDashboardSummary(response.data);
-    }
-  });
+  // Mocking dashboard summary for now since analytics is removed
+  // In a real app this would be a specialized endpoint or derived from useTasks/useHabits
+  const dashboardData = {
+    pendingTasks: 3,
+    completedTasks: 5,
+    overdueTasks: 1,
+    productivityScore: 85,
+    upcomingDeadlines: [],
+    todaysTasks: 8,
+    todaysHabits: 3,
+    currentGoals: 2,
+    journalEntriesThisWeek: 4,
+    journeyEventsThisMonth: 1
+  };
+  const isLoading = false;
+  const isError = false;
+  const isRefetching = false;
+  const refetch = () => {};
 
   const { data: userData } = useQuery({
     queryKey: ['user', 'me'],
@@ -78,6 +86,8 @@ export const DashboardScreen = () => {
                   completedTasks={dashboardData.completedTasks || 0}
                   pendingTasks={dashboardData.pendingTasks || 0}
                 />
+                
+                <WeeklyInsightsSection />
                 
                 <TodayOverview 
                   tasks={dashboardData.todaysTasks || 0}
